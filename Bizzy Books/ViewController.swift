@@ -54,7 +54,7 @@ class ViewController: UIViewController, FUIAuthDelegate {
     
     func login() {
         
-        FirebaseApp.configure()
+        //FirebaseApp.configure()
         let authUI = FUIAuth.defaultAuthUI()
         let providers: [FUIAuthProvider] = [FUIGoogleAuth(), FUIFacebookAuth(), FUIPhoneAuth(authUI:FUIAuth.defaultAuthUI()!)]
         authUI?.providers = providers

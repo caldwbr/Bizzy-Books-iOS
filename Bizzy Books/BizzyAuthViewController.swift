@@ -10,6 +10,15 @@
     import FirebaseAuthUI
 
     class BizzyAuthViewController: FUIAuthPickerViewController {
+        
+        
+        override init(nibName: String?, bundle: Bundle?, authUI: FUIAuth) {
+            super.init(nibName: "FUIAuthPickerViewController", bundle: bundle, authUI: authUI)
+        }
+        
+        required init?(coder aDecoder: NSCoder) {
+            super.init(coder: aDecoder)
+        }
 
         override func viewDidLoad() {
             super.viewDidLoad()
