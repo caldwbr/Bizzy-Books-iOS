@@ -9,7 +9,7 @@
     import UIKit
     import FirebaseAuthUI
 
-    class BizzyAuthViewController: FIRAuthPickerViewController {
+    class BizzyAuthViewController: FUIAuthPickerViewController {
 
         override func viewDidLoad() {
             super.viewDidLoad()

@@ -14,13 +14,16 @@ import FirebaseGoogleAuthUI
 import FirebaseFacebookAuthUI
 import FBSDKCoreKit
 import FBSDKLoginKit
+import FirebaseGoogleAuthUI
+import FirebaseFacebookAuthUI
+import FirebasePhoneAuthUI
 
-class ViewController: UIViewController, FIRAuthUIDelegate {
+class ViewController: UIViewController, FUIAuthDelegate {
     
     //var db = FIRDatabaseReference.init()
         var kFacebookAppID = "1583985615235483"
     var backgroundImage : UIImageView! //right here
-    var customAuthPickerViewController : FIRAuthPickerViewController!
+    //var customAuthPickerViewController : FIRAuthPickerViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,8 +40,8 @@ class ViewController: UIViewController, FIRAuthUIDelegate {
                 // User is signed in.
                 if user?.photoURL == nil {
                 }else{
-                    var imageUrl = NSData(contentsOf: (user?.photoURL)!)
-                    self.profilePic.image = UIImage(data: imageUrl as! Data)
+                    let imageUrl = NSData(contentsOf: (user?.photoURL)!)
+                    self.profilePic.image = UIImage(data: imageUrl! as Data)
                 }
             } else {
                 // No user is signed in.
@@ -50,15 +53,13 @@ class ViewController: UIViewController, FIRAuthUIDelegate {
     //Maybe I should check Firebase and see if there's updated instructions.
     
     func login() {
-        let authUI = FIRAuthUI.init(auth: Auth.auth())
-        let options = FirebaseApp.app()?.options
-        print(options)
-        let clientId = options?.clientID
-        print(clientId)
-        let googleProvider = FIRGoogleAuthUI(scopes: [clientId!])
-        let facebookProvider = FIRFacebookAuthUI(permissions: ["public_profile"])//problem here
-        authUI?.delegate = self
-        authUI?.providers = [googleProvider, facebookProvider]
+        
+        FirebaseApp.configure()
+        let authUI = FUIAuth.defaultAuthUI()
+        let providers: [FUIAuthProvider] = [FUIGoogleAuth(), FUIFacebookAuth(), FUIPhoneAuth(authUI:FUIAuth.defaultAuthUI()!)]
+        authUI?.providers = providers
+        authUI?.delegate = self as FUIAuthDelegate
+        
         let authViewController = BizzyAuthViewController(authUI: authUI!)
         let navc = UINavigationController(rootViewController: authViewController)
         self.present(navc, animated: true, completion: nil)
@@ -74,7 +75,7 @@ class ViewController: UIViewController, FIRAuthUIDelegate {
     }
     
     
-    func authUI(_ authUI: FIRAuthUI, didSignInWith user: User?, error: Error?) {
+    func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
         if error != nil {
             //Problem signing in
             login()
@@ -86,7 +87,7 @@ class ViewController: UIViewController, FIRAuthUIDelegate {
     
     func application(app: UIApplication, openURL url: NSURL, options: [String: AnyObject]) -> Bool {
         let sourceApplication = options[UIApplicationOpenURLOptionUniversalLinksOnly] as! String
-        return FIRAuthUI.default()!.handleOpen(url as URL, sourceApplication: sourceApplication ) 
+        return FUIAuth.defaultAuthUI()!.handleOpen(url as URL, sourceApplication: sourceApplication )
     }
  
 }
