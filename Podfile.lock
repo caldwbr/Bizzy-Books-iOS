@@ -52,29 +52,32 @@ PODS:
     - FirebaseAnalytics (~> 4.0)
     - FirebaseCore (~> 4.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseUI (0.7.0):
-    - FirebaseUI/All (= 0.7.0)
-  - FirebaseUI/All (0.7.0):
+  - FirebaseUI (4.0.0):
+    - FirebaseUI/All (= 4.0.0)
+  - FirebaseUI/All (4.0.0):
     - FirebaseUI/Auth
     - FirebaseUI/Database
     - FirebaseUI/Facebook
     - FirebaseUI/Google
+    - FirebaseUI/Phone
     - FirebaseUI/Storage
     - FirebaseUI/Twitter
-  - FirebaseUI/Auth (0.7.0):
+  - FirebaseUI/Auth (4.0.0):
     - Firebase/Auth
-  - FirebaseUI/Database (0.7.0):
+  - FirebaseUI/Database (4.0.0):
     - Firebase/Database
-  - FirebaseUI/Facebook (0.7.0):
+  - FirebaseUI/Facebook (4.0.0):
     - FBSDKLoginKit (~> 4.0)
     - FirebaseUI/Auth
-  - FirebaseUI/Google (0.7.0):
+  - FirebaseUI/Google (4.0.0):
     - FirebaseUI/Auth
     - GoogleSignIn (~> 4.0)
-  - FirebaseUI/Storage (0.7.0):
+  - FirebaseUI/Phone (4.0.0):
+    - FirebaseUI/Auth
+  - FirebaseUI/Storage (4.0.0):
     - Firebase/Storage
-    - SDWebImage
-  - FirebaseUI/Twitter (0.7.0):
+    - SDWebImage (~> 4.0)
+  - FirebaseUI/Twitter (4.0.0):
     - FirebaseUI/Auth
     - TwitterKit (~> 2.4)
   - Google-Mobile-Ads-SDK (7.20.0)
@@ -119,7 +122,7 @@ DEPENDENCIES:
   - Firebase/Crash
   - Firebase/Database
   - Firebase/Storage
-  - FirebaseUI (~> 0.5)
+  - FirebaseUI (~> 4.0)
   - GoogleSignIn
 
 SPEC CHECKSUMS:
@@ -135,7 +138,7 @@ SPEC CHECKSUMS:
   FirebaseDatabase: d829b3a8c3e2ac7a16773c5df226966b0805dfc2
   FirebaseInstanceID: 9fbf536668f4d3f0880e7438456dabd1376e294b
   FirebaseStorage: 8110a1ed2034c8fbfd83890d2acc9cdbbd99afec
-  FirebaseUI: 6b22f02b8992fd921116b59e8dcda688c4072517
+  FirebaseUI: b9de05bfb4768db05f64ea90fc2f6a07b819118f
   Google-Mobile-Ads-SDK: 168312cdc167fa22746d4ea8e839fc4825dd2966
   GoogleSignIn: d7ad83f13480e1f30453471d00d19b5293ac46af
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
@@ -146,6 +149,6 @@ SPEC CHECKSUMS:
   TwitterCore: 8ce250be1eb34633a0e6acc89520d4165ec52c10
   TwitterKit: 3b6044a7320340326a4098f3e37aa1dbaeb94942
 
-PODFILE CHECKSUM: 819ce89ba1925d920df1549e3dc278fc5eb09fd6
+PODFILE CHECKSUM: 002b43b43f433ac8a9a104261726a16fa69201af
 
 COCOAPODS: 1.0.0

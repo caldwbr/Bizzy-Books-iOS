@@ -26,7 +26,7 @@
             imageViewBackground.contentMode = UIViewContentMode.scaleAspectFill
             
             view.insertSubview(imageViewBackground, at: 0)
+     
         }
-
 
     }

@@ -5,7 +5,7 @@ target 'Bizzy Books' do
   # Comment this line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 
-pod 'FirebaseUI', '~> 0.5'
+pod 'FirebaseUI', '~> 4.0'
 
 pod 'Firebase/Core'
 

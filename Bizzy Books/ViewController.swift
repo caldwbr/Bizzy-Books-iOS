@@ -47,17 +47,22 @@ class ViewController: UIViewController, FIRAuthUIDelegate {
         }
     }
     
+    //Maybe I should check Firebase and see if there's updated instructions.
+    
     func login() {
         let authUI = FIRAuthUI.init(auth: Auth.auth())
         let options = FirebaseApp.app()?.options
+        print(options)
         let clientId = options?.clientID
+        print(clientId)
         let googleProvider = FIRGoogleAuthUI(scopes: [clientId!])
-        let facebookProvider = FIRFacebookAuthUI(permissions: ["public_profile"])
+        let facebookProvider = FIRFacebookAuthUI(permissions: ["public_profile"])//problem here
         authUI?.delegate = self
         authUI?.providers = [googleProvider, facebookProvider]
         let authViewController = BizzyAuthViewController(authUI: authUI!)
         let navc = UINavigationController(rootViewController: authViewController)
         self.present(navc, animated: true, completion: nil)
+ 
     }
     
     @IBAction func logoutUser(_: UIBarButtonItem) {
