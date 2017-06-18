@@ -7,23 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EB3F93BA1DDD41900049C343 /* AddUniversal.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3F93B91DDD41900049C343 /* AddUniversal.swift */; };
+		EB4392C01EF6077700C568C3 /* BizzyAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */; };
+		EB4392C11EF6090400C568C3 /* BizzyAuthViewController.swift in Resources */ = {isa = PBXBuildFile; fileRef = EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */; };
+		EB4734941DE25BD900F6928E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB4734931DE25BD900F6928E /* Assets.xcassets */; };
 		EB851E371D9578B2002D19F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB851E361D9578B2002D19F4 /* AppDelegate.swift */; };
 		EB851E391D9578B2002D19F4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB851E381D9578B2002D19F4 /* ViewController.swift */; };
 		EB851E3C1D9578B2002D19F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB851E3A1D9578B2002D19F4 /* Main.storyboard */; };
 		EB851E3F1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EB851E3D1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld */; };
-		EB851E411D9578B2002D19F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB851E401D9578B2002D19F4 /* Assets.xcassets */; };
-		EB851E441D9578B2002D19F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB851E421D9578B2002D19F4 /* LaunchScreen.storyboard */; };
+		EB851E4C1D957932002D19F4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB851E4B1D957932002D19F4 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9DE2B4832FAEA528FBE1F884 /* Pods-Bizzy Books.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bizzy Books.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bizzy Books/Pods-Bizzy Books.release.xcconfig"; sourceTree = "<group>"; };
+		DAE81F3807A80CD9FA53863E /* Pods-Bizzy Books.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bizzy Books.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bizzy Books/Pods-Bizzy Books.debug.xcconfig"; sourceTree = "<group>"; };
+		EB3F93B91DDD41900049C343 /* AddUniversal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddUniversal.swift; sourceTree = "<group>"; };
+		EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BizzyAuthViewController.swift; sourceTree = "<group>"; };
+		EB4734931DE25BD900F6928E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EB7D51D71D95863F0016E63D /* Bizzy Books.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Bizzy Books.entitlements"; sourceTree = "<group>"; };
 		EB851E331D9578B2002D19F4 /* Bizzy Books.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bizzy Books.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB851E361D9578B2002D19F4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EB851E381D9578B2002D19F4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		EB851E3B1D9578B2002D19F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EB851E3E1D9578B2002D19F4 /* Bizzy_Books.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Bizzy_Books.xcdatamodel; sourceTree = "<group>"; };
-		EB851E401D9578B2002D19F4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		EB851E431D9578B2002D19F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EB851E451D9578B2002D19F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EB851E4B1D957932002D19F4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,11 +45,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0828E887A9E15FB9432D7183 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DAE81F3807A80CD9FA53863E /* Pods-Bizzy Books.debug.xcconfig */,
+				9DE2B4832FAEA528FBE1F884 /* Pods-Bizzy Books.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		72DF5F1E419AD5E0D42F1F52 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		EB851E2A1D9578B2002D19F4 = {
 			isa = PBXGroup;
 			children = (
 				EB851E351D9578B2002D19F4 /* Bizzy Books */,
 				EB851E341D9578B2002D19F4 /* Products */,
+				0828E887A9E15FB9432D7183 /* Pods */,
+				72DF5F1E419AD5E0D42F1F52 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,13 +82,16 @@
 		EB851E351D9578B2002D19F4 /* Bizzy Books */ = {
 			isa = PBXGroup;
 			children = (
+				EB7D51D71D95863F0016E63D /* Bizzy Books.entitlements */,
 				EB851E361D9578B2002D19F4 /* AppDelegate.swift */,
 				EB851E381D9578B2002D19F4 /* ViewController.swift */,
+				EB3F93B91DDD41900049C343 /* AddUniversal.swift */,
 				EB851E3A1D9578B2002D19F4 /* Main.storyboard */,
-				EB851E401D9578B2002D19F4 /* Assets.xcassets */,
-				EB851E421D9578B2002D19F4 /* LaunchScreen.storyboard */,
+				EB4734931DE25BD900F6928E /* Assets.xcassets */,
 				EB851E451D9578B2002D19F4 /* Info.plist */,
+				EB851E4B1D957932002D19F4 /* GoogleService-Info.plist */,
 				EB851E3D1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld */,
+				EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */,
 			);
 			path = "Bizzy Books";
 			sourceTree = "<group>";
@@ -74,9 +103,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EB851E481D9578B2002D19F4 /* Build configuration list for PBXNativeTarget "Bizzy Books" */;
 			buildPhases = (
+				76499205B9A6D7551C8D0832 /* 📦 Check Pods Manifest.lock */,
+				2258B2AA66C84D6A839D8ACB /* [CP] Check Pods Manifest.lock */,
 				EB851E2F1D9578B2002D19F4 /* Sources */,
 				EB851E301D9578B2002D19F4 /* Frameworks */,
 				EB851E311D9578B2002D19F4 /* Resources */,
+				04496F652B69066DFD2EA317 /* [CP] Embed Pods Frameworks */,
+				98971A4581628872AAA2694B /* [CP] Copy Pods Resources */,
+				1D22FB3438D25983615F2DA5 /* 📦 Embed Pods Frameworks */,
+				A3F536B783AD6FE10FE114DB /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -99,7 +134,13 @@
 				TargetAttributes = {
 					EB851E321D9578B2002D19F4 = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 52QW7JU85A;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -126,13 +167,107 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB851E441D9578B2002D19F4 /* LaunchScreen.storyboard in Resources */,
-				EB851E411D9578B2002D19F4 /* Assets.xcassets in Resources */,
+				EB4392C11EF6090400C568C3 /* BizzyAuthViewController.swift in Resources */,
+				EB851E4C1D957932002D19F4 /* GoogleService-Info.plist in Resources */,
+				EB4734941DE25BD900F6928E /* Assets.xcassets in Resources */,
 				EB851E3C1D9578B2002D19F4 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		04496F652B69066DFD2EA317 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bizzy Books/Pods-Bizzy Books-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1D22FB3438D25983615F2DA5 /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bizzy Books/Pods-Bizzy Books-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2258B2AA66C84D6A839D8ACB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		76499205B9A6D7551C8D0832 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		98971A4581628872AAA2694B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bizzy Books/Pods-Bizzy Books-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A3F536B783AD6FE10FE114DB /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bizzy Books/Pods-Bizzy Books-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		EB851E2F1D9578B2002D19F4 /* Sources */ = {
@@ -140,6 +275,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB851E391D9578B2002D19F4 /* ViewController.swift in Sources */,
+				EB3F93BA1DDD41900049C343 /* AddUniversal.swift in Sources */,
+				EB4392C01EF6077700C568C3 /* BizzyAuthViewController.swift in Sources */,
 				EB851E3F1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld in Sources */,
 				EB851E371D9578B2002D19F4 /* AppDelegate.swift in Sources */,
 			);
@@ -154,14 +291,6 @@
 				EB851E3B1D9578B2002D19F4 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		EB851E421D9578B2002D19F4 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EB851E431D9578B2002D19F4 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -188,6 +317,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -238,6 +368,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -262,25 +393,39 @@
 		};
 		EB851E491D9578B2002D19F4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DAE81F3807A80CD9FA53863E /* Pods-Bizzy Books.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Bizzy Books/Bizzy Books.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 52QW7JU85A;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "Bizzy Books/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bizzybooks.Bizzy-Books";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
 		};
 		EB851E4A1D9578B2002D19F4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9DE2B4832FAEA528FBE1F884 /* Pods-Bizzy Books.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Bizzy Books/Bizzy Books.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 52QW7JU85A;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "Bizzy Books/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bizzybooks.Bizzy-Books";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
 		};
@@ -303,6 +448,7 @@
 				EB851E4A1D9578B2002D19F4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
