@@ -1,0 +1,55 @@
+//
+//  LabelTextFieldFlowCells.swift
+//  Bizzy Books
+//
+//  Created by Brad Caldwell on 6/22/17.
+//  Copyright © 2017 Caldwell Contracting LLC. All rights reserved.
+//
+
+import Foundation
+import UIKit
+
+protocol LabelTextFieldFlowCell {
+    func configure(item: FlowItem)
+}
+
+
+class TextFieldCollectionViewCell : UICollectionViewCell, LabelTextFieldFlowCell {
+    
+    @IBOutlet weak var textField: UITextField!
+    
+    func configure(item: FlowItem) {
+        if let item = item as? TextFieldFlowItem {
+            textField.text = item.text
+            textField.placeholder = item.placeholder
+            textField.textColor = item.color
+        }
+    }
+}
+
+class LabelCollectionViewCell : UICollectionViewCell, LabelTextFieldFlowCell {
+    
+    @IBOutlet weak var label: UILabel!
+    private var action : (()->Void)?
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        // Create the tap gesture for the label
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LabelCollectionViewCell.labelTapped))
+        label.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    @objc private func labelTapped() {
+        // Perform the action of the item
+        action?()
+    }
+    
+    func configure(item: FlowItem) {
+        if let item = item as? LabelFlowItem {
+            label.text = item.text
+            label.textColor = item.color
+            action = item.action
+        }
+    }
+}

@@ -6,29 +6,29 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
   - Fabric (1.6.11)
-  - FBSDKCoreKit (4.23.0):
+  - FBSDKCoreKit (4.22.1):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.23.0):
+  - FBSDKLoginKit (4.22.1):
     - FBSDKCoreKit
-  - Firebase/AdMob (4.0.2):
+  - Firebase/AdMob (4.0.0):
     - Firebase/Core
     - Google-Mobile-Ads-SDK (= 7.20.0)
-  - Firebase/Auth (4.0.2):
+  - Firebase/Auth (4.0.0):
     - Firebase/Core
     - FirebaseAuth (= 4.0.0)
-  - Firebase/Core (4.0.2):
-    - FirebaseAnalytics (= 4.0.1)
-    - FirebaseCore (= 4.0.2)
-  - Firebase/Crash (4.0.2):
+  - Firebase/Core (4.0.0):
+    - FirebaseAnalytics (= 4.0.0)
+    - FirebaseCore (= 4.0.0)
+  - Firebase/Crash (4.0.0):
     - Firebase/Core
     - FirebaseCrash (= 2.0.0)
-  - Firebase/Database (4.0.2):
+  - Firebase/Database (4.0.0):
     - Firebase/Core
     - FirebaseDatabase (= 4.0.0)
-  - Firebase/Storage (4.0.2):
+  - Firebase/Storage (4.0.0):
     - Firebase/Core
     - FirebaseStorage (= 2.0.0)
-  - FirebaseAnalytics (4.0.1):
+  - FirebaseAnalytics (4.0.0):
     - FirebaseCore (~> 4.0)
     - FirebaseInstanceID (~> 2.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
@@ -36,7 +36,7 @@ PODS:
     - FirebaseAnalytics (~> 4.0)
     - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
     - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseCore (4.0.2):
+  - FirebaseCore (4.0.0):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
   - FirebaseCrash (2.0.0):
     - FirebaseAnalytics (~> 4.0)
@@ -105,11 +105,13 @@ PODS:
   - GTMSessionFetcher/Core (1.1.10)
   - GTMSessionFetcher/Full (1.1.10):
     - GTMSessionFetcher/Core (= 1.1.10)
+  - MKDropdownMenu (1.4)
   - Protobuf (3.3.0)
   - SDWebImage (4.0.0):
     - SDWebImage/Core (= 4.0.0)
   - SDWebImage/Core (4.0.0)
-  - TwitterCore (3.0.0)
+  - TwitterCore (2.8.0):
+    - Fabric
   - TwitterKit (2.8.1):
     - TwitterCore (>= 2.8)
 
@@ -124,16 +126,17 @@ DEPENDENCIES:
   - Firebase/Storage
   - FirebaseUI (~> 4.0)
   - GoogleSignIn
+  - MKDropdownMenu
 
 SPEC CHECKSUMS:
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
-  FBSDKCoreKit: d7829f5a69901cd7296105328e4c3c3fc7da6518
-  FBSDKLoginKit: 6b92bd65f319d669d2b0730e49db495ef1660566
-  Firebase: c7ad0731eab26d18a3fc547dd048b0f7cd9c63ae
-  FirebaseAnalytics: 4d7040fefc3cd8b291cde35f12cf063d7963f15d
+  FBSDKCoreKit: 9c2daf0162214d6d2e21cf8208a9c6c2a2e42b9c
+  FBSDKLoginKit: 00cf28916b9f0169763a3d61985d745b579fe304
+  Firebase: 284eea779b73fdff309791817da7c68bff8dd572
+  FirebaseAnalytics: 6f08e746f7d66f5452931bc2e822b5df9c66b64a
   FirebaseAuth: ebb6abcbabae00fc47446d690c19ce68d8484fde
-  FirebaseCore: 1a8bf6c795ad07d2918278657954ffd2552e9c17
+  FirebaseCore: 85ad466044c2f013cdb167f85d426d15b128114a
   FirebaseCrash: 600ec2cbd8e10c3064a42de2c6ee7687bd02a076
   FirebaseDatabase: d829b3a8c3e2ac7a16773c5df226966b0805dfc2
   FirebaseInstanceID: 9fbf536668f4d3f0880e7438456dabd1376e294b
@@ -144,11 +147,12 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GTMOAuth2: 7fc9c10f5c745f4d9850419ea88889fe3baa6b7d
   GTMSessionFetcher: 30d874b96d0d76028f61fbd122801e3f030d47db
+  MKDropdownMenu: 269df4a41d21a1db684ce8bc709befe419fc5bae
   Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
   SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
-  TwitterCore: 8ce250be1eb34633a0e6acc89520d4165ec52c10
+  TwitterCore: e959987be23c767004d29eb7fab8d85d8585a2e5
   TwitterKit: 3b6044a7320340326a4098f3e37aa1dbaeb94942
 
-PODFILE CHECKSUM: 002b43b43f433ac8a9a104261726a16fa69201af
+PODFILE CHECKSUM: cda525d20d92626edd8bbeee6f044571b37d3407
 
-COCOAPODS: 1.0.0
+COCOAPODS: 1.2.1

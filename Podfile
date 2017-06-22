@@ -25,4 +25,6 @@ pod 'FBSDKLoginKit'
 
 pod 'Fabric'
 
+pod 'MKDropdownMenu'
+
 end

@@ -1,42 +1,13 @@
 //
-//  LabelTextFieldFlowCells.swift
+//  LeftAlignedCollectionViewFlowLayout.swift
 //  Bizzy Books
 //
-//  Created by Brad Caldwell on 6/22/17.
+//  Created by Miroslav Kutak on 22/06/2017.
 //  Copyright © 2017 Caldwell Contracting LLC. All rights reserved.
 //
 
 import Foundation
 import UIKit
-
-protocol LabelTextFieldFlowCell {
-    func configure(item: LabelTextFieldFlowItem)
-}
-
-class TextFieldCollectionViewCell : UICollectionViewCell, LabelTextFieldFlowCell {
-    
-    @IBOutlet weak var textField: UITextField!
-    
-    func configure(item: LabelTextFieldFlowItem) {
-        textField.text = item.text
-        textField.placeholder = item.placeholder
-        textField.textColor = item.color
-    }
-}
-
-class LabelCollectionViewCell : UICollectionViewCell, LabelTextFieldFlowCell {
-    
-    
-    @IBOutlet weak var label: UILabel!
-    
-    func configure(item: LabelTextFieldFlowItem) {
-        label.text = item.text
-        label.textColor = item.color
-    }
-}
-
-//Is this good with the video?
-
 
 class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
     
@@ -59,3 +30,4 @@ class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
         return attributes
     }
 }
+

@@ -12,7 +12,7 @@ import UIKit
 
 class LabelTextFieldFlowCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    var items = [LabelTextFieldFlowItem]()
+    var items = [FlowItem]()
     
     
     // MARK: - UICollectionViewDataSource
@@ -38,7 +38,7 @@ class LabelTextFieldFlowCollectionViewDataSource : NSObject, UICollectionViewDat
     // MARK: - UICollectionViewDelegateFlowLayout
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return items[indexPath.item].displaySIze
+        return items[indexPath.item].displaySize
     }
     
 }

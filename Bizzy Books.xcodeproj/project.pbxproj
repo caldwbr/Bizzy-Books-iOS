@@ -20,6 +20,10 @@
 		EBB77BD61EFC36070084D014 /* LabelTextFieldFlowItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BD51EFC36070084D014 /* LabelTextFieldFlowItem.swift */; };
 		EBB77BD81EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BD71EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift */; };
 		EBB77BDA1EFC37170084D014 /* LabelTextFieldFlowCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BD91EFC37170084D014 /* LabelTextFieldFlowCells.swift */; };
+		FA7B73181EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7B73171EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift */; };
+		FA7B731D1EFC5785007A1AEA /* DropdownFlowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7B731C1EFC5785007A1AEA /* DropdownFlowCollectionViewCell.swift */; };
+		FA7B731F1EFC5976007A1AEA /* DropdownReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7B731E1EFC5976007A1AEA /* DropdownReusableView.xib */; };
+		FA7B73211EFC5983007A1AEA /* DropdownReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7B73201EFC5983007A1AEA /* DropdownReusableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +43,10 @@
 		EBB77BD51EFC36070084D014 /* LabelTextFieldFlowItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTextFieldFlowItem.swift; sourceTree = "<group>"; };
 		EBB77BD71EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTextFieldFlowCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		EBB77BD91EFC37170084D014 /* LabelTextFieldFlowCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTextFieldFlowCells.swift; sourceTree = "<group>"; };
+		FA7B73171EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		FA7B731C1EFC5785007A1AEA /* DropdownFlowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownFlowCollectionViewCell.swift; sourceTree = "<group>"; };
+		FA7B731E1EFC5976007A1AEA /* DropdownReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DropdownReusableView.xib; sourceTree = "<group>"; };
+		FA7B73201EFC5983007A1AEA /* DropdownReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownReusableView.swift; sourceTree = "<group>"; };
 		FCBDE88203BDBADDF78AB99F /* Pods_Bizzy_Books.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bizzy_Books.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -94,12 +102,10 @@
 			children = (
 				EB7D51D71D95863F0016E63D /* Bizzy Books.entitlements */,
 				EB851E361D9578B2002D19F4 /* AppDelegate.swift */,
-				EB851E381D9578B2002D19F4 /* ViewController.swift */,
-				EB3F93B91DDD41900049C343 /* AddUniversal.swift */,
+				FA7B73191EFC5745007A1AEA /* View Controllers */,
 				EB851E3A1D9578B2002D19F4 /* Main.storyboard */,
-				EBB77BD51EFC36070084D014 /* LabelTextFieldFlowItem.swift */,
-				EBB77BD91EFC37170084D014 /* LabelTextFieldFlowCells.swift */,
-				EBB77BD71EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift */,
+				FA7B731A1EFC5759007A1AEA /* Model */,
+				FA7B731B1EFC5769007A1AEA /* Collection View Cells */,
 				EB4734931DE25BD900F6928E /* Assets.xcassets */,
 				EB851E451D9578B2002D19F4 /* Info.plist */,
 				EB851E4B1D957932002D19F4 /* GoogleService-Info.plist */,
@@ -109,6 +115,36 @@
 			path = "Bizzy Books";
 			sourceTree = "<group>";
 		};
+		FA7B73191EFC5745007A1AEA /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				EB851E381D9578B2002D19F4 /* ViewController.swift */,
+				EB3F93B91DDD41900049C343 /* AddUniversal.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		FA7B731A1EFC5759007A1AEA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EBB77BD51EFC36070084D014 /* LabelTextFieldFlowItem.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		FA7B731B1EFC5769007A1AEA /* Collection View Cells */ = {
+			isa = PBXGroup;
+			children = (
+				EBB77BD91EFC37170084D014 /* LabelTextFieldFlowCells.swift */,
+				FA7B731C1EFC5785007A1AEA /* DropdownFlowCollectionViewCell.swift */,
+				FA7B731E1EFC5976007A1AEA /* DropdownReusableView.xib */,
+				FA7B73201EFC5983007A1AEA /* DropdownReusableView.swift */,
+				FA7B73171EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift */,
+				EBB77BD71EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift */,
+			);
+			path = "Collection View Cells";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -116,7 +152,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EB851E481D9578B2002D19F4 /* Build configuration list for PBXNativeTarget "Bizzy Books" */;
 			buildPhases = (
-				76499205B9A6D7551C8D0832 /* 📦 Check Pods Manifest.lock */,
+				76499205B9A6D7551C8D0832 /* [CP] Check Pods Manifest.lock */,
 				2258B2AA66C84D6A839D8ACB /* [CP] Check Pods Manifest.lock */,
 				EB851E2F1D9578B2002D19F4 /* Sources */,
 				EB851E301D9578B2002D19F4 /* Frameworks */,
@@ -183,6 +219,7 @@
 				EB4392C11EF6090400C568C3 /* BizzyAuthViewController.swift in Resources */,
 				EB851E4C1D957932002D19F4 /* GoogleService-Info.plist in Resources */,
 				EB4734941DE25BD900F6928E /* Assets.xcassets in Resources */,
+				FA7B731F1EFC5976007A1AEA /* DropdownReusableView.xib in Resources */,
 				EB851E3C1D9578B2002D19F4 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -235,19 +272,19 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		76499205B9A6D7551C8D0832 /* 📦 Check Pods Manifest.lock */ = {
+		76499205B9A6D7551C8D0832 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		98971A4581628872AAA2694B /* [CP] Copy Pods Resources */ = {
@@ -292,9 +329,12 @@
 				EB3F93BA1DDD41900049C343 /* AddUniversal.swift in Sources */,
 				EB4392C01EF6077700C568C3 /* BizzyAuthViewController.swift in Sources */,
 				EBB77BDA1EFC37170084D014 /* LabelTextFieldFlowCells.swift in Sources */,
+				FA7B731D1EFC5785007A1AEA /* DropdownFlowCollectionViewCell.swift in Sources */,
 				EB851E3F1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld in Sources */,
+				FA7B73211EFC5983007A1AEA /* DropdownReusableView.swift in Sources */,
 				EB851E371D9578B2002D19F4 /* AppDelegate.swift in Sources */,
 				EBB77BD61EFC36070084D014 /* LabelTextFieldFlowItem.swift in Sources */,
+				FA7B73181EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
