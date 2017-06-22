@@ -56,7 +56,7 @@ class ViewController: UIViewController, FUIAuthDelegate {
         
         //FirebaseApp.configure()
         let authUI = FUIAuth.defaultAuthUI()
-        let providers: [FUIAuthProvider] = [FUIGoogleAuth(), FUIFacebookAuth(), FUIPhoneAuth(authUI:FUIAuth.defaultAuthUI()!)]
+        let providers: [FUIAuthProvider] = [FUIGoogleAuth(), FUIFacebookAuth()]
         authUI?.providers = providers
         authUI?.delegate = self as FUIAuthDelegate
         
