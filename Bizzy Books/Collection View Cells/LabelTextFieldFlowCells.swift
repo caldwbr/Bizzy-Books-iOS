@@ -21,7 +21,7 @@ class TextFieldCollectionViewCell : UICollectionViewCell, LabelTextFieldFlowCell
     func configure(item: FlowItem) {
         if let item = item as? TextFieldFlowItem {
             textField.text = item.text
-            textField.placeholder = item.placeholder
+            textField.attributedPlaceholder = NSAttributedString(string: item.placeholder, attributes: [NSForegroundColorAttributeName: UIColor.BizzyColor.Green.What])
             textField.textColor = item.color
         }
     }

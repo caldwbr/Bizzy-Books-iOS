@@ -29,7 +29,7 @@ struct DropdownFlowItem : FlowItem {
     
     let options : [Option]
     var displaySize : CGSize {
-        return CGSize(width: 150, height: 32)
+        return CGSize(width: 120, height: 32)
     }
     
     var cellIdentifier : String {
@@ -53,7 +53,7 @@ struct LabelFlowItem : FlowItem {
             ], context: nil).size
         
         // Add the padding
-        let padding : CGFloat = 26.0
+        let padding : CGFloat = 20.0
         size.width = size.width + padding
         size.height = 32.0
         return size
@@ -73,7 +73,7 @@ struct TextFieldFlowItem : FlowItem {
     let color : UIColor
     
     var displaySize : CGSize {
-        return CGSize(width: 150, height: 32)
+        return CGSize(width: 120, height: 32)
     }
     
     var cellIdentifier : String {
