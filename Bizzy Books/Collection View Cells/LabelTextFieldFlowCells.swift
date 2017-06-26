@@ -9,12 +9,12 @@
 import Foundation
 import UIKit
 
-protocol LabelTextFieldFlowCell {
+protocol FlowItemConfigurable {
     func configure(item: FlowItem)
 }
 
 
-class TextFieldCollectionViewCell : UICollectionViewCell, LabelTextFieldFlowCell {
+class TextFieldCollectionViewCell : UICollectionViewCell, FlowItemConfigurable {
     
     @IBOutlet weak var textField: UITextField!
     
@@ -27,7 +27,7 @@ class TextFieldCollectionViewCell : UICollectionViewCell, LabelTextFieldFlowCell
     }
 }
 
-class LabelCollectionViewCell : UICollectionViewCell, LabelTextFieldFlowCell {
+class LabelCollectionViewCell : UICollectionViewCell, FlowItemConfigurable {
     
     @IBOutlet weak var label: UILabel!
     private var action : (()->Void)?

@@ -8,16 +8,18 @@
 
 import Foundation
 import UIKit
+import KTCenterFlowLayout
 
 class AddUniversal: UIViewController {
     
     private let dataSource = LabelTextFieldFlowCollectionViewDataSource()
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var leftTopView: UIView!
+    @IBOutlet weak var leftTopView: DropdownFlowView!
     @IBOutlet weak var rightTopView: UIView!
     @IBOutlet weak var notesTextField: UITextField!
     @IBOutlet weak var odometerTextField: UITextField!
     @IBOutlet weak var projectLabel: UILabel!
+    @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,13 +49,27 @@ class AddUniversal: UIViewController {
                 ]),
             LabelFlowItem(text: "Account ▾", color: .blue, action: { print("Account ▾ tapped!!") }),
  */
+            
+            LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.Reason, action: { print("what tax reason tapped!!") })
         ]
-        dataSource.items.append(LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.Reason, action: { print("what tax reason tapped!!") }))
         
-        collectionView.collectionViewLayout = LeftAlignedCollectionViewFlowLayout()
+        //collectionView.collectionViewLayout = LeftAlignedCollectionViewFlowLayout()
+        collectionView.collectionViewLayout = KTCenterFlowLayout()
         collectionView.delegate = dataSource
         collectionView.dataSource = dataSource
+        collectionView.reloadData()
         
+        // Resize the collection view's height according to it's contents
+        view.layoutIfNeeded()
+        collectionViewHeightConstraint.constant = collectionView.contentSize.height
+        view.layoutIfNeeded()
+        
+        let typeItem = DropdownFlowItem(options: [
+            DropdownFlowItem.Option(title: "Business", iconName: "business", action: { print("Business tapped!!") }),
+            DropdownFlowItem.Option(title: "Personal", iconName: "personal", action: { print("Personal tapped!!") }),
+            DropdownFlowItem.Option(title: "Mixed", iconName: "mixed", action: { print("Mixed tapped!!") }),
+            ])
+        leftTopView.configure(item: typeItem)
     }
     
 }

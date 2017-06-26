@@ -105,6 +105,7 @@ PODS:
   - GTMSessionFetcher/Core (1.1.10)
   - GTMSessionFetcher/Full (1.1.10):
     - GTMSessionFetcher/Core (= 1.1.10)
+  - KTCenterFlowLayout (1.3.1)
   - MKDropdownMenu (1.4)
   - Protobuf (3.3.0)
   - SDWebImage (4.0.0):
@@ -126,6 +127,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - FirebaseUI (~> 4.0)
   - GoogleSignIn
+  - KTCenterFlowLayout
   - MKDropdownMenu
 
 SPEC CHECKSUMS:
@@ -147,12 +149,13 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GTMOAuth2: 7fc9c10f5c745f4d9850419ea88889fe3baa6b7d
   GTMSessionFetcher: 30d874b96d0d76028f61fbd122801e3f030d47db
+  KTCenterFlowLayout: 6e02b50ab2bd865025ae82fe266ed13b6d9eaf97
   MKDropdownMenu: 269df4a41d21a1db684ce8bc709befe419fc5bae
   Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
   SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
   TwitterCore: e959987be23c767004d29eb7fab8d85d8585a2e5
   TwitterKit: 3b6044a7320340326a4098f3e37aa1dbaeb94942
 
-PODFILE CHECKSUM: cda525d20d92626edd8bbeee6f044571b37d3407
+PODFILE CHECKSUM: 17c79f279d29f97a6e4f9eb3649c5bf72ef4e9f6
 
 COCOAPODS: 1.2.1

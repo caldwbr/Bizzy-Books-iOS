@@ -1,16 +1,15 @@
 //
-//  DropdownFlowCollectionViewCell.swift
+//  DropdownFlowView.swift
 //  Bizzy Books
 //
-//  Created by Miroslav Kutak on 22/06/2017.
+//  Created by Miroslav Kutak on 27/06/2017.
 //  Copyright © 2017 Caldwell Contracting LLC. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import MKDropdownMenu
 
-class DropdownFlowCollectionViewCell : UICollectionViewCell, FlowItemConfigurable, MKDropdownMenuDataSource, MKDropdownMenuDelegate {
+class DropdownFlowView: UIView, FlowItemConfigurable, MKDropdownMenuDataSource, MKDropdownMenuDelegate {
     
     @IBOutlet weak var dropDownMenu: MKDropdownMenu!
     private var item : DropdownFlowItem?
@@ -37,6 +36,12 @@ class DropdownFlowCollectionViewCell : UICollectionViewCell, FlowItemConfigurabl
     
     func dropdownMenu(_ dropdownMenu: MKDropdownMenu, didSelectRow row: Int, inComponent component: Int) {
         selectedRow = row
+        
+        // Perform the selected option's action (if there is such)
+        if let action = item?.options[row].action {
+            action()
+        }
+        
         dropdownMenu.reloadAllComponents()
         dropdownMenu.closeAllComponents(animated: true)
     }
@@ -61,3 +66,4 @@ class DropdownFlowCollectionViewCell : UICollectionViewCell, FlowItemConfigurabl
         return UIView()
     }
 }
+

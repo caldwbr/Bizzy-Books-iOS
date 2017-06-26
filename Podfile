@@ -5,26 +5,30 @@ target 'Bizzy Books' do
   # Comment this line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 
-pod 'FirebaseUI', '~> 4.0'
+    pod 'FirebaseUI', '~> 4.0'
 
-pod 'Firebase/Core'
+    pod 'Firebase/Core'
 
-pod 'Firebase/AdMob'
+    pod 'Firebase/AdMob'
 
-pod 'Firebase/Database'
+    pod 'Firebase/Database'
 
-pod 'Firebase/Crash'
+    pod 'Firebase/Crash'
 
-pod 'Firebase/Auth'
+    pod 'Firebase/Auth'
 
-pod 'Firebase/Storage'
+    pod 'Firebase/Storage'
 
-pod 'GoogleSignIn'
+    pod 'GoogleSignIn'
 
-pod 'FBSDKLoginKit'
+    pod 'FBSDKLoginKit'
 
-pod 'Fabric'
+    pod 'Fabric'
+    
+    # Dropdown
+    pod 'MKDropdownMenu'
 
-pod 'MKDropdownMenu'
+    # Centered collection view layout
+    pod 'KTCenterFlowLayout'
 
 end

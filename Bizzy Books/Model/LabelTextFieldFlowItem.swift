@@ -22,6 +22,7 @@ struct DropdownFlowItem : FlowItem {
     struct Option {
         let title : String
         let iconName : String
+        let action : (()->Void)?
         var icon : UIImage? {
             return UIImage(named: iconName)
         }
