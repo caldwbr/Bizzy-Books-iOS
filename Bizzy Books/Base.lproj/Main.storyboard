@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.17" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="hbX-gv-lOf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="hbX-gv-lOf">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -39,7 +39,7 @@
                         <leftBarButtonItems>
                             <barButtonItem style="plain" id="2Dh-yu-xdf">
                                 <view key="customView" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="vx8-mc-l1G">
-                                    <rect key="frame" x="16" y="5.5" width="33" height="33"/>
+                                    <rect key="frame" x="16" y="5" width="33" height="33"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bizzybooksbee" translatesAutoresizingMaskIntoConstraints="NO" id="rbB-IY-pTB">
@@ -58,7 +58,7 @@
                             </barButtonItem>
                             <barButtonItem enabled="NO" title="Item" style="plain" id="Zio-ke-A6R">
                                 <view key="customView" contentMode="scaleToFill" id="VsW-9y-it8">
-                                    <rect key="frame" x="57" y="5.5" width="110" height="33"/>
+                                    <rect key="frame" x="57" y="5" width="110" height="33"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bizzy Books" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g4m-W1-QOF">
@@ -182,7 +182,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Q6p-MC-P7I">
-                                <rect key="frame" x="10" y="174" width="355" height="200"/>
+                                <rect key="frame" x="10" y="194" width="355" height="200"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="999" constant="200" id="PH7-Mq-52r"/>
@@ -279,6 +279,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Q6p-MC-P7I" firstAttribute="top" secondItem="SxV-kh-Bi9" secondAttribute="bottom" constant="30" id="7HL-KO-9GE"/>
                             <constraint firstItem="cCl-dZ-Fna" firstAttribute="top" secondItem="kwU-58-fJn" secondAttribute="bottom" constant="10" id="GjU-UD-gCK"/>
                             <constraint firstAttribute="trailing" secondItem="Q6p-MC-P7I" secondAttribute="trailing" constant="10" id="Odl-US-w94"/>
                             <constraint firstItem="SxV-kh-Bi9" firstAttribute="leading" secondItem="lAl-Iq-FhB" secondAttribute="leadingMargin" id="PdW-Pi-w8U"/>
@@ -291,7 +292,6 @@
                             <constraint firstItem="wsg-wW-kZQ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Q6p-MC-P7I" secondAttribute="bottom" constant="8" id="d38-ES-RcH"/>
                             <constraint firstItem="SxV-kh-Bi9" firstAttribute="top" secondItem="kwU-58-fJn" secondAttribute="bottom" constant="70" id="tDQ-0T-c1a"/>
                             <constraint firstItem="SxV-kh-Bi9" firstAttribute="trailing" secondItem="lAl-Iq-FhB" secondAttribute="trailingMargin" id="teL-gd-zr2"/>
-                            <constraint firstItem="Q6p-MC-P7I" firstAttribute="top" secondItem="SxV-kh-Bi9" secondAttribute="bottom" constant="10" id="xza-of-Frr" userLabel="Collection View.top = Notes.bottom + 20"/>
                             <constraint firstItem="cCl-dZ-Fna" firstAttribute="leading" secondItem="lAl-Iq-FhB" secondAttribute="leadingMargin" constant="10" id="zVI-UA-xoU"/>
                         </constraints>
                     </view>
@@ -321,7 +321,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="hbX-gv-lOf" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="A5p-f1-kSg">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="A5p-f1-kSg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

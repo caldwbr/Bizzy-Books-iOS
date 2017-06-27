@@ -22,7 +22,6 @@
 		EBB77BDA1EFC37170084D014 /* LabelTextFieldFlowCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BD91EFC37170084D014 /* LabelTextFieldFlowCells.swift */; };
 		EBB77BDC1EFE2ABC0084D014 /* UIColorCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BDB1EFE2ABC0084D014 /* UIColorCustom.swift */; };
 		EBB77BDE1EFE2D4D0084D014 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BDD1EFE2D4D0084D014 /* UIColor+Hex.swift */; };
-		EBB77BE01EFE3DEE0084D014 /* DropdownStandalone.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BDF1EFE3DEE0084D014 /* DropdownStandalone.swift */; };
 		FA7B73181EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7B73171EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		FA7B731D1EFC5785007A1AEA /* DropdownFlowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7B731C1EFC5785007A1AEA /* DropdownFlowCollectionViewCell.swift */; };
 		FA7B731F1EFC5976007A1AEA /* DropdownReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7B731E1EFC5976007A1AEA /* DropdownReusableView.xib */; };
@@ -49,7 +48,6 @@
 		EBB77BD91EFC37170084D014 /* LabelTextFieldFlowCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTextFieldFlowCells.swift; sourceTree = "<group>"; };
 		EBB77BDB1EFE2ABC0084D014 /* UIColorCustom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorCustom.swift; sourceTree = "<group>"; };
 		EBB77BDD1EFE2D4D0084D014 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
-		EBB77BDF1EFE3DEE0084D014 /* DropdownStandalone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropdownStandalone.swift; sourceTree = "<group>"; };
 		FA7B73171EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		FA7B731C1EFC5785007A1AEA /* DropdownFlowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownFlowCollectionViewCell.swift; sourceTree = "<group>"; };
 		FA7B731E1EFC5976007A1AEA /* DropdownReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DropdownReusableView.xib; sourceTree = "<group>"; };
@@ -152,7 +150,6 @@
 				FA7B73201EFC5983007A1AEA /* DropdownReusableView.swift */,
 				FA7B73171EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift */,
 				EBB77BD71EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift */,
-				EBB77BDF1EFE3DEE0084D014 /* DropdownStandalone.swift */,
 			);
 			path = "Collection View Cells";
 			sourceTree = "<group>";
@@ -350,7 +347,6 @@
 				EB851E371D9578B2002D19F4 /* AppDelegate.swift in Sources */,
 				EBB77BD61EFC36070084D014 /* LabelTextFieldFlowItem.swift in Sources */,
 				FA7B73181EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
-				EBB77BE01EFE3DEE0084D014 /* DropdownStandalone.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

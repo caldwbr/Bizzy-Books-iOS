@@ -13,6 +13,7 @@ import KTCenterFlowLayout
 class AddUniversal: UIViewController {
     
     private let dataSource = LabelTextFieldFlowCollectionViewDataSource()
+    private var selectedType = 0
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var leftTopView: DropdownFlowView!
     @IBOutlet weak var rightTopView: UIView!
@@ -24,34 +25,54 @@ class AddUniversal: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dataSource.items = [
-            /*
-            DropdownFlowItem(options: [
-                DropdownFlowItem.Option(title: "Business", iconName: "business"),
-                ]),
-            LabelFlowItem(text: "Project ▾", color: .blue, action: { print("Project ▾ tapped!!") }),
-            TextFieldFlowItem(text: "", placeholder: "Notes?", color: .black),
-            */
-            
-            LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { print("You tapped!!") }),
-            LabelFlowItem(text: "paid", color: .gray, action: nil),
-            
-            TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
-            LabelFlowItem(text: "to", color: .gray, action: nil),
-            
-            LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { print("whom tapped!!") }),
-            LabelFlowItem(text: "for", color: .gray, action: nil),
-            
-            /*
-            LabelFlowItem(text: "what tax reason ▾", color: .magenta, action: { print("what tax reason tapped!!") }),
-            DropdownFlowItem(options: [
-                DropdownFlowItem.Option(title: "Debit\nCard", iconName: "debit_card"),
-                ]),
-            LabelFlowItem(text: "Account ▾", color: .blue, action: { print("Account ▾ tapped!!") }),
- */
-            
-            LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.Reason, action: { print("what tax reason tapped!!") })
-        ]
+        let typeItem = DropdownFlowItem(options: [
+            DropdownFlowItem.Option(title: "Business", iconName: "business", action: { self.selectedType = 0 }),
+            DropdownFlowItem.Option(title: "Personal", iconName: "personal", action: { self.selectedType = 1 }),
+            DropdownFlowItem.Option(title: "Mixed", iconName: "mixed", action: { self.selectedType = 2 }),
+            DropdownFlowItem.Option(title: "Fuel", iconName: "fuel", action: { self.selectedType = 3 }),
+            DropdownFlowItem.Option(title: "Transfer", iconName: "transfer", action: { self.selectedType = 4 }),
+            DropdownFlowItem.Option(title: "Adjustment", iconName: "adjustment", action: { self.selectedType = 5 }),
+            ])
+        leftTopView.configure(item: typeItem)
+        
+        switch selectedType {
+        case 0:
+            dataSource.items = [
+                LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { print("You tapped!!") }),
+                LabelFlowItem(text: "paid", color: .gray, action: nil),
+                
+                TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
+                LabelFlowItem(text: "to", color: .gray, action: nil),
+                
+                LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { print("whom tapped!!") }),
+                LabelFlowItem(text: "for", color: .gray, action: nil),
+                LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.Reason, action: { print("what tax reason tapped!!") })
+            ]
+        case 1:
+            dataSource.items = [
+                LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { print("You tapped!!") }),
+                LabelFlowItem(text: "paid", color: .gray, action: nil),
+                
+                TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
+                LabelFlowItem(text: "to", color: .gray, action: nil),
+                
+                LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { print("whom tapped!!") }),
+                LabelFlowItem(text: "for", color: .gray, action: nil),
+                LabelFlowItem(text: "what personal reason ▾", color: UIColor.BizzyColor.Magenta.Reason, action: { print("what personal reason tapped!!") })
+            ]
+        default:
+            dataSource.items = [
+                LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { print("You tapped!!") }),
+                LabelFlowItem(text: "paid", color: .gray, action: nil),
+                
+                TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
+                LabelFlowItem(text: "to", color: .gray, action: nil),
+                
+                LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { print("whom tapped!!") }),
+                LabelFlowItem(text: "for", color: .gray, action: nil),
+                LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.Reason, action: { print("what tax reason tapped!!") })
+            ]
+        }
         
         //collectionView.collectionViewLayout = LeftAlignedCollectionViewFlowLayout()
         collectionView.collectionViewLayout = KTCenterFlowLayout()
@@ -64,12 +85,8 @@ class AddUniversal: UIViewController {
         collectionViewHeightConstraint.constant = collectionView.contentSize.height
         view.layoutIfNeeded()
         
-        let typeItem = DropdownFlowItem(options: [
-            DropdownFlowItem.Option(title: "Business", iconName: "business", action: { print("Business tapped!!") }),
-            DropdownFlowItem.Option(title: "Personal", iconName: "personal", action: { print("Personal tapped!!") }),
-            DropdownFlowItem.Option(title: "Mixed", iconName: "mixed", action: { print("Mixed tapped!!") }),
-            ])
-        leftTopView.configure(item: typeItem)
     }
+    
+   
     
 }
