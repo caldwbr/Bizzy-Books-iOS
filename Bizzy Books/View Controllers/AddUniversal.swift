@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import KTCenterFlowLayout
 
+
 class AddUniversal: UIViewController {
     
     private let dataSource = LabelTextFieldFlowCollectionViewDataSource()
@@ -32,9 +33,33 @@ class AddUniversal: UIViewController {
     @IBOutlet weak var amountPersonalLabel: UILabel!
     @IBOutlet weak var percentBusinessView: UIView!
     
+    //Visual Effects View
+    @IBOutlet weak var visualEffectView: UIVisualEffectView!
+    
+    //Project Popup Items
+    @IBOutlet var selectProjectView: UIView!
+    @IBOutlet weak var projectSearchView: UIView!
+    @IBOutlet weak var overheadSwitch: UISwitch!
+    @IBAction func overheadSwitchTapped(_ sender: UISwitch) {
+    }
+    @IBOutlet weak var overheadQuestionImage: UIImageView!
+    @IBOutlet weak var projectTextField: UITextField!
+    @IBAction func projectAddButtonTapped(_ sender: UIButton) {
+    }
+    @IBAction func projectAcceptTapped(_ sender: UIButton) {
+    }
+    @IBAction func projectDismissTapped(_ sender: UIButton) {
+        selectProjectAnimateOut()
+        visualEffectView.isUserInteractionEnabled = false
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        overheadSwitch.isOn = false
+        visualEffectView.isHidden = true
+        selectProjectView.layer.cornerRadius = 5
         
         let typeItem = DropdownFlowItem(options: [
             DropdownFlowItem.Option(title: "Business", iconName: "business", action: { self.selectedType = 0; self.reloadSentence(selectedType: self.selectedType) }),
@@ -51,9 +76,40 @@ class AddUniversal: UIViewController {
         //collectionView.collectionViewLayout = LeftAlignedCollectionViewFlowLayout()
         collectionView.collectionViewLayout = KTCenterFlowLayout()
         
+        //Code below isn't working so I commented it out.
+        /*
+        var projectLabelGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleTap")
+        self.projectLabel.addGestureRecognizer(projectLabelGestureRecognizer)
+        */
         
+    }
+    
+    func selectProjectAnimateIn() {
+        self.view.addSubview(selectProjectView)
+        selectProjectView.center = self.view.center
+        selectProjectView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+        selectProjectView.alpha = 0
         
-        
+        UIView.animate(withDuration: 0.4, animations: {
+            self.visualEffectView.isHidden = false
+            self.selectProjectView.alpha = 1
+            self.selectProjectView.transform = CGAffineTransform.identity
+        })
+    }
+    
+    func selectProjectAnimateOut() {
+        UIView.animate(withDuration: 0.4, animations: {
+            self.selectProjectView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            self.selectProjectView.alpha = 0
+            self.visualEffectView.isHidden = true
+        }) { (success:Bool) in
+            self.selectProjectView.removeFromSuperview()
+        }
+    }
+    
+    func handleTap(projectLabelGestureRecognizer: UITapGestureRecognizer){
+        selectProjectAnimateIn()
+        visualEffectView.isUserInteractionEnabled = true
     }
     
     func reloadCollectionView() {
@@ -189,5 +245,10 @@ class AddUniversal: UIViewController {
             reloadCollectionView()
         }
     }
+    @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
+        selectProjectAnimateIn()
+        visualEffectView.isUserInteractionEnabled = true
+    }
+
     
 }

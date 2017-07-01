@@ -40,8 +40,12 @@ class ViewController: UIViewController, FUIAuthDelegate {
                 // User is signed in.
                 if user?.photoURL == nil {
                 }else{
-                    let imageUrl = NSData(contentsOf: (user?.photoURL)!)
-                    self.profilePic.image = UIImage(data: imageUrl! as Data)
+                    if let imageUrl = NSData(contentsOf: (user?.photoURL)!){
+                        self.profilePic.image = UIImage(data: imageUrl as Data) 
+                    } else {
+                        try! Auth.auth().signOut()
+                        self.login()
+                    }
                 }
             } else {
                 // No user is signed in.
