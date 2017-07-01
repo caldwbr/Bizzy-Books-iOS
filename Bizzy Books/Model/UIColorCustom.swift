@@ -19,7 +19,8 @@ extension UIColor {
             static let TheFabButton = UIColor(netHex: 0xFFD740) //Accent
         }
         struct Green {
-            static let What = UIColor(netHex: 0x388E3C)
+            static let What = UIColor(netHex: 0x388E3C) //Lighter Green
+            static let Account = UIColor(netHex: 0x1B5E20) //Darker Green
         }
         struct Grey {
             static let Notes = UIColor(netHex: 0xA3A3A3)
@@ -28,7 +29,8 @@ extension UIColor {
             static let Whom = UIColor(netHex: 0x311B92)
         }
         struct Magenta {
-            static let Reason = UIColor(netHex: 0x880E4F)
+            static let TaxReason = UIColor(netHex: 0x880E4F) //Lighter Magenta "Jazzberry Jam"
+            static let PersonalReason = UIColor(netHex: 0x570932) //Darker Magenta
         }
         struct Orange {
             static let WC = UIColor(netHex: 0xF57C00)
