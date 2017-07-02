@@ -56,11 +56,16 @@ class AddUniversal: UIViewController {
         visualEffectView.isUserInteractionEnabled = false
     }
     
+    @IBOutlet var assetSwitchContainer: UIView!
+    @IBOutlet var assetSwitch: UISwitch!
+    @IBOutlet var useTaxSwitchContainer: UIView!
+    @IBOutlet var useTaxSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         overheadSwitch.isOn = false
+        useTaxSwitch.isOn = false
         visualEffectView.isHidden = true
         selectProjectView.layer.cornerRadius = 5
         
@@ -70,7 +75,7 @@ class AddUniversal: UIViewController {
             DropdownFlowItem.Option(title: "Mixed", iconName: "mixed", action: { self.selectedType = 2; self.reloadSentence(selectedType: self.selectedType) }),
             DropdownFlowItem.Option(title: "Fuel", iconName: "fuel", action: { self.selectedType = 3; self.reloadSentence(selectedType: self.selectedType) }),
             DropdownFlowItem.Option(title: "Transfer", iconName: "transfer", action: { self.selectedType = 4; self.reloadSentence(selectedType: self.selectedType) }),
-            DropdownFlowItem.Option(title: "Adjustment", iconName: "adjustment", action: { self.selectedType = 5; self.reloadSentence(selectedType: self.selectedType) }),
+            DropdownFlowItem.Option(title: "Adjust", iconName: "adjustment", action: { self.selectedType = 5; self.reloadSentence(selectedType: self.selectedType) }),
             ])
         leftTopView.configure(item: typeItem)
         
@@ -79,30 +84,38 @@ class AddUniversal: UIViewController {
         //collectionView.collectionViewLayout = LeftAlignedCollectionViewFlowLayout()
         collectionView.collectionViewLayout = KTCenterFlowLayout()
         
-        //Code below isn't working so I commented it out.
         
         var currentItems = self.toolbarItems ?? []
-        let useTaxSwitch = UISwitch(frame: .zero)
-        let useTaxLabel = UILabel(frame: .zero)
-        useTaxLabel.text = "Use Tax"
-        let useTaxQuestionImage = UIImageView(frame: .zero)
-        useTaxQuestionImage.image = UIImage(named: "questionmark")
-        let assetSwitch = UISwitch(frame: .zero)
-        let useTaxItem = UIBarButtonItem(customView: useTaxSwitch)
-        let useTaxLabelItem = UIBarButtonItem(customView: useTaxLabel)
-        let useTaxQuestionImageItem = UIBarButtonItem(customView: useTaxQuestionImage)
-        let assetItem = UIBarButtonItem(customView: assetSwitch)
+        let useTaxItem = UIBarButtonItem(customView: self.useTaxSwitchContainer)
         useTaxSwitch.addTarget(self, action: #selector(useTaxSwitchToggled), for: .valueChanged)
         assetSwitch.addTarget(self, action: #selector(assetSwitchToggled), for: .valueChanged)
-        currentItems.insert(useTaxItem, at: 1)
-        currentItems.insert(useTaxLabelItem, at: 2)
-        currentItems.insert(useTaxQuestionImageItem, at: 3)
-        currentItems.insert(assetItem, at: 4)
+        currentItems.insert(useTaxItem, at: 2)
         self.toolbarItems = currentItems
         
         let projectLabelGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector((handleProjectLabelTap)))
         self.projectLabel.addGestureRecognizer(projectLabelGestureRecognizer)
         
+        let businessAmountString = "$0.00 "
+        let attachmentBusinessIcon = NSTextAttachment()
+        attachmentBusinessIcon.image = UIImage(named: "business")
+        let businessImageOffsetY: CGFloat = -5.0
+        attachmentBusinessIcon.bounds = CGRect(x: 0, y: businessImageOffsetY, width: attachmentBusinessIcon.image!.size.width, height: attachmentBusinessIcon.image!.size.height)
+        let attachmentBusinessIconString = NSAttributedString(attachment: attachmentBusinessIcon)
+        let businessAmountStringWithIcon = NSMutableAttributedString(string: businessAmountString)
+        businessAmountStringWithIcon.append(attachmentBusinessIconString)
+        //amountBusinessLabel.textAlignment = .center
+        amountBusinessLabel.attributedText = businessAmountStringWithIcon
+        
+        let personalAmountString = "$0.00 "
+        let attachmentPersonalIcon = NSTextAttachment()
+        attachmentPersonalIcon.image = UIImage(named: "personal")
+        let personalImageOffsetY: CGFloat = -5.0
+        attachmentPersonalIcon.bounds = CGRect(x: 0, y: personalImageOffsetY, width: attachmentPersonalIcon.image!.size.width, height: attachmentPersonalIcon.image!.size.height)
+        let attachmentPersonalIconString = NSAttributedString(attachment: attachmentPersonalIcon)
+        let personalAmountStringWithIcon = NSMutableAttributedString(string: personalAmountString)
+        personalAmountStringWithIcon.append(attachmentPersonalIconString)
+        //amountPersonalLabel.textAlignment = .center
+        amountPersonalLabel.attributedText = personalAmountStringWithIcon
         
     }
     
