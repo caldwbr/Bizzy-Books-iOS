@@ -291,7 +291,7 @@
                                                     <action selector="percentBusinessSlider:" destination="XGO-PW-Ssy" eventType="valueChanged" id="fFa-2O-6r6"/>
                                                 </connections>
                                             </slider>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Percent Business" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iys-Jr-NEF">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Percent business" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iys-Jr-NEF">
                                                 <rect key="frame" x="5" y="0.0" width="160" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="CCA-fg-lZR"/>
@@ -311,8 +311,8 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0.00 Business" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37t-AH-uW4">
-                                                <rect key="frame" x="5" y="66" width="118" height="21"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0.00 business" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37t-AH-uW4">
+                                                <rect key="frame" x="5" y="66" width="117" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="Uq3-4u-LUy"/>
                                                 </constraints>
@@ -320,7 +320,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0.00 Personal" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Imy-Ju-258">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0.00 personal" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Imy-Ju-258">
                                                 <rect key="frame" x="181" y="66" width="169" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="GoQ-rP-XVy"/>
@@ -341,6 +341,7 @@
                                             <constraint firstItem="Imy-Ju-258" firstAttribute="top" secondItem="a9H-GD-gue" secondAttribute="bottom" constant="5" id="JAf-oo-0hJ"/>
                                             <constraint firstItem="37t-AH-uW4" firstAttribute="top" secondItem="a9H-GD-gue" secondAttribute="bottom" constant="5" id="SQq-Rp-euY"/>
                                             <constraint firstItem="PHu-xI-fnj" firstAttribute="top" secondItem="nuR-79-mdb" secondAttribute="top" id="Y4v-bo-M1Y"/>
+                                            <constraint firstAttribute="height" constant="120" identifier="percentBusinessViewHeight" id="f79-OS-fD4"/>
                                             <constraint firstAttribute="trailing" secondItem="a9H-GD-gue" secondAttribute="trailing" constant="5" id="jIb-sE-yRw"/>
                                             <constraint firstItem="a9H-GD-gue" firstAttribute="top" secondItem="PHu-xI-fnj" secondAttribute="bottom" constant="10" id="otI-RF-kR5"/>
                                             <constraint firstAttribute="trailing" secondItem="Imy-Ju-258" secondAttribute="trailing" constant="5" id="tUq-DY-vSu"/>
@@ -424,6 +425,8 @@
                         <outlet property="accountLabel" destination="ySD-4I-ETl" id="s87-DM-hCG"/>
                         <outlet property="amountBusinessLabel" destination="37t-AH-uW4" id="nxX-dd-uGo"/>
                         <outlet property="amountPersonalLabel" destination="Imy-Ju-258" id="AUO-He-7VL"/>
+                        <outlet property="bottomStackView" destination="f7q-Rf-pcz" id="z80-Kl-QIc"/>
+                        <outlet property="bottomStackViewHeight" destination="6EG-Wd-FQG" id="qca-xv-vcM"/>
                         <outlet property="collectionView" destination="Q6p-MC-P7I" id="a4L-M3-jgX"/>
                         <outlet property="collectionViewHeightConstraint" destination="PH7-Mq-52r" id="rel-bW-HDu"/>
                         <outlet property="leftTopView" destination="EMe-Qr-XHR" id="nMY-Me-ywM"/>
@@ -433,6 +436,7 @@
                         <outlet property="overheadSwitch" destination="15C-65-OWW" id="d7Y-a6-LXT"/>
                         <outlet property="percentBusinessLabel" destination="PHu-xI-fnj" id="JUB-NF-sSA"/>
                         <outlet property="percentBusinessView" destination="nuR-79-mdb" id="73p-7z-Nyf"/>
+                        <outlet property="percentBusinessViewHeight" destination="f79-OS-fD4" id="qSg-W8-c8Z"/>
                         <outlet property="projectLabel" destination="sBx-Cc-ZnK" id="K5N-mx-dFE"/>
                         <outlet property="projectSearchView" destination="pIt-RG-Xtc" id="tui-y0-Rgv"/>
                         <outlet property="projectTextField" destination="n4a-Sa-ODn" id="We5-jv-dlk"/>

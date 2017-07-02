@@ -29,10 +29,13 @@ class AddUniversal: UIViewController {
         let percentAsString = String(percent) + "%"
         percentBusinessLabel.text = percentAsString
     }
+    @IBOutlet weak var bottomStackView: UIStackView!
     @IBOutlet weak var amountBusinessLabel: UILabel!
     @IBOutlet weak var amountPersonalLabel: UILabel!
     @IBOutlet weak var percentBusinessView: UIView!
     
+    @IBOutlet weak var percentBusinessViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var bottomStackViewHeight: NSLayoutConstraint!
     //Visual Effects View
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     
@@ -77,11 +80,38 @@ class AddUniversal: UIViewController {
         collectionView.collectionViewLayout = KTCenterFlowLayout()
         
         //Code below isn't working so I commented it out.
-        /*
-        var projectLabelGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleTap")
-        self.projectLabel.addGestureRecognizer(projectLabelGestureRecognizer)
-        */
         
+        var currentItems = self.toolbarItems ?? []
+        let useTaxSwitch = UISwitch(frame: .zero)
+        let useTaxLabel = UILabel(frame: .zero)
+        useTaxLabel.text = "Use Tax"
+        let useTaxQuestionImage = UIImageView(frame: .zero)
+        useTaxQuestionImage.image = UIImage(named: "questionmark")
+        let assetSwitch = UISwitch(frame: .zero)
+        let useTaxItem = UIBarButtonItem(customView: useTaxSwitch)
+        let useTaxLabelItem = UIBarButtonItem(customView: useTaxLabel)
+        let useTaxQuestionImageItem = UIBarButtonItem(customView: useTaxQuestionImage)
+        let assetItem = UIBarButtonItem(customView: assetSwitch)
+        useTaxSwitch.addTarget(self, action: #selector(useTaxSwitchToggled), for: .valueChanged)
+        assetSwitch.addTarget(self, action: #selector(assetSwitchToggled), for: .valueChanged)
+        currentItems.insert(useTaxItem, at: 1)
+        currentItems.insert(useTaxLabelItem, at: 2)
+        currentItems.insert(useTaxQuestionImageItem, at: 3)
+        currentItems.insert(assetItem, at: 4)
+        self.toolbarItems = currentItems
+        
+        let projectLabelGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector((handleProjectLabelTap)))
+        self.projectLabel.addGestureRecognizer(projectLabelGestureRecognizer)
+        
+        
+    }
+    
+    func assetSwitchToggled(assetSwitch: UISwitch) {
+        print("Asset switch toggled")
+    }
+    
+    func useTaxSwitchToggled(useTaxSwitch: UISwitch) {
+        print("Use tax switch toggled")
     }
     
     func selectProjectAnimateIn() {
@@ -107,7 +137,7 @@ class AddUniversal: UIViewController {
         }
     }
     
-    func handleTap(projectLabelGestureRecognizer: UITapGestureRecognizer){
+    func handleProjectLabelTap(projectLabelGestureRecognizer: UITapGestureRecognizer){
         selectProjectAnimateIn()
         visualEffectView.isUserInteractionEnabled = true
     }
@@ -139,6 +169,9 @@ class AddUniversal: UIViewController {
             projectLabel.isHidden = false
             odometerTextField.isHidden = true
             percentBusinessView.isHidden = true
+            percentBusinessViewHeight.constant = 0
+            bottomStackViewHeight.constant = 20
+            bottomStackView.layoutIfNeeded()
             accountLabel.isHidden = false
             reloadCollectionView()
         case 1:
@@ -155,6 +188,9 @@ class AddUniversal: UIViewController {
             projectLabel.isHidden = true
             odometerTextField.isHidden = true
             percentBusinessView.isHidden = true
+            percentBusinessViewHeight.constant = 0
+            bottomStackViewHeight.constant = 20
+            bottomStackView.layoutIfNeeded()
             accountLabel.isHidden = false
             reloadCollectionView()
         case 2:
@@ -173,6 +209,9 @@ class AddUniversal: UIViewController {
             projectLabel.isHidden = false
             odometerTextField.isHidden = true
             percentBusinessView.isHidden = false
+            percentBusinessViewHeight.constant = 120
+            bottomStackViewHeight.constant = 140
+            bottomStackView.layoutIfNeeded()
             accountLabel.isHidden = false
             reloadCollectionView()
         case 3:
@@ -193,6 +232,9 @@ class AddUniversal: UIViewController {
             projectLabel.isHidden = true
             odometerTextField.isHidden = false
             percentBusinessView.isHidden = true
+            percentBusinessViewHeight.constant = 0
+            bottomStackViewHeight.constant = 20
+            bottomStackView.layoutIfNeeded()
             accountLabel.isHidden = false
             reloadCollectionView()
         case 4:
@@ -211,6 +253,9 @@ class AddUniversal: UIViewController {
             projectLabel.isHidden = true
             odometerTextField.isHidden = true
             percentBusinessView.isHidden = true
+            percentBusinessViewHeight.constant = 0
+            bottomStackViewHeight.constant = 20
+            bottomStackView.layoutIfNeeded()
             accountLabel.isHidden = true
             reloadCollectionView()
         case 5:
@@ -225,6 +270,9 @@ class AddUniversal: UIViewController {
             projectLabel.isHidden = true
             odometerTextField.isHidden = true
             percentBusinessView.isHidden = true
+            percentBusinessViewHeight.constant = 0
+            bottomStackViewHeight.constant = 20
+            bottomStackView.layoutIfNeeded()
             accountLabel.isHidden = true
             reloadCollectionView()
         default:
@@ -241,13 +289,15 @@ class AddUniversal: UIViewController {
             projectLabel.isHidden = false
             odometerTextField.isHidden = true
             percentBusinessView.isHidden = true
+            percentBusinessViewHeight.constant = 0
+            bottomStackViewHeight.constant = 20
+            bottomStackView.layoutIfNeeded()
             accountLabel.isHidden = false
             reloadCollectionView()
         }
     }
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
-        selectProjectAnimateIn()
-        visualEffectView.isUserInteractionEnabled = true
+
     }
 
     
