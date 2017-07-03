@@ -9,10 +9,11 @@
 import Foundation
 import UIKit
 import KTCenterFlowLayout
-
+import Firebase
 
 class AddUniversal: UIViewController {
-    
+
+    var masterRef: DatabaseReference!
     private let dataSource = LabelTextFieldFlowCollectionViewDataSource()
     private var selectedType = 0
     @IBOutlet weak var collectionView: UICollectionView!
@@ -56,8 +57,6 @@ class AddUniversal: UIViewController {
         visualEffectView.isUserInteractionEnabled = false
     }
     
-    @IBOutlet var assetSwitchContainer: UIView!
-    @IBOutlet var assetSwitch: UISwitch!
     @IBOutlet var useTaxSwitchContainer: UIView!
     @IBOutlet var useTaxSwitch: UISwitch!
     
@@ -88,7 +87,6 @@ class AddUniversal: UIViewController {
         var currentItems = self.toolbarItems ?? []
         let useTaxItem = UIBarButtonItem(customView: self.useTaxSwitchContainer)
         useTaxSwitch.addTarget(self, action: #selector(useTaxSwitchToggled), for: .valueChanged)
-        assetSwitch.addTarget(self, action: #selector(assetSwitchToggled), for: .valueChanged)
         currentItems.insert(useTaxItem, at: 2)
         self.toolbarItems = currentItems
         
@@ -103,7 +101,6 @@ class AddUniversal: UIViewController {
         let attachmentBusinessIconString = NSAttributedString(attachment: attachmentBusinessIcon)
         let businessAmountStringWithIcon = NSMutableAttributedString(string: businessAmountString)
         businessAmountStringWithIcon.append(attachmentBusinessIconString)
-        //amountBusinessLabel.textAlignment = .center
         amountBusinessLabel.attributedText = businessAmountStringWithIcon
         
         let personalAmountString = "$0.00 "
@@ -114,13 +111,15 @@ class AddUniversal: UIViewController {
         let attachmentPersonalIconString = NSAttributedString(attachment: attachmentPersonalIcon)
         let personalAmountStringWithIcon = NSMutableAttributedString(string: personalAmountString)
         personalAmountStringWithIcon.append(attachmentPersonalIconString)
-        //amountPersonalLabel.textAlignment = .center
         amountPersonalLabel.attributedText = personalAmountStringWithIcon
         
     }
     
-    func assetSwitchToggled(assetSwitch: UISwitch) {
-        print("Asset switch toggled")
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        masterRef = Database.database().reference().child("users").child(userUID)
+        //masterRef.setValue(["username": "Brad Caldwell"])
     }
     
     func useTaxSwitchToggled(useTaxSwitch: UISwitch) {
@@ -259,8 +258,6 @@ class AddUniversal: UIViewController {
                 LabelFlowItem(text: "which account ▾", color: UIColor.BizzyColor.Green.Account, action: { print("from which account tapped!!") }),
                 LabelFlowItem(text: "to", color: .gray, action: nil),
                 LabelFlowItem(text: "which account ▾", color: UIColor.BizzyColor.Green.Account, action: { print("to which account tapped!!") }),
-                LabelFlowItem(text: "as a", color: .gray, action: nil),
-                LabelFlowItem(text: "what ▾", color: UIColor.BizzyColor.Magenta.PersonalReason, action: { print("what move money tapped!!") }),
                 LabelFlowItem(text: "?", color: .gray, action: nil),
             ]
             projectLabel.isHidden = true
@@ -273,7 +270,7 @@ class AddUniversal: UIViewController {
             reloadCollectionView()
         case 5:
             dataSource.items = [
-                LabelFlowItem(text: "My account ▾", color: UIColor.BizzyColor.Green.Account, action: { print("My account tapped!!") }),
+                LabelFlowItem(text: "Your account ▾", color: UIColor.BizzyColor.Green.Account, action: { print("Your account tapped!!") }),
                 LabelFlowItem(text: "with a Bizzy Books balance of", color: .gray, action: nil),
                 LabelFlowItem(text: "$0.00", color: UIColor.BizzyColor.Green.Account, action: nil),
                 LabelFlowItem(text: "should have a balance of", color: .gray, action: nil),

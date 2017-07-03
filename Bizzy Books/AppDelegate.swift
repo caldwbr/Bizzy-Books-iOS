@@ -12,17 +12,38 @@ import Firebase
 import FirebaseAuthUI
 import GoogleSignIn
 import FBSDKLoginKit
+import Contacts
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var contactStore = CNContactStore()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         //FirebaseApp.configure()
         return true
+    }
+    
+    //Getting contacts stuff
+    
+    class func getAppDelegate() -> AppDelegate {
+        return UIApplication.shared.delegate as! AppDelegate
+    }
+    
+    func showMessage(message: String) {
+        let alertController = UIAlertController(title: "Contacts", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        let dismissAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) { (action) -> Void in
+        }
+        
+        alertController.addAction(dismissAction)
+        
+        let pushedViewControllers = (self.window?.rootViewController as! UINavigationController).viewControllers
+        let presentedViewController = pushedViewControllers[pushedViewControllers.count - 1]
+        
+        presentedViewController.present(alertController, animated: true, completion: nil)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

@@ -14,9 +14,8 @@ import FirebaseGoogleAuthUI
 import FirebaseFacebookAuthUI
 import FBSDKCoreKit
 import FBSDKLoginKit
-import FirebaseGoogleAuthUI
-import FirebaseFacebookAuthUI
-import FirebasePhoneAuthUI
+
+var userUID = ""
 
 class ViewController: UIViewController, FUIAuthDelegate {
     
@@ -38,13 +37,13 @@ class ViewController: UIViewController, FUIAuthDelegate {
         Auth.auth().addStateDidChangeListener { auth, user in
             if user != nil {
                 // User is signed in.
+                userUID = (user?.uid)!
                 if user?.photoURL == nil {
                 }else{
                     if let imageUrl = NSData(contentsOf: (user?.photoURL)!){
                         self.profilePic.image = UIImage(data: imageUrl as Data) 
                     } else {
-                        try! Auth.auth().signOut()
-                        self.login()
+                        self.profilePic.image = UIImage(named: "bizzybooksbee")
                     }
                 }
             } else {
@@ -53,8 +52,6 @@ class ViewController: UIViewController, FUIAuthDelegate {
             }
         }
     }
-    
-    //Maybe I should check Firebase and see if there's updated instructions.
     
     func login() {
         
