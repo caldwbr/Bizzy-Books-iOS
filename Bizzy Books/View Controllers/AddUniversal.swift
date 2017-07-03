@@ -63,6 +63,8 @@ class AddUniversal: UIViewController {
     @IBAction func whoAddButtonTapped(_ sender: UIButton) {
     }
     @IBAction func whoDismissTapped(_ sender: UIButton) {
+        selectWhoAnimateOut()
+        visualEffectView.isUserInteractionEnabled = false
     }
     @IBAction func whoAcceptTapped(_ sender: UIButton) {
     }
@@ -73,11 +75,13 @@ class AddUniversal: UIViewController {
     @IBAction func whomAddButtonTapped(_ sender: UIButton) {
     }
     @IBAction func whomDismissTapped(_ sender: UIButton) {
+        selectWhomAnimateOut()
+        visualEffectView.isUserInteractionEnabled = false
     }
     @IBAction func whomAcceptTapped(_ sender: UIButton) {
     }
     
-    //Tax Reason Popup Items
+    //Tax Reason Picker
     @IBOutlet var taxReasonPickerView: UIPickerView!
     
     //Vehicle Popup Items
@@ -86,17 +90,19 @@ class AddUniversal: UIViewController {
     @IBAction func vehicleAddButtonTapped(_ sender: UIButton) {
     }
     @IBAction func vehicleDismissTapped(_ sender: UIButton) {
+        selectVehicleAnimateOut()
+        visualEffectView.isUserInteractionEnabled = false
     }
     @IBAction func vehicleAcceptTapped(_ sender: UIButton) {
     }
     
-    //Worker's Comp Popup Items
+    //Worker's Comp Picker
     @IBOutlet var selectWCPickerView: UIPickerView!
     
-    //Advertising Means Popup Items
+    //Advertising Means Picker
     @IBOutlet var selectAdvertisingMeansPickerView: UIPickerView!
     
-    //Personal Reason Popup Items
+    //Personal Reason Picker
     @IBOutlet var personalReasonPickerView: UIPickerView!
     
     //Main Account Popup Items (usually from, but can be to)
@@ -105,6 +111,8 @@ class AddUniversal: UIViewController {
     @IBAction func accountAddButtonTapped(_ sender: UIButton) {
     }
     @IBAction func accountDismissTapped(_ sender: UIButton) {
+        selectAccountAnimateOut()
+        visualEffectView.isUserInteractionEnabled = false
     }
     @IBAction func accountAcceptTapped(_ sender: UIButton) {
     }
@@ -115,11 +123,13 @@ class AddUniversal: UIViewController {
     @IBAction func secondaryAccountAddButtonTapped(_ sender: UIButton) {
     }
     @IBAction func secondaryAccountDismissTapped(_ sender: UIButton) {
+        selectSecondaryAccountAnimateOut()
+        visualEffectView.isUserInteractionEnabled = false
     }
     @IBAction func secondaryAccountAcceptTapped(_ sender: UIButton) {
     }
     
-    //Fuel Type Popup Items
+    //Fuel Type Picker
     @IBOutlet var selectFuelTypePickerView: UIPickerView!
     
     //Use Tax View Items (not a popup, but part of bottom bar)
@@ -132,7 +142,15 @@ class AddUniversal: UIViewController {
         overheadSwitch.isOn = false
         useTaxSwitch.isOn = false
         visualEffectView.isHidden = true
+        
+        //Clip corners of all popups for better aesthetics
         selectProjectView.layer.cornerRadius = 5
+        selectWhoView.layer.cornerRadius = 5
+        selectWhomView.layer.cornerRadius = 5
+        selectVehicleView.layer.cornerRadius = 5
+        selectAccountView.layer.cornerRadius = 5
+        selectSecondaryAccountView.layer.cornerRadius = 5
+        
         
         let typeItem = DropdownFlowItem(options: [
             DropdownFlowItem.Option(title: "Business", iconName: "business", action: { self.selectedType = 0; self.reloadSentence(selectedType: self.selectedType) }),
@@ -149,15 +167,20 @@ class AddUniversal: UIViewController {
         //collectionView.collectionViewLayout = LeftAlignedCollectionViewFlowLayout()
         collectionView.collectionViewLayout = KTCenterFlowLayout()
         
-        
+        //Placing the use tax view inside the bottom bar
         var currentItems = self.toolbarItems ?? []
         let useTaxItem = UIBarButtonItem(customView: self.useTaxSwitchContainer)
         useTaxSwitch.addTarget(self, action: #selector(useTaxSwitchToggled), for: .valueChanged)
         currentItems.insert(useTaxItem, at: 2)
         self.toolbarItems = currentItems
         
+        //Making a tap listener on Project label
         let projectLabelGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector((handleProjectLabelTap)))
         self.projectLabel.addGestureRecognizer(projectLabelGestureRecognizer)
+        
+        //Making a tap listener on Account label
+        let accountLabelGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector((handleAccountLabelTap)))
+        self.accountLabel.addGestureRecognizer(accountLabelGestureRecognizer)
         
         //Combine icon with String for under slider for Mixed type
         let businessAmountString = "$0.00 "
@@ -193,6 +216,41 @@ class AddUniversal: UIViewController {
         print("Use tax switch toggled")
     }
     
+    func handleProjectLabelTap(projectLabelGestureRecognizer: UITapGestureRecognizer){
+        selectProjectAnimateIn()
+        visualEffectView.isUserInteractionEnabled = true
+    }
+    
+    func whoLabelTapped() {
+        selectWhoAnimateIn()
+        visualEffectView.isUserInteractionEnabled = true
+    }
+    
+    func whomLabelTapped() {
+        selectWhomAnimateIn()
+        visualEffectView.isUserInteractionEnabled = true
+    }
+    
+    func vehicleLabelTapped() {
+        selectVehicleAnimateIn()
+        visualEffectView.isUserInteractionEnabled = true
+    }
+    
+    func handleAccountLabelTap(accountLabelGestureRecognizer: UITapGestureRecognizer) {
+        selectAccountAnimateIn()
+        visualEffectView.isUserInteractionEnabled = true
+    }
+    
+    func accountLabelTapped() {
+        selectAccountAnimateIn()
+        visualEffectView.isUserInteractionEnabled = true
+    }
+    
+    func secondaryAccountLabelTapped() {
+        selectSecondaryAccountAnimateIn()
+        visualEffectView.isUserInteractionEnabled = true
+    }
+    
     func selectProjectAnimateIn() {
         self.view.addSubview(selectProjectView)
         selectProjectView.center = self.view.center
@@ -216,9 +274,119 @@ class AddUniversal: UIViewController {
         }
     }
     
-    func handleProjectLabelTap(projectLabelGestureRecognizer: UITapGestureRecognizer){
-        selectProjectAnimateIn()
-        visualEffectView.isUserInteractionEnabled = true
+    func selectWhoAnimateIn() {
+        self.view.addSubview(selectWhoView)
+        selectWhoView.center = self.view.center
+        selectWhoView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+        selectWhoView.alpha = 0
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            self.visualEffectView.isHidden = false
+            self.selectWhoView.alpha = 1
+            self.selectWhoView.transform = CGAffineTransform.identity
+        })
+    }
+    
+    func selectWhoAnimateOut() {
+        UIView.animate(withDuration: 0.4, animations: {
+            self.selectWhoView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            self.selectWhoView.alpha = 0
+            self.visualEffectView.isHidden = true
+        }) { (success:Bool) in
+            self.selectWhoView.removeFromSuperview()
+        }
+    }
+
+    func selectWhomAnimateIn() {
+        self.view.addSubview(selectWhomView)
+        selectWhomView.center = self.view.center
+        selectWhomView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+        selectWhomView.alpha = 0
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            self.visualEffectView.isHidden = false
+            self.selectWhomView.alpha = 1
+            self.selectWhomView.transform = CGAffineTransform.identity
+        })
+    }
+    
+    func selectWhomAnimateOut() {
+        UIView.animate(withDuration: 0.4, animations: {
+            self.selectWhomView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            self.selectWhomView.alpha = 0
+            self.visualEffectView.isHidden = true
+        }) { (success:Bool) in
+            self.selectWhomView.removeFromSuperview()
+        }
+    }
+    
+    func selectVehicleAnimateIn() {
+        self.view.addSubview(selectVehicleView)
+        selectVehicleView.center = self.view.center
+        selectVehicleView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+        selectVehicleView.alpha = 0
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            self.visualEffectView.isHidden = false
+            self.selectVehicleView.alpha = 1
+            self.selectVehicleView.transform = CGAffineTransform.identity
+        })
+    }
+    
+    func selectVehicleAnimateOut() {
+        UIView.animate(withDuration: 0.4, animations: {
+            self.selectVehicleView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            self.selectVehicleView.alpha = 0
+            self.visualEffectView.isHidden = true
+        }) { (success:Bool) in
+            self.selectVehicleView.removeFromSuperview()
+        }
+    }
+    
+    func selectAccountAnimateIn() {
+        self.view.addSubview(selectAccountView)
+        selectAccountView.center = self.view.center
+        selectAccountView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+        selectAccountView.alpha = 0
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            self.visualEffectView.isHidden = false
+            self.selectAccountView.alpha = 1
+            self.selectAccountView.transform = CGAffineTransform.identity
+        })
+    }
+    
+    func selectAccountAnimateOut() {
+        UIView.animate(withDuration: 0.4, animations: {
+            self.selectAccountView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            self.selectAccountView.alpha = 0
+            self.visualEffectView.isHidden = true
+        }) { (success:Bool) in
+            self.selectAccountView.removeFromSuperview()
+        }
+    }
+    
+    func selectSecondaryAccountAnimateIn() {
+        self.view.addSubview(selectSecondaryAccountView)
+        selectSecondaryAccountView.center = self.view.center
+        selectSecondaryAccountView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+        selectSecondaryAccountView.alpha = 0
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            self.visualEffectView.isHidden = false
+            self.selectSecondaryAccountView.alpha = 1
+            self.selectSecondaryAccountView.transform = CGAffineTransform.identity
+        })
+    }
+    
+    func selectSecondaryAccountAnimateOut() {
+        UIView.animate(withDuration: 0.4, animations: {
+            self.selectSecondaryAccountView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            self.selectSecondaryAccountView.alpha = 0
+            self.visualEffectView.isHidden = true
+        }) { (success:Bool) in
+            self.selectSecondaryAccountView.removeFromSuperview()
+        }
     }
     
     func reloadCollectionView() {
@@ -236,11 +404,11 @@ class AddUniversal: UIViewController {
         switch selectedType {
         case 0:
             dataSource.items = [
-                LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { print("You tapped!!") }),
+                LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.whoLabelTapped() }),
                 LabelFlowItem(text: "paid", color: .gray, action: nil),
                 TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
                 LabelFlowItem(text: "to", color: .gray, action: nil),
-                LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { print("whom tapped!!") }),
+                LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.whomLabelTapped() }),
                 LabelFlowItem(text: "for", color: .gray, action: nil),
                 LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { print("what tax reason tapped!!") }),
                 LabelFlowItem(text: "?", color: .gray, action: nil),
@@ -255,11 +423,11 @@ class AddUniversal: UIViewController {
             reloadCollectionView()
         case 1:
             dataSource.items = [
-                LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { print("You tapped!!") }),
+                LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.whoLabelTapped() }),
                 LabelFlowItem(text: "paid", color: .gray, action: nil),
                 TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
                 LabelFlowItem(text: "to", color: .gray, action: nil),
-                LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { print("whom tapped!!") }),
+                LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.whomLabelTapped() }),
                 LabelFlowItem(text: "for", color: .gray, action: nil),
                 LabelFlowItem(text: "what personal reason ▾", color: UIColor.BizzyColor.Magenta.PersonalReason, action: { print("what personal reason tapped!!") }),
                 LabelFlowItem(text: "?", color: .gray, action: nil),
@@ -274,11 +442,11 @@ class AddUniversal: UIViewController {
             reloadCollectionView()
         case 2:
             dataSource.items = [
-                LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { print("You tapped!!") }),
+                LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.whoLabelTapped() }),
                 LabelFlowItem(text: "paid", color: .gray, action: nil),
                 TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
                 LabelFlowItem(text: "to", color: .gray, action: nil),
-                LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { print("whom tapped!!") }),
+                LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.whomLabelTapped() }),
                 LabelFlowItem(text: "for", color: .gray, action: nil),
                 LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { print("what tax reason tapped!!") }),
                 LabelFlowItem(text: "and", color: .gray, action: nil),
@@ -295,17 +463,17 @@ class AddUniversal: UIViewController {
             reloadCollectionView()
         case 3:
             dataSource.items = [
-                LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { print("You tapped!!") }),
+                LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.whoLabelTapped() }),
                 LabelFlowItem(text: "paid", color: .gray, action: nil),
                 TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
                 LabelFlowItem(text: "to", color: .gray, action: nil),
-                LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { print("whom (gas station) tapped!!") }),
+                LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.whomLabelTapped() /* You need to specify only gas stations here!!!!!!!!!!!!! */ }),
                 LabelFlowItem(text: "for", color: .gray, action: nil),
                 TextFieldFlowItem(text: "", placeholder: "how many", color: UIColor.BizzyColor.Green.What),
                 LabelFlowItem(text: "gallons of", color: .gray, action: nil),
                 LabelFlowItem(text: "87 gas ▾", color: UIColor.BizzyColor.Orange.WC, action: { print("fuel tapped!!") }),
                 LabelFlowItem(text: "in your", color: .gray, action: nil),
-                LabelFlowItem(text: "vehicle ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { print("vehicle tapped!!") }),
+                LabelFlowItem(text: "vehicle ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.vehicleLabelTapped() }),
                 LabelFlowItem(text: "?", color: .gray, action: nil),
             ]
             projectLabel.isHidden = true
@@ -322,9 +490,9 @@ class AddUniversal: UIViewController {
                 LabelFlowItem(text: "moved", color: .gray, action: nil),
                 TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
                 LabelFlowItem(text: "from", color: .gray, action: nil),
-                LabelFlowItem(text: "which account ▾", color: UIColor.BizzyColor.Green.Account, action: { print("from which account tapped!!") }),
+                LabelFlowItem(text: "which account ▾", color: UIColor.BizzyColor.Green.Account, action: { self.accountLabelTapped() }),
                 LabelFlowItem(text: "to", color: .gray, action: nil),
-                LabelFlowItem(text: "which account ▾", color: UIColor.BizzyColor.Green.Account, action: { print("to which account tapped!!") }),
+                LabelFlowItem(text: "which account ▾", color: UIColor.BizzyColor.Green.Account, action: { self.secondaryAccountLabelTapped() }),
                 LabelFlowItem(text: "?", color: .gray, action: nil),
             ]
             projectLabel.isHidden = true
@@ -337,7 +505,7 @@ class AddUniversal: UIViewController {
             reloadCollectionView()
         case 5:
             dataSource.items = [
-                LabelFlowItem(text: "Your account ▾", color: UIColor.BizzyColor.Green.Account, action: { print("Your account tapped!!") }),
+                LabelFlowItem(text: "Your account ▾", color: UIColor.BizzyColor.Green.Account, action: { self.accountLabelTapped() }),
                 LabelFlowItem(text: "with a Bizzy Books balance of", color: .gray, action: nil),
                 LabelFlowItem(text: "$0.00", color: UIColor.BizzyColor.Green.Account, action: nil),
                 LabelFlowItem(text: "should have a balance of", color: .gray, action: nil),
@@ -354,11 +522,11 @@ class AddUniversal: UIViewController {
             reloadCollectionView()
         default:
             dataSource.items = [
-                LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { print("You tapped!!") }),
+                LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.whoLabelTapped() }),
                 LabelFlowItem(text: "paid", color: .gray, action: nil),
                 TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
                 LabelFlowItem(text: "to", color: .gray, action: nil),
-                LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { print("whom tapped!!") }),
+                LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.whomLabelTapped() }),
                 LabelFlowItem(text: "for", color: .gray, action: nil),
                 LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { print("what tax reason tapped!!") }),
                 LabelFlowItem(text: "?", color: .gray, action: nil),
