@@ -11,11 +11,17 @@ import UIKit
 import KTCenterFlowLayout
 import Firebase
 
-class AddUniversal: UIViewController {
+class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     var masterRef: DatabaseReference!
+    private var universalArray = [0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1] //Notes and pic url will be ON THEIR OWN!
     private let dataSource = LabelTextFieldFlowCollectionViewDataSource()
     private var selectedType = 0
+    var taxReasonPickerData: [String] = [String]()
+    var wcPickerData: [String] = [String]()
+    var advertisingMeansPickerData: [String] = [String]()
+    var personalReasonPickerData: [String] = [String]()
+    var fuelTypePickerData: [String] = [String]()
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var leftTopView: DropdownFlowView!
     @IBOutlet weak var rightTopView: UIView!
@@ -143,6 +149,25 @@ class AddUniversal: UIViewController {
         useTaxSwitch.isOn = false
         visualEffectView.isHidden = true
         
+        self.taxReasonPickerView.delegate = self
+        self.taxReasonPickerView.dataSource = self
+        self.selectWCPickerView.delegate = self
+        self.selectWCPickerView.dataSource = self
+        self.selectAdvertisingMeansPickerView.delegate = self
+        self.selectAdvertisingMeansPickerView.dataSource = self
+        self.personalReasonPickerView.delegate = self
+        self.personalReasonPickerView.dataSource = self
+        self.selectFuelTypePickerView.delegate = self
+        self.selectFuelTypePickerView.dataSource = self
+        
+        //Set up pickers' data
+        taxReasonPickerData = ["Income", "Supplies", "Labor", "Meals", "Office", "Vehicle", "Advertise", "Pro Help", "Rent Machine", "Rent Property", "Tax+License", "Insurance (WC+GL)", "Travel", "Employee Benefit", "Depreciation", "Depletion", "Utilities", "Commissions", "Wages", "Mortgate Interest", "Other Interest", "Pension", "Repairs"]
+        wcPickerData = ["Sub Has WC", "Incurred WC", "WC N/A"]
+        advertisingMeansPickerData = ["Referral", "Website", "YP", "Social Media", "Soliciting", "Google AdWords", "Company Shirts", "Sign", "Vehicle Wrap", "Billboard", "TV", "Radio", "Other"]
+        personalReasonPickerData = ["Food", "Fun", "Pet", "Utilities", "Phone", "Office", "Giving", "Insurance", "House", "Yard", "Medical", "Travel", "Other"]
+        fuelTypePickerData = ["87 Gas", "89 Gas", "91 Gas", "Diesel"]
+        
+        
         //Clip corners of all popups for better aesthetics
         selectProjectView.layer.cornerRadius = 5
         selectWhoView.layer.cornerRadius = 5
@@ -218,37 +243,50 @@ class AddUniversal: UIViewController {
     
     func handleProjectLabelTap(projectLabelGestureRecognizer: UITapGestureRecognizer){
         selectProjectAnimateIn()
-        visualEffectView.isUserInteractionEnabled = true
     }
     
     func whoLabelTapped() {
         selectWhoAnimateIn()
-        visualEffectView.isUserInteractionEnabled = true
     }
     
     func whomLabelTapped() {
         selectWhomAnimateIn()
-        visualEffectView.isUserInteractionEnabled = true
+    }
+    
+    func taxReasonTapped() {
+        selectTaxReasonAnimateIn()
+    }
+    
+    func wcTapped() {
+        selectWCAnimateIn()
+    }
+    
+    func advertisingMeansTapped() {
+        selectAdvertisingMeansAnimateIn()
+    }
+    
+    func personalReasonTapped() {
+        selectPersonalReasonAnimateIn()
     }
     
     func vehicleLabelTapped() {
         selectVehicleAnimateIn()
-        visualEffectView.isUserInteractionEnabled = true
     }
     
     func handleAccountLabelTap(accountLabelGestureRecognizer: UITapGestureRecognizer) {
         selectAccountAnimateIn()
-        visualEffectView.isUserInteractionEnabled = true
     }
     
     func accountLabelTapped() {
         selectAccountAnimateIn()
-        visualEffectView.isUserInteractionEnabled = true
     }
     
     func secondaryAccountLabelTapped() {
         selectSecondaryAccountAnimateIn()
-        visualEffectView.isUserInteractionEnabled = true
+    }
+    
+    func fuelTypeTapped() {
+        selectFuelTypeAnimateIn()
     }
     
     func selectProjectAnimateIn() {
@@ -320,6 +358,29 @@ class AddUniversal: UIViewController {
         }
     }
     
+    func selectTaxReasonAnimateIn() {
+        self.view.addSubview(taxReasonPickerView)
+        taxReasonPickerView.center = self.view.center
+        taxReasonPickerView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+        taxReasonPickerView.alpha = 0
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            self.visualEffectView.isHidden = false
+            self.taxReasonPickerView.alpha = 1
+            self.taxReasonPickerView.transform = CGAffineTransform.identity
+        })
+    }
+    
+    func selectTaxReasonAnimateOut() {
+        UIView.animate(withDuration: 0.4, animations: {
+            self.taxReasonPickerView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            self.taxReasonPickerView.alpha = 0
+            self.visualEffectView.isHidden = true
+        }) { (success:Bool) in
+            self.taxReasonPickerView.removeFromSuperview()
+        }
+    }
+    
     func selectVehicleAnimateIn() {
         self.view.addSubview(selectVehicleView)
         selectVehicleView.center = self.view.center
@@ -340,6 +401,75 @@ class AddUniversal: UIViewController {
             self.visualEffectView.isHidden = true
         }) { (success:Bool) in
             self.selectVehicleView.removeFromSuperview()
+        }
+    }
+    
+    func selectWCAnimateIn() {
+        self.view.addSubview(selectWCPickerView)
+        selectWCPickerView.center = self.view.center
+        selectWCPickerView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+        selectWCPickerView.alpha = 0
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            self.visualEffectView.isHidden = false
+            self.selectWCPickerView.alpha = 1
+            self.selectWCPickerView.transform = CGAffineTransform.identity
+        })
+    }
+    
+    func selectWCAnimateOut() {
+        UIView.animate(withDuration: 0.4, animations: {
+            self.selectWCPickerView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            self.selectWCPickerView.alpha = 0
+            self.visualEffectView.isHidden = true
+        }) { (success:Bool) in
+            self.selectWCPickerView.removeFromSuperview()
+        }
+    }
+    
+    func selectAdvertisingMeansAnimateIn() {
+        self.view.addSubview(selectAdvertisingMeansPickerView)
+        selectAdvertisingMeansPickerView.center = self.view.center
+        selectAdvertisingMeansPickerView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+        selectAdvertisingMeansPickerView.alpha = 0
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            self.visualEffectView.isHidden = false
+            self.selectAdvertisingMeansPickerView.alpha = 1
+            self.selectAdvertisingMeansPickerView.transform = CGAffineTransform.identity
+        })
+    }
+    
+    func selectAdvertisingMeansAnimateOut() {
+        UIView.animate(withDuration: 0.4, animations: {
+            self.selectAdvertisingMeansPickerView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            self.selectAdvertisingMeansPickerView.alpha = 0
+            self.visualEffectView.isHidden = true
+        }) { (success:Bool) in
+            self.selectAdvertisingMeansPickerView.removeFromSuperview()
+        }
+    }
+    
+    func selectPersonalReasonAnimateIn() {
+        self.view.addSubview(personalReasonPickerView)
+        personalReasonPickerView.center = self.view.center
+        personalReasonPickerView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+        personalReasonPickerView.alpha = 0
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            self.visualEffectView.isHidden = false
+            self.personalReasonPickerView.alpha = 1
+            self.personalReasonPickerView.transform = CGAffineTransform.identity
+        })
+    }
+    
+    func selectPersonalReasonAnimateOut() {
+        UIView.animate(withDuration: 0.4, animations: {
+            self.personalReasonPickerView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            self.personalReasonPickerView.alpha = 0
+            self.visualEffectView.isHidden = true
+        }) { (success:Bool) in
+            self.personalReasonPickerView.removeFromSuperview()
         }
     }
     
@@ -389,6 +519,29 @@ class AddUniversal: UIViewController {
         }
     }
     
+    func selectFuelTypeAnimateIn() {
+        self.view.addSubview(selectFuelTypePickerView)
+        selectFuelTypePickerView.center = self.view.center
+        selectFuelTypePickerView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+        selectFuelTypePickerView.alpha = 0
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            self.visualEffectView.isHidden = false
+            self.selectFuelTypePickerView.alpha = 1
+            self.selectFuelTypePickerView.transform = CGAffineTransform.identity
+        })
+    }
+    
+    func selectFuelTypeAnimateOut() {
+        UIView.animate(withDuration: 0.4, animations: {
+            self.selectFuelTypePickerView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            self.selectFuelTypePickerView.alpha = 0
+            self.visualEffectView.isHidden = true
+        }) { (success:Bool) in
+            self.selectFuelTypePickerView.removeFromSuperview()
+        }
+    }
+    
     func reloadCollectionView() {
         collectionView.delegate = dataSource
         collectionView.dataSource = dataSource
@@ -410,7 +563,7 @@ class AddUniversal: UIViewController {
                 LabelFlowItem(text: "to", color: .gray, action: nil),
                 LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.whomLabelTapped() }),
                 LabelFlowItem(text: "for", color: .gray, action: nil),
-                LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { print("what tax reason tapped!!") }),
+                LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.taxReasonTapped() }),
                 LabelFlowItem(text: "?", color: .gray, action: nil),
             ]
             projectLabel.isHidden = false
@@ -429,7 +582,7 @@ class AddUniversal: UIViewController {
                 LabelFlowItem(text: "to", color: .gray, action: nil),
                 LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.whomLabelTapped() }),
                 LabelFlowItem(text: "for", color: .gray, action: nil),
-                LabelFlowItem(text: "what personal reason ▾", color: UIColor.BizzyColor.Magenta.PersonalReason, action: { print("what personal reason tapped!!") }),
+                LabelFlowItem(text: "what personal reason ▾", color: UIColor.BizzyColor.Magenta.PersonalReason, action: { self.personalReasonTapped() }),
                 LabelFlowItem(text: "?", color: .gray, action: nil),
             ]
             projectLabel.isHidden = true
@@ -448,9 +601,9 @@ class AddUniversal: UIViewController {
                 LabelFlowItem(text: "to", color: .gray, action: nil),
                 LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.whomLabelTapped() }),
                 LabelFlowItem(text: "for", color: .gray, action: nil),
-                LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { print("what tax reason tapped!!") }),
+                LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.taxReasonTapped() }),
                 LabelFlowItem(text: "and", color: .gray, action: nil),
-                LabelFlowItem(text: "what personal reason ▾", color: UIColor.BizzyColor.Magenta.PersonalReason, action: { print("what personal reason tapped!!") }),
+                LabelFlowItem(text: "what personal reason ▾", color: UIColor.BizzyColor.Magenta.PersonalReason, action: { self.personalReasonTapped() }),
                 LabelFlowItem(text: "?", color: .gray, action: nil),
             ]
             projectLabel.isHidden = false
@@ -471,7 +624,7 @@ class AddUniversal: UIViewController {
                 LabelFlowItem(text: "for", color: .gray, action: nil),
                 TextFieldFlowItem(text: "", placeholder: "how many", color: UIColor.BizzyColor.Green.What),
                 LabelFlowItem(text: "gallons of", color: .gray, action: nil),
-                LabelFlowItem(text: "87 gas ▾", color: UIColor.BizzyColor.Orange.WC, action: { print("fuel tapped!!") }),
+                LabelFlowItem(text: "87 gas ▾", color: UIColor.BizzyColor.Orange.WC, action: { self.fuelTypeTapped() }),
                 LabelFlowItem(text: "in your", color: .gray, action: nil),
                 LabelFlowItem(text: "vehicle ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.vehicleLabelTapped() }),
                 LabelFlowItem(text: "?", color: .gray, action: nil),
@@ -541,9 +694,88 @@ class AddUniversal: UIViewController {
             reloadCollectionView()
         }
     }
+    
+    
+    // The number of columns of data
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    // The number of rows of data
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        switch pickerView {
+        case taxReasonPickerView:
+            return taxReasonPickerData.count
+        case selectWCPickerView:
+            return wcPickerData.count
+        case selectAdvertisingMeansPickerView:
+            return advertisingMeansPickerData.count
+        case personalReasonPickerView:
+            return personalReasonPickerData.count
+        case selectFuelTypePickerView:
+            return fuelTypePickerData.count
+        default:
+            return taxReasonPickerData.count
+        }
+        return taxReasonPickerData.count
+    }
+    
+    // The data to return for the row and component (column) that's being passed in
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        switch pickerView {
+        case taxReasonPickerView:
+            return taxReasonPickerData[row]
+        case selectWCPickerView:
+            return wcPickerData[row]
+        case selectAdvertisingMeansPickerView:
+            return advertisingMeansPickerData[row]
+        case personalReasonPickerView:
+            return personalReasonPickerData[row]
+        case selectFuelTypePickerView:
+            return fuelTypePickerData[row]
+        default:
+            return taxReasonPickerData[row]
+        }
+        return taxReasonPickerData[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        switch pickerView {
+        case taxReasonPickerView:
+            universalArray[6] = row
+            print(universalArray)
+            selectTaxReasonAnimateOut()
+        case selectWCPickerView:
+            universalArray[8] = row
+            print(universalArray)
+            selectWCAnimateOut()
+        case selectAdvertisingMeansPickerView:
+            universalArray[9] = row
+            print(universalArray)
+            selectAdvertisingMeansAnimateOut()
+        case personalReasonPickerView:
+            universalArray[10] = row
+            print(universalArray)
+            selectPersonalReasonAnimateOut()
+        case selectFuelTypePickerView:
+            universalArray[15] = row
+            print(universalArray)
+            selectFuelTypeAnimateOut()
+        default:
+            universalArray[6] = row
+            print(universalArray)
+            selectTaxReasonAnimateOut()
+        }
+        
+        
+    }
+    
+    
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
 
     }
+    
+    
 
     
 }
