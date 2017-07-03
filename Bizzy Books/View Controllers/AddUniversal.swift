@@ -57,6 +57,72 @@ class AddUniversal: UIViewController {
         visualEffectView.isUserInteractionEnabled = false
     }
     
+    //Who Popup Items
+    @IBOutlet var selectWhoView: UIView!
+    @IBOutlet weak var selectWhoTextField: UITextField!
+    @IBAction func whoAddButtonTapped(_ sender: UIButton) {
+    }
+    @IBAction func whoDismissTapped(_ sender: UIButton) {
+    }
+    @IBAction func whoAcceptTapped(_ sender: UIButton) {
+    }
+    
+    //Whom Popup Items
+    @IBOutlet var selectWhomView: UIView!
+    @IBOutlet weak var selectWhomTextField: UITextField!
+    @IBAction func whomAddButtonTapped(_ sender: UIButton) {
+    }
+    @IBAction func whomDismissTapped(_ sender: UIButton) {
+    }
+    @IBAction func whomAcceptTapped(_ sender: UIButton) {
+    }
+    
+    //Tax Reason Popup Items
+    @IBOutlet var taxReasonPickerView: UIPickerView!
+    
+    //Vehicle Popup Items
+    @IBOutlet var selectVehicleView: UIView!
+    @IBOutlet weak var selectVehicleTextField: UITextField!
+    @IBAction func vehicleAddButtonTapped(_ sender: UIButton) {
+    }
+    @IBAction func vehicleDismissTapped(_ sender: UIButton) {
+    }
+    @IBAction func vehicleAcceptTapped(_ sender: UIButton) {
+    }
+    
+    //Worker's Comp Popup Items
+    @IBOutlet var selectWCPickerView: UIPickerView!
+    
+    //Advertising Means Popup Items
+    @IBOutlet var selectAdvertisingMeansPickerView: UIPickerView!
+    
+    //Personal Reason Popup Items
+    @IBOutlet var personalReasonPickerView: UIPickerView!
+    
+    //Main Account Popup Items (usually from, but can be to)
+    @IBOutlet var selectAccountView: UIView!
+    @IBOutlet weak var selectAccountTextField: UITextField!
+    @IBAction func accountAddButtonTapped(_ sender: UIButton) {
+    }
+    @IBAction func accountDismissTapped(_ sender: UIButton) {
+    }
+    @IBAction func accountAcceptTapped(_ sender: UIButton) {
+    }
+    
+    //Secondary Account Popup Items (always to)
+    @IBOutlet var selectSecondaryAccountView: UIView!
+    @IBOutlet weak var selectSecondaryAccountTextField: UITextField!
+    @IBAction func secondaryAccountAddButtonTapped(_ sender: UIButton) {
+    }
+    @IBAction func secondaryAccountDismissTapped(_ sender: UIButton) {
+    }
+    @IBAction func secondaryAccountAcceptTapped(_ sender: UIButton) {
+    }
+    
+    //Fuel Type Popup Items
+    @IBOutlet var selectFuelTypePickerView: UIPickerView!
+    
+    //Use Tax View Items (not a popup, but part of bottom bar)
     @IBOutlet var useTaxSwitchContainer: UIView!
     @IBOutlet var useTaxSwitch: UISwitch!
     
@@ -93,6 +159,7 @@ class AddUniversal: UIViewController {
         let projectLabelGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector((handleProjectLabelTap)))
         self.projectLabel.addGestureRecognizer(projectLabelGestureRecognizer)
         
+        //Combine icon with String for under slider for Mixed type
         let businessAmountString = "$0.00 "
         let attachmentBusinessIcon = NSTextAttachment()
         attachmentBusinessIcon.image = UIImage(named: "business")
