@@ -428,6 +428,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="accountLabel" destination="ySD-4I-ETl" id="s87-DM-hCG"/>
+                        <outlet property="addNewProjectButton" destination="VHA-Ns-YWW" id="mMz-iK-mpc"/>
                         <outlet property="amountBusinessLabel" destination="37t-AH-uW4" id="nxX-dd-uGo"/>
                         <outlet property="amountPersonalLabel" destination="Imy-Ju-258" id="AUO-He-7VL"/>
                         <outlet property="bottomStackView" destination="f7q-Rf-pcz" id="z80-Kl-QIc"/>

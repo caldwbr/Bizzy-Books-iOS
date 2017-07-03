@@ -51,7 +51,15 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var projectSearchView: UIView!
     @IBOutlet weak var overheadSwitch: UISwitch!
     @IBAction func overheadSwitchTapped(_ sender: UISwitch) {
+        if overheadSwitch.isOn {
+            projectSearchView.isHidden = true
+            addNewProjectButton.isHidden = true
+        } else {
+            projectSearchView.isHidden = false
+            addNewProjectButton.isHidden = false
+        }
     }
+    @IBOutlet weak var addNewProjectButton: UIButton!
     @IBOutlet weak var overheadQuestionImage: UIImageView!
     @IBOutlet weak var projectTextField: UITextField!
     @IBAction func projectAddButtonTapped(_ sender: UIButton) {
@@ -574,6 +582,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             bottomStackView.layoutIfNeeded()
             accountLabel.isHidden = false
             reloadCollectionView()
+            useTaxSwitchContainer.isHidden = false
         case 1:
             dataSource.items = [
                 LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.whoLabelTapped() }),
@@ -593,6 +602,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             bottomStackView.layoutIfNeeded()
             accountLabel.isHidden = false
             reloadCollectionView()
+            useTaxSwitchContainer.isHidden = false
         case 2:
             dataSource.items = [
                 LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.whoLabelTapped() }),
@@ -614,6 +624,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             bottomStackView.layoutIfNeeded()
             accountLabel.isHidden = false
             reloadCollectionView()
+            useTaxSwitchContainer.isHidden = false
         case 3:
             dataSource.items = [
                 LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.whoLabelTapped() }),
@@ -637,6 +648,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             bottomStackView.layoutIfNeeded()
             accountLabel.isHidden = false
             reloadCollectionView()
+            useTaxSwitchContainer.isHidden = true
         case 4:
             dataSource.items = [
                 LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: nil),
@@ -656,6 +668,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             bottomStackView.layoutIfNeeded()
             accountLabel.isHidden = true
             reloadCollectionView()
+            useTaxSwitchContainer.isHidden = true
         case 5:
             dataSource.items = [
                 LabelFlowItem(text: "Your account ▾", color: UIColor.BizzyColor.Green.Account, action: { self.accountLabelTapped() }),
@@ -673,6 +686,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             bottomStackView.layoutIfNeeded()
             accountLabel.isHidden = true
             reloadCollectionView()
+            useTaxSwitchContainer.isHidden = true
         default:
             dataSource.items = [
                 LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.whoLabelTapped() }),
@@ -692,6 +706,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             bottomStackView.layoutIfNeeded()
             accountLabel.isHidden = false
             reloadCollectionView()
+            useTaxSwitchContainer.isHidden = false
         }
     }
     
