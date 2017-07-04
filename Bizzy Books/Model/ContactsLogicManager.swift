@@ -11,7 +11,7 @@ import Contacts
 
 class ContactsLogicManager: NSObject {
     
-    static let shared = ContactsLogicManager()
+    static let shared = ContactsLogicManager() //Singleton or "shared value"
 
     //let contacts = [CNContact]()
     let contactStore = CNContactStore()

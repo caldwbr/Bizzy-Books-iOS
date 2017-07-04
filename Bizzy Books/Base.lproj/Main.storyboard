@@ -437,6 +437,7 @@
                         <outlet property="collectionView" destination="Q6p-MC-P7I" id="a4L-M3-jgX"/>
                         <outlet property="collectionViewHeightConstraint" destination="PH7-Mq-52r" id="rel-bW-HDu"/>
                         <outlet property="contactSuggestionsTableView" destination="a1a-y7-axC" id="UjR-Cu-ad1"/>
+                        <outlet property="genericPickerView" destination="BOy-dT-biU" id="K0F-Ke-PtP"/>
                         <outlet property="leftTopView" destination="EMe-Qr-XHR" id="nMY-Me-ywM"/>
                         <outlet property="notesTextField" destination="SxV-kh-Bi9" id="bhh-xp-vqw"/>
                         <outlet property="odometerTextField" destination="fa1-eb-xLQ" id="mkU-jU-94R"/>
@@ -445,26 +446,21 @@
                         <outlet property="percentBusinessLabel" destination="PHu-xI-fnj" id="JUB-NF-sSA"/>
                         <outlet property="percentBusinessView" destination="nuR-79-mdb" id="73p-7z-Nyf"/>
                         <outlet property="percentBusinessViewHeight" destination="f79-OS-fD4" id="qSg-W8-c8Z"/>
-                        <outlet property="personalReasonPickerView" destination="zjv-pg-VoE" id="Tmc-TS-7fZ"/>
                         <outlet property="projectLabel" destination="sBx-Cc-ZnK" id="K5N-mx-dFE"/>
                         <outlet property="projectSearchView" destination="pIt-RG-Xtc" id="tui-y0-Rgv"/>
                         <outlet property="projectTextField" destination="n4a-Sa-ODn" id="We5-jv-dlk"/>
                         <outlet property="rightTopView" destination="66P-m8-CxQ" id="fsd-7k-cfe"/>
                         <outlet property="selectAccountTextField" destination="COT-Cm-ZE5" id="ncn-ci-GL6"/>
                         <outlet property="selectAccountView" destination="mkj-il-iEX" id="jmd-8v-uow"/>
-                        <outlet property="selectAdvertisingMeansPickerView" destination="NCG-YL-DI8" id="mCf-yj-5Bg"/>
-                        <outlet property="selectFuelTypePickerView" destination="LT6-7I-lHG" id="PAS-ao-N5R"/>
                         <outlet property="selectProjectView" destination="Oiy-em-JIh" id="wtR-wf-CCh"/>
                         <outlet property="selectSecondaryAccountTextField" destination="4Z7-dV-XAt" id="tVj-5k-h6i"/>
                         <outlet property="selectSecondaryAccountView" destination="PGN-YQ-FA3" id="feD-v5-gFn"/>
                         <outlet property="selectVehicleTextField" destination="YPe-4G-CxR" id="cdT-L4-oQa"/>
                         <outlet property="selectVehicleView" destination="UXm-V5-rqn" id="QCt-c5-jWu"/>
-                        <outlet property="selectWCPickerView" destination="dnm-Ue-UHB" id="cKO-qe-fVI"/>
                         <outlet property="selectWhoTextField" destination="XZx-H3-c8b" id="8dG-oO-dNg"/>
                         <outlet property="selectWhoView" destination="wWf-j8-CbE" id="x4f-Ab-z0i"/>
                         <outlet property="selectWhomTextField" destination="c4q-GY-gzm" id="j5E-39-bed"/>
                         <outlet property="selectWhomView" destination="xbr-CM-C3P" id="H3b-TU-266"/>
-                        <outlet property="taxReasonPickerView" destination="B0n-tZ-N3a" id="dP3-wG-FBY"/>
                         <outlet property="useTaxSwitch" destination="0np-wT-nJK" id="Y8P-Tj-B0e"/>
                         <outlet property="useTaxSwitchContainer" destination="UAu-tf-AmX" id="j3W-9t-jxH"/>
                         <outlet property="visualEffectView" destination="j1D-Zw-q0Z" id="Dwg-xN-CHF"/>
@@ -716,6 +712,10 @@
                         <constraint firstItem="a1a-y7-axC" firstAttribute="leading" secondItem="Sas-TX-qgY" secondAttribute="leading" id="oeC-XY-6Gm"/>
                     </constraints>
                 </view>
+                <pickerView contentMode="scaleToFill" id="BOy-dT-biU">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="216"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                </pickerView>
                 <view contentMode="scaleToFill" id="xbr-CM-C3P">
                     <rect key="frame" x="0.0" y="0.0" width="334" height="152"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -775,10 +775,6 @@
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.47843137254901957" blue="1" alpha="0.099127782534246575" colorSpace="calibratedRGB"/>
                 </view>
-                <pickerView tag="100" contentMode="scaleToFill" id="B0n-tZ-N3a">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="216"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                </pickerView>
                 <view contentMode="scaleToFill" id="UXm-V5-rqn">
                     <rect key="frame" x="0.0" y="0.0" width="334" height="152"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -838,18 +834,6 @@
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.09912778253" colorSpace="calibratedRGB"/>
                 </view>
-                <pickerView contentMode="scaleToFill" id="dnm-Ue-UHB">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="216"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                </pickerView>
-                <pickerView contentMode="scaleToFill" id="NCG-YL-DI8">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="216"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                </pickerView>
-                <pickerView contentMode="scaleToFill" id="zjv-pg-VoE">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="216"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                </pickerView>
                 <view contentMode="scaleToFill" id="mkj-il-iEX">
                     <rect key="frame" x="0.0" y="0.0" width="334" height="152"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -968,10 +952,6 @@
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.09912778253" colorSpace="calibratedRGB"/>
                 </view>
-                <pickerView contentMode="scaleToFill" id="LT6-7I-lHG">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="216"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                </pickerView>
                 <view contentMode="scaleToFill" id="UAu-tf-AmX">
                     <rect key="frame" x="0.0" y="0.0" width="160" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

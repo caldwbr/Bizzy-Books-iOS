@@ -22,6 +22,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     private var universalArray = [0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1] //Notes and pic url will be ON THEIR OWN!
     private let dataSource = LabelTextFieldFlowCollectionViewDataSource()
     private var selectedType = 0
+    var pickerCode = 0
     var taxReasonPickerData: [String] = [String]()
     var wcPickerData: [String] = [String]()
     var advertisingMeansPickerData: [String] = [String]()
@@ -75,6 +76,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         popUpAnimateOut(popUpView: selectProjectView)
     }
     
+    //Generic Picker View
+    @IBOutlet var genericPickerView: UIPickerView!
+    
+    
     //Who Popup Items
     @IBOutlet var selectWhoView: UIView!
     @IBOutlet weak var selectWhoTextField: UITextField!
@@ -98,9 +103,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBAction func whomAcceptTapped(_ sender: UIButton) {
     }
     
-    //Tax Reason Picker
-    @IBOutlet var taxReasonPickerView: UIPickerView!
-    
     //Vehicle Popup Items
     @IBOutlet var selectVehicleView: UIView!
     @IBOutlet weak var selectVehicleTextField: UITextField!
@@ -111,15 +113,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     @IBAction func vehicleAcceptTapped(_ sender: UIButton) {
     }
-    
-    //Worker's Comp Picker
-    @IBOutlet var selectWCPickerView: UIPickerView!
-    
-    //Advertising Means Picker
-    @IBOutlet var selectAdvertisingMeansPickerView: UIPickerView!
-    
-    //Personal Reason Picker
-    @IBOutlet var personalReasonPickerView: UIPickerView!
     
     //Main Account Popup Items (usually from, but can be to)
     @IBOutlet var selectAccountView: UIView!
@@ -144,9 +137,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     @IBOutlet var addEntityView: UIView!
     @IBOutlet weak var contactSuggestionsTableView: UITableView!
-    
-    //Fuel Type Picker
-    @IBOutlet var selectFuelTypePickerView: UIPickerView!
     
     //Use Tax View Items (not a popup, but part of bottom bar)
     @IBOutlet var useTaxSwitchContainer: UIView!
@@ -178,16 +168,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         useTaxSwitch.isOn = false
         visualEffectView.isHidden = true
         
-        self.taxReasonPickerView.delegate = self
-        self.taxReasonPickerView.dataSource = self
-        self.selectWCPickerView.delegate = self
-        self.selectWCPickerView.dataSource = self
-        self.selectAdvertisingMeansPickerView.delegate = self
-        self.selectAdvertisingMeansPickerView.dataSource = self
-        self.personalReasonPickerView.delegate = self
-        self.personalReasonPickerView.dataSource = self
-        self.selectFuelTypePickerView.delegate = self
-        self.selectFuelTypePickerView.dataSource = self
+        self.genericPickerView.delegate = self
+        self.genericPickerView.dataSource = self
         
         //Set up pickers' data
         taxReasonPickerData = ["Income", "Supplies", "Labor", "Meals", "Office", "Vehicle", "Advertise", "Pro Help", "Rent Machine", "Rent Property", "Tax+License", "Insurance (WC+GL)", "Travel", "Employee Benefit", "Depreciation", "Depletion", "Utilities", "Commissions", "Wages", "Mortgate Interest", "Other Interest", "Pension", "Repairs"]
@@ -328,7 +310,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             LabelFlowItem(text: "to", color: .gray, action: nil),
             LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
             LabelFlowItem(text: "for", color: .gray, action: nil),
-            LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.popUpAnimateIn(popUpView: self.taxReasonPickerView) }),
+            LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.popUpAnimateIn(popUpView: self.genericPickerView); self.pickerCode = 0 }),
             LabelFlowItem(text: "?", color: .gray, action: nil),
         ]
         projectLabel.isHidden = false
@@ -351,7 +333,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             LabelFlowItem(text: "to", color: .gray, action: nil),
             LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
             LabelFlowItem(text: "for", color: .gray, action: nil),
-            LabelFlowItem(text: "what personal reason ▾", color: UIColor.BizzyColor.Magenta.PersonalReason, action: { self.popUpAnimateIn(popUpView: self.personalReasonPickerView) }),
+            LabelFlowItem(text: "what personal reason ▾", color: UIColor.BizzyColor.Magenta.PersonalReason, action: { self.popUpAnimateIn(popUpView: self.genericPickerView); self.pickerCode = 3 }),
             LabelFlowItem(text: "?", color: .gray, action: nil),
         ]
         projectLabel.isHidden = true
@@ -374,9 +356,9 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             LabelFlowItem(text: "to", color: .gray, action: nil),
             LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
             LabelFlowItem(text: "for", color: .gray, action: nil),
-            LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.popUpAnimateIn(popUpView: self.taxReasonPickerView) }),
+            LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.popUpAnimateIn(popUpView: self.genericPickerView); self.pickerCode = 0 }),
             LabelFlowItem(text: "and", color: .gray, action: nil),
-            LabelFlowItem(text: "what personal reason ▾", color: UIColor.BizzyColor.Magenta.PersonalReason, action: { self.popUpAnimateIn(popUpView: self.personalReasonPickerView) }),
+            LabelFlowItem(text: "what personal reason ▾", color: UIColor.BizzyColor.Magenta.PersonalReason, action: { self.popUpAnimateIn(popUpView: self.genericPickerView); self.pickerCode = 3 }),
             LabelFlowItem(text: "?", color: .gray, action: nil),
         ]
         projectLabel.isHidden = false
@@ -401,7 +383,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             LabelFlowItem(text: "for", color: .gray, action: nil),
             TextFieldFlowItem(text: "", placeholder: "how many", color: UIColor.BizzyColor.Green.What),
             LabelFlowItem(text: "gallons of", color: .gray, action: nil),
-            LabelFlowItem(text: "87 gas ▾", color: UIColor.BizzyColor.Orange.WC, action: { self.popUpAnimateIn(popUpView: self.selectFuelTypePickerView) }),
+            LabelFlowItem(text: "87 gas ▾", color: UIColor.BizzyColor.Orange.WC, action: { self.popUpAnimateIn(popUpView: self.genericPickerView); self.pickerCode = 4 }),
             LabelFlowItem(text: "in your", color: .gray, action: nil),
             LabelFlowItem(text: "vehicle ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.popUpAnimateIn(popUpView: self.selectVehicleView) }),
             LabelFlowItem(text: "?", color: .gray, action: nil),
@@ -468,63 +450,61 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     // The number of rows of data
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        switch pickerView {
-        case taxReasonPickerView:
+        switch self.pickerCode {
+        case 0:
             return taxReasonPickerData.count
-        case selectWCPickerView:
+        case 1:
             return wcPickerData.count
-        case selectAdvertisingMeansPickerView:
+        case 2:
             return advertisingMeansPickerData.count
-        case personalReasonPickerView:
+        case 3:
             return personalReasonPickerData.count
-        case selectFuelTypePickerView:
+        case 4:
             return fuelTypePickerData.count
         default:
             return taxReasonPickerData.count
         }
-        return taxReasonPickerData.count
     }
     
     // The data to return for the row and component (column) that's being passed in
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        switch pickerView {
-        case taxReasonPickerView:
+        switch self.pickerCode {
+        case 0:
             return taxReasonPickerData[row]
-        case selectWCPickerView:
+        case 1:
             return wcPickerData[row]
-        case selectAdvertisingMeansPickerView:
+        case 2:
             return advertisingMeansPickerData[row]
-        case personalReasonPickerView:
+        case 3:
             return personalReasonPickerData[row]
-        case selectFuelTypePickerView:
+        case 4:
             return fuelTypePickerData[row]
         default:
             return taxReasonPickerData[row]
         }
-        return taxReasonPickerData[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        switch pickerView {
-        case taxReasonPickerView:
+        switch self.pickerCode {
+        case 0:
             universalArray[6] = row
-            popUpAnimateOut(popUpView: taxReasonPickerView)
-        case selectWCPickerView:
+            popUpAnimateOut(popUpView: pickerView)
+        case 1:
             universalArray[8] = row
-            popUpAnimateOut(popUpView: selectWCPickerView)
-        case selectAdvertisingMeansPickerView:
+            popUpAnimateOut(popUpView: pickerView)
+        case 2:
             universalArray[9] = row
-            popUpAnimateOut(popUpView: selectAdvertisingMeansPickerView)
-        case personalReasonPickerView:
+            popUpAnimateOut(popUpView: pickerView)
+        case 3:
             universalArray[10] = row
-            popUpAnimateOut(popUpView: personalReasonPickerView)
-        case selectFuelTypePickerView:
+            popUpAnimateOut(popUpView: pickerView)
+        case 4:
             universalArray[15] = row
             print(universalArray)
-            popUpAnimateOut(popUpView: selectFuelTypePickerView)
+            popUpAnimateOut(popUpView: pickerView)
         default:
             universalArray[6] = row
-            popUpAnimateOut(popUpView: taxReasonPickerView)
+            popUpAnimateOut(popUpView: pickerView)
         }
     }
     
@@ -560,7 +540,7 @@ extension AddUniversal: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return 40
     }
     
     
