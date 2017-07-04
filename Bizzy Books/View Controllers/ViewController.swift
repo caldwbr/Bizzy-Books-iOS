@@ -16,6 +16,7 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 
 var userUID = ""
+var userTokens = ""
 
 class ViewController: UIViewController, FUIAuthDelegate {
     

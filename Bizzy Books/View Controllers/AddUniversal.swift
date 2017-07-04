@@ -67,8 +67,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBAction func projectAcceptTapped(_ sender: UIButton) {
     }
     @IBAction func projectDismissTapped(_ sender: UIButton) {
-        selectProjectAnimateOut()
-        visualEffectView.isUserInteractionEnabled = false
+        popUpAnimateOut(popUpView: selectProjectView)
     }
     
     //Who Popup Items
@@ -77,8 +76,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBAction func whoAddButtonTapped(_ sender: UIButton) {
     }
     @IBAction func whoDismissTapped(_ sender: UIButton) {
-        selectWhoAnimateOut()
-        visualEffectView.isUserInteractionEnabled = false
+        popUpAnimateOut(popUpView: selectWhoView)
     }
     @IBAction func whoAcceptTapped(_ sender: UIButton) {
     }
@@ -89,8 +87,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBAction func whomAddButtonTapped(_ sender: UIButton) {
     }
     @IBAction func whomDismissTapped(_ sender: UIButton) {
-        selectWhomAnimateOut()
-        visualEffectView.isUserInteractionEnabled = false
+        popUpAnimateOut(popUpView: selectWhomView)
     }
     @IBAction func whomAcceptTapped(_ sender: UIButton) {
     }
@@ -104,8 +101,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBAction func vehicleAddButtonTapped(_ sender: UIButton) {
     }
     @IBAction func vehicleDismissTapped(_ sender: UIButton) {
-        selectVehicleAnimateOut()
-        visualEffectView.isUserInteractionEnabled = false
+        popUpAnimateOut(popUpView: selectVehicleView)
     }
     @IBAction func vehicleAcceptTapped(_ sender: UIButton) {
     }
@@ -125,8 +121,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBAction func accountAddButtonTapped(_ sender: UIButton) {
     }
     @IBAction func accountDismissTapped(_ sender: UIButton) {
-        selectAccountAnimateOut()
-        visualEffectView.isUserInteractionEnabled = false
+        popUpAnimateOut(popUpView: selectAccountView)
     }
     @IBAction func accountAcceptTapped(_ sender: UIButton) {
     }
@@ -137,8 +132,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBAction func secondaryAccountAddButtonTapped(_ sender: UIButton) {
     }
     @IBAction func secondaryAccountDismissTapped(_ sender: UIButton) {
-        selectSecondaryAccountAnimateOut()
-        visualEffectView.isUserInteractionEnabled = false
+        popUpAnimateOut(popUpView: selectSecondaryAccountView)
     }
     @IBAction func secondaryAccountAcceptTapped(_ sender: UIButton) {
     }
@@ -175,7 +169,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         personalReasonPickerData = ["Food", "Fun", "Pet", "Utilities", "Phone", "Office", "Giving", "Insurance", "House", "Yard", "Medical", "Travel", "Other"]
         fuelTypePickerData = ["87 Gas", "89 Gas", "91 Gas", "Diesel"]
         
-        
         //Clip corners of all popups for better aesthetics
         selectProjectView.layer.cornerRadius = 5
         selectWhoView.layer.cornerRadius = 5
@@ -183,7 +176,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         selectVehicleView.layer.cornerRadius = 5
         selectAccountView.layer.cornerRadius = 5
         selectSecondaryAccountView.layer.cornerRadius = 5
-        
         
         let typeItem = DropdownFlowItem(options: [
             DropdownFlowItem.Option(title: "Business", iconName: "business", action: { self.selectedType = 0; self.reloadSentence(selectedType: self.selectedType) }),
@@ -214,35 +206,31 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         //Making a tap listener on Account label
         let accountLabelGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector((handleAccountLabelTap)))
         self.accountLabel.addGestureRecognizer(accountLabelGestureRecognizer)
-        
-        //Combine icon with String for under slider for Mixed type
-        let businessAmountString = "$0.00 "
-        let attachmentBusinessIcon = NSTextAttachment()
-        attachmentBusinessIcon.image = UIImage(named: "business")
-        let businessImageOffsetY: CGFloat = -5.0
-        attachmentBusinessIcon.bounds = CGRect(x: 0, y: businessImageOffsetY, width: attachmentBusinessIcon.image!.size.width, height: attachmentBusinessIcon.image!.size.height)
-        let attachmentBusinessIconString = NSAttributedString(attachment: attachmentBusinessIcon)
-        let businessAmountStringWithIcon = NSMutableAttributedString(string: businessAmountString)
-        businessAmountStringWithIcon.append(attachmentBusinessIconString)
-        amountBusinessLabel.attributedText = businessAmountStringWithIcon
-        
-        let personalAmountString = "$0.00 "
-        let attachmentPersonalIcon = NSTextAttachment()
-        attachmentPersonalIcon.image = UIImage(named: "personal")
-        let personalImageOffsetY: CGFloat = -5.0
-        attachmentPersonalIcon.bounds = CGRect(x: 0, y: personalImageOffsetY, width: attachmentPersonalIcon.image!.size.width, height: attachmentPersonalIcon.image!.size.height)
-        let attachmentPersonalIconString = NSAttributedString(attachment: attachmentPersonalIcon)
-        let personalAmountStringWithIcon = NSMutableAttributedString(string: personalAmountString)
-        personalAmountStringWithIcon.append(attachmentPersonalIconString)
-        amountPersonalLabel.attributedText = personalAmountStringWithIcon
-        
+
+        let amountText = "$0.00 "
+        let iconBusiness = "business"
+        let iconPersonal = "personal"
+        setTextAndIconOnLabel(text: amountText, icon: iconBusiness, label: amountBusinessLabel)
+        setTextAndIconOnLabel(text: amountText, icon: iconPersonal, label: amountPersonalLabel)
     }
     
+    func setTextAndIconOnLabel(text: String, icon: String, label: UILabel) {
+        let initialString = text
+        let attachmentIcon = NSTextAttachment()
+        attachmentIcon.image = UIImage(named: icon)
+        let imageOffsetY: CGFloat = -5.0
+        attachmentIcon.bounds = CGRect(x: 0, y: imageOffsetY, width: attachmentIcon.image!.size.width, height: attachmentIcon.image!.size.height)
+        let attachmentIconString = NSAttributedString(attachment: attachmentIcon)
+        let combinedString = NSMutableAttributedString(string: initialString)
+        combinedString.append(attachmentIconString)
+        label.attributedText = combinedString
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         masterRef = Database.database().reference().child("users").child(userUID)
         //masterRef.setValue(["username": "Brad Caldwell"])
+        masterRef.childByAutoId().setValue([3, 4, -88, 45, true])
     }
     
     func useTaxSwitchToggled(useTaxSwitch: UISwitch) {
@@ -250,303 +238,33 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func handleProjectLabelTap(projectLabelGestureRecognizer: UITapGestureRecognizer){
-        selectProjectAnimateIn()
-    }
-    
-    func whoLabelTapped() {
-        selectWhoAnimateIn()
-    }
-    
-    func whomLabelTapped() {
-        selectWhomAnimateIn()
-    }
-    
-    func taxReasonTapped() {
-        selectTaxReasonAnimateIn()
-    }
-    
-    func wcTapped() {
-        selectWCAnimateIn()
-    }
-    
-    func advertisingMeansTapped() {
-        selectAdvertisingMeansAnimateIn()
-    }
-    
-    func personalReasonTapped() {
-        selectPersonalReasonAnimateIn()
-    }
-    
-    func vehicleLabelTapped() {
-        selectVehicleAnimateIn()
+        popUpAnimateIn(popUpView: selectProjectView)
     }
     
     func handleAccountLabelTap(accountLabelGestureRecognizer: UITapGestureRecognizer) {
-        selectAccountAnimateIn()
+        popUpAnimateIn(popUpView: selectAccountView)
     }
     
-    func accountLabelTapped() {
-        selectAccountAnimateIn()
-    }
-    
-    func secondaryAccountLabelTapped() {
-        selectSecondaryAccountAnimateIn()
-    }
-    
-    func fuelTypeTapped() {
-        selectFuelTypeAnimateIn()
-    }
-    
-    func selectProjectAnimateIn() {
-        self.view.addSubview(selectProjectView)
-        selectProjectView.center = self.view.center
-        selectProjectView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-        selectProjectView.alpha = 0
+    func popUpAnimateIn(popUpView: UIView) {
+        self.view.addSubview(popUpView)
+        popUpView.center = self.view.center
+        popUpView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+        popUpView.alpha = 0
         
-        UIView.animate(withDuration: 0.4, animations: {
+        UIView.animate(withDuration: 0.4) { 
             self.visualEffectView.isHidden = false
-            self.selectProjectView.alpha = 1
-            self.selectProjectView.transform = CGAffineTransform.identity
-        })
-    }
-    
-    func selectProjectAnimateOut() {
-        UIView.animate(withDuration: 0.4, animations: {
-            self.selectProjectView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            self.selectProjectView.alpha = 0
-            self.visualEffectView.isHidden = true
-        }) { (success:Bool) in
-            self.selectProjectView.removeFromSuperview()
+            popUpView.alpha = 1
+            popUpView.transform = CGAffineTransform.identity
         }
     }
     
-    func selectWhoAnimateIn() {
-        self.view.addSubview(selectWhoView)
-        selectWhoView.center = self.view.center
-        selectWhoView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-        selectWhoView.alpha = 0
-        
-        UIView.animate(withDuration: 0.4, animations: {
-            self.visualEffectView.isHidden = false
-            self.selectWhoView.alpha = 1
-            self.selectWhoView.transform = CGAffineTransform.identity
-        })
-    }
-    
-    func selectWhoAnimateOut() {
-        UIView.animate(withDuration: 0.4, animations: {
-            self.selectWhoView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            self.selectWhoView.alpha = 0
+    func popUpAnimateOut(popUpView: UIView) {
+        UIView.animate(withDuration: 0.4, animations: { 
+            popUpView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            popUpView.alpha = 0
             self.visualEffectView.isHidden = true
         }) { (success:Bool) in
-            self.selectWhoView.removeFromSuperview()
-        }
-    }
-
-    func selectWhomAnimateIn() {
-        self.view.addSubview(selectWhomView)
-        selectWhomView.center = self.view.center
-        selectWhomView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-        selectWhomView.alpha = 0
-        
-        UIView.animate(withDuration: 0.4, animations: {
-            self.visualEffectView.isHidden = false
-            self.selectWhomView.alpha = 1
-            self.selectWhomView.transform = CGAffineTransform.identity
-        })
-    }
-    
-    func selectWhomAnimateOut() {
-        UIView.animate(withDuration: 0.4, animations: {
-            self.selectWhomView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            self.selectWhomView.alpha = 0
-            self.visualEffectView.isHidden = true
-        }) { (success:Bool) in
-            self.selectWhomView.removeFromSuperview()
-        }
-    }
-    
-    func selectTaxReasonAnimateIn() {
-        self.view.addSubview(taxReasonPickerView)
-        taxReasonPickerView.center = self.view.center
-        taxReasonPickerView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-        taxReasonPickerView.alpha = 0
-        
-        UIView.animate(withDuration: 0.4, animations: {
-            self.visualEffectView.isHidden = false
-            self.taxReasonPickerView.alpha = 1
-            self.taxReasonPickerView.transform = CGAffineTransform.identity
-        })
-    }
-    
-    func selectTaxReasonAnimateOut() {
-        UIView.animate(withDuration: 0.4, animations: {
-            self.taxReasonPickerView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            self.taxReasonPickerView.alpha = 0
-            self.visualEffectView.isHidden = true
-        }) { (success:Bool) in
-            self.taxReasonPickerView.removeFromSuperview()
-        }
-    }
-    
-    func selectVehicleAnimateIn() {
-        self.view.addSubview(selectVehicleView)
-        selectVehicleView.center = self.view.center
-        selectVehicleView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-        selectVehicleView.alpha = 0
-        
-        UIView.animate(withDuration: 0.4, animations: {
-            self.visualEffectView.isHidden = false
-            self.selectVehicleView.alpha = 1
-            self.selectVehicleView.transform = CGAffineTransform.identity
-        })
-    }
-    
-    func selectVehicleAnimateOut() {
-        UIView.animate(withDuration: 0.4, animations: {
-            self.selectVehicleView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            self.selectVehicleView.alpha = 0
-            self.visualEffectView.isHidden = true
-        }) { (success:Bool) in
-            self.selectVehicleView.removeFromSuperview()
-        }
-    }
-    
-    func selectWCAnimateIn() {
-        self.view.addSubview(selectWCPickerView)
-        selectWCPickerView.center = self.view.center
-        selectWCPickerView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-        selectWCPickerView.alpha = 0
-        
-        UIView.animate(withDuration: 0.4, animations: {
-            self.visualEffectView.isHidden = false
-            self.selectWCPickerView.alpha = 1
-            self.selectWCPickerView.transform = CGAffineTransform.identity
-        })
-    }
-    
-    func selectWCAnimateOut() {
-        UIView.animate(withDuration: 0.4, animations: {
-            self.selectWCPickerView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            self.selectWCPickerView.alpha = 0
-            self.visualEffectView.isHidden = true
-        }) { (success:Bool) in
-            self.selectWCPickerView.removeFromSuperview()
-        }
-    }
-    
-    func selectAdvertisingMeansAnimateIn() {
-        self.view.addSubview(selectAdvertisingMeansPickerView)
-        selectAdvertisingMeansPickerView.center = self.view.center
-        selectAdvertisingMeansPickerView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-        selectAdvertisingMeansPickerView.alpha = 0
-        
-        UIView.animate(withDuration: 0.4, animations: {
-            self.visualEffectView.isHidden = false
-            self.selectAdvertisingMeansPickerView.alpha = 1
-            self.selectAdvertisingMeansPickerView.transform = CGAffineTransform.identity
-        })
-    }
-    
-    func selectAdvertisingMeansAnimateOut() {
-        UIView.animate(withDuration: 0.4, animations: {
-            self.selectAdvertisingMeansPickerView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            self.selectAdvertisingMeansPickerView.alpha = 0
-            self.visualEffectView.isHidden = true
-        }) { (success:Bool) in
-            self.selectAdvertisingMeansPickerView.removeFromSuperview()
-        }
-    }
-    
-    func selectPersonalReasonAnimateIn() {
-        self.view.addSubview(personalReasonPickerView)
-        personalReasonPickerView.center = self.view.center
-        personalReasonPickerView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-        personalReasonPickerView.alpha = 0
-        
-        UIView.animate(withDuration: 0.4, animations: {
-            self.visualEffectView.isHidden = false
-            self.personalReasonPickerView.alpha = 1
-            self.personalReasonPickerView.transform = CGAffineTransform.identity
-        })
-    }
-    
-    func selectPersonalReasonAnimateOut() {
-        UIView.animate(withDuration: 0.4, animations: {
-            self.personalReasonPickerView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            self.personalReasonPickerView.alpha = 0
-            self.visualEffectView.isHidden = true
-        }) { (success:Bool) in
-            self.personalReasonPickerView.removeFromSuperview()
-        }
-    }
-    
-    func selectAccountAnimateIn() {
-        self.view.addSubview(selectAccountView)
-        selectAccountView.center = self.view.center
-        selectAccountView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-        selectAccountView.alpha = 0
-        
-        UIView.animate(withDuration: 0.4, animations: {
-            self.visualEffectView.isHidden = false
-            self.selectAccountView.alpha = 1
-            self.selectAccountView.transform = CGAffineTransform.identity
-        })
-    }
-    
-    func selectAccountAnimateOut() {
-        UIView.animate(withDuration: 0.4, animations: {
-            self.selectAccountView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            self.selectAccountView.alpha = 0
-            self.visualEffectView.isHidden = true
-        }) { (success:Bool) in
-            self.selectAccountView.removeFromSuperview()
-        }
-    }
-    
-    func selectSecondaryAccountAnimateIn() {
-        self.view.addSubview(selectSecondaryAccountView)
-        selectSecondaryAccountView.center = self.view.center
-        selectSecondaryAccountView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-        selectSecondaryAccountView.alpha = 0
-        
-        UIView.animate(withDuration: 0.4, animations: {
-            self.visualEffectView.isHidden = false
-            self.selectSecondaryAccountView.alpha = 1
-            self.selectSecondaryAccountView.transform = CGAffineTransform.identity
-        })
-    }
-    
-    func selectSecondaryAccountAnimateOut() {
-        UIView.animate(withDuration: 0.4, animations: {
-            self.selectSecondaryAccountView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            self.selectSecondaryAccountView.alpha = 0
-            self.visualEffectView.isHidden = true
-        }) { (success:Bool) in
-            self.selectSecondaryAccountView.removeFromSuperview()
-        }
-    }
-    
-    func selectFuelTypeAnimateIn() {
-        self.view.addSubview(selectFuelTypePickerView)
-        selectFuelTypePickerView.center = self.view.center
-        selectFuelTypePickerView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-        selectFuelTypePickerView.alpha = 0
-        
-        UIView.animate(withDuration: 0.4, animations: {
-            self.visualEffectView.isHidden = false
-            self.selectFuelTypePickerView.alpha = 1
-            self.selectFuelTypePickerView.transform = CGAffineTransform.identity
-        })
-    }
-    
-    func selectFuelTypeAnimateOut() {
-        UIView.animate(withDuration: 0.4, animations: {
-            self.selectFuelTypePickerView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            self.selectFuelTypePickerView.alpha = 0
-            self.visualEffectView.isHidden = true
-        }) { (success:Bool) in
-            self.selectFuelTypePickerView.removeFromSuperview()
+            popUpView.removeFromSuperview()
         }
     }
     
@@ -563,153 +281,151 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     func reloadSentence(selectedType: Int) {
         switch selectedType {
-        case 0:
-            dataSource.items = [
-                LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.whoLabelTapped() }),
-                LabelFlowItem(text: "paid", color: .gray, action: nil),
-                TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
-                LabelFlowItem(text: "to", color: .gray, action: nil),
-                LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.whomLabelTapped() }),
-                LabelFlowItem(text: "for", color: .gray, action: nil),
-                LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.taxReasonTapped() }),
-                LabelFlowItem(text: "?", color: .gray, action: nil),
-            ]
-            projectLabel.isHidden = false
-            odometerTextField.isHidden = true
-            percentBusinessView.isHidden = true
-            percentBusinessViewHeight.constant = 0
-            bottomStackViewHeight.constant = 20
-            bottomStackView.layoutIfNeeded()
-            accountLabel.isHidden = false
-            reloadCollectionView()
-            useTaxSwitchContainer.isHidden = false
-        case 1:
-            dataSource.items = [
-                LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.whoLabelTapped() }),
-                LabelFlowItem(text: "paid", color: .gray, action: nil),
-                TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
-                LabelFlowItem(text: "to", color: .gray, action: nil),
-                LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.whomLabelTapped() }),
-                LabelFlowItem(text: "for", color: .gray, action: nil),
-                LabelFlowItem(text: "what personal reason ▾", color: UIColor.BizzyColor.Magenta.PersonalReason, action: { self.personalReasonTapped() }),
-                LabelFlowItem(text: "?", color: .gray, action: nil),
-            ]
-            projectLabel.isHidden = true
-            odometerTextField.isHidden = true
-            percentBusinessView.isHidden = true
-            percentBusinessViewHeight.constant = 0
-            bottomStackViewHeight.constant = 20
-            bottomStackView.layoutIfNeeded()
-            accountLabel.isHidden = false
-            reloadCollectionView()
-            useTaxSwitchContainer.isHidden = false
-        case 2:
-            dataSource.items = [
-                LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.whoLabelTapped() }),
-                LabelFlowItem(text: "paid", color: .gray, action: nil),
-                TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
-                LabelFlowItem(text: "to", color: .gray, action: nil),
-                LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.whomLabelTapped() }),
-                LabelFlowItem(text: "for", color: .gray, action: nil),
-                LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.taxReasonTapped() }),
-                LabelFlowItem(text: "and", color: .gray, action: nil),
-                LabelFlowItem(text: "what personal reason ▾", color: UIColor.BizzyColor.Magenta.PersonalReason, action: { self.personalReasonTapped() }),
-                LabelFlowItem(text: "?", color: .gray, action: nil),
-            ]
-            projectLabel.isHidden = false
-            odometerTextField.isHidden = true
-            percentBusinessView.isHidden = false
-            percentBusinessViewHeight.constant = 120
-            bottomStackViewHeight.constant = 140
-            bottomStackView.layoutIfNeeded()
-            accountLabel.isHidden = false
-            reloadCollectionView()
-            useTaxSwitchContainer.isHidden = false
-        case 3:
-            dataSource.items = [
-                LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.whoLabelTapped() }),
-                LabelFlowItem(text: "paid", color: .gray, action: nil),
-                TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
-                LabelFlowItem(text: "to", color: .gray, action: nil),
-                LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.whomLabelTapped() /* You need to specify only gas stations here!!!!!!!!!!!!! */ }),
-                LabelFlowItem(text: "for", color: .gray, action: nil),
-                TextFieldFlowItem(text: "", placeholder: "how many", color: UIColor.BizzyColor.Green.What),
-                LabelFlowItem(text: "gallons of", color: .gray, action: nil),
-                LabelFlowItem(text: "87 gas ▾", color: UIColor.BizzyColor.Orange.WC, action: { self.fuelTypeTapped() }),
-                LabelFlowItem(text: "in your", color: .gray, action: nil),
-                LabelFlowItem(text: "vehicle ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.vehicleLabelTapped() }),
-                LabelFlowItem(text: "?", color: .gray, action: nil),
-            ]
-            projectLabel.isHidden = true
-            odometerTextField.isHidden = false
-            percentBusinessView.isHidden = true
-            percentBusinessViewHeight.constant = 0
-            bottomStackViewHeight.constant = 20
-            bottomStackView.layoutIfNeeded()
-            accountLabel.isHidden = false
-            reloadCollectionView()
-            useTaxSwitchContainer.isHidden = true
-        case 4:
-            dataSource.items = [
-                LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: nil),
-                LabelFlowItem(text: "moved", color: .gray, action: nil),
-                TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
-                LabelFlowItem(text: "from", color: .gray, action: nil),
-                LabelFlowItem(text: "which account ▾", color: UIColor.BizzyColor.Green.Account, action: { self.accountLabelTapped() }),
-                LabelFlowItem(text: "to", color: .gray, action: nil),
-                LabelFlowItem(text: "which account ▾", color: UIColor.BizzyColor.Green.Account, action: { self.secondaryAccountLabelTapped() }),
-                LabelFlowItem(text: "?", color: .gray, action: nil),
-            ]
-            projectLabel.isHidden = true
-            odometerTextField.isHidden = true
-            percentBusinessView.isHidden = true
-            percentBusinessViewHeight.constant = 0
-            bottomStackViewHeight.constant = 20
-            bottomStackView.layoutIfNeeded()
-            accountLabel.isHidden = true
-            reloadCollectionView()
-            useTaxSwitchContainer.isHidden = true
-        case 5:
-            dataSource.items = [
-                LabelFlowItem(text: "Your account ▾", color: UIColor.BizzyColor.Green.Account, action: { self.accountLabelTapped() }),
-                LabelFlowItem(text: "with a Bizzy Books balance of", color: .gray, action: nil),
-                LabelFlowItem(text: "$0.00", color: UIColor.BizzyColor.Green.Account, action: nil),
-                LabelFlowItem(text: "should have a balance of", color: .gray, action: nil),
-                TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
-                LabelFlowItem(text: ".", color: .gray, action: nil),
-            ]
-            projectLabel.isHidden = true
-            odometerTextField.isHidden = true
-            percentBusinessView.isHidden = true
-            percentBusinessViewHeight.constant = 0
-            bottomStackViewHeight.constant = 20
-            bottomStackView.layoutIfNeeded()
-            accountLabel.isHidden = true
-            reloadCollectionView()
-            useTaxSwitchContainer.isHidden = true
-        default:
-            dataSource.items = [
-                LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.whoLabelTapped() }),
-                LabelFlowItem(text: "paid", color: .gray, action: nil),
-                TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
-                LabelFlowItem(text: "to", color: .gray, action: nil),
-                LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.whomLabelTapped() }),
-                LabelFlowItem(text: "for", color: .gray, action: nil),
-                LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { print("what tax reason tapped!!") }),
-                LabelFlowItem(text: "?", color: .gray, action: nil),
-            ]
-            projectLabel.isHidden = false
-            odometerTextField.isHidden = true
-            percentBusinessView.isHidden = true
-            percentBusinessViewHeight.constant = 0
-            bottomStackViewHeight.constant = 20
-            bottomStackView.layoutIfNeeded()
-            accountLabel.isHidden = false
-            reloadCollectionView()
-            useTaxSwitchContainer.isHidden = false
+        case 0: businessCase()
+        case 1: personalCase()
+        case 2: mixedCase()
+        case 3: fuelCase()
+        case 4: transferCase()
+        case 5: adjustCase()
+        default: businessCase()
         }
     }
     
+    func businessCase() {
+        dataSource.items = [
+            LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
+            LabelFlowItem(text: "paid", color: .gray, action: nil),
+            TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
+            LabelFlowItem(text: "to", color: .gray, action: nil),
+            LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
+            LabelFlowItem(text: "for", color: .gray, action: nil),
+            LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.popUpAnimateIn(popUpView: self.taxReasonPickerView) }),
+            LabelFlowItem(text: "?", color: .gray, action: nil),
+        ]
+        projectLabel.isHidden = false
+        odometerTextField.isHidden = true
+        percentBusinessView.isHidden = true
+        percentBusinessViewHeight.constant = 0
+        bottomStackViewHeight.constant = 20
+        bottomStackView.layoutIfNeeded()
+        accountLabel.isHidden = false
+        reloadCollectionView()
+        useTaxSwitchContainer.isHidden = false
+    }
+    
+    func personalCase() {
+        dataSource.items = [
+            LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
+            LabelFlowItem(text: "paid", color: .gray, action: nil),
+            TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
+            LabelFlowItem(text: "to", color: .gray, action: nil),
+            LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
+            LabelFlowItem(text: "for", color: .gray, action: nil),
+            LabelFlowItem(text: "what personal reason ▾", color: UIColor.BizzyColor.Magenta.PersonalReason, action: { self.popUpAnimateIn(popUpView: self.personalReasonPickerView) }),
+            LabelFlowItem(text: "?", color: .gray, action: nil),
+        ]
+        projectLabel.isHidden = true
+        odometerTextField.isHidden = true
+        percentBusinessView.isHidden = true
+        percentBusinessViewHeight.constant = 0
+        bottomStackViewHeight.constant = 20
+        bottomStackView.layoutIfNeeded()
+        accountLabel.isHidden = false
+        reloadCollectionView()
+        useTaxSwitchContainer.isHidden = false
+    }
+    
+    func mixedCase() {
+        dataSource.items = [
+            LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
+            LabelFlowItem(text: "paid", color: .gray, action: nil),
+            TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
+            LabelFlowItem(text: "to", color: .gray, action: nil),
+            LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
+            LabelFlowItem(text: "for", color: .gray, action: nil),
+            LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.popUpAnimateIn(popUpView: self.taxReasonPickerView) }),
+            LabelFlowItem(text: "and", color: .gray, action: nil),
+            LabelFlowItem(text: "what personal reason ▾", color: UIColor.BizzyColor.Magenta.PersonalReason, action: { self.popUpAnimateIn(popUpView: self.personalReasonPickerView) }),
+            LabelFlowItem(text: "?", color: .gray, action: nil),
+        ]
+        projectLabel.isHidden = false
+        odometerTextField.isHidden = true
+        percentBusinessView.isHidden = false
+        percentBusinessViewHeight.constant = 120
+        bottomStackViewHeight.constant = 140
+        bottomStackView.layoutIfNeeded()
+        accountLabel.isHidden = false
+        reloadCollectionView()
+        useTaxSwitchContainer.isHidden = false
+    }
+    
+    func fuelCase() {
+        dataSource.items = [
+            LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
+            LabelFlowItem(text: "paid", color: .gray, action: nil),
+            TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
+            LabelFlowItem(text: "to", color: .gray, action: nil),
+            LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) /* You need to specify only gas stations here!!!!!!!!!!!!! */ }),
+            LabelFlowItem(text: "for", color: .gray, action: nil),
+            TextFieldFlowItem(text: "", placeholder: "how many", color: UIColor.BizzyColor.Green.What),
+            LabelFlowItem(text: "gallons of", color: .gray, action: nil),
+            LabelFlowItem(text: "87 gas ▾", color: UIColor.BizzyColor.Orange.WC, action: { self.popUpAnimateIn(popUpView: self.selectFuelTypePickerView) }),
+            LabelFlowItem(text: "in your", color: .gray, action: nil),
+            LabelFlowItem(text: "vehicle ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.popUpAnimateIn(popUpView: self.selectVehicleView) }),
+            LabelFlowItem(text: "?", color: .gray, action: nil),
+        ]
+        projectLabel.isHidden = true
+        odometerTextField.isHidden = false
+        percentBusinessView.isHidden = true
+        percentBusinessViewHeight.constant = 0
+        bottomStackViewHeight.constant = 20
+        bottomStackView.layoutIfNeeded()
+        accountLabel.isHidden = false
+        reloadCollectionView()
+        useTaxSwitchContainer.isHidden = true
+    }
+    
+    func transferCase() {
+        dataSource.items = [
+            LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: nil),
+            LabelFlowItem(text: "moved", color: .gray, action: nil),
+            TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
+            LabelFlowItem(text: "from", color: .gray, action: nil),
+            LabelFlowItem(text: "which account ▾", color: UIColor.BizzyColor.Green.Account, action: { self.popUpAnimateIn(popUpView: self.selectAccountView) }),
+            LabelFlowItem(text: "to", color: .gray, action: nil),
+            LabelFlowItem(text: "which account ▾", color: UIColor.BizzyColor.Green.Account, action: { self.popUpAnimateIn(popUpView: self.selectSecondaryAccountView) }),
+            LabelFlowItem(text: "?", color: .gray, action: nil),
+        ]
+        projectLabel.isHidden = true
+        odometerTextField.isHidden = true
+        percentBusinessView.isHidden = true
+        percentBusinessViewHeight.constant = 0
+        bottomStackViewHeight.constant = 20
+        bottomStackView.layoutIfNeeded()
+        accountLabel.isHidden = true
+        reloadCollectionView()
+        useTaxSwitchContainer.isHidden = true
+    }
+    
+    func adjustCase() {
+        dataSource.items = [
+            LabelFlowItem(text: "Your account ▾", color: UIColor.BizzyColor.Green.Account, action: { self.popUpAnimateIn(popUpView: self.selectAccountView) }),
+            LabelFlowItem(text: "with a Bizzy Books balance of", color: .gray, action: nil),
+            LabelFlowItem(text: "$0.00", color: UIColor.BizzyColor.Green.Account, action: nil),
+            LabelFlowItem(text: "should have a balance of", color: .gray, action: nil),
+            TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
+            LabelFlowItem(text: ".", color: .gray, action: nil),
+        ]
+        projectLabel.isHidden = true
+        odometerTextField.isHidden = true
+        percentBusinessView.isHidden = true
+        percentBusinessViewHeight.constant = 0
+        bottomStackViewHeight.constant = 20
+        bottomStackView.layoutIfNeeded()
+        accountLabel.isHidden = true
+        reloadCollectionView()
+        useTaxSwitchContainer.isHidden = true
+    }
     
     // The number of columns of data
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -758,39 +474,27 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         switch pickerView {
         case taxReasonPickerView:
             universalArray[6] = row
-            print(universalArray)
-            selectTaxReasonAnimateOut()
+            popUpAnimateOut(popUpView: taxReasonPickerView)
         case selectWCPickerView:
             universalArray[8] = row
-            print(universalArray)
-            selectWCAnimateOut()
+            popUpAnimateOut(popUpView: selectWCPickerView)
         case selectAdvertisingMeansPickerView:
             universalArray[9] = row
-            print(universalArray)
-            selectAdvertisingMeansAnimateOut()
+            popUpAnimateOut(popUpView: selectAdvertisingMeansPickerView)
         case personalReasonPickerView:
             universalArray[10] = row
-            print(universalArray)
-            selectPersonalReasonAnimateOut()
+            popUpAnimateOut(popUpView: personalReasonPickerView)
         case selectFuelTypePickerView:
             universalArray[15] = row
-            print(universalArray)
-            selectFuelTypeAnimateOut()
+            popUpAnimateOut(popUpView: selectFuelTypePickerView)
         default:
             universalArray[6] = row
-            print(universalArray)
-            selectTaxReasonAnimateOut()
+            popUpAnimateOut(popUpView: taxReasonPickerView)
         }
-        
-        
     }
-    
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
 
     }
-    
-    
-
     
 }
