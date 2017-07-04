@@ -22,7 +22,12 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     private var universalArray = [0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1] //Notes and pic url will be ON THEIR OWN!
     private let dataSource = LabelTextFieldFlowCollectionViewDataSource()
     private var selectedType = 0
-    var pickerCode = 0
+    var pickerCode = 0 {
+        didSet {
+            genericPickerView?.reloadAllComponents()
+            genericPickerView?.selectRow(0, inComponent: 0, animated: false)
+        }
+    }
     var taxReasonPickerData: [String] = [String]()
     var wcPickerData: [String] = [String]()
     var advertisingMeansPickerData: [String] = [String]()
@@ -450,6 +455,9 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     // The number of rows of data
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        
+        print("getting numberOfRowsInComponent \(component) with pickerCode \(pickerCode)")
+        
         switch self.pickerCode {
         case 0:
             return taxReasonPickerData.count
@@ -468,6 +476,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     // The data to return for the row and component (column) that's being passed in
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        print("displaying row \(row) with pickerCode \(pickerCode)")
+        
         switch self.pickerCode {
         case 0:
             return taxReasonPickerData[row]
@@ -506,6 +516,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             universalArray[6] = row
             popUpAnimateOut(popUpView: pickerView)
         }
+        pickerView.reloadAllComponents()
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
