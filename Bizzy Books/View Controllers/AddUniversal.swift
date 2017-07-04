@@ -10,8 +10,13 @@ import Foundation
 import UIKit
 import KTCenterFlowLayout
 import Firebase
+import Contacts
 
 class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    // Contacts Stuff
+    var recommendedContacts = [CNContact]()
+    var selectedContact: CNContact?
 
     var masterRef: DatabaseReference!
     private var universalArray = [0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1] //Notes and pic url will be ON THEIR OWN!
@@ -74,6 +79,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet var selectWhoView: UIView!
     @IBOutlet weak var selectWhoTextField: UITextField!
     @IBAction func whoAddButtonTapped(_ sender: UIButton) {
+        popUpAnimateIn(popUpView: addEntityView)
     }
     @IBAction func whoDismissTapped(_ sender: UIButton) {
         popUpAnimateOut(popUpView: selectWhoView)
@@ -136,6 +142,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     @IBAction func secondaryAccountAcceptTapped(_ sender: UIButton) {
     }
+    @IBOutlet var addEntityView: UIView!
+    @IBOutlet weak var contactSuggestionsTableView: UITableView!
     
     //Fuel Type Picker
     @IBOutlet var selectFuelTypePickerView: UIPickerView!
@@ -144,6 +152,25 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet var useTaxSwitchContainer: UIView!
     @IBOutlet var useTaxSwitch: UISwitch!
     
+    @IBAction func contactNameTextFieldChanged(_ sender: UITextField) {
+        if let searchText = sender.text {
+            if !searchText.isEmpty {
+                ContactsLogicManager.shared.fetchContactsMatching(name: searchText, completion: { (contacts) in
+                    if let theContacts = contacts {
+                        self.recommendedContacts = theContacts
+                        self.contactSuggestionsTableView.isHidden = false
+                            self.contactSuggestionsTableView.reloadData()
+                        
+                    }
+                    else {
+                        // Contact fetch failed 
+                        // Denied permission
+                    }
+                })
+            }
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -212,6 +239,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         let iconPersonal = "personal"
         setTextAndIconOnLabel(text: amountText, icon: iconBusiness, label: amountBusinessLabel)
         setTextAndIconOnLabel(text: amountText, icon: iconPersonal, label: amountPersonalLabel)
+        
     }
     
     func setTextAndIconOnLabel(text: String, icon: String, label: UILabel) {
@@ -505,3 +533,37 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
 }
+
+
+
+extension AddUniversal: UITableViewDataSource, UITableViewDelegate {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return recommendedContacts.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath)
+        let contact = recommendedContacts[indexPath.row]
+        let name = contact.givenName + " " + contact.familyName
+        cell.textLabel?.text = name
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let contact = recommendedContacts[indexPath.row]
+        self.selectedContact = contact
+        self.contactSuggestionsTableView.isHidden = true
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+    
+    
+}
+
+

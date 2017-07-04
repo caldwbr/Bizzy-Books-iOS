@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		653EA8D6F5F1C59D8F85C66D /* Pods_Bizzy_Books.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCBDE88203BDBADDF78AB99F /* Pods_Bizzy_Books.framework */; };
 		EB190FC51F074EC700C80E07 /* CleanValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB190FC41F074EC700C80E07 /* CleanValue.swift */; };
+		EB190FC71F0B3CC500C80E07 /* ContactsLogicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB190FC61F0B3CC500C80E07 /* ContactsLogicManager.swift */; };
 		EB3F93BA1DDD41900049C343 /* AddUniversal.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3F93B91DDD41900049C343 /* AddUniversal.swift */; };
 		EB4392C01EF6077700C568C3 /* BizzyAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */; };
 		EB4392C11EF6090400C568C3 /* BizzyAuthViewController.swift in Resources */ = {isa = PBXBuildFile; fileRef = EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */; };
@@ -34,6 +35,7 @@
 		9DE2B4832FAEA528FBE1F884 /* Pods-Bizzy Books.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bizzy Books.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bizzy Books/Pods-Bizzy Books.release.xcconfig"; sourceTree = "<group>"; };
 		DAE81F3807A80CD9FA53863E /* Pods-Bizzy Books.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bizzy Books.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bizzy Books/Pods-Bizzy Books.debug.xcconfig"; sourceTree = "<group>"; };
 		EB190FC41F074EC700C80E07 /* CleanValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CleanValue.swift; sourceTree = "<group>"; };
+		EB190FC61F0B3CC500C80E07 /* ContactsLogicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsLogicManager.swift; sourceTree = "<group>"; };
 		EB3F93B91DDD41900049C343 /* AddUniversal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddUniversal.swift; sourceTree = "<group>"; };
 		EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BizzyAuthViewController.swift; sourceTree = "<group>"; };
 		EB4734931DE25BD900F6928E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				EBB77BD51EFC36070084D014 /* LabelTextFieldFlowItem.swift */,
+				EB190FC61F0B3CC500C80E07 /* ContactsLogicManager.swift */,
 				EBB77BDB1EFE2ABC0084D014 /* UIColorCustom.swift */,
 				EBB77BDD1EFE2D4D0084D014 /* UIColor+Hex.swift */,
 				EB190FC41F074EC700C80E07 /* CleanValue.swift */,
@@ -349,6 +352,7 @@
 				FA7B73211EFC5983007A1AEA /* DropdownReusableView.swift in Sources */,
 				EBB77BDE1EFE2D4D0084D014 /* UIColor+Hex.swift in Sources */,
 				EB851E371D9578B2002D19F4 /* AppDelegate.swift in Sources */,
+				EB190FC71F0B3CC500C80E07 /* ContactsLogicManager.swift in Sources */,
 				EBB77BD61EFC36070084D014 /* LabelTextFieldFlowItem.swift in Sources */,
 				FA7B73181EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 			);
