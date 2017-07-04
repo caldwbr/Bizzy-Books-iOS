@@ -199,14 +199,14 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="LabelCollectionViewCell" id="mzn-hI-cyK" customClass="LabelCollectionViewCell" customModule="Bizzy_Books" customModuleProvider="target">
-                                        <rect key="frame" x="10" y="5" width="96" height="40"/>
+                                        <rect key="frame" x="10" y="0.5" width="96" height="49"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="96" height="40"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="96" height="49"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ys5-4Z-FDS">
-                                                    <rect key="frame" x="8" y="8" width="80" height="24"/>
+                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ys5-4Z-FDS">
+                                                    <rect key="frame" x="8" y="8" width="80" height="28"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -219,7 +219,7 @@
                                             <constraint firstItem="Ys5-4Z-FDS" firstAttribute="leading" secondItem="mzn-hI-cyK" secondAttribute="leadingMargin" id="WoT-K6-8w5"/>
                                             <constraint firstItem="Ys5-4Z-FDS" firstAttribute="top" secondItem="mzn-hI-cyK" secondAttribute="topMargin" id="fVn-x2-jy8"/>
                                         </constraints>
-                                        <size key="customSize" width="96" height="40"/>
+                                        <size key="customSize" width="96" height="49"/>
                                         <connections>
                                             <outlet property="label" destination="Ys5-4Z-FDS" id="K0j-qy-CbG"/>
                                         </connections>
@@ -368,7 +368,7 @@
                                     <constraint firstItem="nuR-79-mdb" firstAttribute="width" secondItem="f7q-Rf-pcz" secondAttribute="width" id="NCP-VK-ISl"/>
                                 </constraints>
                             </stackView>
-                            <visualEffectView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j1D-Zw-q0Z">
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j1D-Zw-q0Z">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" id="6Zk-De-vOi">

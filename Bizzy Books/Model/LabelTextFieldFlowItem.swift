@@ -56,7 +56,7 @@ struct LabelFlowItem : FlowItem {
         // Add the padding
         let padding : CGFloat = 20.0
         size.width = size.width + padding
-        size.height = 32.0
+        size.height = 36.0
         return size
     }
     

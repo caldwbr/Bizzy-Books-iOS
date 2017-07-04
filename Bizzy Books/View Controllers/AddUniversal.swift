@@ -292,6 +292,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func businessCase() {
+        universalArray[0] = 0
         dataSource.items = [
             LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
             LabelFlowItem(text: "paid", color: .gray, action: nil),
@@ -314,6 +315,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func personalCase() {
+        universalArray[0] = 1
         dataSource.items = [
             LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
             LabelFlowItem(text: "paid", color: .gray, action: nil),
@@ -336,6 +338,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func mixedCase() {
+        universalArray[0] = 2
         dataSource.items = [
             LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
             LabelFlowItem(text: "paid", color: .gray, action: nil),
@@ -360,6 +363,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func fuelCase() {
+        universalArray[0] = 3
         dataSource.items = [
             LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
             LabelFlowItem(text: "paid", color: .gray, action: nil),
@@ -386,6 +390,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func transferCase() {
+        universalArray[0] = 4
         dataSource.items = [
             LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: nil),
             LabelFlowItem(text: "moved", color: .gray, action: nil),
@@ -408,6 +413,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func adjustCase() {
+        universalArray[0] = 5
         dataSource.items = [
             LabelFlowItem(text: "Your account ▾", color: UIColor.BizzyColor.Green.Account, action: { self.popUpAnimateIn(popUpView: self.selectAccountView) }),
             LabelFlowItem(text: "with a Bizzy Books balance of", color: .gray, action: nil),
@@ -486,6 +492,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             popUpAnimateOut(popUpView: personalReasonPickerView)
         case selectFuelTypePickerView:
             universalArray[15] = row
+            print(universalArray)
             popUpAnimateOut(popUpView: selectFuelTypePickerView)
         default:
             universalArray[6] = row
