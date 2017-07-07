@@ -147,6 +147,19 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet var useTaxSwitchContainer: UIView!
     @IBOutlet var useTaxSwitch: UISwitch!
     
+    //"Touch up inside" doesn't work with textfields, so we use "touch down"!! LOL!!
+    @IBAction func contactNameFieldTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.contactSuggestionsTableView.isHidden == false {
+                    self.contactSuggestionsTableView.isHidden = true
+                } else {
+                    self.contactSuggestionsTableView.isHidden = false
+                }
+            }
+        }
+    }
+    
     @IBAction func contactNameTextFieldChanged(_ sender: UITextField) {
         if let searchText = sender.text {
             if !searchText.isEmpty {

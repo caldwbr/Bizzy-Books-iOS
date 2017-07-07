@@ -628,6 +628,7 @@
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
+                                <action selector="contactNameFieldTouchedDown:" destination="XGO-PW-Ssy" eventType="touchDown" id="nQ3-2P-yg6"/>
                                 <action selector="contactNameTextFieldChanged:" destination="XGO-PW-Ssy" eventType="editingChanged" id="TX1-9H-mW7"/>
                             </connections>
                         </textField>
@@ -982,7 +983,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="hbX-gv-lOf" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="A5p-f1-kSg">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="A5p-f1-kSg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
