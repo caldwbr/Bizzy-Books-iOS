@@ -428,7 +428,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="accountLabel" destination="ySD-4I-ETl" id="s87-DM-hCG"/>
-                        <outlet property="addEntityView" destination="4uJ-lq-eIE" id="xFB-f2-htz"/>
+                        <outlet property="addEntityView" destination="4uJ-lq-eIE" id="1N5-DM-xgX"/>
                         <outlet property="addNewProjectButton" destination="VHA-Ns-YWW" id="mMz-iK-mpc"/>
                         <outlet property="amountBusinessLabel" destination="37t-AH-uW4" id="nxX-dd-uGo"/>
                         <outlet property="amountPersonalLabel" destination="Imy-Ju-258" id="AUO-He-7VL"/>
@@ -437,6 +437,7 @@
                         <outlet property="collectionView" destination="Q6p-MC-P7I" id="a4L-M3-jgX"/>
                         <outlet property="collectionViewHeightConstraint" destination="PH7-Mq-52r" id="rel-bW-HDu"/>
                         <outlet property="contactSuggestionsTableView" destination="a1a-y7-axC" id="UjR-Cu-ad1"/>
+                        <outlet property="entityPickerView" destination="pXU-En-3wR" id="g5J-9X-0yJ"/>
                         <outlet property="genericPickerView" destination="BOy-dT-biU" id="K0F-Ke-PtP"/>
                         <outlet property="leftTopView" destination="EMe-Qr-XHR" id="nMY-Me-ywM"/>
                         <outlet property="notesTextField" destination="SxV-kh-Bi9" id="bhh-xp-vqw"/>
@@ -637,40 +638,59 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bXe-Ui-ZNQ">
-                                    <rect key="frame" x="0.0" y="207" width="338" height="30"/>
+                                    <rect key="frame" x="0.0" y="95" width="338" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="R61-Rc-583">
-                                    <rect key="frame" x="0.0" y="207" width="338" height="30"/>
+                                    <rect key="frame" x="0.0" y="133" width="338" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Street" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="W9n-Zb-Laq">
-                                    <rect key="frame" x="0.0" y="207" width="338" height="30"/>
+                                    <rect key="frame" x="0.0" y="171" width="338" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="City" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fzn-dK-Jfh">
-                                    <rect key="frame" x="86" y="207" width="166" height="30"/>
+                                    <rect key="frame" x="0.0" y="209" width="166" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="State" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="W8l-QY-59W">
-                                    <rect key="frame" x="91" y="207" width="156" height="30"/>
+                                    <rect key="frame" x="182" y="209" width="156" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Relation:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nRS-46-te7">
+                                    <rect key="frame" x="8" y="38" width="125" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pXU-En-3wR">
+                                    <rect key="frame" x="141" y="8" width="189" height="79"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                </pickerView>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dWp-3G-FSp">
+                                    <rect key="frame" x="146" y="407" width="46" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Save"/>
+                                    <connections>
+                                        <action selector="saveEntityPressed:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="ZHZ-4f-ila"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>

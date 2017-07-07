@@ -20,6 +20,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
 
     var masterRef: DatabaseReference!
     private var universalArray = [0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1] //Notes and pic url will be ON THEIR OWN!
+    private var chosenEntity = 0 //Customer by default
     private let dataSource = LabelTextFieldFlowCollectionViewDataSource()
     private var selectedType = 0
     var pickerCode = 0 {
@@ -28,6 +29,11 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             genericPickerView?.selectRow(0, inComponent: 0, animated: false)
         }
     }
+    
+    // 0 = Who, 1 = Whom, 2 = Your Account, 3 = from which Account, 4 = to which Account
+    var entitySenderCode = 0
+    
+    var entityPickerData: [String] = [String]()
     var taxReasonPickerData: [String] = [String]()
     var wcPickerData: [String] = [String]()
     var advertisingMeansPickerData: [String] = [String]()
@@ -81,14 +87,18 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         popUpAnimateOut(popUpView: selectProjectView)
     }
     
+    //Entity Picker View (embedded on "Add Entity" secondary popup)
+    @IBOutlet weak var entityPickerView: UIPickerView!
+    
     //Generic Picker View
     @IBOutlet var genericPickerView: UIPickerView!
-    
-    
+
     //Who Popup Items
     @IBOutlet var selectWhoView: UIView!
     @IBOutlet weak var selectWhoTextField: UITextField!
     @IBAction func whoAddButtonTapped(_ sender: UIButton) {
+        pickerCode = 5
+        entitySenderCode = 0
         popUpAnimateIn(popUpView: addEntityView)
     }
     @IBAction func whoDismissTapped(_ sender: UIButton) {
@@ -140,7 +150,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     @IBAction func secondaryAccountAcceptTapped(_ sender: UIButton) {
     }
-    @IBOutlet var addEntityView: UIView!
+    
     @IBOutlet weak var contactSuggestionsTableView: UITableView!
     
     //Use Tax View Items (not a popup, but part of bottom bar)
@@ -160,6 +170,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         }
     }
     
+    //Suggested contacts for entity
     @IBAction func contactNameTextFieldChanged(_ sender: UITextField) {
         if let searchText = sender.text {
             if !searchText.isEmpty {
@@ -178,9 +189,31 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             }
         }
     }
+    
+    @IBOutlet var addEntityView: UIView!
+    
+    @IBAction func saveEntityPressed(_ sender: UIButton) {
+        popUpAnimateOut(popUpView: addEntityView)
+        switch entitySenderCode {
+        case 0:
+            popUpAnimateOut(popUpView: selectWhoView)
+        case 1:
+            popUpAnimateOut(popUpView: selectWhomView)
+        case 2:
+            popUpAnimateOut(popUpView: selectAccountView)
+        case 3:
+            popUpAnimateOut(popUpView: selectAccountView)
+        case 4:
+            popUpAnimateOut(popUpView: selectAccountView)
+        default:
+            popUpAnimateOut(popUpView: selectWhoView)
+        }
+        pickerCode = 0
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
         
         overheadSwitch.isOn = false
         useTaxSwitch.isOn = false
@@ -188,6 +221,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         
         self.genericPickerView.delegate = self
         self.genericPickerView.dataSource = self
+        self.entityPickerView.delegate = self
+        self.entityPickerView.dataSource = self
         
         //Set up pickers' data
         taxReasonPickerData = ["Income", "Supplies", "Labor", "Meals", "Office", "Vehicle", "Advertise", "Pro Help", "Rent Machine", "Rent Property", "Tax+License", "Insurance (WC+GL)", "Travel", "Employee Benefit", "Depreciation", "Depletion", "Utilities", "Commissions", "Wages", "Mortgate Interest", "Other Interest", "Pension", "Repairs"]
@@ -195,6 +230,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         advertisingMeansPickerData = ["Referral", "Website", "YP", "Social Media", "Soliciting", "Google AdWords", "Company Shirts", "Sign", "Vehicle Wrap", "Billboard", "TV", "Radio", "Other"]
         personalReasonPickerData = ["Food", "Fun", "Pet", "Utilities", "Phone", "Office", "Giving", "Insurance", "House", "Yard", "Medical", "Travel", "Other"]
         fuelTypePickerData = ["87 Gas", "89 Gas", "91 Gas", "Diesel"]
+        entityPickerData = ["Customer", "Vendor", "Account", "Sub", "Employee", "Gas Station", "Other"]
         
         //Clip corners of all popups for better aesthetics
         selectProjectView.layer.cornerRadius = 5
@@ -470,8 +506,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         
         print("getting numberOfRowsInComponent \(component) with pickerCode \(pickerCode)")
-        
-        switch self.pickerCode {
+
+        switch pickerCode {
         case 0:
             return taxReasonPickerData.count
         case 1:
@@ -482,16 +518,19 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             return personalReasonPickerData.count
         case 4:
             return fuelTypePickerData.count
+        case 5:
+            return entityPickerData.count
         default:
             return taxReasonPickerData.count
         }
+        
     }
     
     // The data to return for the row and component (column) that's being passed in
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         print("displaying row \(row) with pickerCode \(pickerCode)")
         
-        switch self.pickerCode {
+        switch pickerCode {
         case 0:
             return taxReasonPickerData[row]
         case 1:
@@ -502,13 +541,15 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             return personalReasonPickerData[row]
         case 4:
             return fuelTypePickerData[row]
+        case 5:
+            return entityPickerData[row]
         default:
             return taxReasonPickerData[row]
         }
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        switch self.pickerCode {
+        switch pickerCode {
         case 0:
             universalArray[6] = row
             popUpAnimateOut(popUpView: pickerView)
@@ -525,11 +566,12 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             universalArray[15] = row
             print(universalArray)
             popUpAnimateOut(popUpView: pickerView)
+        case 5:
+            chosenEntity = row
         default:
             universalArray[6] = row
             popUpAnimateOut(popUpView: pickerView)
         }
-        pickerView.reloadAllComponents()
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
