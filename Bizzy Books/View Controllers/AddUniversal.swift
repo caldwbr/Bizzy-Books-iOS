@@ -31,7 +31,11 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     // 0 = Who, 1 = Whom, 2 = Your Account, 3 = from which Account, 4 = to which Account
-    var entitySenderCode = 0
+    var entitySenderCode = 0 {
+        didSet {
+            isNegativeSwitch.isOn = false
+        }
+    }
     
     var entityPickerData: [String] = [String]()
     var taxReasonPickerData: [String] = [String]()
@@ -191,6 +195,24 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     @IBOutlet var addEntityView: UIView!
+    
+    @IBOutlet weak var accountNegativeMarkLabel: UILabel!
+    
+    @IBOutlet weak var accountCurrentBalanceTextField: UITextField!
+    @IBOutlet weak var isNegativeSwitch: UISwitch!
+    @IBAction func isNegativeSwitchToggled(_ sender: UISwitch) {
+        if isNegativeSwitch.isOn == false {
+            isNegativeSwitch.isOn = true
+            accountNegativeMarkLabel.text = "- $"
+            accountNegativeMarkLabel.textColor = UIColor.red
+            accountCurrentBalanceTextField.textColor = UIColor.red
+        } else {
+            isNegativeSwitch.isOn = false
+            accountNegativeMarkLabel.text = "$"
+            accountNegativeMarkLabel.textColor = UIColor.black
+            accountCurrentBalanceTextField.textColor = UIColor.black
+        }
+    }
     
     @IBAction func saveEntityPressed(_ sender: UIButton) {
         popUpAnimateOut(popUpView: addEntityView)
@@ -564,7 +586,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             popUpAnimateOut(popUpView: pickerView)
         case 4:
             universalArray[15] = row
-            print(universalArray)
             popUpAnimateOut(popUpView: pickerView)
         case 5:
             chosenEntity = row
