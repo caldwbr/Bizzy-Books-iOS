@@ -626,8 +626,25 @@
                     <rect key="frame" x="0.0" y="0.0" width="358" height="523"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name (Of Entity or Account)*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sas-TX-qgY">
+                            <rect key="frame" x="10" y="58" width="338" height="30"/>
+                            <nil key="textColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <action selector="contactNameFieldTouchedDown:" destination="XGO-PW-Ssy" eventType="touchDown" id="nQ3-2P-yg6"/>
+                                <action selector="contactNameTextFieldChanged:" destination="XGO-PW-Ssy" eventType="editingChanged" id="TX1-9H-mW7"/>
+                            </connections>
+                        </textField>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add Entity" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kHX-iP-h5Z">
+                            <rect key="frame" x="118" y="20" width="120" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pKy-Ih-7xP">
-                            <rect key="frame" x="10" y="116" width="338" height="445"/>
+                            <rect key="frame" x="10" y="96" width="338" height="445"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Relation:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nRS-46-te7">
@@ -756,30 +773,6 @@
                                 <outlet property="delegate" destination="XGO-PW-Ssy" id="nTC-RI-25c"/>
                             </connections>
                         </tableView>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name (Of Entity or Account)*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sas-TX-qgY">
-                            <rect key="frame" x="10" y="78" width="338" height="30"/>
-                            <nil key="textColor"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits"/>
-                            <connections>
-                                <action selector="contactNameFieldTouchedDown:" destination="XGO-PW-Ssy" eventType="touchDown" id="nQ3-2P-yg6"/>
-                                <action selector="contactNameTextFieldChanged:" destination="XGO-PW-Ssy" eventType="editingChanged" id="TX1-9H-mW7"/>
-                            </connections>
-                        </textField>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="* Denotes required field" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RY3-ry-QdZ">
-                            <rect key="frame" x="98" y="49" width="157" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add Entity" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kHX-iP-h5Z">
-                            <rect key="frame" x="118" y="20" width="120" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -787,7 +780,7 @@
                         <constraint firstItem="a1a-y7-axC" firstAttribute="trailing" secondItem="Sas-TX-qgY" secondAttribute="trailing" id="LOJ-7Y-1yq"/>
                         <constraint firstItem="Sas-TX-qgY" firstAttribute="leading" secondItem="4uJ-lq-eIE" secondAttribute="leading" constant="10" id="Sbk-bE-W79"/>
                         <constraint firstAttribute="bottom" secondItem="a1a-y7-axC" secondAttribute="bottom" constant="8" id="WFG-OE-qaG"/>
-                        <constraint firstItem="Sas-TX-qgY" firstAttribute="top" secondItem="4uJ-lq-eIE" secondAttribute="top" constant="78" id="fMt-7d-a0K"/>
+                        <constraint firstItem="Sas-TX-qgY" firstAttribute="top" secondItem="4uJ-lq-eIE" secondAttribute="top" constant="58" id="fMt-7d-a0K"/>
                         <constraint firstAttribute="trailing" secondItem="Sas-TX-qgY" secondAttribute="trailing" constant="10" id="ncR-dl-RTQ"/>
                         <constraint firstItem="a1a-y7-axC" firstAttribute="leading" secondItem="Sas-TX-qgY" secondAttribute="leading" id="oeC-XY-6Gm"/>
                     </constraints>

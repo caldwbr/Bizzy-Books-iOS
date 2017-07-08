@@ -315,8 +315,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         masterRef = Database.database().reference().child("users").child(userUID)
-        //masterRef.setValue(["username": "Brad Caldwell"])
-        masterRef.childByAutoId().setValue([3, 4, -88, 45, true])
+        //masterRef.setValue(["username": "Brad Caldwell"]) //This erases all siblings!!!!!! Including any childrenbyautoid!!!
+        //masterRef.childByAutoId().setValue([3, 4, -88, 45, true])
     }
     
     func useTaxSwitchToggled(useTaxSwitch: UISwitch) {
