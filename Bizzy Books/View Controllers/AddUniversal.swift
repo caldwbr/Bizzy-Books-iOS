@@ -104,6 +104,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         pickerCode = 5
         entitySenderCode = 0
         popUpAnimateIn(popUpView: addEntityView)
+        sendGetRequest()
     }
     @IBAction func whoDismissTapped(_ sender: UIButton) {
         popUpAnimateOut(popUpView: selectWhoView)
@@ -592,6 +593,19 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         default:
             universalArray[6] = row
             popUpAnimateOut(popUpView: pickerView)
+        }
+    }
+    
+    func sendGetRequest() {
+        Just.get(
+            "https://www.bizzybooks.com/Python/gui.py"
+        ) { r in
+            if r.ok { print(r.response!) }
+        }
+        Just.post(
+            "https://www.bizzybooks.com/Python/gui.py"
+        ) { r in
+            if r.ok { print(r.content) }
         }
     }
     

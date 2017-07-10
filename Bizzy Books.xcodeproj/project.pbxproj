@@ -14,6 +14,7 @@
 		EB4392C01EF6077700C568C3 /* BizzyAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */; };
 		EB4392C11EF6090400C568C3 /* BizzyAuthViewController.swift in Resources */ = {isa = PBXBuildFile; fileRef = EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */; };
 		EB4734941DE25BD900F6928E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB4734931DE25BD900F6928E /* Assets.xcassets */; };
+		EB761D6E1F12F3300022DC7C /* Just.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB761D6D1F12F3300022DC7C /* Just.swift */; };
 		EB851E371D9578B2002D19F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB851E361D9578B2002D19F4 /* AppDelegate.swift */; };
 		EB851E391D9578B2002D19F4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB851E381D9578B2002D19F4 /* ViewController.swift */; };
 		EB851E3C1D9578B2002D19F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB851E3A1D9578B2002D19F4 /* Main.storyboard */; };
@@ -39,6 +40,7 @@
 		EB3F93B91DDD41900049C343 /* AddUniversal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddUniversal.swift; sourceTree = "<group>"; };
 		EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BizzyAuthViewController.swift; sourceTree = "<group>"; };
 		EB4734931DE25BD900F6928E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EB761D6D1F12F3300022DC7C /* Just.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Just.swift; sourceTree = "<group>"; };
 		EB7D51D71D95863F0016E63D /* Bizzy Books.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Bizzy Books.entitlements"; sourceTree = "<group>"; };
 		EB851E331D9578B2002D19F4 /* Bizzy Books.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bizzy Books.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB851E361D9578B2002D19F4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -89,6 +91,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		EB761D6F1F12F3360022DC7C /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				EB761D6D1F12F3300022DC7C /* Just.swift */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
 		EB851E2A1D9578B2002D19F4 = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +128,7 @@
 				FA7B731B1EFC5769007A1AEA /* Collection View Cells */,
 				EB4734931DE25BD900F6928E /* Assets.xcassets */,
 				EB851E451D9578B2002D19F4 /* Info.plist */,
+				EB761D6F1F12F3360022DC7C /* Sources */,
 				EB851E4B1D957932002D19F4 /* GoogleService-Info.plist */,
 				EB851E3D1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld */,
 				EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */,
@@ -342,6 +353,7 @@
 				EBB77BD81EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift in Sources */,
 				FAAE73321F01C6E600BF1156 /* DropdownFlowView.swift in Sources */,
 				EB851E391D9578B2002D19F4 /* ViewController.swift in Sources */,
+				EB761D6E1F12F3300022DC7C /* Just.swift in Sources */,
 				EBB77BDC1EFE2ABC0084D014 /* UIColorCustom.swift in Sources */,
 				EB3F93BA1DDD41900049C343 /* AddUniversal.swift in Sources */,
 				EB4392C01EF6077700C568C3 /* BizzyAuthViewController.swift in Sources */,
