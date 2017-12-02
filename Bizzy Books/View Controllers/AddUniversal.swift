@@ -42,7 +42,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     private var chosenEntity = 0 //Customer by default
     private var chosenHowDidTheyHearOfYou = 0 //Unknown by default
     private let dataSource = LabelTextFieldFlowCollectionViewDataSource() //The collection view (ie., "sentence")
-    private var selectedType = 0
+    var selectedType = 0
     var pickerCode = 0 {
         didSet {
             genericPickerView?.reloadAllComponents()
@@ -93,7 +93,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var addAccountKeyString = ""
     var addUniversalKeyString = ""
     
-    var theAmt : Int = 0
+    var thePercent = 50
+    var theAmt = 0
     var entityPickerData: [String] = [String]()
     var taxReasonPickerData: [String] = [String]()
     var wcPickerData: [String] = [String]()
@@ -113,9 +114,11 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var percentBusinessLabel: UILabel!
     @IBAction func percentBusinessSlider(_ sender: UISlider) {
         let percent = sender.value.rounded().cleanValue
+        thePercent = Int(percent)!
+        print(thePercent)
         let percentAsString = String(percent) + "%"
         percentBusinessLabel.text = percentAsString
-        
+        updateSliderValues(percent: thePercent)
     }
     @IBOutlet weak var bottomStackView: UIStackView!
     @IBOutlet weak var amountBusinessLabel: UILabel!
@@ -768,6 +771,19 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         addEntityEINTextField.text = ""
     }
     
+    func updateSliderValues(percent: Int) {
+        if let theTextFieldYes = dataSource.theTextFieldYes as? AllowedCharsTextField {
+            theAmt = theTextFieldYes.amt
+        }
+        let prepareTheBusinessAmt = (Double(theAmt)/100) * (Double(percent)/100)
+        let prepareThePersonalAmt = (Double(theAmt)/100) * (1.0 - (Double(percent)/100))
+        let theFormatter = NumberFormatter()
+        theFormatter.usesGroupingSeparator = true
+        theFormatter.numberStyle = .currency
+        setTextAndIconOnLabel(text: (theFormatter.string(from: NSNumber(value: prepareTheBusinessAmt)))!, icon: "business", label: amountBusinessLabel)
+        setTextAndIconOnLabel(text: (theFormatter.string(from: NSNumber(value: prepareThePersonalAmt)))!, icon: "personal", label: amountPersonalLabel)
+    }
+    
     func setTextAndIconOnLabel(text: String, icon: String, label: UILabel) {
         let initialString = text
         let attachmentIcon = NSTextAttachment()
@@ -794,7 +810,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 self.firebaseEntities.append(firebaseEntity)
             }
             print(self.firebaseEntities)
-            print("Now it's freaking filtered!!!")
             print(self.filteredFirebaseEntities)
             self.selectWhoTableView.reloadData()
             self.selectWhomTableView.reloadData()
@@ -821,9 +836,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             self.selectAccountTableView.reloadData()
             self.selectSecondaryAccountTableView.reloadData()
         }
-        print(firebaseEntities)
-        print("Now filtered")
-        print(filteredFirebaseEntities)
         //masterRef.setValue(["username": "Brad Caldwell"]) //This erases all siblings!!!!!! Including any childrenbyautoid!!!
         //masterRef.childByAutoId().setValue([3, 4, -88, 45, true])
     }
@@ -997,6 +1009,13 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         accountLabel.isHidden = false
         reloadCollectionView()
         useTaxSwitchContainer.isHidden = false
+        let theTextFieldYes = dataSource.theTextFieldYes
+        theTextFieldYes.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
+    }
+    
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        print("Text field did change!")
+        updateSliderValues(percent: thePercent)
     }
     
     func fuelCase() {

@@ -13,7 +13,7 @@ import UIKit
 class LabelTextFieldFlowCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     var items = [FlowItem]()
-    
+    var theTextFieldYes = UITextField()
     
     // MARK: - UICollectionViewDataSource
     
@@ -28,6 +28,12 @@ class LabelTextFieldFlowCollectionViewDataSource : NSObject, UICollectionViewDat
         var cell : UICollectionViewCell
 
         cell = collectionView.dequeueReusableCell(withReuseIdentifier: item.cellIdentifier, for: indexPath)
+        if item.cellIdentifier == "TextFieldCollectionViewCell" {
+            let theCell = cell as? TextFieldCollectionViewCell
+            theTextFieldYes = (theCell?.textField)!
+            //theTextFieldYes.addTarget(self, action: #selector(AddUniversal.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
+            
+        }
 
         
         if let c = cell as? FlowItemConfigurable {
