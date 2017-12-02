@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         //FirebaseApp.configure()
-        
+        Database.database().isPersistenceEnabled = true
         return true
     }
     
@@ -31,6 +31,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     class func getAppDelegate() -> AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
+    }
+    
+    //YES!!! This AMAZING bit of code stops "Word Flow" "Swipe" "SwiftKey" or any other usually good keyboard from popping up and forcing some generic entry where you want specifically numeric entry, etc.!!!
+    func application(_ application: UIApplication, shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplicationExtensionPointIdentifier) -> Bool {
+        if extensionPointIdentifier == UIApplicationExtensionPointIdentifier.keyboard {
+            return false
+        }
+        return true
     }
     
     func showMessage(message: String) {

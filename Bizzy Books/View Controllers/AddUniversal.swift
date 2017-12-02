@@ -17,11 +17,31 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     // Contacts Stuff
     var recommendedContacts = [CNContact]()
     var selectedContact: CNContact?
+    
+    var digits = "0123456789"
+    var negPossibleDigits = "0123456789-"
 
     var masterRef: DatabaseReference!
-    private var universalArray = [0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1] //Notes and pic url will be ON THEIR OWN!
+    var entitiesRef: DatabaseReference!
+    var projectsRef: DatabaseReference!
+    var vehiclesRef: DatabaseReference!
+    var accountsRef: DatabaseReference!
+    
+    var firebaseEntities = [EntityItem]()
+    var firebaseProjects: [ProjectItem] = []
+    var firebaseVehicles: [VehicleItem] = []
+    var firebaseAccounts: [AccountItem] = []
+    var filteredFirebaseEntities = [EntityItem]()
+    var filteredFirebaseProjects: [ProjectItem] = []
+    var filteredFirebaseVehicles: [VehicleItem] = []
+    var filteredFirebaseAccounts: [AccountItem] = []
+    
+    var tempKeyHolder: String = ""
+    
+    private var universalArray = [0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1] //Notes and pic url will be ON THEIR OWN! Not really.
     private var chosenEntity = 0 //Customer by default
-    private let dataSource = LabelTextFieldFlowCollectionViewDataSource()
+    private var chosenHowDidTheyHearOfYou = 0 //Unknown by default
+    private let dataSource = LabelTextFieldFlowCollectionViewDataSource() //The collection view (ie., "sentence")
     private var selectedType = 0
     var pickerCode = 0 {
         didSet {
@@ -29,25 +49,64 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             genericPickerView?.selectRow(0, inComponent: 0, animated: false)
         }
     }
+    var accountSenderCode = 0 // 0 for selectedType = 0, 1, 2, 3, sometimes 4, and 5; 1 for selectedType = 4 SECONDARY ACCOUNT or just 0 for primary account; selectedType = 6 is irrelevant as no account is associated with ProjectMedia
     
-    // 0 = Who, 1 = Whom, 2 = Your Account, 3 = from which Account, 4 = to which Account
+    var whoPlaceholder = "You"
+    var whoPlaceholderKeyString = ""
+    var whomPlaceholder = "whom ▾"
+    var whomPlaceholderKeyString = ""
+    var whatTaxReasonPlaceholder = "what tax reason ▾"
+    var whatTaxReasonPlaceholderId = -1
+    var whatPersonalReasonPlaceholder = "what personal reason ▾"
+    var whatPeraonalReasonPlaceholderId = -1
+    var projectPlaceholder = "Project ▾"
+    var projectPlaceholderKeyString = ""
+    var fuelTypePlaceholder = "fuel ▾"
+    var fuelTypePlaceholderId = -1
+    var vehiclePlaceholder = "vehicle ▾" //Fuel-up relevant vehicle
+    var vehiclePlaceholderKeyString = ""
+    var yourSecondaryAccountPlaceholder = "which account ▾"
+    var yourSecondaryAccountPlaceholderKeyString = ""
+    var yourAccountPlaceholder = "Your account ▾"
+    var yourAccountPlaceholderKeyString = ""
+    var workersCompPlaceholder = "Worker's comp ▾ ?"
+    var workersCompPlaceholderId = -1
+    var advertisingMeansPlaceholder = "Advertising means ▾ ?"
+    var advertisingMeansPlaceholderId = -1
+    var howDidTheyHearOfYouPlaceholder = "How did they hear of you ▾ ?"
+    var howDidTheyHearOfYouPlaceholderId = -1
+    var taxVehiclePlaceholder = "Which vehicle ▾ ?" //Tax reason relevant vehicle
+    var taxVehiclePlaceholderKeyString = ""
+    var projectMediaTypePlaceholder = "Type of picture ▾ ?"
+    var projectMediaTypePlaceholderId = -1
+    
+    // 0 = Who, 1 = Whom, 2 = Project Customer
     var entitySenderCode = 0 {
         didSet {
-            isNegativeSwitch.isOn = false
+            //isNegativeSwitch.isOn = false
         }
     }
+    var timeStamp = 0
+    var addEntityKeyString = ""
+    var addProjectKeyString = ""
+    var addVehicleKeyString = ""
+    var addAccountKeyString = ""
+    var addUniversalKeyString = ""
     
+    var theAmt : Int = 0
     var entityPickerData: [String] = [String]()
     var taxReasonPickerData: [String] = [String]()
     var wcPickerData: [String] = [String]()
     var advertisingMeansPickerData: [String] = [String]()
     var personalReasonPickerData: [String] = [String]()
     var fuelTypePickerData: [String] = [String]()
+    var howDidTheyHearOfYouPickerData: [String] = [String]()
+    var projectMediaTypePickerData: [String] = [String]()
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var leftTopView: DropdownFlowView!
     @IBOutlet weak var rightTopView: UIView!
     @IBOutlet weak var notesTextField: UITextField!
-    @IBOutlet weak var odometerTextField: UITextField!
+    @IBOutlet weak var odometerTextField: AllowedCharsTextField!
     @IBOutlet weak var projectLabel: UILabel!
     @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var accountLabel: UILabel!
@@ -56,6 +115,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         let percent = sender.value.rounded().cleanValue
         let percentAsString = String(percent) + "%"
         percentBusinessLabel.text = percentAsString
+        
     }
     @IBOutlet weak var bottomStackView: UIStackView!
     @IBOutlet weak var amountBusinessLabel: UILabel!
@@ -69,6 +129,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     //Project Popup Items
     @IBOutlet var selectProjectView: UIView!
+    @IBOutlet weak var selectProjectTableView: UITableView!
     @IBOutlet weak var projectSearchView: UIView!
     @IBOutlet weak var overheadSwitch: UISwitch!
     @IBAction func overheadSwitchTapped(_ sender: UISwitch) {
@@ -84,12 +145,80 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var overheadQuestionImage: UIImageView!
     @IBOutlet weak var projectTextField: UITextField!
     @IBAction func projectAddButtonTapped(_ sender: UIButton) {
+        pickerCode = 6
+        popUpAnimateIn(popUpView: addProjectView)
     }
     @IBAction func projectAcceptTapped(_ sender: UIButton) {
+        if !tempKeyHolder.isEmpty && !projectTextField.text!.isEmpty{
+            projectPlaceholderKeyString = tempKeyHolder
+            projectPlaceholder = projectTextField.text!
+            self.projectLabel.text = self.projectPlaceholder
+            popUpAnimateOut(popUpView: selectProjectView)
+            tempKeyHolder = ""
+        }
     }
     @IBAction func projectDismissTapped(_ sender: UIButton) {
         popUpAnimateOut(popUpView: selectProjectView)
     }
+    
+    @IBOutlet weak var howDidTheyHearOfYouPickerView: UIPickerView!
+    @IBOutlet weak var addProjectSelectCustomerTableView: UITableView!
+    @IBOutlet var addProjectView: UIView!
+    @IBOutlet weak var addProjectNameTextField: UITextField!
+    @IBOutlet weak var addProjectSearchCustomerTextField: UITextField!
+    @IBAction func addProjectAddCustomerPressed(_ sender: UIButton) {
+        pickerCode = 5
+        entitySenderCode = 2
+        popUpAnimateIn(popUpView: addEntityView)
+    }
+    @IBOutlet weak var addProjectTagsTextField: UITextField!
+    @IBOutlet weak var addProjectNotesTextField: UITextField!
+    @IBOutlet weak var addProjectStreetTextField: UITextField!
+    @IBOutlet weak var addProjectCityTextField: UITextField!
+    @IBOutlet weak var addProjectStateTextField: UITextField!
+    @IBAction func addProjectCancelPressed(_ sender: UIButton) {
+        self.addProjectView.removeFromSuperview()
+    }
+    @IBAction func addProjectSavePressed(_ sender: UIButton) {
+        if !tempKeyHolder.isEmpty  && !addProjectNameTextField.text!.isEmpty && !addProjectSearchCustomerTextField.text!.isEmpty {
+            let addProjectKeyReference = projectsRef.childByAutoId()
+            addProjectKeyString = addProjectKeyReference.key
+            let thisProjectItem = ProjectItem(name: addProjectNameTextField.text!, customerName: addProjectSearchCustomerTextField.text!, customerKey: tempKeyHolder, howDidTheyHearOfYou: chosenHowDidTheyHearOfYou, projectTags: addProjectTagsTextField.text!, projectAddressStreet: addProjectStreetTextField.text!, projectAddressCity: addProjectCityTextField.text!, projectAddressState: addProjectStateTextField.text!, projectNotes: addProjectNotesTextField.text!)
+            projectsRef.child(addProjectKeyString).setValue(thisProjectItem.toAnyObject())
+            popUpAnimateOut(popUpView: addProjectView)
+            self.projectPlaceholderKeyString = addProjectKeyString
+            self.projectPlaceholder = thisProjectItem.name
+            self.projectLabel.text = self.projectPlaceholder
+            self.selectProjectView.removeFromSuperview()
+        }
+    }
+    
+    @IBOutlet var addVehicleView: UIView!
+    @IBOutlet weak var addVehicleColorTextField: UITextField!
+    @IBOutlet weak var addVehicleYearTextField: UITextField!
+    @IBOutlet weak var addVehicleMakeTextField: UITextField!
+    @IBOutlet weak var addVehicleModelTextField: UITextField!
+    @IBOutlet weak var addVehicleFuelPickerView: UIPickerView!
+    @IBOutlet weak var addVehicleLicensePlateNumberTextField: UITextField!
+    @IBOutlet weak var addVehicleVehicleIdentificationNumberTextField: UITextField!
+    @IBOutlet weak var addVehiclePlacedInCommissionTextField: UITextField!
+    @IBAction func addVehicleCancelPressed(_ sender: UIButton) {
+        self.addVehicleView.removeFromSuperview()
+    }
+    @IBAction func addVehicleSavePressed(_ sender: UIButton) {
+        if !addVehicleColorTextField.text!.isEmpty && !addVehicleYearTextField.text!.isEmpty && !addVehicleMakeTextField.text!.isEmpty && !addVehicleModelTextField.text!.isEmpty {
+            let addVehicleKeyReference = vehiclesRef.childByAutoId()
+            addVehicleKeyString = addVehicleKeyReference.key
+            let thisVehicleItem = VehicleItem(year: addVehicleYearTextField.text!, make: addVehicleMakeTextField.text!, model: addVehicleModelTextField.text!, color: addVehicleColorTextField.text!, fuel: addVehicleFuelPickerView.selectedRow(inComponent: 0), placedInCommissionDate: addVehiclePlacedInCommissionTextField.text!, licensePlateNumber: addVehicleLicensePlateNumberTextField.text!, vehicleIdentificationNumber: addVehicleVehicleIdentificationNumberTextField.text!)
+            vehiclesRef.child(addVehicleKeyString).setValue(thisVehicleItem.toAnyObject())
+            popUpAnimateOut(popUpView: addVehicleView)
+            vehiclePlaceholderKeyString = addVehicleKeyString
+            vehiclePlaceholder = thisVehicleItem.color + " " + thisVehicleItem.year + " " + thisVehicleItem.make + " " + thisVehicleItem.model
+            self.reloadSentence(selectedType: self.selectedType)
+            self.selectVehicleView.removeFromSuperview()
+        }
+    }
+    
     
     //Entity Picker View (embedded on "Add Entity" secondary popup)
     @IBOutlet weak var entityPickerView: UIPickerView!
@@ -99,61 +228,163 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
 
     //Who Popup Items
     @IBOutlet var selectWhoView: UIView!
+    @IBOutlet weak var selectWhoTableView: UITableView!
     @IBOutlet weak var selectWhoTextField: UITextField!
     @IBAction func whoAddButtonTapped(_ sender: UIButton) {
         pickerCode = 5
         entitySenderCode = 0
         popUpAnimateIn(popUpView: addEntityView)
-        sendGetRequest()
     }
     @IBAction func whoDismissTapped(_ sender: UIButton) {
         popUpAnimateOut(popUpView: selectWhoView)
     }
     @IBAction func whoAcceptTapped(_ sender: UIButton) {
+        if !tempKeyHolder.isEmpty && !selectWhoTextField.text!.isEmpty{
+            whoPlaceholderKeyString = tempKeyHolder
+            whoPlaceholder = selectWhoTextField.text!
+            popUpAnimateOut(popUpView: selectWhoView)
+            tempKeyHolder = ""
+        }
     }
     
     //Whom Popup Items
     @IBOutlet var selectWhomView: UIView!
+    @IBOutlet weak var selectWhomTableView: UITableView!
     @IBOutlet weak var selectWhomTextField: UITextField!
     @IBAction func whomAddButtonTapped(_ sender: UIButton) {
+        pickerCode = 5
+        entitySenderCode = 1
+        popUpAnimateIn(popUpView: addEntityView)
     }
     @IBAction func whomDismissTapped(_ sender: UIButton) {
         popUpAnimateOut(popUpView: selectWhomView)
     }
     @IBAction func whomAcceptTapped(_ sender: UIButton) {
+        if !tempKeyHolder.isEmpty && !selectWhomTextField.text!.isEmpty{
+            whomPlaceholderKeyString = tempKeyHolder
+            whomPlaceholder = selectWhomTextField.text!
+            popUpAnimateOut(popUpView: selectWhomView)
+            tempKeyHolder = ""
+        }
     }
     
     //Vehicle Popup Items
     @IBOutlet var selectVehicleView: UIView!
+    @IBOutlet weak var selectVehicleTableView: UITableView!
     @IBOutlet weak var selectVehicleTextField: UITextField!
     @IBAction func vehicleAddButtonTapped(_ sender: UIButton) {
+        pickerCode = 4
+        popUpAnimateIn(popUpView: addVehicleView)
     }
     @IBAction func vehicleDismissTapped(_ sender: UIButton) {
         popUpAnimateOut(popUpView: selectVehicleView)
     }
     @IBAction func vehicleAcceptTapped(_ sender: UIButton) {
+        if !tempKeyHolder.isEmpty && !selectVehicleTextField.text!.isEmpty{
+            vehiclePlaceholderKeyString = tempKeyHolder
+            vehiclePlaceholder = selectVehicleTextField.text!
+            popUpAnimateOut(popUpView: selectVehicleView)
+            tempKeyHolder = ""
+        }
     }
+    
+    @IBOutlet var addAccountView: UIView!
+    @IBOutlet weak var addAccountNameTextField: UITextField!
+    @IBOutlet weak var addAccountStartingBalanceTextField: UITextField!
+    @IBOutlet weak var addAccountPhoneNumberTextField: UITextField!
+    @IBOutlet weak var addAccountEmailTextField: UITextField!
+    @IBOutlet weak var addAccountStreetTextField: UITextField!
+    @IBOutlet weak var addAccountCityTextField: UITextField!
+    @IBOutlet weak var addAccountStateTextField: UITextField!
+    @IBAction func addAccountCancelPressed(_ sender: UIButton) {
+        accountSenderCode = 0 //Not currently going into the one 1 case, so this changes it back here.
+        addAccountView.removeFromSuperview()
+    }
+    @IBAction func addAccountSavePressed(_ sender: UIButton) {
+        if let startingBal = addAccountStartingBalanceTextField.text! as? NSNumber, !((addAccountNameTextField.text?.isEmpty)!), !((addAccountStartingBalanceTextField.text?.isEmpty)!) {
+            let addAccountKeyReference = accountsRef.childByAutoId()
+            addAccountKeyString = addAccountKeyReference.key
+            let thisAccountItem = AccountItem(name: addAccountNameTextField.text!, phoneNumber: addAccountPhoneNumberTextField.text!, email: addAccountEmailTextField.text!, street: addAccountStreetTextField.text!, city: addAccountCityTextField.text!, state: addAccountStateTextField.text!, startingBal: Int(addAccountStartingBalanceTextField.text!)!)
+            accountsRef.child(addAccountKeyString).setValue(thisAccountItem.toAnyObject())
+            popUpAnimateOut(popUpView: addAccountView)
+            yourAccountPlaceholderKeyString = addAccountKeyString
+            yourAccountPlaceholder = thisAccountItem.name
+            addAccountNameTextField.text = ""
+            addAccountStartingBalanceTextField.text = ""
+            addAccountPhoneNumberTextField.text = ""
+            addAccountEmailTextField.text = ""
+            addAccountStreetTextField.text = ""
+            addAccountCityTextField.text = ""
+            addAccountStateTextField.text = ""
+            switch self.selectedType {
+            case 0, 1, 2, 3:
+                self.accountLabel.text = thisAccountItem.name
+                self.selectAccountView.removeFromSuperview()
+            case 4:
+                self.reloadSentence(selectedType: self.selectedType)
+                if self.accountSenderCode == 1 {
+                    self.selectSecondaryAccountView.removeFromSuperview()
+                    self.accountSenderCode = 0
+                } else {
+                    self.selectAccountView.removeFromSuperview()
+                }
+            case 5:
+                self.reloadSentence(selectedType: self.selectedType)
+                self.selectAccountView.removeFromSuperview()
+            default:
+                self.accountLabel.text = thisAccountItem.name
+                self.selectAccountView.removeFromSuperview()
+            }
+        }
+    }
+    
     
     //Main Account Popup Items (usually from, but can be to)
     @IBOutlet var selectAccountView: UIView!
+    @IBOutlet weak var selectAccountTableView: UITableView!
     @IBOutlet weak var selectAccountTextField: UITextField!
     @IBAction func accountAddButtonTapped(_ sender: UIButton) {
+        popUpAnimateIn(popUpView: addAccountView)
     }
     @IBAction func accountDismissTapped(_ sender: UIButton) {
         popUpAnimateOut(popUpView: selectAccountView)
     }
     @IBAction func accountAcceptTapped(_ sender: UIButton) {
+        if !tempKeyHolder.isEmpty && !selectAccountTextField.text!.isEmpty{
+            yourAccountPlaceholderKeyString = tempKeyHolder
+            yourAccountPlaceholder = selectAccountTextField.text!
+            switch self.selectedType {
+            case 0, 1, 2, 3:
+                self.accountLabel.text = yourAccountPlaceholder
+            case 4, 5:
+                self.reloadSentence(selectedType: self.selectedType)
+            default:
+                self.accountLabel.text = yourAccountPlaceholder
+            }
+            popUpAnimateOut(popUpView: selectAccountView)
+            tempKeyHolder = ""
+        }
     }
     
     //Secondary Account Popup Items (always to)
     @IBOutlet var selectSecondaryAccountView: UIView!
+    @IBOutlet weak var selectSecondaryAccountTableView: UITableView!
     @IBOutlet weak var selectSecondaryAccountTextField: UITextField!
     @IBAction func secondaryAccountAddButtonTapped(_ sender: UIButton) {
+        accountSenderCode = 1
+        popUpAnimateIn(popUpView: addAccountView)
     }
     @IBAction func secondaryAccountDismissTapped(_ sender: UIButton) {
         popUpAnimateOut(popUpView: selectSecondaryAccountView)
     }
     @IBAction func secondaryAccountAcceptTapped(_ sender: UIButton) {
+        if !tempKeyHolder.isEmpty && !selectSecondaryAccountTextField.text!.isEmpty{
+            yourSecondaryAccountPlaceholderKeyString = tempKeyHolder
+            yourSecondaryAccountPlaceholder = selectSecondaryAccountTextField.text!
+            self.reloadSentence(selectedType: selectedType)
+            popUpAnimateOut(popUpView: selectSecondaryAccountView)
+            tempKeyHolder = ""
+        }
     }
     
     @IBOutlet weak var contactSuggestionsTableView: UITableView!
@@ -161,6 +392,16 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     //Use Tax View Items (not a popup, but part of bottom bar)
     @IBOutlet var useTaxSwitchContainer: UIView!
     @IBOutlet var useTaxSwitch: UISwitch!
+    
+    @IBOutlet weak var addEntityNameTextField: UITextField!
+    @IBOutlet weak var addEntityPhoneNumberTextField: UITextField!
+    @IBOutlet weak var addEntityEmailTextField: UITextField!
+    @IBOutlet weak var addEntityStreetTextField: UITextField!
+    @IBOutlet weak var addEntityCityTextField: UITextField!
+    @IBOutlet weak var addEntityStateTextField: UITextField!
+    @IBOutlet weak var addEntitySSNTextField: UITextField!
+    @IBOutlet weak var addEntityEINTextField: UITextField!
+    
     
     //"Touch up inside" doesn't work with textfields, so we use "touch down"!! LOL!!
     @IBAction func contactNameFieldTouchedDown(_ sender: UITextField) {
@@ -183,7 +424,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                     if let theContacts = contacts {
                         self.recommendedContacts = theContacts
                         self.contactSuggestionsTableView.isHidden = false
-                            self.contactSuggestionsTableView.reloadData()
+                        self.contactSuggestionsTableView.reloadData()
                         
                     }
                     else {
@@ -194,49 +435,249 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             }
         }
     }
-    
-    @IBOutlet var addEntityView: UIView!
-    
-    @IBOutlet weak var accountNegativeMarkLabel: UILabel!
-    
-    @IBOutlet weak var accountCurrentBalanceTextField: UITextField!
-    @IBOutlet weak var isNegativeSwitch: UISwitch!
-    @IBAction func isNegativeSwitchToggled(_ sender: UISwitch) {
-        if isNegativeSwitch.isOn == false {
-            isNegativeSwitch.isOn = true
-            accountNegativeMarkLabel.text = "- $"
-            accountNegativeMarkLabel.textColor = UIColor.red
-            accountCurrentBalanceTextField.textColor = UIColor.red
-        } else {
-            isNegativeSwitch.isOn = false
-            accountNegativeMarkLabel.text = "$"
-            accountNegativeMarkLabel.textColor = UIColor.black
-            accountCurrentBalanceTextField.textColor = UIColor.black
+    @IBAction func selectWhoTextFieldTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.selectWhoTableView.isHidden == false {
+                    self.selectWhoTableView.isHidden = true
+                } else {
+                    self.selectWhoTableView.isHidden = false
+                }
+            }
+        }
+    }
+    @IBAction func selectWhoTextFieldChanged(_ sender: UITextField) {
+        tempKeyHolder = ""
+        self.selectWhoTableView.isHidden = false
+        if let searchText = sender.text {
+            if !searchText.isEmpty {
+                self.filteredFirebaseEntities.removeAll()
+                let thisFilteredFirebaseEntities = firebaseEntities.filter({$0.name.contains(searchText)})
+                for entity in thisFilteredFirebaseEntities {
+                    self.filteredFirebaseEntities.append(entity)
+                }
+                print(self.filteredFirebaseEntities.count)
+                self.selectWhoTableView.reloadData()
+            }
+        }
+    }
+    @IBAction func selectWhomTextFieldTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.selectWhomTableView.isHidden == false {
+                    self.selectWhomTableView.isHidden = true
+                } else {
+                    self.selectWhomTableView.isHidden = false
+                }
+            }
+        }
+    }
+    @IBAction func selectWhomTextFieldChanged(_ sender: UITextField) {
+        tempKeyHolder = ""
+        self.selectWhomTableView.isHidden = false
+        if let searchText = sender.text {
+            if !searchText.isEmpty {
+                filteredFirebaseEntities = firebaseEntities.filter({ (entityItem) -> Bool in
+                    if entityItem.name.contains(searchText) {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+                selectWhomTableView.reloadData()
+            }
+        }
+    }
+    @IBAction func selectProjectTextFieldTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.selectProjectTableView.isHidden == false {
+                    self.selectProjectTableView.isHidden = true
+                } else {
+                    self.selectProjectTableView.isHidden = false
+                }
+            }
+        }
+    }
+    @IBAction func selectProjectTextFieldChanged(_ sender: UITextField) {
+        tempKeyHolder = ""
+        self.selectProjectTableView.isHidden = false
+        if let searchText = sender.text {
+            if !searchText.isEmpty {
+                filteredFirebaseProjects = firebaseProjects.filter({ (projectItem) -> Bool in
+                    if projectItem.name.contains(searchText) {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+                selectProjectTableView.reloadData()
+            }
+        }
+    }
+    @IBAction func selectVehicleTextFieldTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.selectVehicleTableView.isHidden == false {
+                    self.selectVehicleTableView.isHidden = true
+                } else {
+                    self.selectVehicleTableView.isHidden = false
+                }
+            }
+        }
+    }
+    @IBAction func selectVehicleTextFieldChanged(_ sender: UITextField) {
+        tempKeyHolder = ""
+        self.selectVehicleTableView.isHidden = false
+        if let searchText = sender.text {
+            if !searchText.isEmpty {
+                filteredFirebaseVehicles = firebaseVehicles.filter({ (vehicleItem) -> Bool in
+                    if vehicleItem.year.contains(searchText) || vehicleItem.make.contains(searchText) || vehicleItem.model.contains(searchText) {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+                selectVehicleTableView.reloadData()
+            }
+        }
+    }
+    @IBAction func selectAccountTextFieldTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.selectAccountTableView.isHidden == false {
+                    self.selectAccountTableView.isHidden = true
+                } else {
+                    self.selectAccountTableView.isHidden = false
+                }
+            }
+        }
+    }
+    @IBAction func selectAccountTextFieldChanged(_ sender: UITextField) {
+        tempKeyHolder = ""
+        self.selectAccountTableView.isHidden = false
+        if let searchText = sender.text {
+            if !searchText.isEmpty {
+                filteredFirebaseAccounts = firebaseAccounts.filter({ (accountItem) -> Bool in
+                    if accountItem.name.contains(searchText) {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+                selectAccountTableView.reloadData()
+            }
+        }
+    }
+    @IBAction func selectSecondaryAccountTextFieldTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.selectSecondaryAccountTableView.isHidden == false {
+                    self.selectSecondaryAccountTableView.isHidden = true
+                } else {
+                    self.selectSecondaryAccountTableView.isHidden = false
+                }
+            }
+        }
+    }
+    @IBAction func selectSecondaryAccountTextFieldChanged(_ sender: UITextField) {
+        tempKeyHolder = ""
+        self.selectSecondaryAccountTableView.isHidden = false
+        if let searchText = sender.text {
+            if !searchText.isEmpty {
+                filteredFirebaseAccounts = firebaseAccounts.filter({ (accountItem) -> Bool in
+                    if accountItem.name.contains(searchText) {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+                selectSecondaryAccountTableView.reloadData()
+            }
+        }
+    }
+    @IBAction func addProjectSelectCustomerTextFieldTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.addProjectSelectCustomerTableView.isHidden == false {
+                    self.addProjectSelectCustomerTableView.isHidden = true
+                } else {
+                    self.addProjectSelectCustomerTableView.isHidden = false
+                }
+            }
         }
     }
     
+    @IBAction func addProjectSelectCustomerTextFieldChanged(_ sender: UITextField) {
+        tempKeyHolder = ""
+        self.addProjectSelectCustomerTableView.isHidden = false
+        if let searchText = sender.text {
+            if !searchText.isEmpty {
+                filteredFirebaseEntities = firebaseEntities.filter({ (entityItem) -> Bool in
+                    if entityItem.name.contains(searchText) {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+                addProjectSelectCustomerTableView.reloadData()
+            }
+        }
+    }
+    
+    @IBOutlet var addEntityView: UIView!
+    
+    @IBAction func cancelEntityPressed(_ sender: UIButton) {
+        addEntityView.removeFromSuperview()
+    }
+    
+    @IBAction func clearFieldsEntityPressed(_ sender: UIButton) {
+        clearAddEntityFields()
+    }
+    
     @IBAction func saveEntityPressed(_ sender: UIButton) {
-        popUpAnimateOut(popUpView: addEntityView)
+        if (addEntityNameTextField.text == "") {
+            return
+        }
+        let addEntityKeyReference = entitiesRef.childByAutoId()
+        addEntityKeyString = addEntityKeyReference.key
+        let thisEntityItem = EntityItem(type: entityPickerView.selectedRow(inComponent: 0), name: addEntityNameTextField.text as String!, phoneNumber: addEntityPhoneNumberTextField.text as String!, email: addEntityEmailTextField.text as String!, street: addEntityStreetTextField.text as String!, city: addEntityCityTextField.text as String!, state: addEntityStateTextField.text as String!, ssn: addEntitySSNTextField.text as String!, ein: addEntityEINTextField.text as String!)
+        entitiesRef.child(addEntityKeyString).setValue(thisEntityItem.toAnyObject())
         switch entitySenderCode {
         case 0:
+            self.whoPlaceholder = addEntityNameTextField.text!
+            self.whoPlaceholderKeyString = addEntityKeyString
             popUpAnimateOut(popUpView: selectWhoView)
         case 1:
+            self.whomPlaceholder = addEntityNameTextField.text!
+            self.whomPlaceholderKeyString = addEntityKeyString
             popUpAnimateOut(popUpView: selectWhomView)
         case 2:
-            popUpAnimateOut(popUpView: selectAccountView)
-        case 3:
-            popUpAnimateOut(popUpView: selectAccountView)
-        case 4:
-            popUpAnimateOut(popUpView: selectAccountView)
+            self.addProjectSearchCustomerTextField.text = addEntityNameTextField.text!
+            self.tempKeyHolder = addEntityKeyString
+            self.addEntityView.removeFromSuperview()
         default:
             popUpAnimateOut(popUpView: selectWhoView)
         }
+        clearAddEntityFields()
+        if !(entitySenderCode == 2){
+            popUpAnimateOut(popUpView: addEntityView)
+        }
+        reloadSentence(selectedType: selectedType)
         pickerCode = 0
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
+        self.contactSuggestionsTableView.keyboardDismissMode = .interactive
+        self.selectWhoTableView.keyboardDismissMode = .interactive
+        self.selectWhomTableView.keyboardDismissMode = .interactive
+        self.selectProjectTableView.keyboardDismissMode = .interactive
+        self.selectVehicleTableView.keyboardDismissMode = .interactive
+        self.selectAccountTableView.keyboardDismissMode = .interactive
+        self.selectSecondaryAccountTableView.keyboardDismissMode = .interactive
+        self.addProjectSelectCustomerTableView.keyboardDismissMode = .interactive
         
         overheadSwitch.isOn = false
         useTaxSwitch.isOn = false
@@ -246,14 +687,20 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         self.genericPickerView.dataSource = self
         self.entityPickerView.delegate = self
         self.entityPickerView.dataSource = self
+        self.howDidTheyHearOfYouPickerView.delegate = self
+        self.howDidTheyHearOfYouPickerView.dataSource = self
+        self.addVehicleFuelPickerView.delegate = self
+        self.addVehicleFuelPickerView.dataSource = self
         
         //Set up pickers' data
-        taxReasonPickerData = ["Income", "Supplies", "Labor", "Meals", "Office", "Vehicle", "Advertise", "Pro Help", "Rent Machine", "Rent Property", "Tax+License", "Insurance (WC+GL)", "Travel", "Employee Benefit", "Depreciation", "Depletion", "Utilities", "Commissions", "Wages", "Mortgate Interest", "Other Interest", "Pension", "Repairs"]
-        wcPickerData = ["Sub Has WC", "Incurred WC", "WC N/A"]
-        advertisingMeansPickerData = ["Referral", "Website", "YP", "Social Media", "Soliciting", "Google AdWords", "Company Shirts", "Sign", "Vehicle Wrap", "Billboard", "TV", "Radio", "Other"]
-        personalReasonPickerData = ["Food", "Fun", "Pet", "Utilities", "Phone", "Office", "Giving", "Insurance", "House", "Yard", "Medical", "Travel", "Other"]
-        fuelTypePickerData = ["87 Gas", "89 Gas", "91 Gas", "Diesel"]
-        entityPickerData = ["Customer", "Vendor", "Account", "Sub", "Employee", "Gas Station", "Other"]
+        taxReasonPickerData = ["income", "supplies", "labor", "meals", "office", "vehicle", "advertising", "pro help", "machine rental", "property rental", "tax+license", "insurance (wc+gl)", "travel", "employee benefit", "depreciation", "depletion", "utilities", "commissions", "wages", "mortgate interest", "other interest", "pension", "repairs"]
+        wcPickerData = ["(sub has wc)", "(incurred wc)", "(wc n/a)"]
+        advertisingMeansPickerData = ["(unknown)", "(referral)", "(website)", "(yp)", "(social media)", "(soliciting)", "(google adwords)", "(company shirts)", "(sign)", "(vehicle wrap)", "(billboard)", "(tv)", "(radio)", "(other)"]
+        howDidTheyHearOfYouPickerData = advertisingMeansPickerData
+        personalReasonPickerData = ["food", "fun", "pet", "utilities", "phone", "office", "giving", "insurance", "house", "yard", "medical", "travel", "clothes", "other"]
+        fuelTypePickerData = ["87 gas", "89 gas", "91 gas", "diesel"]
+        entityPickerData = ["customer", "vendor", "sub", "employee", "store", "other"]
+        projectMediaTypePickerData = ["before", "during", "after", "drawing", "calculations", "material list", "estimate", "contract", "labor warranty", "material warranty", "safety", "other"]
         
         //Clip corners of all popups for better aesthetics
         selectProjectView.layer.cornerRadius = 5
@@ -270,6 +717,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             DropdownFlowItem.Option(title: "Fuel", iconName: "fuel", action: { self.selectedType = 3; self.reloadSentence(selectedType: self.selectedType) }),
             DropdownFlowItem.Option(title: "Transfer", iconName: "transfer", action: { self.selectedType = 4; self.reloadSentence(selectedType: self.selectedType) }),
             DropdownFlowItem.Option(title: "Adjust", iconName: "adjustment", action: { self.selectedType = 5; self.reloadSentence(selectedType: self.selectedType) }),
+            DropdownFlowItem.Option(title: "Project Media", iconName: "hammer", action: { self.selectedType = 6; self.reloadSentence(selectedType: self.selectedType) })
             ])
         leftTopView.configure(item: typeItem)
         
@@ -277,6 +725,14 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         
         //collectionView.collectionViewLayout = LeftAlignedCollectionViewFlowLayout()
         collectionView.collectionViewLayout = KTCenterFlowLayout()
+        
+        odometerTextField.formatter.numberStyle = NumberFormatter.Style.decimal
+        odometerTextField.numberKind = 2
+        odometerTextField.keyboardType = .numberPad
+        odometerTextField.textColor = UIColor.BizzyColor.Grey.Notes
+        odometerTextField.text = ""
+        odometerTextField.placeholder = "Odometer"
+        odometerTextField.allowedChars = "0123456789"
         
         //Placing the use tax view inside the bottom bar
         var currentItems = self.toolbarItems ?? []
@@ -301,6 +757,17 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         
     }
     
+    func clearAddEntityFields() {
+        addEntityNameTextField.text = ""
+        addEntityPhoneNumberTextField.text = ""
+        addEntityEmailTextField.text = ""
+        addEntityStreetTextField.text = ""
+        addEntityCityTextField.text = ""
+        addEntityStateTextField.text = ""
+        addEntitySSNTextField.text = ""
+        addEntityEINTextField.text = ""
+    }
+    
     func setTextAndIconOnLabel(text: String, icon: String, label: UILabel) {
         let initialString = text
         let attachmentIcon = NSTextAttachment()
@@ -316,19 +783,60 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         masterRef = Database.database().reference().child("users").child(userUID)
+        entitiesRef = Database.database().reference().child("users").child(userUID).child("entities")
+        projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
+        vehiclesRef = Database.database().reference().child("users").child(userUID).child("vehicles")
+        accountsRef = Database.database().reference().child("users").child(userUID).child("accounts")
+        entitiesRef.observe(.value) { (snapshot) in
+            for item in snapshot.children {
+                let firebaseEntity = EntityItem(snapshot: item as! DataSnapshot)
+                print(firebaseEntity)
+                self.firebaseEntities.append(firebaseEntity)
+            }
+            print(self.firebaseEntities)
+            print("Now it's freaking filtered!!!")
+            print(self.filteredFirebaseEntities)
+            self.selectWhoTableView.reloadData()
+            self.selectWhomTableView.reloadData()
+        }
+        projectsRef.observe(.value) { (snapshot) in
+            for item in snapshot.children {
+                let firebaseProject = ProjectItem(snapshot: item as! DataSnapshot)
+                self.firebaseProjects.append(firebaseProject)
+            }
+            self.selectProjectTableView.reloadData()
+        }
+        vehiclesRef.observe(.value) { (snapshot) in
+            for item in snapshot.children {
+                let firebaseVehicle = VehicleItem(snapshot: item as! DataSnapshot)
+                self.firebaseVehicles.append(firebaseVehicle)
+            }
+            self.selectVehicleTableView.reloadData()
+        }
+        accountsRef.observe(.value) { (snapshot) in
+            for item in snapshot.children {
+                let firebaseAccount = AccountItem(snapshot: item as! DataSnapshot)
+                self.firebaseAccounts.append(firebaseAccount)
+            }
+            self.selectAccountTableView.reloadData()
+            self.selectSecondaryAccountTableView.reloadData()
+        }
+        print(firebaseEntities)
+        print("Now filtered")
+        print(filteredFirebaseEntities)
         //masterRef.setValue(["username": "Brad Caldwell"]) //This erases all siblings!!!!!! Including any childrenbyautoid!!!
         //masterRef.childByAutoId().setValue([3, 4, -88, 45, true])
     }
     
-    func useTaxSwitchToggled(useTaxSwitch: UISwitch) {
+    @objc func useTaxSwitchToggled(useTaxSwitch: UISwitch) {
         print("Use tax switch toggled")
     }
     
-    func handleProjectLabelTap(projectLabelGestureRecognizer: UITapGestureRecognizer){
+    @objc func handleProjectLabelTap(projectLabelGestureRecognizer: UITapGestureRecognizer){
         popUpAnimateIn(popUpView: selectProjectView)
     }
     
-    func handleAccountLabelTap(accountLabelGestureRecognizer: UITapGestureRecognizer) {
+    @objc func handleAccountLabelTap(accountLabelGestureRecognizer: UITapGestureRecognizer) {
         popUpAnimateIn(popUpView: selectAccountView)
     }
     
@@ -345,6 +853,19 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         }
     }
     
+    func popUpAnimateIn(popUpScrollView: UIScrollView) {
+        self.view.addSubview(popUpScrollView)
+        popUpScrollView.center = self.view.center
+        popUpScrollView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+        popUpScrollView.alpha = 0
+        
+        UIScrollView.animate(withDuration: 0.4) {
+            self.visualEffectView.isHidden = false
+            popUpScrollView.alpha = 1
+            popUpScrollView.transform = CGAffineTransform.identity
+        }
+    }
+    
     func popUpAnimateOut(popUpView: UIView) {
         UIView.animate(withDuration: 0.4, animations: { 
             popUpView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
@@ -352,6 +873,16 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             self.visualEffectView.isHidden = true
         }) { (success:Bool) in
             popUpView.removeFromSuperview()
+        }
+    }
+    
+    func popUpAnimateOut(popUpScrollView: UIScrollView) {
+        UIScrollView.animate(withDuration: 0.4, animations: {
+            popUpScrollView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            popUpScrollView.alpha = 0
+            self.visualEffectView.isHidden = true
+        }) { (success:Bool) in
+            popUpScrollView.removeFromSuperview()
         }
     }
     
@@ -367,6 +898,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func reloadSentence(selectedType: Int) {
+        collectionView.reloadData()
         switch selectedType {
         case 0: businessCase()
         case 1: personalCase()
@@ -374,6 +906,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         case 3: fuelCase()
         case 4: transferCase()
         case 5: adjustCase()
+        case 6: projectMediaCase()
         default: businessCase()
         }
     }
@@ -381,15 +914,24 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     func businessCase() {
         universalArray[0] = 0
         dataSource.items = [
-            LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
+            LabelFlowItem(text: whoPlaceholder, color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
             LabelFlowItem(text: "paid", color: .gray, action: nil),
-            TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
+            TextFieldFlowItem(text: "", amt: 0, placeholder: "0", color: UIColor.BizzyColor.Green.What, keyboardType: .numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0),
             LabelFlowItem(text: "to", color: .gray, action: nil),
-            LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
+            LabelFlowItem(text: whomPlaceholder, color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
             LabelFlowItem(text: "for", color: .gray, action: nil),
-            LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.popUpAnimateIn(popUpView: self.genericPickerView); self.pickerCode = 0 }),
-            LabelFlowItem(text: "?", color: .gray, action: nil),
+            LabelFlowItem(text: whatTaxReasonPlaceholder, color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.pickerCode = 0; self.popUpAnimateIn(popUpView: self.genericPickerView) })
         ]
+        switch universalArray[6] {
+        case 2:
+            dataSource.items.append(LabelFlowItem(text: workersCompPlaceholder, color: UIColor.BizzyColor.Orange.WC, action: { self.popUpAnimateIn(popUpView: self.genericPickerView); self.pickerCode = 1 }))
+        case 5:
+            dataSource.items.append(LabelFlowItem(text: taxVehiclePlaceholder, color: UIColor.BizzyColor.Orange.Vehicle, action: { self.popUpAnimateIn(popUpView: self.selectVehicleView) }))
+        case 6:
+            dataSource.items.append(LabelFlowItem(text: advertisingMeansPlaceholder, color: UIColor.BizzyColor.Orange.AdMeans, action: { self.pickerCode = 2; self.popUpAnimateIn(popUpView: self.genericPickerView) }))
+        default:
+            break
+        }
         projectLabel.isHidden = false
         odometerTextField.isHidden = true
         percentBusinessView.isHidden = true
@@ -404,14 +946,13 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     func personalCase() {
         universalArray[0] = 1
         dataSource.items = [
-            LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
+            LabelFlowItem(text: whoPlaceholder, color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
             LabelFlowItem(text: "paid", color: .gray, action: nil),
-            TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
+            TextFieldFlowItem(text: "", amt: 0, placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0),
             LabelFlowItem(text: "to", color: .gray, action: nil),
-            LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
+            LabelFlowItem(text: whomPlaceholder, color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
             LabelFlowItem(text: "for", color: .gray, action: nil),
-            LabelFlowItem(text: "what personal reason ▾", color: UIColor.BizzyColor.Magenta.PersonalReason, action: { self.popUpAnimateIn(popUpView: self.genericPickerView); self.pickerCode = 3 }),
-            LabelFlowItem(text: "?", color: .gray, action: nil),
+            LabelFlowItem(text: whatPersonalReasonPlaceholder, color: UIColor.BizzyColor.Magenta.PersonalReason, action: { self.pickerCode = 3; self.popUpAnimateIn(popUpView: self.genericPickerView) })
         ]
         projectLabel.isHidden = true
         odometerTextField.isHidden = true
@@ -427,17 +968,26 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     func mixedCase() {
         universalArray[0] = 2
         dataSource.items = [
-            LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
+            LabelFlowItem(text: whoPlaceholder, color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
             LabelFlowItem(text: "paid", color: .gray, action: nil),
-            TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
+            TextFieldFlowItem(text: "", amt: 0, placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0),
             LabelFlowItem(text: "to", color: .gray, action: nil),
-            LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
+            LabelFlowItem(text: whomPlaceholder, color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
             LabelFlowItem(text: "for", color: .gray, action: nil),
-            LabelFlowItem(text: "what tax reason ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.popUpAnimateIn(popUpView: self.genericPickerView); self.pickerCode = 0 }),
+            LabelFlowItem(text: whatTaxReasonPlaceholder, color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.popUpAnimateIn(popUpView: self.genericPickerView); self.pickerCode = 0 }),
             LabelFlowItem(text: "and", color: .gray, action: nil),
-            LabelFlowItem(text: "what personal reason ▾", color: UIColor.BizzyColor.Magenta.PersonalReason, action: { self.popUpAnimateIn(popUpView: self.genericPickerView); self.pickerCode = 3 }),
-            LabelFlowItem(text: "?", color: .gray, action: nil),
+            LabelFlowItem(text: whatPersonalReasonPlaceholder, color: UIColor.BizzyColor.Magenta.PersonalReason, action: { self.pickerCode = 3; self.popUpAnimateIn(popUpView: self.genericPickerView) })
         ]
+        switch universalArray[6] {
+        case 2:
+            dataSource.items.append(LabelFlowItem(text: workersCompPlaceholder, color: UIColor.BizzyColor.Orange.WC, action: { self.popUpAnimateIn(popUpView: self.genericPickerView); self.pickerCode = 1 }))
+        case 5:
+            dataSource.items.append(LabelFlowItem(text: taxVehiclePlaceholder, color: UIColor.BizzyColor.Orange.Vehicle, action: { self.popUpAnimateIn(popUpView: self.selectVehicleView) }))
+        case 6:
+            dataSource.items.append(LabelFlowItem(text: advertisingMeansPlaceholder, color: UIColor.BizzyColor.Orange.AdMeans, action: { self.pickerCode = 2; self.popUpAnimateIn(popUpView: self.genericPickerView) }))
+        default:
+            break
+        }
         projectLabel.isHidden = false
         odometerTextField.isHidden = true
         percentBusinessView.isHidden = false
@@ -452,18 +1002,17 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     func fuelCase() {
         universalArray[0] = 3
         dataSource.items = [
-            LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
+            LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: nil),
             LabelFlowItem(text: "paid", color: .gray, action: nil),
-            TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
-            LabelFlowItem(text: "to", color: .gray, action: nil),
-            LabelFlowItem(text: "whom ▾", color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) /* You need to specify only gas stations here!!!!!!!!!!!!! */ }),
+            TextFieldFlowItem(text: "", amt: 0, placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0),
+            LabelFlowItem(text: "to", color: .gray, action: nil), 
+            LabelFlowItem(text: whomPlaceholder, color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
             LabelFlowItem(text: "for", color: .gray, action: nil),
-            TextFieldFlowItem(text: "", placeholder: "how many", color: UIColor.BizzyColor.Green.What),
+            TextFieldFlowItem(text: "", amt: 0, placeholder: "how many", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.decimal, numberKind: 1),
             LabelFlowItem(text: "gallons of", color: .gray, action: nil),
-            LabelFlowItem(text: "87 gas ▾", color: UIColor.BizzyColor.Orange.WC, action: { self.popUpAnimateIn(popUpView: self.genericPickerView); self.pickerCode = 4 }),
+            LabelFlowItem(text: fuelTypePlaceholder, color: UIColor.BizzyColor.Orange.WC, action: { self.pickerCode = 4; self.popUpAnimateIn(popUpView: self.genericPickerView) }),
             LabelFlowItem(text: "in your", color: .gray, action: nil),
-            LabelFlowItem(text: "vehicle ▾", color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.popUpAnimateIn(popUpView: self.selectVehicleView) }),
-            LabelFlowItem(text: "?", color: .gray, action: nil),
+            LabelFlowItem(text: vehiclePlaceholder, color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.popUpAnimateIn(popUpView: self.selectVehicleView) })
         ]
         projectLabel.isHidden = true
         odometerTextField.isHidden = false
@@ -481,12 +1030,11 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         dataSource.items = [
             LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: nil),
             LabelFlowItem(text: "moved", color: .gray, action: nil),
-            TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
+            TextFieldFlowItem(text: "", amt: 0, placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0),
             LabelFlowItem(text: "from", color: .gray, action: nil),
-            LabelFlowItem(text: "which account ▾", color: UIColor.BizzyColor.Green.Account, action: { self.popUpAnimateIn(popUpView: self.selectAccountView) }),
+            LabelFlowItem(text: yourAccountPlaceholder, color: UIColor.BizzyColor.Green.Account, action: { self.popUpAnimateIn(popUpView: self.selectAccountView) }),
             LabelFlowItem(text: "to", color: .gray, action: nil),
-            LabelFlowItem(text: "which account ▾", color: UIColor.BizzyColor.Green.Account, action: { self.popUpAnimateIn(popUpView: self.selectSecondaryAccountView) }),
-            LabelFlowItem(text: "?", color: .gray, action: nil),
+            LabelFlowItem(text: yourSecondaryAccountPlaceholder, color: UIColor.BizzyColor.Green.Account, action: { self.popUpAnimateIn(popUpView: self.selectSecondaryAccountView) })
         ]
         projectLabel.isHidden = true
         odometerTextField.isHidden = true
@@ -502,14 +1050,29 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     func adjustCase() {
         universalArray[0] = 5
         dataSource.items = [
-            LabelFlowItem(text: "Your account ▾", color: UIColor.BizzyColor.Green.Account, action: { self.popUpAnimateIn(popUpView: self.selectAccountView) }),
+            LabelFlowItem(text: yourAccountPlaceholder, color: UIColor.BizzyColor.Green.Account, action: { self.popUpAnimateIn(popUpView: self.selectAccountView) }),
             LabelFlowItem(text: "with a Bizzy Books balance of", color: .gray, action: nil),
             LabelFlowItem(text: "$0.00", color: UIColor.BizzyColor.Green.Account, action: nil),
             LabelFlowItem(text: "should have a balance of", color: .gray, action: nil),
-            TextFieldFlowItem(text: "", placeholder: "what amount", color: UIColor.BizzyColor.Green.What),
-            LabelFlowItem(text: ".", color: .gray, action: nil),
+            TextFieldFlowItem(text: "", amt: 0, placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numbersAndPunctuation, allowedCharsString: negPossibleDigits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0)
         ]
         projectLabel.isHidden = true
+        odometerTextField.isHidden = true
+        percentBusinessView.isHidden = true
+        percentBusinessViewHeight.constant = 0
+        bottomStackViewHeight.constant = 20
+        bottomStackView.layoutIfNeeded()
+        accountLabel.isHidden = true
+        reloadCollectionView()
+        useTaxSwitchContainer.isHidden = true
+    }
+    
+    func projectMediaCase() {
+        universalArray[0] = 6
+        dataSource.items = [
+            LabelFlowItem(text: projectMediaTypePlaceholder, color: UIColor.BizzyColor.Blue.Project, action: { self.pickerCode = 7; self.popUpAnimateIn(popUpView: self.genericPickerView) })
+        ]
+        projectLabel.isHidden = false
         odometerTextField.isHidden = true
         percentBusinessView.isHidden = true
         percentBusinessViewHeight.constant = 0
@@ -543,6 +1106,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             return fuelTypePickerData.count
         case 5:
             return entityPickerData.count
+        case 6:
+            return howDidTheyHearOfYouPickerData.count //How did they hear of you project label
+        case 7:
+            return projectMediaTypePickerData.count
         default:
             return taxReasonPickerData.count
         }
@@ -566,6 +1133,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             return fuelTypePickerData[row]
         case 5:
             return entityPickerData[row]
+        case 6:
+            return howDidTheyHearOfYouPickerData[row] //How did they hear of you project label
+        case 7:
+            return projectMediaTypePickerData[row]
         default:
             return taxReasonPickerData[row]
         }
@@ -573,40 +1144,64 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerCode {
-        case 0:
+        case 0: //What tax reason
             universalArray[6] = row
+            self.whatTaxReasonPlaceholder = taxReasonPickerData[row]
+            switch selectedType {
+            case 0: //Business Type
+                if self.dataSource.items.indices.contains(8) { //This just gets rid of veh, adMeans, or wc item if present before reloading.
+                    self.dataSource.items.remove(at: 8) }
+            case 2: //Mixed Type
+                if self.dataSource.items.indices.contains(10) { //This just gets rid of veh, adMeans, or wc item if present before reloading.
+                    self.dataSource.items.remove(at: 10) }
+            default:
+                break
+            }
             popUpAnimateOut(popUpView: pickerView)
-        case 1:
+        case 1: //Worker's comp
             universalArray[8] = row
+            self.workersCompPlaceholder = wcPickerData[row]
             popUpAnimateOut(popUpView: pickerView)
-        case 2:
+        case 2: //What kind of advertising did you purchase
             universalArray[9] = row
+            self.advertisingMeansPlaceholder = advertisingMeansPickerData[row]
             popUpAnimateOut(popUpView: pickerView)
-        case 3:
+        case 3: //What personal reason
             universalArray[10] = row
+            self.whatPersonalReasonPlaceholder = personalReasonPickerData[row]
             popUpAnimateOut(popUpView: pickerView)
-        case 4:
+        case 4: //Fuel type
             universalArray[15] = row
-            popUpAnimateOut(popUpView: pickerView)
-        case 5:
+            self.fuelTypePlaceholder = fuelTypePickerData[row]
+        case 5: //Type of entity i.e. customer, sub, employee, store, etc.
             chosenEntity = row
-        default:
-            universalArray[6] = row
+        case 6: //How did they hear of you
+            chosenHowDidTheyHearOfYou = row
+        case 7: //Project media type
+            self.projectMediaTypePlaceholder = projectMediaTypePickerData[row]
+            self.projectMediaTypePlaceholderId = row
             popUpAnimateOut(popUpView: pickerView)
+        default: //What tax reason
+            universalArray[6] = row
+            self.whatTaxReasonPlaceholder = taxReasonPickerData[row]
+            popUpAnimateOut(popUpView: pickerView)
+        }
+        if !(pickerCode == 4) && !(pickerCode == 5) && !(pickerCode == 6) {
+            reloadSentence(selectedType: selectedType)
         }
     }
     
-    func sendGetRequest() {
-        Just.get(
-            "https://www.bizzybooks.com/Python/gui.py"
-        ) { r in
-            if r.ok { print(r.response!) }
+    func fillEntityFields() {
+        if let firstName = selectedContact?.givenName, let lastName = selectedContact?.familyName {
+            addEntityNameTextField.text = firstName + " " + lastName
         }
-        Just.post(
-            "https://www.bizzybooks.com/Python/gui.py"
-        ) { r in
-            if r.ok { print(r.content) }
+        if let phoneNumber = selectedContact?.phoneNumbers[0] {
+            addEntityPhoneNumberTextField.text = String(describing: phoneNumber)
         }
+        if let emailAddress = selectedContact?.emailAddresses[0] {
+            addEntityEmailTextField.text = String(describing: emailAddress)
+        }
+
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
@@ -623,21 +1218,170 @@ extension AddUniversal: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return recommendedContacts.count
+        
+        switch tableView {
+        case self.contactSuggestionsTableView:
+            return recommendedContacts.count
+        case self.selectWhoTableView:
+            return filteredFirebaseEntities.count
+        case self.selectWhomTableView:
+            return filteredFirebaseEntities.count
+        case self.selectProjectTableView:
+            return filteredFirebaseProjects.count
+        case self.selectVehicleTableView:
+            return filteredFirebaseVehicles.count
+        case self.selectAccountTableView:
+            return filteredFirebaseAccounts.count
+        case self.selectSecondaryAccountTableView:
+            return filteredFirebaseAccounts.count
+        case self.addProjectSelectCustomerTableView:
+            return filteredFirebaseEntities.count
+        default:
+            return recommendedContacts.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath)
-        let contact = recommendedContacts[indexPath.row]
-        let name = contact.givenName + " " + contact.familyName
-        cell.textLabel?.text = name
-        return cell
+        var cell:UITableViewCell?
+        switch tableView {
+        case self.contactSuggestionsTableView:
+            print("Hello...")
+            cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath)
+            let contact = recommendedContacts[indexPath.row]
+            let name = contact.givenName + " " + contact.familyName
+            cell!.textLabel!.text = name
+        case self.selectWhoTableView:
+            cell = tableView.dequeueReusableCell(withIdentifier: "SelectWhoCell", for: indexPath)
+            let who = filteredFirebaseEntities[indexPath.row]
+            let name = who.name
+            cell!.textLabel!.text = name
+            print("The name is ")
+            print(name)
+        case self.selectWhomTableView:
+            cell = tableView.dequeueReusableCell(withIdentifier: "SelectWhomCell", for: indexPath)
+            let whom = filteredFirebaseEntities[indexPath.row]
+            let name = whom.name
+            cell!.textLabel!.text = name
+        case self.selectProjectTableView:
+            cell = tableView.dequeueReusableCell(withIdentifier: "SelectProjectCell", for: indexPath)
+            let project = filteredFirebaseProjects[indexPath.row]
+            let name = project.name
+            cell!.textLabel!.text = name
+        case self.selectVehicleTableView:
+            cell = tableView.dequeueReusableCell(withIdentifier: "SelectVehicleCell", for: indexPath)
+            let vehicle = filteredFirebaseVehicles[indexPath.row]
+            let name = vehicle.year + " " + vehicle.make + " " + vehicle.model
+            cell!.textLabel!.text = name
+        case self.selectAccountTableView:
+            cell = tableView.dequeueReusableCell(withIdentifier: "SelectAccountCell", for: indexPath)
+            let account = filteredFirebaseAccounts[indexPath.row]
+            let name = account.name
+            cell!.textLabel!.text = name
+        case self.selectSecondaryAccountTableView:
+            cell = tableView.dequeueReusableCell(withIdentifier: "SelectSecondaryAccountCell", for: indexPath)
+            let secondaryAccount = filteredFirebaseAccounts[indexPath.row]
+            let name = secondaryAccount.name
+            cell!.textLabel!.text = name
+        case self.addProjectSelectCustomerTableView:
+            cell = tableView.dequeueReusableCell(withIdentifier: "AddProjectSelectCustomerCell", for: indexPath)
+            let customer = filteredFirebaseEntities[indexPath.row]
+            let name = customer.name
+            cell!.textLabel!.text = name
+        default:
+            cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath)
+            let contact = recommendedContacts[indexPath.row]
+            let name = contact.givenName + " " + contact.familyName
+            cell!.textLabel!.text = name
+        }
+        
+        return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let contact = recommendedContacts[indexPath.row]
-        self.selectedContact = contact
-        self.contactSuggestionsTableView.isHidden = true
+        
+        switch tableView {
+        case self.contactSuggestionsTableView:
+            let contact = recommendedContacts[indexPath.row]
+            self.selectedContact = contact
+            self.contactSuggestionsTableView.isHidden = true
+            addEntityNameTextField.text = contact.givenName + " " + contact.familyName
+            if (contact.isKeyAvailable(CNContactEmailAddressesKey)) {
+                if let theEmail = contact.emailAddresses.first {
+                    addEntityEmailTextField.text = theEmail.value as String
+                }
+            }
+            if (contact.isKeyAvailable(CNContactPhoneNumbersKey)) {
+                if let thePhoneNumber = contact.phoneNumbers.first  {
+                    addEntityPhoneNumberTextField.text = thePhoneNumber.value.stringValue
+                }
+            }
+            if (contact.isKeyAvailable(CNContactPostalAddressesKey)) {
+                if let theAddress = contact.postalAddresses.first {
+                    addEntityStreetTextField.text = theAddress.value.street
+                    addEntityCityTextField.text = theAddress.value.city
+                    addEntityStateTextField.text = theAddress.value.state
+                }
+            }
+        case self.selectWhoTableView:
+            let who = filteredFirebaseEntities[indexPath.row]
+            self.selectWhoTableView.isHidden = true
+            self.selectWhoTextField.text = who.name
+            self.tempKeyHolder = who.key
+        case self.selectWhomTableView:
+            let whom = filteredFirebaseEntities[indexPath.row]
+            self.selectWhomTableView.isHidden = true
+            self.selectWhomTextField.text = whom.name
+            self.tempKeyHolder = whom.key
+        case self.selectProjectTableView:
+            let project = filteredFirebaseProjects[indexPath.row]
+            self.selectProjectTableView.isHidden = true
+            self.projectTextField.text = project.name //The one on the main screen is a label (stupid I know)
+            self.tempKeyHolder = project.key
+        case self.selectVehicleTableView:
+            let vehicle = filteredFirebaseVehicles[indexPath.row]
+            self.selectVehicleTableView.isHidden = true
+            self.selectVehicleTextField.text = vehicle.year + "" + vehicle.make + "" + vehicle.model
+            self.tempKeyHolder = vehicle.key
+        case self.selectAccountTableView:
+            let account = filteredFirebaseAccounts[indexPath.row]
+            self.selectAccountTableView.isHidden = true
+            self.selectAccountTextField.text = account.name
+            self.tempKeyHolder = account.key
+        case self.selectSecondaryAccountTableView:
+            let secondaryAccount = filteredFirebaseAccounts[indexPath.row]
+            self.selectSecondaryAccountTableView.isHidden = true
+            self.selectSecondaryAccountTextField.text = secondaryAccount.name
+            self.tempKeyHolder = secondaryAccount.key
+        case self.addProjectSelectCustomerTableView:
+            let customer = filteredFirebaseEntities[indexPath.row]
+            self.addProjectSelectCustomerTableView.isHidden = true
+            self.addProjectSearchCustomerTextField.text = customer.name
+            self.tempKeyHolder = customer.key
+        default:
+            let contact = recommendedContacts[indexPath.row]
+            self.selectedContact = contact
+            self.contactSuggestionsTableView.isHidden = true
+            addEntityNameTextField.text = contact.givenName + " " + contact.familyName
+            if (contact.isKeyAvailable(CNContactEmailAddressesKey)) {
+                if let theEmail = contact.emailAddresses.first {
+                    addEntityEmailTextField.text = theEmail.value as String
+                }
+            }
+            if (contact.isKeyAvailable(CNContactPhoneNumbersKey)) {
+                if let thePhoneNumber = contact.phoneNumbers.first  {
+                    addEntityPhoneNumberTextField.text = thePhoneNumber.value.stringValue
+                }
+            }
+            if (contact.isKeyAvailable(CNContactPostalAddressesKey)) {
+                if let theAddress = contact.postalAddresses.first {
+                    addEntityStreetTextField.text = theAddress.value.street
+                    addEntityCityTextField.text = theAddress.value.city
+                    addEntityStateTextField.text = theAddress.value.state
+                }
+            }
+        }
+        
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

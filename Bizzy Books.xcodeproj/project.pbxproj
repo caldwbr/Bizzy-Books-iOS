@@ -8,12 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		653EA8D6F5F1C59D8F85C66D /* Pods_Bizzy_Books.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCBDE88203BDBADDF78AB99F /* Pods_Bizzy_Books.framework */; };
+		EB007BA91FB7CF0C00014769 /* UniversalItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB007BA81FB7CF0C00014769 /* UniversalItemType.swift */; };
+		EB007BAB1FB7DDC300014769 /* TaxReasonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB007BAA1FB7DDC300014769 /* TaxReasonItem.swift */; };
+		EB007BAD1FB7E30200014769 /* WorkersCompItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB007BAC1FB7E30200014769 /* WorkersCompItem.swift */; };
+		EB007BAF1FB7E39A00014769 /* AdvertisingMeansItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB007BAE1FB7E39A00014769 /* AdvertisingMeansItem.swift */; };
+		EB007BB11FB7E7DB00014769 /* PersonalReasonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB007BB01FB7E7DB00014769 /* PersonalReasonItem.swift */; };
+		EB007BB31FB7E97100014769 /* FuelTypeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB007BB21FB7E97100014769 /* FuelTypeItem.swift */; };
+		EB007BB51FB7F39E00014769 /* ProjectDocItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB007BB41FB7F39E00014769 /* ProjectDocItem.swift */; };
+		EB05238E1FD0BAAF00C13E8C /* AllowedCharsTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB05238D1FD0BAAF00C13E8C /* AllowedCharsTextField.swift */; };
 		EB190FC51F074EC700C80E07 /* CleanValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB190FC41F074EC700C80E07 /* CleanValue.swift */; };
 		EB190FC71F0B3CC500C80E07 /* ContactsLogicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB190FC61F0B3CC500C80E07 /* ContactsLogicManager.swift */; };
 		EB3F93BA1DDD41900049C343 /* AddUniversal.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3F93B91DDD41900049C343 /* AddUniversal.swift */; };
 		EB4392C01EF6077700C568C3 /* BizzyAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */; };
 		EB4392C11EF6090400C568C3 /* BizzyAuthViewController.swift in Resources */ = {isa = PBXBuildFile; fileRef = EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */; };
 		EB4734941DE25BD900F6928E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB4734931DE25BD900F6928E /* Assets.xcassets */; };
+		EB5856A61FB6311C006C6212 /* EntityItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5856A51FB6311C006C6212 /* EntityItem.swift */; };
+		EB5856A81FB6352D006C6212 /* AccountItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5856A71FB6352D006C6212 /* AccountItem.swift */; };
+		EB5856AA1FB635CA006C6212 /* UniversalItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5856A91FB635CA006C6212 /* UniversalItem.swift */; };
+		EB5856AC1FB635E8006C6212 /* VehicleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5856AB1FB635E8006C6212 /* VehicleItem.swift */; };
+		EB5856AE1FB63612006C6212 /* ProjectItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5856AD1FB63612006C6212 /* ProjectItem.swift */; };
 		EB761D6E1F12F3300022DC7C /* Just.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB761D6D1F12F3300022DC7C /* Just.swift */; };
 		EB851E371D9578B2002D19F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB851E361D9578B2002D19F4 /* AppDelegate.swift */; };
 		EB851E391D9578B2002D19F4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB851E381D9578B2002D19F4 /* ViewController.swift */; };
@@ -35,11 +48,24 @@
 /* Begin PBXFileReference section */
 		9DE2B4832FAEA528FBE1F884 /* Pods-Bizzy Books.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bizzy Books.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bizzy Books/Pods-Bizzy Books.release.xcconfig"; sourceTree = "<group>"; };
 		DAE81F3807A80CD9FA53863E /* Pods-Bizzy Books.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bizzy Books.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bizzy Books/Pods-Bizzy Books.debug.xcconfig"; sourceTree = "<group>"; };
+		EB007BA81FB7CF0C00014769 /* UniversalItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalItemType.swift; sourceTree = "<group>"; };
+		EB007BAA1FB7DDC300014769 /* TaxReasonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxReasonItem.swift; sourceTree = "<group>"; };
+		EB007BAC1FB7E30200014769 /* WorkersCompItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkersCompItem.swift; sourceTree = "<group>"; };
+		EB007BAE1FB7E39A00014769 /* AdvertisingMeansItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisingMeansItem.swift; sourceTree = "<group>"; };
+		EB007BB01FB7E7DB00014769 /* PersonalReasonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalReasonItem.swift; sourceTree = "<group>"; };
+		EB007BB21FB7E97100014769 /* FuelTypeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuelTypeItem.swift; sourceTree = "<group>"; };
+		EB007BB41FB7F39E00014769 /* ProjectDocItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDocItem.swift; sourceTree = "<group>"; };
+		EB05238D1FD0BAAF00C13E8C /* AllowedCharsTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllowedCharsTextField.swift; sourceTree = "<group>"; };
 		EB190FC41F074EC700C80E07 /* CleanValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CleanValue.swift; sourceTree = "<group>"; };
 		EB190FC61F0B3CC500C80E07 /* ContactsLogicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsLogicManager.swift; sourceTree = "<group>"; };
 		EB3F93B91DDD41900049C343 /* AddUniversal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddUniversal.swift; sourceTree = "<group>"; };
 		EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BizzyAuthViewController.swift; sourceTree = "<group>"; };
 		EB4734931DE25BD900F6928E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EB5856A51FB6311C006C6212 /* EntityItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityItem.swift; sourceTree = "<group>"; };
+		EB5856A71FB6352D006C6212 /* AccountItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountItem.swift; sourceTree = "<group>"; };
+		EB5856A91FB635CA006C6212 /* UniversalItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalItem.swift; sourceTree = "<group>"; };
+		EB5856AB1FB635E8006C6212 /* VehicleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleItem.swift; sourceTree = "<group>"; };
+		EB5856AD1FB63612006C6212 /* ProjectItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectItem.swift; sourceTree = "<group>"; };
 		EB761D6D1F12F3300022DC7C /* Just.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Just.swift; sourceTree = "<group>"; };
 		EB7D51D71D95863F0016E63D /* Bizzy Books.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Bizzy Books.entitlements"; sourceTree = "<group>"; };
 		EB851E331D9578B2002D19F4 /* Bizzy Books.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bizzy Books.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,10 +148,11 @@
 			children = (
 				EB7D51D71D95863F0016E63D /* Bizzy Books.entitlements */,
 				EB851E361D9578B2002D19F4 /* AppDelegate.swift */,
+				FA7B731A1EFC5759007A1AEA /* Model */,
+				EBE448081FBD455D00DFD0AD /* Table View Cells */,
+				FA7B731B1EFC5769007A1AEA /* Collection View Cells */,
 				FA7B73191EFC5745007A1AEA /* View Controllers */,
 				EB851E3A1D9578B2002D19F4 /* Main.storyboard */,
-				FA7B731A1EFC5759007A1AEA /* Model */,
-				FA7B731B1EFC5769007A1AEA /* Collection View Cells */,
 				EB4734931DE25BD900F6928E /* Assets.xcassets */,
 				EB851E451D9578B2002D19F4 /* Info.plist */,
 				EB761D6F1F12F3360022DC7C /* Sources */,
@@ -134,6 +161,13 @@
 				EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */,
 			);
 			path = "Bizzy Books";
+			sourceTree = "<group>";
+		};
+		EBE448081FBD455D00DFD0AD /* Table View Cells */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Table View Cells";
 			sourceTree = "<group>";
 		};
 		FA7B73191EFC5745007A1AEA /* View Controllers */ = {
@@ -153,6 +187,19 @@
 				EBB77BDB1EFE2ABC0084D014 /* UIColorCustom.swift */,
 				EBB77BDD1EFE2D4D0084D014 /* UIColor+Hex.swift */,
 				EB190FC41F074EC700C80E07 /* CleanValue.swift */,
+				EB5856A51FB6311C006C6212 /* EntityItem.swift */,
+				EB5856A71FB6352D006C6212 /* AccountItem.swift */,
+				EB5856A91FB635CA006C6212 /* UniversalItem.swift */,
+				EB5856AB1FB635E8006C6212 /* VehicleItem.swift */,
+				EB5856AD1FB63612006C6212 /* ProjectItem.swift */,
+				EB007BA81FB7CF0C00014769 /* UniversalItemType.swift */,
+				EB007BAA1FB7DDC300014769 /* TaxReasonItem.swift */,
+				EB007BAC1FB7E30200014769 /* WorkersCompItem.swift */,
+				EB007BAE1FB7E39A00014769 /* AdvertisingMeansItem.swift */,
+				EB007BB01FB7E7DB00014769 /* PersonalReasonItem.swift */,
+				EB007BB21FB7E97100014769 /* FuelTypeItem.swift */,
+				EB007BB41FB7F39E00014769 /* ProjectDocItem.swift */,
+				EB05238D1FD0BAAF00C13E8C /* AllowedCharsTextField.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -210,6 +257,7 @@
 					EB851E321D9578B2002D19F4 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = 52QW7JU85A;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -351,20 +399,33 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBB77BD81EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift in Sources */,
+				EB007BAD1FB7E30200014769 /* WorkersCompItem.swift in Sources */,
 				FAAE73321F01C6E600BF1156 /* DropdownFlowView.swift in Sources */,
+				EB007BAB1FB7DDC300014769 /* TaxReasonItem.swift in Sources */,
 				EB851E391D9578B2002D19F4 /* ViewController.swift in Sources */,
 				EB761D6E1F12F3300022DC7C /* Just.swift in Sources */,
 				EBB77BDC1EFE2ABC0084D014 /* UIColorCustom.swift in Sources */,
 				EB3F93BA1DDD41900049C343 /* AddUniversal.swift in Sources */,
+				EB007BB51FB7F39E00014769 /* ProjectDocItem.swift in Sources */,
+				EB007BA91FB7CF0C00014769 /* UniversalItemType.swift in Sources */,
+				EB5856AA1FB635CA006C6212 /* UniversalItem.swift in Sources */,
 				EB4392C01EF6077700C568C3 /* BizzyAuthViewController.swift in Sources */,
 				EBB77BDA1EFC37170084D014 /* LabelTextFieldFlowCells.swift in Sources */,
 				FA7B731D1EFC5785007A1AEA /* DropdownFlowCollectionViewCell.swift in Sources */,
+				EB5856AE1FB63612006C6212 /* ProjectItem.swift in Sources */,
+				EB007BB31FB7E97100014769 /* FuelTypeItem.swift in Sources */,
 				EB190FC51F074EC700C80E07 /* CleanValue.swift in Sources */,
 				EB851E3F1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld in Sources */,
+				EB05238E1FD0BAAF00C13E8C /* AllowedCharsTextField.swift in Sources */,
+				EB5856AC1FB635E8006C6212 /* VehicleItem.swift in Sources */,
 				FA7B73211EFC5983007A1AEA /* DropdownReusableView.swift in Sources */,
+				EB007BAF1FB7E39A00014769 /* AdvertisingMeansItem.swift in Sources */,
 				EBB77BDE1EFE2D4D0084D014 /* UIColor+Hex.swift in Sources */,
 				EB851E371D9578B2002D19F4 /* AppDelegate.swift in Sources */,
 				EB190FC71F0B3CC500C80E07 /* ContactsLogicManager.swift in Sources */,
+				EB5856A81FB6352D006C6212 /* AccountItem.swift in Sources */,
+				EB5856A61FB6311C006C6212 /* EntityItem.swift in Sources */,
+				EB007BB11FB7E7DB00014769 /* PersonalReasonItem.swift in Sources */,
 				EBB77BD61EFC36070084D014 /* LabelTextFieldFlowItem.swift in Sources */,
 				FA7B73181EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 			);
@@ -493,7 +554,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bizzybooks.Bizzy-Books";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
@@ -512,7 +574,8 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bizzybooks.Bizzy-Books";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;

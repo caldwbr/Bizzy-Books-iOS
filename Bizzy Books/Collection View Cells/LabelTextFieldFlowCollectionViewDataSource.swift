@@ -25,8 +25,11 @@ class LabelTextFieldFlowCollectionViewDataSource : NSObject, UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let item = items[indexPath.item]
+        var cell : UICollectionViewCell
+
+        cell = collectionView.dequeueReusableCell(withReuseIdentifier: item.cellIdentifier, for: indexPath)
+
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: item.cellIdentifier, for: indexPath)
         if let c = cell as? FlowItemConfigurable {
             c.configure(item: item)
         }

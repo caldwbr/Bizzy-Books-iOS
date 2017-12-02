@@ -336,10 +336,10 @@ public struct CaseInsensitiveDictionary<Key: Hashable, Value>: Collection,
     }
     
     public var keys: LazyMapCollection<[Key : Value], Key> {
-        return _data.keys
+        return _data.keys as! LazyMapCollection
     }
     public var values: LazyMapCollection<[Key : Value], Value> {
-        return _data.values
+        return _data.values as! LazyMapCollection
     }
 }
 

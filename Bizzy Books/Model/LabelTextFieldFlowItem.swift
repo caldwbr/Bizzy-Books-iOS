@@ -38,7 +38,6 @@ struct DropdownFlowItem : FlowItem {
     }
 }
 
-
 struct LabelFlowItem : FlowItem {
     let text : String
     let color : UIColor
@@ -50,7 +49,7 @@ struct LabelFlowItem : FlowItem {
         size.height = 44.0
         size = (text as NSString).boundingRect(with: size, options: .usesLineFragmentOrigin,
                                                attributes: [
-                                                NSFontAttributeName : UIFont.systemFont(ofSize: 17.0)
+                                                NSAttributedStringKey.font : UIFont.systemFont(ofSize: 17.0)
             ], context: nil).size
         
         // Add the padding
@@ -65,13 +64,15 @@ struct LabelFlowItem : FlowItem {
     }
 }
 
-
-
-
 struct TextFieldFlowItem : FlowItem {
     let text : String
+    let amt : Int
     let placeholder : String
     let color : UIColor
+    let keyboardType : UIKeyboardType
+    let allowedCharsString : String
+    let formatterStyle : NumberFormatter.Style
+    let numberKind : Int
     
     var displaySize : CGSize {
         return CGSize(width: 120, height: 32)
@@ -81,4 +82,3 @@ struct TextFieldFlowItem : FlowItem {
         return "TextFieldCollectionViewCell"
     }
 }
-

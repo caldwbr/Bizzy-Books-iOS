@@ -34,6 +34,9 @@ extension UIColor {
         }
         struct Orange {
             static let WC = UIColor(netHex: 0xF57C00)
+            static let Vehicle = UIColor(netHex: 0xF57C00)
+            static let AdMeans = UIColor(netHex: 0xF57C00)
+            static let HowTheyHeard = UIColor(netHex: 0xF57C00)
         }
     }
 }
