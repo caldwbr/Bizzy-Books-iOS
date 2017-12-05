@@ -67,10 +67,12 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var fuelTypePlaceholderId = -1
     var vehiclePlaceholder = "vehicle ▾" //Fuel-up relevant vehicle
     var vehiclePlaceholderKeyString = ""
-    var yourSecondaryAccountPlaceholder = "which account ▾"
-    var yourSecondaryAccountPlaceholderKeyString = ""
     var yourAccountPlaceholder = "Your account ▾"
     var yourAccountPlaceholderKeyString = ""
+    var yourPrimaryAccountPlaceholder = "account ▾"
+    var yourPrimaryAccountPlaceholderKeyString = ""
+    var yourSecondaryAccountPlaceholder = "secondary account ▾"
+    var yourSecondaryAccountPlaceholderKeyString = ""
     var workersCompPlaceholder = "Worker's comp ▾ ?"
     var workersCompPlaceholderId = -1
     var advertisingMeansPlaceholder = "Advertising means ▾ ?"
@@ -88,6 +90,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             //isNegativeSwitch.isOn = false
         }
     }
+    var primaryAccountTapped = false // Starts off false, can be changed to true (for filtering in transfer section)
     var timeStamp = 0
     var addEntityKeyString = ""
     var addProjectKeyString = ""
@@ -347,6 +350,9 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 self.accountLabel.text = thisAccountItem.name
                 self.selectAccountView.removeFromSuperview()
             }
+            if primaryAccountTapped == true {
+                primaryAccountTapped = false
+            }
         }
     }
     
@@ -359,22 +365,36 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         popUpAnimateIn(popUpView: addAccountView)
     }
     @IBAction func accountDismissTapped(_ sender: UIButton) {
+        if primaryAccountTapped == true {
+            primaryAccountTapped = false
+        }
         popUpAnimateOut(popUpView: selectAccountView)
     }
     @IBAction func accountAcceptTapped(_ sender: UIButton) {
         if !tempKeyHolder.isEmpty && !selectAccountTextField.text!.isEmpty{
-            yourAccountPlaceholderKeyString = tempKeyHolder
-            yourAccountPlaceholder = selectAccountTextField.text!
             switch self.selectedType {
             case 0, 1, 2, 3:
+                yourAccountPlaceholderKeyString = tempKeyHolder
+                yourAccountPlaceholder = selectAccountTextField.text!
                 self.accountLabel.text = yourAccountPlaceholder
-            case 4, 5:
+            case 4:
+                yourPrimaryAccountPlaceholderKeyString = tempKeyHolder
+                yourPrimaryAccountPlaceholder = selectAccountTextField.text!
+                self.reloadSentence(selectedType: self.selectedType)
+            case 5:
+                yourAccountPlaceholderKeyString = tempKeyHolder
+                yourAccountPlaceholder = selectAccountTextField.text!
                 self.reloadSentence(selectedType: self.selectedType)
             default:
+                yourAccountPlaceholderKeyString = tempKeyHolder
+                yourAccountPlaceholder = selectAccountTextField.text!
                 self.accountLabel.text = yourAccountPlaceholder
             }
             popUpAnimateOut(popUpView: selectAccountView)
             tempKeyHolder = ""
+            if primaryAccountTapped == true {
+                primaryAccountTapped = false
+            }
         }
     }
     
@@ -578,7 +598,15 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             if !searchText.isEmpty {
                 filteredFirebaseAccounts = firebaseAccounts.filter({ (accountItem) -> Bool in
                     if accountItem.name.localizedCaseInsensitiveContains(searchText) {
-                        return true
+                        if primaryAccountTapped == true {
+                            if accountItem.key != yourSecondaryAccountPlaceholderKeyString {
+                                return true
+                            } else {
+                                return false
+                            }
+                        } else {
+                            return true
+                        }
                     } else {
                         return false
                     }
@@ -605,7 +633,11 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             if !searchText.isEmpty {
                 filteredFirebaseAccounts = firebaseAccounts.filter({ (accountItem) -> Bool in
                     if accountItem.name.localizedCaseInsensitiveContains(searchText) {
-                        return true
+                        if accountItem.key != yourPrimaryAccountPlaceholderKeyString {
+                            return true
+                        } else {
+                            return false
+                        }
                     } else {
                         return false
                     }
@@ -1083,7 +1115,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             LabelFlowItem(text: "moved", color: .gray, action: nil),
             TextFieldFlowItem(text: "", amt: 0, placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0),
             LabelFlowItem(text: "from", color: .gray, action: nil),
-            LabelFlowItem(text: yourAccountPlaceholder, color: UIColor.BizzyColor.Green.Account, action: { self.popUpAnimateIn(popUpView: self.selectAccountView) }),
+            LabelFlowItem(text: yourPrimaryAccountPlaceholder, color: UIColor.BizzyColor.Green.Account, action: { self.primaryAccountTapped = true; self.popUpAnimateIn(popUpView: self.selectAccountView) }),
             LabelFlowItem(text: "to", color: .gray, action: nil),
             LabelFlowItem(text: yourSecondaryAccountPlaceholder, color: UIColor.BizzyColor.Green.Account, action: { self.popUpAnimateIn(popUpView: self.selectSecondaryAccountView) })
         ]
@@ -1352,7 +1384,7 @@ extension AddUniversal: UITableViewDataSource, UITableViewDelegate {
         
         switch tableView {
         case self.contactSuggestionsTableView:
-            let contact = recommendedContacts[indexPath.row]
+            let contact = self.recommendedContacts[indexPath.row]
             self.selectedContact = contact
             self.contactSuggestionsTableView.isHidden = true
             addEntityNameTextField.text = contact.givenName + " " + contact.familyName
@@ -1373,43 +1405,51 @@ extension AddUniversal: UITableViewDataSource, UITableViewDelegate {
                     addEntityStateTextField.text = theAddress.value.state
                 }
             }
+            self.recommendedContacts.removeAll() //Is this safe on this particular instance??
         case self.selectWhoTableView:
             let who = filteredFirebaseEntities[indexPath.row]
             self.selectWhoTableView.isHidden = true
             self.selectWhoTextField.text = who.name
             self.tempKeyHolder = who.key
+            self.filteredFirebaseEntities.removeAll()
         case self.selectWhomTableView:
             let whom = filteredFirebaseEntities[indexPath.row]
             self.selectWhomTableView.isHidden = true
             self.selectWhomTextField.text = whom.name
             self.tempKeyHolder = whom.key
+            self.filteredFirebaseEntities.removeAll()
         case self.selectProjectTableView:
             let project = filteredFirebaseProjects[indexPath.row]
             self.selectProjectTableView.isHidden = true
             self.projectTextField.text = project.name //The one on the main screen is a label (stupid I know)
             self.tempKeyHolder = project.key
+            self.filteredFirebaseProjects.removeAll()
         case self.selectVehicleTableView:
             let vehicle = filteredFirebaseVehicles[indexPath.row]
             self.selectVehicleTableView.isHidden = true
             self.selectVehicleTextField.text = vehicle.year + "" + vehicle.make + "" + vehicle.model
             self.tempKeyHolder = vehicle.key
+            self.filteredFirebaseVehicles.removeAll()
         case self.selectAccountTableView:
             let account = filteredFirebaseAccounts[indexPath.row]
             self.selectAccountTableView.isHidden = true
             self.selectAccountTextField.text = account.name
             self.tempKeyHolder = account.key
+            self.filteredFirebaseAccounts.removeAll() //This critical line empties the array so when secondary account is clicked, it doesn't pre-fill with all the data from last time!! And so with all the other cases.
         case self.selectSecondaryAccountTableView:
             let secondaryAccount = filteredFirebaseAccounts[indexPath.row]
             self.selectSecondaryAccountTableView.isHidden = true
             self.selectSecondaryAccountTextField.text = secondaryAccount.name
             self.tempKeyHolder = secondaryAccount.key
+            self.filteredFirebaseAccounts.removeAll()
         case self.addProjectSelectCustomerTableView:
             let customer = filteredFirebaseEntities[indexPath.row]
             self.addProjectSelectCustomerTableView.isHidden = true
             self.addProjectSearchCustomerTextField.text = customer.name
             self.tempKeyHolder = customer.key
+            self.filteredFirebaseEntities.removeAll()
         default:
-            let contact = recommendedContacts[indexPath.row]
+            let contact = self.recommendedContacts[indexPath.row]
             self.selectedContact = contact
             self.contactSuggestionsTableView.isHidden = true
             addEntityNameTextField.text = contact.givenName + " " + contact.familyName
@@ -1430,6 +1470,7 @@ extension AddUniversal: UITableViewDataSource, UITableViewDelegate {
                     addEntityStateTextField.text = theAddress.value.state
                 }
             }
+            self.recommendedContacts.removeAll()
         }
         
         
