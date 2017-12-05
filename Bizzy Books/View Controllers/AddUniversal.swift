@@ -20,6 +20,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     var digits = "0123456789"
     var negPossibleDigits = "0123456789-"
+    let theFormatter = NumberFormatter()
 
     var masterRef: DatabaseReference!
     var entitiesRef: DatabaseReference!
@@ -69,6 +70,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var vehiclePlaceholderKeyString = ""
     var yourAccountPlaceholder = "Your account ▾"
     var yourAccountPlaceholderKeyString = ""
+    var bizzyBooksBalanceAsString = ""
+    var bizzyBooksBalanceAsInt = 0
+    var bizzyBooksBalanceAsDouble = 0.0
+    var bizzyBooksBalanceString = "$0.00"
     var yourPrimaryAccountPlaceholder = "account ▾"
     var yourPrimaryAccountPlaceholderKeyString = ""
     var yourSecondaryAccountPlaceholder = "secondary account ▾"
@@ -384,7 +389,13 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             case 5:
                 yourAccountPlaceholderKeyString = tempKeyHolder
                 yourAccountPlaceholder = selectAccountTextField.text!
-                self.reloadSentence(selectedType: self.selectedType)
+                accountsRef.child(tempKeyHolder).observeSingleEvent(of: .value, with: { (snapshot) in
+                    let thisAccount = AccountItem(snapshot: snapshot)
+                    self.bizzyBooksBalanceAsInt = thisAccount.startingBal
+                    self.bizzyBooksBalanceAsDouble = self.findBizzyBooksBalanceAsDouble()
+                    self.bizzyBooksBalanceString = self.theFormatter.string(from: NSNumber(value: self.bizzyBooksBalanceAsDouble))!
+                    self.reloadSentence(selectedType: self.selectedType)
+                })
             default:
                 yourAccountPlaceholderKeyString = tempKeyHolder
                 yourAccountPlaceholder = selectAccountTextField.text!
@@ -734,6 +745,9 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         self.selectSecondaryAccountTableView.keyboardDismissMode = .interactive
         self.addProjectSelectCustomerTableView.keyboardDismissMode = .interactive
         
+        theFormatter.usesGroupingSeparator = true
+        theFormatter.numberStyle = .currency
+        
         overheadSwitch.isOn = false
         useTaxSwitch.isOn = false
         visualEffectView.isHidden = true
@@ -815,7 +829,11 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         let iconPersonal = "personal"
         setTextAndIconOnLabel(text: amountText, icon: iconBusiness, label: amountBusinessLabel)
         setTextAndIconOnLabel(text: amountText, icon: iconPersonal, label: amountPersonalLabel)
-        
+    }
+    
+    func findBizzyBooksBalanceAsDouble () -> Double {
+        bizzyBooksBalanceAsDouble = Double(bizzyBooksBalanceAsInt)/100 //REALLY, deduct effect of all Universals which affected the account to find CURRENT balance. Also, will this break if there are no Universals? Need to write it to consider that also!
+        return bizzyBooksBalanceAsDouble
     }
     
     func clearAddEntityFields() {
@@ -836,9 +854,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         print(theAmt)
         let prepareTheBusinessAmt = (Double(theAmt)/100) * (Double(percent)/100)
         let prepareThePersonalAmt = (Double(theAmt)/100) * (1.0 - (Double(percent)/100))
-        let theFormatter = NumberFormatter()
-        theFormatter.usesGroupingSeparator = true
-        theFormatter.numberStyle = .currency
         setTextAndIconOnLabel(text: (theFormatter.string(from: NSNumber(value: prepareTheBusinessAmt)))!, icon: "business", label: amountBusinessLabel)
         setTextAndIconOnLabel(text: (theFormatter.string(from: NSNumber(value: prepareThePersonalAmt)))!, icon: "personal", label: amountPersonalLabel)
     }
@@ -1135,7 +1150,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         dataSource.items = [
             LabelFlowItem(text: yourAccountPlaceholder, color: UIColor.BizzyColor.Green.Account, action: { self.popUpAnimateIn(popUpView: self.selectAccountView) }),
             LabelFlowItem(text: "with a Bizzy Books balance of", color: .gray, action: nil),
-            LabelFlowItem(text: "$0.00", color: UIColor.BizzyColor.Green.Account, action: nil),
+            LabelFlowItem(text: bizzyBooksBalanceString, color: UIColor.BizzyColor.Green.Account, action: nil),
             LabelFlowItem(text: "should have a balance of", color: .gray, action: nil),
             TextFieldFlowItem(text: "", amt: 0, placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numbersAndPunctuation, allowedCharsString: negPossibleDigits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0)
         ]
@@ -1405,7 +1420,7 @@ extension AddUniversal: UITableViewDataSource, UITableViewDelegate {
                     addEntityStateTextField.text = theAddress.value.state
                 }
             }
-            self.recommendedContacts.removeAll() //Is this safe on this particular instance??
+            self.recommendedContacts.removeAll() //Is this safe on this particular instance?? Seems to be.
         case self.selectWhoTableView:
             let who = filteredFirebaseEntities[indexPath.row]
             self.selectWhoTableView.isHidden = true
