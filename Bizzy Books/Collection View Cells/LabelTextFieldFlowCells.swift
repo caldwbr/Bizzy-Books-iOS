@@ -17,6 +17,10 @@ protocol FlowItemConfigurable {
 class TextFieldCollectionViewCell : UICollectionViewCell, FlowItemConfigurable {
     
     @IBOutlet weak var textField: AllowedCharsTextField!
+    @IBAction func textFieldEditingChanged(_ sender: AllowedCharsTextField) {
+        //AddUniversal.updateSliderValues(AddUniversal.thePercent)
+        
+    }
     
     func configure(item: FlowItem) {
         if let item = item as? TextFieldFlowItem {
@@ -30,7 +34,6 @@ class TextFieldCollectionViewCell : UICollectionViewCell, FlowItemConfigurable {
             textField.numberKind = item.numberKind
         }
     }
-    
 
 }
 
@@ -59,4 +62,5 @@ class LabelCollectionViewCell : UICollectionViewCell, FlowItemConfigurable {
             action = item.action
         }
     }
+
 }

@@ -29,9 +29,14 @@ class LabelTextFieldFlowCollectionViewDataSource : NSObject, UICollectionViewDat
 
         cell = collectionView.dequeueReusableCell(withReuseIdentifier: item.cellIdentifier, for: indexPath)
         if item.cellIdentifier == "TextFieldCollectionViewCell" {
+            print("1")
             let theCell = cell as? TextFieldCollectionViewCell
-            theTextFieldYes = (theCell?.textField)!
-            //theTextFieldYes.addTarget(self, action: #selector(AddUniversal.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
+            print("2")
+            theTextFieldYes = (theCell?.textField as AllowedCharsTextField!)
+            //print(theTextFieldYes.amt)
+            /*if let c = cell as? FlowItemConfigurable {
+                theTextFieldYes.addTarget(self, action: { c.update(item: item) }, for: UIControlEvents.editingChanged)
+            }*/
             
         }
 

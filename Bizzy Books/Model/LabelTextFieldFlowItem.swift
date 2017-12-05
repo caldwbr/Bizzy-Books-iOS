@@ -65,8 +65,8 @@ struct LabelFlowItem : FlowItem {
 }
 
 struct TextFieldFlowItem : FlowItem {
-    let text : String
-    let amt : Int
+    var text : String
+    var amt : Int
     let placeholder : String
     let color : UIColor
     let keyboardType : UIKeyboardType

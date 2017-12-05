@@ -14,6 +14,7 @@ class AllowedCharsTextField: UITextField, UITextFieldDelegate {
     var amt: Int = 0
     let formatter = NumberFormatter()
     var numberKind = Int()
+    var isNegative = false
     
     // 2
     @IBInspectable var allowedChars: String = ""
@@ -51,12 +52,21 @@ class AllowedCharsTextField: UITextField, UITextFieldDelegate {
                     self.text = ""
                     return false
                 }
-                amt = amt * 10 + digit
+                if isNegative {
+                    amt = amt * 10 - digit
+                } else {
+                    amt = amt * 10 + digit
+                }
                 self.text = updateAmount()
             }
             if string == "" {
                 amt = amt/10
                 self.text = amt == 0 ? "" : updateAmount()
+            }
+            if string == "-" {
+                isNegative = !isNegative // Flips it
+                amt = -amt
+                self.text = updateAmount()
             }
             return false //This was the line that, when set to true, was appending the digit-in-purgatory after field had already been rendered by "updateAmount()" IE $0.055
         }

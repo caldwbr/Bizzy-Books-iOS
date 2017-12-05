@@ -26,6 +26,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var projectsRef: DatabaseReference!
     var vehiclesRef: DatabaseReference!
     var accountsRef: DatabaseReference!
+    var currentlySubscribedRef: DatabaseReference!
     
     var firebaseEntities = [EntityItem]()
     var firebaseProjects: [ProjectItem] = []
@@ -35,6 +36,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var filteredFirebaseProjects: [ProjectItem] = []
     var filteredFirebaseVehicles: [VehicleItem] = []
     var filteredFirebaseAccounts: [AccountItem] = []
+    var isUserCurrentlySubscribed: Bool = false
     
     var tempKeyHolder: String = ""
     
@@ -293,7 +295,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     @IBOutlet var addAccountView: UIView!
     @IBOutlet weak var addAccountNameTextField: UITextField!
-    @IBOutlet weak var addAccountStartingBalanceTextField: UITextField!
+    @IBOutlet weak var addAccountStartingBalanceTextField: AllowedCharsTextField!
     @IBOutlet weak var addAccountPhoneNumberTextField: UITextField!
     @IBOutlet weak var addAccountEmailTextField: UITextField!
     @IBOutlet weak var addAccountStreetTextField: UITextField!
@@ -304,16 +306,23 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         addAccountView.removeFromSuperview()
     }
     @IBAction func addAccountSavePressed(_ sender: UIButton) {
-        if let startingBal = addAccountStartingBalanceTextField.text! as? NSNumber, !((addAccountNameTextField.text?.isEmpty)!), !((addAccountStartingBalanceTextField.text?.isEmpty)!) {
+        if !((addAccountNameTextField.text?.isEmpty)!), !((addAccountStartingBalanceTextField.text?.isEmpty)!) {
             let addAccountKeyReference = accountsRef.childByAutoId()
             addAccountKeyString = addAccountKeyReference.key
-            let thisAccountItem = AccountItem(name: addAccountNameTextField.text!, phoneNumber: addAccountPhoneNumberTextField.text!, email: addAccountEmailTextField.text!, street: addAccountStreetTextField.text!, city: addAccountCityTextField.text!, state: addAccountStateTextField.text!, startingBal: Int(addAccountStartingBalanceTextField.text!)!)
+            let thisAccountItem = AccountItem(name: addAccountNameTextField.text!, phoneNumber: addAccountPhoneNumberTextField.text!, email: addAccountEmailTextField.text!, street: addAccountStreetTextField.text!, city: addAccountCityTextField.text!, state: addAccountStateTextField.text!, startingBal: addAccountStartingBalanceTextField.amt)
             accountsRef.child(addAccountKeyString).setValue(thisAccountItem.toAnyObject())
             popUpAnimateOut(popUpView: addAccountView)
-            yourAccountPlaceholderKeyString = addAccountKeyString
-            yourAccountPlaceholder = thisAccountItem.name
+            if self.accountSenderCode == 0 {
+                yourAccountPlaceholderKeyString = addAccountKeyString
+                yourAccountPlaceholder = thisAccountItem.name
+            } else if self.accountSenderCode == 1 {
+                yourSecondaryAccountPlaceholderKeyString = addAccountKeyString
+                yourSecondaryAccountPlaceholder = thisAccountItem.name
+            }
             addAccountNameTextField.text = ""
             addAccountStartingBalanceTextField.text = ""
+            addAccountStartingBalanceTextField.amt = 0
+            addAccountStartingBalanceTextField.isNegative = false
             addAccountPhoneNumberTextField.text = ""
             addAccountEmailTextField.text = ""
             addAccountStreetTextField.text = ""
@@ -374,10 +383,14 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var selectSecondaryAccountTableView: UITableView!
     @IBOutlet weak var selectSecondaryAccountTextField: UITextField!
     @IBAction func secondaryAccountAddButtonTapped(_ sender: UIButton) {
+        filteredFirebaseAccounts.removeAll()
+        selectSecondaryAccountTableView.reloadData()
         accountSenderCode = 1
         popUpAnimateIn(popUpView: addAccountView)
     }
     @IBAction func secondaryAccountDismissTapped(_ sender: UIButton) {
+        filteredFirebaseAccounts.removeAll()
+        selectSecondaryAccountTableView.reloadData()
         popUpAnimateOut(popUpView: selectSecondaryAccountView)
     }
     @IBAction func secondaryAccountAcceptTapped(_ sender: UIButton) {
@@ -387,6 +400,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             self.reloadSentence(selectedType: selectedType)
             popUpAnimateOut(popUpView: selectSecondaryAccountView)
             tempKeyHolder = ""
+            filteredFirebaseAccounts.removeAll()
+            selectSecondaryAccountTableView.reloadData()
         }
     }
     
@@ -455,7 +470,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if let searchText = sender.text {
             if !searchText.isEmpty {
                 self.filteredFirebaseEntities.removeAll()
-                let thisFilteredFirebaseEntities = firebaseEntities.filter({$0.name.contains(searchText)})
+                let thisFilteredFirebaseEntities = firebaseEntities.filter({$0.name.localizedCaseInsensitiveContains(searchText)})
                 for entity in thisFilteredFirebaseEntities {
                     self.filteredFirebaseEntities.append(entity)
                 }
@@ -481,7 +496,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if let searchText = sender.text {
             if !searchText.isEmpty {
                 filteredFirebaseEntities = firebaseEntities.filter({ (entityItem) -> Bool in
-                    if entityItem.name.contains(searchText) {
+                    if entityItem.name.localizedCaseInsensitiveContains(searchText) {
                         return true
                     } else {
                         return false
@@ -508,7 +523,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if let searchText = sender.text {
             if !searchText.isEmpty {
                 filteredFirebaseProjects = firebaseProjects.filter({ (projectItem) -> Bool in
-                    if projectItem.name.contains(searchText) {
+                    if projectItem.name.localizedCaseInsensitiveContains(searchText) {
                         return true
                     } else {
                         return false
@@ -535,7 +550,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if let searchText = sender.text {
             if !searchText.isEmpty {
                 filteredFirebaseVehicles = firebaseVehicles.filter({ (vehicleItem) -> Bool in
-                    if vehicleItem.year.contains(searchText) || vehicleItem.make.contains(searchText) || vehicleItem.model.contains(searchText) {
+                    if vehicleItem.year.localizedCaseInsensitiveContains(searchText) || vehicleItem.make.localizedCaseInsensitiveContains(searchText) || vehicleItem.model.localizedCaseInsensitiveContains(searchText) {
                         return true
                     } else {
                         return false
@@ -562,7 +577,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if let searchText = sender.text {
             if !searchText.isEmpty {
                 filteredFirebaseAccounts = firebaseAccounts.filter({ (accountItem) -> Bool in
-                    if accountItem.name.contains(searchText) {
+                    if accountItem.name.localizedCaseInsensitiveContains(searchText) {
                         return true
                     } else {
                         return false
@@ -589,7 +604,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if let searchText = sender.text {
             if !searchText.isEmpty {
                 filteredFirebaseAccounts = firebaseAccounts.filter({ (accountItem) -> Bool in
-                    if accountItem.name.contains(searchText) {
+                    if accountItem.name.localizedCaseInsensitiveContains(searchText) {
                         return true
                     } else {
                         return false
@@ -617,7 +632,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if let searchText = sender.text {
             if !searchText.isEmpty {
                 filteredFirebaseEntities = firebaseEntities.filter({ (entityItem) -> Bool in
-                    if entityItem.name.contains(searchText) {
+                    if entityItem.name.localizedCaseInsensitiveContains(searchText) {
                         return true
                     } else {
                         return false
@@ -669,6 +684,11 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         reloadSentence(selectedType: selectedType)
         pickerCode = 0
     }
+    
+    @IBAction func cameraPressed(_ sender: UIBarButtonItem) {
+        
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -736,6 +756,12 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         odometerTextField.text = ""
         odometerTextField.placeholder = "Odometer"
         odometerTextField.allowedChars = "0123456789"
+        addAccountStartingBalanceTextField.formatter.numberStyle = NumberFormatter.Style.currency
+        addAccountStartingBalanceTextField.numberKind = 0
+        addAccountStartingBalanceTextField.keyboardType = .numbersAndPunctuation
+        addAccountStartingBalanceTextField.text = ""
+        addAccountStartingBalanceTextField.placeholder = "Starting (Current) Balance"
+        addAccountStartingBalanceTextField.allowedChars = "-0123456789"
         
         //Placing the use tax view inside the bottom bar
         var currentItems = self.toolbarItems ?? []
@@ -775,6 +801,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if let theTextFieldYes = dataSource.theTextFieldYes as? AllowedCharsTextField {
             theAmt = theTextFieldYes.amt
         }
+        print(theAmt)
         let prepareTheBusinessAmt = (Double(theAmt)/100) * (Double(percent)/100)
         let prepareThePersonalAmt = (Double(theAmt)/100) * (1.0 - (Double(percent)/100))
         let theFormatter = NumberFormatter()
@@ -803,6 +830,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
         vehiclesRef = Database.database().reference().child("users").child(userUID).child("vehicles")
         accountsRef = Database.database().reference().child("users").child(userUID).child("accounts")
+        currentlySubscribedRef = Database.database().reference().child("users").child(userUID).child("currentlySubscribed")
         entitiesRef.observe(.value) { (snapshot) in
             for item in snapshot.children {
                 let firebaseEntity = EntityItem(snapshot: item as! DataSnapshot)
@@ -835,6 +863,9 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             }
             self.selectAccountTableView.reloadData()
             self.selectSecondaryAccountTableView.reloadData()
+        }
+        currentlySubscribedRef.observe(.value) { (snapshot) in
+            //let subscribed = 
         }
         //masterRef.setValue(["username": "Brad Caldwell"]) //This erases all siblings!!!!!! Including any childrenbyautoid!!!
         //masterRef.childByAutoId().setValue([3, 4, -88, 45, true])
@@ -944,6 +975,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         default:
             break
         }
+        //dataSource.theTextFieldYes.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
         projectLabel.isHidden = false
         odometerTextField.isHidden = true
         percentBusinessView.isHidden = true
@@ -1010,7 +1042,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         reloadCollectionView()
         useTaxSwitchContainer.isHidden = false
         let theTextFieldYes = dataSource.theTextFieldYes
-        theTextFieldYes.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
+        theTextFieldYes.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControlEvents.allEditingEvents)
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
