@@ -31,4 +31,6 @@ target 'Bizzy Books' do
     # Centered collection view layout
     pod 'KTCenterFlowLayout'
 
+    pod 'Freddy'
+
 end

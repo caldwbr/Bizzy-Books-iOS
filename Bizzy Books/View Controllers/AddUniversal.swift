@@ -11,6 +11,8 @@ import UIKit
 import KTCenterFlowLayout
 import Firebase
 import Contacts
+import StoreKit
+import Freddy
 
 class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
@@ -729,9 +731,17 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     @IBAction func cameraPressed(_ sender: UIBarButtonItem) {
-        
+        /*
+        guard SubscriptionService.shared.currentSessionId != nil,
+            SubscriptionService.shared.hasReceiptData else {
+                showRestoreAlert()
+                return
+        }*/
     }
     
+    func showRestoreAlert() {
+        
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

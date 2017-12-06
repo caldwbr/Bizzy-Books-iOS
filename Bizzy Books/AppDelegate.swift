@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         //FirebaseApp.configure()
         Database.database().isPersistenceEnabled = true
+        IAPProcessor.shared.startListening()
         return true
     }
     
