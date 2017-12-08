@@ -9,20 +9,13 @@
 import UIKit
 import StoreKit
 import Freddy
+import Firebase
 
 class IAPProcessor: NSObject {
     static let shared = IAPProcessor()
     
-    // Shared Secret for validation. This value comes from one of two
-    // places in iTunes Connect:
-    //
-    // A) On your "My Apps", next to the plus, is an ellipsis (…).
-    //    In that menu, select 'In-App Purchase Shared Secret'.
-    // B) On the In-App Purchases feature panel where you created your
-    //    IAP record, on the right side of the list, is 'View Shared Secret'.
-    
     public var sharedSecret = "c4d9ead54d16438ab780ce6b00d89a8f"
-    public var productIdentifier : String = "1321692215" {
+    public var productIdentifier : String = "1002pro" { // Did I find the right "productIdentifier"?? Is it "1321694172" or "1321692215" or "1002pro"? Apparently, "1002pro" is the id that they wanted to see.
         didSet {
             searchForProduct()
         }
@@ -63,7 +56,7 @@ class IAPProcessor: NSObject {
     
     public func restorePurchases(completion: @escaping (Bool, String?, Error?) -> Void) {
         self.completionBlock = completion
-        paymentQueue.restoreCompletedTransactions()
+        paymentQueue.restoreCompletedTransactions() //I think this is where you want to enable the camera.
     }
 }
 
@@ -96,15 +89,19 @@ extension IAPProcessor : SKProductsRequestDelegate, SKRequestDelegate {
 //Find out whether the user bought the pro subscription or not
 extension IAPProcessor : SKPaymentTransactionObserver {
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        var currentlySubscribedRef: DatabaseReference!
+        currentlySubscribedRef = Database.database().reference().child("users").child(userUID).child("currentlySubscribed")
         NSLog("Received \(transactions.count) updated transactions")
         var shouldProcessReceipt = false
         for trans in transactions where trans.payment.productIdentifier == self.productIdentifier {
             switch trans.transactionState {
             case .purchased, .restored:
                 shouldProcessReceipt = true
+                currentlySubscribedRef.setValue(true)
                 paymentQueue.finishTransaction(trans)
             case .failed:
                 NSLog("Transaction failed!")
+                currentlySubscribedRef.setValue(false)
                 if let block = completionBlock {
                     block(false, "The purchase failed.", trans.error)
                 }
@@ -113,7 +110,7 @@ extension IAPProcessor : SKPaymentTransactionObserver {
                 NSLog("Not sure what to do with that")
             }
         }
-        if(shouldProcessReceipt) {
+        if (shouldProcessReceipt) {
             processReceipt()
         }
     }

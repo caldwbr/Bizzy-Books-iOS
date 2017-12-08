@@ -16,13 +16,13 @@
 		EB007BB31FB7E97100014769 /* FuelTypeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB007BB21FB7E97100014769 /* FuelTypeItem.swift */; };
 		EB007BB51FB7F39E00014769 /* ProjectDocItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB007BB41FB7F39E00014769 /* ProjectDocItem.swift */; };
 		EB05238E1FD0BAAF00C13E8C /* AllowedCharsTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB05238D1FD0BAAF00C13E8C /* AllowedCharsTextField.swift */; };
+		EB0B96671FD8744700E8829C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB0B96661FD8744700E8829C /* LaunchScreen.storyboard */; };
 		EB190FC51F074EC700C80E07 /* CleanValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB190FC41F074EC700C80E07 /* CleanValue.swift */; };
 		EB190FC71F0B3CC500C80E07 /* ContactsLogicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB190FC61F0B3CC500C80E07 /* ContactsLogicManager.swift */; };
 		EB1915C61FD768DD0078AA64 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB1915C51FD768DD0078AA64 /* StoreKit.framework */; };
 		EB1915C81FD85B370078AA64 /* IAPProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1915C71FD85B370078AA64 /* IAPProcessor.swift */; };
 		EB3F93BA1DDD41900049C343 /* AddUniversal.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3F93B91DDD41900049C343 /* AddUniversal.swift */; };
 		EB4392C01EF6077700C568C3 /* BizzyAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */; };
-		EB4392C11EF6090400C568C3 /* BizzyAuthViewController.swift in Resources */ = {isa = PBXBuildFile; fileRef = EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */; };
 		EB4734941DE25BD900F6928E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB4734931DE25BD900F6928E /* Assets.xcassets */; };
 		EB5856A61FB6311C006C6212 /* EntityItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5856A51FB6311C006C6212 /* EntityItem.swift */; };
 		EB5856A81FB6352D006C6212 /* AccountItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5856A71FB6352D006C6212 /* AccountItem.swift */; };
@@ -58,6 +58,7 @@
 		EB007BB21FB7E97100014769 /* FuelTypeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuelTypeItem.swift; sourceTree = "<group>"; };
 		EB007BB41FB7F39E00014769 /* ProjectDocItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDocItem.swift; sourceTree = "<group>"; };
 		EB05238D1FD0BAAF00C13E8C /* AllowedCharsTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllowedCharsTextField.swift; sourceTree = "<group>"; };
+		EB0B96661FD8744700E8829C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EB190FC41F074EC700C80E07 /* CleanValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CleanValue.swift; sourceTree = "<group>"; };
 		EB190FC61F0B3CC500C80E07 /* ContactsLogicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsLogicManager.swift; sourceTree = "<group>"; };
 		EB1915C51FD768DD0078AA64 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -159,6 +160,7 @@
 				FA7B731B1EFC5769007A1AEA /* Collection View Cells */,
 				FA7B73191EFC5745007A1AEA /* View Controllers */,
 				EB851E3A1D9578B2002D19F4 /* Main.storyboard */,
+				EB0B96661FD8744700E8829C /* LaunchScreen.storyboard */,
 				EB4734931DE25BD900F6928E /* Assets.xcassets */,
 				EB851E451D9578B2002D19F4 /* Info.plist */,
 				EB761D6F1F12F3360022DC7C /* Sources */,
@@ -273,6 +275,9 @@
 							com.apple.Keychain = {
 								enabled = 1;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 						};
 					};
 				};
@@ -300,7 +305,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB4392C11EF6090400C568C3 /* BizzyAuthViewController.swift in Resources */,
+				EB0B96671FD8744700E8829C /* LaunchScreen.storyboard in Resources */,
 				EB851E4C1D957932002D19F4 /* GoogleService-Info.plist in Resources */,
 				EB4734941DE25BD900F6928E /* Assets.xcassets in Resources */,
 				FA7B731F1EFC5976007A1AEA /* DropdownReusableView.xib in Resources */,
@@ -418,11 +423,11 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Bizzy Books/Pods-Bizzy Books-resources.sh",
-				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseAuthUI.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseFacebookAuthUI.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseGoogleAuthUI.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebasePhoneAuthUI.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseTwitterAuthUI.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseFacebookAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseGoogleAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebasePhoneAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseTwitterAuthUI.bundle,
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle",

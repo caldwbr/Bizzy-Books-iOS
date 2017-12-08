@@ -23,6 +23,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var digits = "0123456789"
     var negPossibleDigits = "0123456789-"
     let theFormatter = NumberFormatter()
+    var bradsStore = IAPProcessor.shared
 
     var masterRef: DatabaseReference!
     var entitiesRef: DatabaseReference!
@@ -730,13 +731,47 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         pickerCode = 0
     }
     
+    @IBOutlet var subscriptionPopUpView: UIView!
+    
+    @IBAction func subscriptionRestorePressed(_ sender: UIButton) {
+        bradsStore.searchForProduct()
+        bradsStore.restorePurchases { (isTrue, theString, err) in
+            if isTrue {
+                print("Restoration made " + theString!)
+                self.currentlySubscribedRef.setValue(true)
+            } else {
+                self.currentlySubscribedRef.setValue(false)
+            }
+        }
+        self.popUpAnimateOut(popUpView: self.subscriptionPopUpView)
+    }
+    
+    @IBAction func subscriptionNotNowPressed(_ sender: UIButton) {
+        self.popUpAnimateOut(popUpView: self.subscriptionPopUpView)
+    }
+    
+    @IBAction func subscriptionBuyPressed(_ sender: UIButton) {
+        bradsStore.searchForProduct()
+        bradsStore.purchase { (isTrue, theString, err) in
+            if isTrue {
+                print("Purchase made " + theString!)
+                self.currentlySubscribedRef.setValue(true)
+            } else {
+                print("Something happened " + String(describing: err))
+                self.currentlySubscribedRef.setValue(false)
+            }
+        }
+        self.popUpAnimateOut(popUpView: self.subscriptionPopUpView)
+    }
+    
     @IBAction func cameraPressed(_ sender: UIBarButtonItem) {
-        /*
-        guard SubscriptionService.shared.currentSessionId != nil,
-            SubscriptionService.shared.hasReceiptData else {
-                showRestoreAlert()
-                return
-        }*/
+        switch self.isUserCurrentlySubscribed {
+        case true:
+            print("Yay") //go to the camera!
+        default:
+            popUpAnimateIn(popUpView: subscriptionPopUpView)
+        }
+    
     }
     
     func showRestoreAlert() {
@@ -891,11 +926,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         entitiesRef.observe(.value) { (snapshot) in
             for item in snapshot.children {
                 let firebaseEntity = EntityItem(snapshot: item as! DataSnapshot)
-                print(firebaseEntity)
                 self.firebaseEntities.append(firebaseEntity)
             }
-            print(self.firebaseEntities)
-            print(self.filteredFirebaseEntities)
             self.selectWhoTableView.reloadData()
             self.selectWhomTableView.reloadData()
         }
@@ -922,7 +954,12 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             self.selectSecondaryAccountTableView.reloadData()
         }
         currentlySubscribedRef.observe(.value) { (snapshot) in
-            //let subscribed = 
+            let subscribed = String(describing: snapshot.value)
+            if subscribed == "true" {
+                self.isUserCurrentlySubscribed = true
+            } else {
+                self.isUserCurrentlySubscribed = false
+            }
         }
         //masterRef.setValue(["username": "Brad Caldwell"]) //This erases all siblings!!!!!! Including any childrenbyautoid!!!
         //masterRef.childByAutoId().setValue([3, 4, -88, 45, true])
