@@ -14,7 +14,7 @@ import Contacts
 import StoreKit
 import Freddy
 
-class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     // Contacts Stuff
     var recommendedContacts = [CNContact]()
@@ -764,10 +764,22 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         self.popUpAnimateOut(popUpView: self.subscriptionPopUpView)
     }
     
+    var imagePicker = UIImagePickerController()
+    @IBOutlet weak var imageView: UIImageView!
+    
     @IBAction func cameraPressed(_ sender: UIBarButtonItem) {
+        print(String(describing: self.isUserCurrentlySubscribed))
         switch self.isUserCurrentlySubscribed {
         case true:
             print("Yay") //go to the camera!
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary){
+                imagePicker.delegate = self
+                imagePicker.sourceType = .savedPhotosAlbum;
+                imagePicker.allowsEditing = false
+                
+                self.present(imagePicker, animated: true, completion: nil)
+            }
+
         default:
             popUpAnimateIn(popUpView: subscriptionPopUpView)
         }
@@ -789,6 +801,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         self.selectAccountTableView.keyboardDismissMode = .interactive
         self.selectSecondaryAccountTableView.keyboardDismissMode = .interactive
         self.addProjectSelectCustomerTableView.keyboardDismissMode = .interactive
+        
+        
         
         theFormatter.usesGroupingSeparator = true
         theFormatter.numberStyle = .currency
@@ -876,6 +890,18 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         setTextAndIconOnLabel(text: amountText, icon: iconPersonal, label: amountPersonalLabel)
     }
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        print("Can u see me?")
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            imageView.image = image
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        print("Canceled")
+    }
+    
     func findBizzyBooksBalanceAsDouble () -> Double {
         bizzyBooksBalanceAsDouble = Double(bizzyBooksBalanceAsInt)/100 //REALLY, deduct effect of all Universals which affected the account to find CURRENT balance. Also, will this break if there are no Universals? Need to write it to consider that also!
         return bizzyBooksBalanceAsDouble
@@ -954,8 +980,9 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             self.selectSecondaryAccountTableView.reloadData()
         }
         currentlySubscribedRef.observe(.value) { (snapshot) in
-            let subscribed = String(describing: snapshot.value)
-            if subscribed == "true" {
+            let subscribed = snapshot.value as! Bool
+            print("S: " + String(subscribed))
+            if subscribed {
                 self.isUserCurrentlySubscribed = true
             } else {
                 self.isUserCurrentlySubscribed = false
