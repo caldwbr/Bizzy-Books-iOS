@@ -31,6 +31,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var vehiclesRef: DatabaseReference!
     var accountsRef: DatabaseReference!
     var currentlySubscribedRef: DatabaseReference!
+    var specialAccessRef: DatabaseReference!
     
     var firebaseEntities = [EntityItem]()
     var firebaseProjects: [ProjectItem] = []
@@ -41,6 +42,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var filteredFirebaseVehicles: [VehicleItem] = []
     var filteredFirebaseAccounts: [AccountItem] = []
     var isUserCurrentlySubscribed: Bool = false
+    var hasUserSpecialAccess: Bool = false
     
     var tempKeyHolder: String = ""
     
@@ -773,21 +775,31 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     @IBAction func cameraPressed(_ sender: UIBarButtonItem) {
         print(String(describing: self.isUserCurrentlySubscribed))
+        if hasUserSpecialAccess == true {
+            launchPhotos()
+        } else {
+            prePhotosNoSpecialPassSubscriptionCheck()
+        }
+    
+    }
+    
+    func prePhotosNoSpecialPassSubscriptionCheck() {
         switch self.isUserCurrentlySubscribed {
         case true:
-            print("Yay") //go to the camera!
-            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary){
-                imagePicker.delegate = self
-                imagePicker.sourceType = .savedPhotosAlbum;
-                imagePicker.allowsEditing = false
-                
-                self.present(imagePicker, animated: true, completion: nil)
-            }
-
+            launchPhotos()
         default:
             popUpAnimateIn(popUpView: subscriptionPopUpView)
         }
+    }
     
+    func launchPhotos() {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary){
+            imagePicker.delegate = self
+            imagePicker.sourceType = .savedPhotosAlbum;
+            imagePicker.allowsEditing = false
+            
+            self.present(imagePicker, animated: true, completion: nil)
+        }
     }
     
     func showRestoreAlert() {
@@ -969,6 +981,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         vehiclesRef = Database.database().reference().child("users").child(userUID).child("vehicles")
         accountsRef = Database.database().reference().child("users").child(userUID).child("accounts")
         currentlySubscribedRef = Database.database().reference().child("users").child(userUID).child("currentlySubscribed")
+        specialAccessRef = Database.database().reference().child("users").child(userUID).child("specialAccess")
         entitiesRef.observe(.value) { (snapshot) in
             for item in snapshot.children {
                 let firebaseEntity = EntityItem(snapshot: item as! DataSnapshot)
@@ -1007,6 +1020,18 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 } else {
                     self.isUserCurrentlySubscribed = false
                 }
+            }
+        }
+        specialAccessRef.observe(.value) { (snapshot) in
+            if let special = snapshot.value as? Bool {
+                print("Special: " + String(special))
+                if special {
+                    self.hasUserSpecialAccess = true
+                } else {
+                    self.hasUserSpecialAccess = false
+                }
+            } else {
+                self.specialAccessRef.setValue(false)
             }
         }
         //masterRef.setValue(["username": "Brad Caldwell"]) //This erases all siblings!!!!!! Including any childrenbyautoid!!!
