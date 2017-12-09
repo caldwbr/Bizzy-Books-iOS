@@ -14,6 +14,8 @@ import Firebase
 class IAPProcessor: NSObject {
     static let shared = IAPProcessor()
     
+    var currentlySubscribedRef: DatabaseReference!
+    
     public var sharedSecret = "c4d9ead54d16438ab780ce6b00d89a8f"
     public var productIdentifier : String = "1002pro" { // Did I find the right "productIdentifier"?? Is it "1321694172" or "1321692215" or "1002pro"? Apparently, "1002pro" is the id that they wanted to see.
         didSet {
@@ -89,7 +91,6 @@ extension IAPProcessor : SKProductsRequestDelegate, SKRequestDelegate {
 //Find out whether the user bought the pro subscription or not
 extension IAPProcessor : SKPaymentTransactionObserver {
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        var currentlySubscribedRef: DatabaseReference!
         currentlySubscribedRef = Database.database().reference().child("users").child(userUID).child("currentlySubscribed")
         NSLog("Received \(transactions.count) updated transactions")
         var shouldProcessReceipt = false
@@ -97,11 +98,12 @@ extension IAPProcessor : SKPaymentTransactionObserver {
             switch trans.transactionState {
             case .purchased, .restored:
                 shouldProcessReceipt = true
-                currentlySubscribedRef.setValue(true)
+                self.currentlySubscribedRef.setValue(true)
                 paymentQueue.finishTransaction(trans)
             case .failed:
                 NSLog("Transaction failed!")
-                currentlySubscribedRef.setValue(false)
+                shouldProcessReceipt = true //????? I added this on my own lets see if it works
+                //currentlySubscribedRef.setValue(false) This isn't a good place for this. We need a way to test whether user has receipt that is current.
                 if let block = completionBlock {
                     block(false, "The purchase failed.", trans.error)
                 }
@@ -121,12 +123,15 @@ extension IAPProcessor {
     func processReceipt() {
         if let receiptURL = Bundle.main.appStoreReceiptURL,
             FileManager.default.fileExists(atPath: receiptURL.path) {
-            
+            currentlySubscribedRef = Database.database().reference().child("users").child(userUID).child("currentlySubscribed")
             expirationDateFromProd(completion: { (date, sandbox, error) in
                 if let error = error {
                     self.completionBlock?(false, "The purchase failed.", error)
                 } else if let date = date, Date().compare(date) == .orderedAscending {
                     self.completionBlock?(true, self.productIdentifier, nil)
+                } else if let date = date, Date().compare(date) == .orderedDescending { //I completely added this whole extra else-if, and it seems to be working I think.
+                    self.completionBlock?(true, self.productIdentifier, nil)
+                    self.currentlySubscribedRef.setValue(false)
                 }
             })
         } else {
