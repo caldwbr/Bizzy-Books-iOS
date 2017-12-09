@@ -831,7 +831,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         personalReasonPickerData = ["food", "fun", "pet", "utilities", "phone", "office", "giving", "insurance", "house", "yard", "medical", "travel", "clothes", "other"]
         fuelTypePickerData = ["87 gas", "89 gas", "91 gas", "diesel"]
         entityPickerData = ["customer", "vendor", "sub", "employee", "store", "other"]
-        projectMediaTypePickerData = ["before", "during", "after", "drawing", "calculations", "material list", "estimate", "contract", "labor warranty", "material warranty", "safety", "other"]
+        projectMediaTypePickerData = ["Before", "During", "After", "Drawing", "Calculations", "Material list", "Estimate", "Contract", "Labor warranty", "Material warranty", "Safety", "Other"]
         
         //Clip corners of all popups for better aesthetics
         selectProjectView.layer.cornerRadius = 5
@@ -1014,6 +1014,14 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @objc func useTaxSwitchToggled(useTaxSwitch: UISwitch) {
         print("Use tax switch toggled")
     }
+    
+    @IBAction func useTaxMoreInfoPressed(_ sender: UIButton) {
+        popUpAnimateIn(popUpView: useTaxMoreInfoView)
+    }
+    @IBAction func useTaxMoreInfoOKPressed(_ sender: UIButton) {
+        popUpAnimateOut(popUpView: useTaxMoreInfoView)
+    }
+    @IBOutlet var useTaxMoreInfoView: UIView!
     
     @objc func handleProjectLabelTap(projectLabelGestureRecognizer: UITapGestureRecognizer){
         popUpAnimateIn(popUpView: selectProjectView)

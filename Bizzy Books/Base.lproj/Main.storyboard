@@ -559,6 +559,7 @@
                         <outlet property="subscriptionPopUpView" destination="PP2-aC-7yy" id="oMF-xl-pUr"/>
                         <outlet property="topStackView" destination="cCl-dZ-Fna" id="ir0-3b-3C1"/>
                         <outlet property="underScrollView" destination="jTt-wu-oG1" id="fb7-4A-d0Y"/>
+                        <outlet property="useTaxMoreInfoView" destination="dVS-cV-nLZ" id="vGX-cd-3qG"/>
                         <outlet property="useTaxSwitch" destination="0np-wT-nJK" id="Y8P-Tj-B0e"/>
                         <outlet property="useTaxSwitchContainer" destination="UAu-tf-AmX" id="j3W-9t-jxH"/>
                         <outlet property="visualEffectView" destination="j1D-Zw-q0Z" id="Dwg-xN-CHF"/>
@@ -957,27 +958,82 @@
                         <constraint firstItem="pKy-Ih-7xP" firstAttribute="top" secondItem="Sas-TX-qgY" secondAttribute="bottom" constant="8" symbolic="YES" id="u05-xb-XvQ"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" id="PP2-aC-7yy">
-                    <rect key="frame" x="0.0" y="0.0" width="240" height="262"/>
+                <view contentMode="scaleToFill" id="dVS-cV-nLZ">
+                    <rect key="frame" x="0.0" y="0.0" width="285" height="517"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bizzy Books Pro" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QpI-x1-4zu">
-                            <rect key="frame" x="16" y="20" width="208" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pwL-x1-tLt">
+                            <rect key="frame" x="119.5" y="470" width="46" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="va1-qQ-qAF"/>
+                                <constraint firstAttribute="width" constant="46" id="w3q-qe-JuV"/>
+                            </constraints>
+                            <state key="normal" title="OK"/>
+                            <connections>
+                                <action selector="useTaxMoreInfoOKPressed:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="XN9-T2-7Ze"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What Is Use Tax?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5n9-Bm-79p">
+                            <rect key="frame" x="16" y="20" width="253" height="29"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="29" id="8lj-bD-lDs"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="25"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add camera functionality with a pro subscription!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ck-l8-hd5">
-                            <rect key="frame" x="16" y="58" width="208" height="68"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="21" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5nz-dA-Bhq">
+                            <rect key="frame" x="16" y="70" width="253" height="375"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="375" id="kBX-cC-IEd"/>
+                            </constraints>
+                            <mutableString key="text">If you're buying something online (or otherwise out of state), and no tax is collected, you are supposed to report this on your yearly state-level tax return. Use tax is often less than regular sales tax (for example, if sales tax is 9%, use tax might be 4%). The rate varies state by state, and certain localities change it slightly. A few places pay no use tax at all.  Bizzy Books can keep track of your purchases made incurring use tax by toggling the use tax switch for those purchases.</mutableString>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="5nz-dA-Bhq" firstAttribute="top" secondItem="5n9-Bm-79p" secondAttribute="bottom" constant="21" id="1FT-Im-lXK"/>
+                        <constraint firstItem="pwL-x1-tLt" firstAttribute="top" secondItem="5nz-dA-Bhq" secondAttribute="bottom" constant="25" id="LUy-Np-M0n"/>
+                        <constraint firstItem="5n9-Bm-79p" firstAttribute="leading" secondItem="dVS-cV-nLZ" secondAttribute="leading" constant="16" id="eYN-td-7ts"/>
+                        <constraint firstItem="pwL-x1-tLt" firstAttribute="centerX" secondItem="dVS-cV-nLZ" secondAttribute="centerX" id="ehD-wt-45b"/>
+                        <constraint firstAttribute="trailing" secondItem="5nz-dA-Bhq" secondAttribute="trailing" constant="16" id="iRm-95-w6L"/>
+                        <constraint firstItem="5n9-Bm-79p" firstAttribute="top" secondItem="dVS-cV-nLZ" secondAttribute="top" constant="20" id="oLJ-Mj-Om7"/>
+                        <constraint firstAttribute="trailing" secondItem="5n9-Bm-79p" secondAttribute="trailing" constant="16" id="pv1-Gz-zGe"/>
+                        <constraint firstItem="5nz-dA-Bhq" firstAttribute="leading" secondItem="dVS-cV-nLZ" secondAttribute="leading" constant="16" id="z85-bN-7XH"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" id="PP2-aC-7yy">
+                    <rect key="frame" x="0.0" y="0.0" width="263" height="262"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bizzy Books Pro" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QpI-x1-4zu">
+                            <rect key="frame" x="31.5" y="20" width="200" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="200" id="9CX-cV-H8p"/>
+                                <constraint firstAttribute="height" constant="30" id="LJy-tZ-tVS"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add camera functionality with a pro subscription!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ck-l8-hd5">
+                            <rect key="frame" x="20" y="58" width="223" height="80"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="80" id="1xB-pl-Zuf"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ROA-b7-KaX">
-                            <rect key="frame" x="16" y="179" width="98" height="63"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ROA-b7-KaX">
+                            <rect key="frame" x="16" y="184" width="98" height="63"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="63" id="5Il-Tw-4Ef"/>
+                                <constraint firstAttribute="width" constant="98" id="Q98-vL-kAv"/>
+                            </constraints>
                             <state key="normal">
                                 <attributedString key="attributedTitle">
                                     <fragment content="Not Now">
@@ -992,9 +1048,12 @@
                                 <action selector="subscriptionNotNowPressed:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="DhU-uB-J6J"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="snS-HS-6f7">
-                            <rect key="frame" x="131" y="179" width="93" height="63"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="snS-HS-6f7">
+                            <rect key="frame" x="154" y="184" width="93" height="63"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="93" id="Mi2-Oh-BkX"/>
+                                <constraint firstAttribute="height" constant="63" id="f3K-JH-hll"/>
+                            </constraints>
                             <state key="normal">
                                 <attributedString key="attributedTitle">
                                     <fragment content="Buy $9.99/mo">
@@ -1009,9 +1068,12 @@
                                 <action selector="subscriptionBuyPressed:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="zQJ-1e-tvu"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Um-Fh-uqb">
-                            <rect key="frame" x="59" y="134" width="122" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Um-Fh-uqb">
+                            <rect key="frame" x="101.5" y="146" width="60" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="60" id="Un4-Xh-tA0"/>
+                                <constraint firstAttribute="height" constant="30" id="bLe-g8-JQX"/>
+                            </constraints>
                             <state key="normal" title="Restore"/>
                             <connections>
                                 <action selector="subscriptionRestorePressed:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="2An-jh-iJS"/>
@@ -1019,6 +1081,20 @@
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="5Um-Fh-uqb" firstAttribute="centerX" secondItem="PP2-aC-7yy" secondAttribute="centerX" id="2ru-jR-gwI"/>
+                        <constraint firstItem="snS-HS-6f7" firstAttribute="top" secondItem="5Um-Fh-uqb" secondAttribute="bottom" constant="8" id="8BK-qG-jp4"/>
+                        <constraint firstItem="ROA-b7-KaX" firstAttribute="top" secondItem="5Um-Fh-uqb" secondAttribute="bottom" constant="8" id="DTE-Rx-9lI"/>
+                        <constraint firstAttribute="trailing" secondItem="3ck-l8-hd5" secondAttribute="trailing" constant="20" id="Pu1-qs-nDD"/>
+                        <constraint firstItem="QpI-x1-4zu" firstAttribute="top" secondItem="PP2-aC-7yy" secondAttribute="top" constant="20" id="ahy-d7-mcK"/>
+                        <constraint firstItem="3ck-l8-hd5" firstAttribute="top" secondItem="QpI-x1-4zu" secondAttribute="bottom" constant="8" id="asl-ni-AgA"/>
+                        <constraint firstAttribute="trailing" secondItem="snS-HS-6f7" secondAttribute="trailing" constant="16" id="byg-WT-myR"/>
+                        <constraint firstItem="3ck-l8-hd5" firstAttribute="centerX" secondItem="PP2-aC-7yy" secondAttribute="centerX" id="kRs-at-Ruk"/>
+                        <constraint firstItem="5Um-Fh-uqb" firstAttribute="top" secondItem="3ck-l8-hd5" secondAttribute="bottom" constant="8" id="pCc-wd-r0j"/>
+                        <constraint firstItem="QpI-x1-4zu" firstAttribute="centerX" secondItem="PP2-aC-7yy" secondAttribute="centerX" id="szB-2Q-V9h"/>
+                        <constraint firstItem="3ck-l8-hd5" firstAttribute="leading" secondItem="PP2-aC-7yy" secondAttribute="leading" constant="20" id="v5c-dI-2ka"/>
+                        <constraint firstItem="ROA-b7-KaX" firstAttribute="leading" secondItem="PP2-aC-7yy" secondAttribute="leading" constant="16" id="zrr-lE-mzd"/>
+                    </constraints>
                 </view>
                 <view contentMode="scaleToFill" id="Vke-hh-k1A">
                     <rect key="frame" x="0.0" y="0.0" width="341" height="522"/>
@@ -1745,6 +1821,9 @@
                             <rect key="frame" x="127" y="10" width="24" height="24"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" image="questionmark"/>
+                            <connections>
+                                <action selector="useTaxMoreInfoPressed:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="1sd-Ag-MRa"/>
+                            </connections>
                         </button>
                     </subviews>
                 </view>
