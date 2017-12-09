@@ -221,6 +221,7 @@ extension IAPProcessor {
                 let formatter = DateFormatter()
                 formatter.dateFormat = "yyyy-MM-dd HH:mm:ss VV"
                 date = formatter.date(from: try lastReceipt.getString(at: "expires_date"))
+                print("Hey numbskull! " + String(describing: date))
             }
         } catch {
         }

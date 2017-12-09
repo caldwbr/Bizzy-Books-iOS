@@ -733,6 +733,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     @IBOutlet var subscriptionPopUpView: UIView!
+    @IBOutlet weak var subscriptionProImage: UIImageView!
     
     @IBAction func subscriptionRestorePressed(_ sender: UIButton) {
         bradsStore.searchForProduct()
