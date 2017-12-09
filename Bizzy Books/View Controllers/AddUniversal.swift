@@ -1000,12 +1000,13 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             self.selectSecondaryAccountTableView.reloadData()
         }
         currentlySubscribedRef.observe(.value) { (snapshot) in
-            let subscribed = snapshot.value as! Bool
-            print("S: " + String(subscribed))
-            if subscribed {
-                self.isUserCurrentlySubscribed = true
-            } else {
-                self.isUserCurrentlySubscribed = false
+            if let subscribed = snapshot.value as? Bool {
+                print("S: " + String(subscribed))
+                if subscribed {
+                    self.isUserCurrentlySubscribed = true
+                } else {
+                    self.isUserCurrentlySubscribed = false
+                }
             }
         }
         //masterRef.setValue(["username": "Brad Caldwell"]) //This erases all siblings!!!!!! Including any childrenbyautoid!!!

@@ -123,15 +123,11 @@ extension IAPProcessor {
     func processReceipt() {
         if let receiptURL = Bundle.main.appStoreReceiptURL,
             FileManager.default.fileExists(atPath: receiptURL.path) {
-            currentlySubscribedRef = Database.database().reference().child("users").child(userUID).child("currentlySubscribed")
             expirationDateFromProd(completion: { (date, sandbox, error) in
                 if let error = error {
                     self.completionBlock?(false, "The purchase failed.", error)
                 } else if let date = date, Date().compare(date) == .orderedAscending {
                     self.completionBlock?(true, self.productIdentifier, nil)
-                } else if let date = date, Date().compare(date) == .orderedDescending { //I completely added this whole extra else-if, and it seems to be working I think.
-                    self.completionBlock?(true, self.productIdentifier, nil)
-                    self.currentlySubscribedRef.setValue(false)
                 }
             })
         } else {

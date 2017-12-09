@@ -988,7 +988,7 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="375" id="kBX-cC-IEd"/>
                             </constraints>
-                            <mutableString key="text">If you're buying something online (or otherwise out of state), and no tax is collected, you are supposed to report this on your yearly state-level tax return. Use tax is often less than regular sales tax (for example, if sales tax is 9%, use tax might be 4%). The rate varies state by state, and certain localities change it slightly. A few places pay no use tax at all.  Bizzy Books can keep track of your purchases made incurring use tax by toggling the use tax switch for those purchases.</mutableString>
+                            <mutableString key="text">If you're buying something online (or otherwise out of state), and no tax is collected, you are supposed to report this on your yearly state-level tax return. Use tax is often less than regular sales tax (for example, if sales tax is 9%, use tax might be 4%). The rate varies state by state, and certain localities change it slightly. A few places pay no use tax at all.  If you'd like Bizzy Books to keep track of a purchase that incurred use tax, use the "use tax toggle" on that item to tag it.</mutableString>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
