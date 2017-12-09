@@ -764,6 +764,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         self.popUpAnimateOut(popUpView: self.subscriptionPopUpView)
     }
     
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var underScrollView: UIView!
     var imagePicker = UIImagePickerController()
     @IBOutlet weak var imageView: UIImageView!
     
@@ -1059,6 +1061,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         view.layoutIfNeeded()
         collectionViewHeightConstraint.constant = collectionView.contentSize.height
         view.layoutIfNeeded()
+
     }
     
     func reloadSentence(selectedType: Int) {
@@ -1097,6 +1100,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             break
         }
         //dataSource.theTextFieldYes.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
+        scrollView.layoutIfNeeded()
+        underScrollView.layoutIfNeeded()
         projectLabel.isHidden = false
         odometerTextField.isHidden = true
         percentBusinessView.isHidden = true
