@@ -133,6 +133,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         percentBusinessLabel.text = percentAsString
         updateSliderValues(percent: thePercent)
     }
+    @IBOutlet weak var topStackView: UIStackView!
     @IBOutlet weak var bottomStackView: UIStackView!
     @IBOutlet weak var amountBusinessLabel: UILabel!
     @IBOutlet weak var amountPersonalLabel: UILabel!
@@ -894,13 +895,23 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            self.reloadSentence(selectedType: self.selectedType)
             let imageAspectRatio = (Double(image.size.height) / Double(image.size.width))
             let screenSize: CGRect = UIScreen.main.bounds
             let screenWidth = screenSize.width
+            let imageWidth = Int(screenWidth)
             var imageHeight: Int
+            let topStackViewHeight = Int(topStackView.intrinsicContentSize.height)
+            let notesHeight = Int(notesTextField.intrinsicContentSize.height)
+            let collectionViewHeight = Int(collectionView.contentSize.height)
+            let extra = 80
             imageHeight = Int(Double(screenWidth) * imageAspectRatio)
-            bottomStackViewHeight.constant += CGFloat(imageHeight)
+            self.reloadSentence(selectedType: self.selectedType)
+            bottomStackViewHeight.constant += CGFloat(imageHeight + 20)
+            let bottomInt = Int(bottomStackViewHeight.constant)
+            let theHeight = extra + topStackViewHeight + notesHeight + collectionViewHeight + bottomInt
+            let theRect = CGRect(x: 0, y: 0, width: imageWidth, height: theHeight)
+            scrollView.contentSize = CGSize(width: imageWidth, height: theHeight)
+            imageView.frame = CGRect(x: 0, y: 0, width: imageWidth, height: imageHeight)
             imageView.image = image
         }
         picker.dismiss(animated: true, completion: nil)
@@ -908,6 +919,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         print("Canceled")
+        picker.dismiss(animated: true, completion: nil)
     }
     
     func findBizzyBooksBalanceAsDouble () -> Double {
