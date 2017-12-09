@@ -909,7 +909,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             bottomStackViewHeight.constant += CGFloat(imageHeight + 20)
             let bottomInt = Int(bottomStackViewHeight.constant)
             let theHeight = extra + topStackViewHeight + notesHeight + collectionViewHeight + bottomInt
-            let theRect = CGRect(x: 0, y: 0, width: imageWidth, height: theHeight)
             scrollView.contentSize = CGSize(width: imageWidth, height: theHeight)
             imageView.frame = CGRect(x: 0, y: 0, width: imageWidth, height: imageHeight)
             imageView.image = image

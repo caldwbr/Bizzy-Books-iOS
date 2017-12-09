@@ -401,10 +401,10 @@
                                                     </imageView>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstItem="9uM-ie-lWn" firstAttribute="top" secondItem="ySD-4I-ETl" secondAttribute="bottom" constant="30" id="6Mq-a9-FaU"/>
                                                     <constraint firstAttribute="trailing" secondItem="nuR-79-mdb" secondAttribute="trailing" constant="20" id="7MT-Hr-xue"/>
                                                     <constraint firstAttribute="height" constant="120" id="BYI-TH-hR6"/>
                                                     <constraint firstItem="nuR-79-mdb" firstAttribute="leading" secondItem="f7q-Rf-pcz" secondAttribute="leading" constant="20" id="Slc-H3-e9n"/>
+                                                    <constraint firstItem="9uM-ie-lWn" firstAttribute="top" secondItem="ySD-4I-ETl" secondAttribute="bottom" constant="20" id="hcM-hP-VbF"/>
                                                 </constraints>
                                             </stackView>
                                             <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j1D-Zw-q0Z">
