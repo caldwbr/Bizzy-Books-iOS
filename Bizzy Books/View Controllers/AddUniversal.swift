@@ -893,8 +893,14 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        print("Can u see me?")
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            self.reloadSentence(selectedType: self.selectedType)
+            let imageAspectRatio = (Double(image.size.height) / Double(image.size.width))
+            let screenSize: CGRect = UIScreen.main.bounds
+            let screenWidth = screenSize.width
+            var imageHeight: Int
+            imageHeight = Int(Double(screenWidth) * imageAspectRatio)
+            bottomStackViewHeight.constant += CGFloat(imageHeight)
             imageView.image = image
         }
         picker.dismiss(animated: true, completion: nil)
