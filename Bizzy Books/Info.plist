@@ -59,6 +59,8 @@
 	<string>Use camera to add supporting photos</string>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Attach supporting media</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allows for potential prepopulation of entry items based on past locations</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

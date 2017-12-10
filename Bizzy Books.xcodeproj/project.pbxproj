@@ -17,6 +17,7 @@
 		EB007BB51FB7F39E00014769 /* ProjectDocItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB007BB41FB7F39E00014769 /* ProjectDocItem.swift */; };
 		EB05238E1FD0BAAF00C13E8C /* AllowedCharsTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB05238D1FD0BAAF00C13E8C /* AllowedCharsTextField.swift */; };
 		EB0B96671FD8744700E8829C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB0B96661FD8744700E8829C /* LaunchScreen.storyboard */; };
+		EB0B966B1FDCA61100E8829C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB0B966A1FDCA61100E8829C /* MapKit.framework */; };
 		EB190FC51F074EC700C80E07 /* CleanValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB190FC41F074EC700C80E07 /* CleanValue.swift */; };
 		EB190FC71F0B3CC500C80E07 /* ContactsLogicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB190FC61F0B3CC500C80E07 /* ContactsLogicManager.swift */; };
 		EB1915C61FD768DD0078AA64 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB1915C51FD768DD0078AA64 /* StoreKit.framework */; };
@@ -59,6 +60,7 @@
 		EB007BB41FB7F39E00014769 /* ProjectDocItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDocItem.swift; sourceTree = "<group>"; };
 		EB05238D1FD0BAAF00C13E8C /* AllowedCharsTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllowedCharsTextField.swift; sourceTree = "<group>"; };
 		EB0B96661FD8744700E8829C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		EB0B966A1FDCA61100E8829C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		EB190FC41F074EC700C80E07 /* CleanValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CleanValue.swift; sourceTree = "<group>"; };
 		EB190FC61F0B3CC500C80E07 /* ContactsLogicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsLogicManager.swift; sourceTree = "<group>"; };
 		EB1915C51FD768DD0078AA64 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -99,6 +101,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				653EA8D6F5F1C59D8F85C66D /* Pods_Bizzy_Books.framework in Frameworks */,
+				EB0B966B1FDCA61100E8829C /* MapKit.framework in Frameworks */,
 				EB1915C61FD768DD0078AA64 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -118,6 +121,7 @@
 		72DF5F1E419AD5E0D42F1F52 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EB0B966A1FDCA61100E8829C /* MapKit.framework */,
 				EB1915C51FD768DD0078AA64 /* StoreKit.framework */,
 				FCBDE88203BDBADDF78AB99F /* Pods_Bizzy_Books.framework */,
 			);
@@ -273,6 +277,9 @@
 								enabled = 1;
 							};
 							com.apple.Keychain = {
+								enabled = 1;
+							};
+							com.apple.Maps.iOS = {
 								enabled = 1;
 							};
 							com.apple.Push = {

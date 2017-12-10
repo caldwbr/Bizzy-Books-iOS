@@ -12,117 +12,137 @@ import Firebase
 struct UniversalItem {
     
     let key: String //By "key" is meant "id"
-    let universalItemType: UniversalItemType //0 - Business, 1 - Personal, 2 - Mixed, 3 - Fuel, 4 - Transfer, 5 - Adjust, 6 - Documents
-    let projectItem: ProjectItem?
-    let odometerReading: Int?
-    let who: EntityItem?
-    let what: Int? //Remember $5.48 is represented as 548, and needs to be divided by 100 before showing user and multiplied before storing.
-    let whom: EntityItem?
-    let taxReasonItem: TaxReasonItem?
-    let vehicleItem: VehicleItem?
-    let workersCompItem: WorkersCompItem?
-    let advertisingMeansItem: AdvertisingMeansItem?
-    let personalReasonItem: PersonalReasonItem?
-    let percentBusiness: Int?
-    let accountOne: AccountItem?
-    let accountTwo: AccountItem?
-    let howMany: Int? //x1000
-    let fuelTypeItem: FuelTypeItem?
-    let useTax: Bool?
-    let notes: String?
-    let picUrl: String?
-    let projectDocs: [ProjectDocItem]?
-    let timeStamp: Int //Will need to be represented in seconds, NOT MILLISECONDS!!
-    let latitude: Int? //Times 100,000?? Optional because desktops don't produce lat and long I don't think
-    let longitude: Int? //Times 100,000?? Optional because desktops don't produce lat and long I don't think
-    let mileStone: Int? //This is for if user changes status of project from lead to bid or bid to contract or contract to paid
+    let universalItemType: Int //0 - Business, 1 - Personal, 2 - Mixed, 3 - Fuel, 4 - Transfer, 5 - Adjust, 6 - Documents
+    let projectItemName: String
+    let projectItemKey: String
+    let odometerReading: Int
+    let whoName: String
+    let whoKey: String
+    let what: Int //Remember $5.48 is represented as 548, and needs to be divided by 100 before showing user and multiplied before storing.
+    let whomName: String
+    let whomKey: String
+    let taxReasonId: Int
+    let vehicleName: String
+    let vehicleKey: String
+    let workersCompId: Int // 0 = Sub has wc, 1 = Incurred wc, 2 = wc n/a
+    let advertisingMeansId: Int
+    let personalReasonId: Int
+    let percentBusiness: Int
+    let accountOneName: String
+    let accountOneKey: String
+    let accountTwoName: String
+    let accountTwoKey: String
+    let howMany: Int //x1000
+    let fuelTypeId: Int // 0 = 87, 1 = 89, 2 = 91, 3 = Diesel
+    let useTax: Bool
+    let notes: String
+    let picUrl: String
+    let projectPicTypeId: Int
+    let timeStamp: Any
+    let latitude: Double //Times 100,000?? Optional because desktops don't produce lat and long I don't think
+    let longitude: Double //Times 100,000?? Optional because desktops don't produce lat and long I don't think
     let ref: DatabaseReference?
     
-    init(universalItemType: UniversalItemType, projectItem: ProjectItem?, odometerReading: Int?, who: EntityItem?, what: Int?, whom: EntityItem?, taxReasonItem: TaxReasonItem?, vehicleItem: VehicleItem?, workersCompItem: WorkersCompItem?, advertisingMeansItem: AdvertisingMeansItem?, personalReasonItem: PersonalReasonItem?, percentBusiness: Int?, accountOne: AccountItem?, accountTwo: AccountItem?, howMany: Int?, fuelTypeItem: FuelTypeItem?, useTax: Bool?, notes: String?, picUrl: String?, projectDocs: [ProjectDocItem]?, timeStamp: Int, latitude: Int?, longitude: Int?, mileStone: Int?, key: String = "") {
+    init(universalItemType: Int, projectItemName: String, projectItemKey: String, odometerReading: Int, whoName: String, whoKey: String, what: Int, whomName: String, whomKey: String, taxReasonId: Int, vehicleName: String, vehicleKey: String, workersCompId: Int, advertisingMeansId: Int, personalReasonId: Int, percentBusiness: Int, accountOneName: String, accountOneKey: String, accountTwoName: String, accountTwoKey: String, howMany: Int, fuelTypeId: Int, useTax: Bool, notes: String, picUrl: String, projectPicTypeId: Int, timeStamp: Any, latitude: Double, longitude: Double, key: String = "") {
         self.key = key
         self.universalItemType = universalItemType
-        self.projectItem = projectItem
+        self.projectItemName = projectItemName
+        self.projectItemKey = projectItemKey
         self.odometerReading = odometerReading
-        self.who = who
+        self.whoName = whoName
+        self.whoKey = whoKey
         self.what = what
-        self.whom = whom
-        self.taxReasonItem = taxReasonItem
-        self.vehicleItem = vehicleItem
-        self.workersCompItem = workersCompItem
-        self.advertisingMeansItem = advertisingMeansItem
-        self.personalReasonItem = personalReasonItem
+        self.whomName = whomName
+        self.whomKey = whomKey
+        self.taxReasonId = taxReasonId
+        self.vehicleName = vehicleName
+        self.vehicleKey = vehicleKey
+        self.workersCompId = workersCompId
+        self.advertisingMeansId = advertisingMeansId
+        self.personalReasonId = personalReasonId
         self.percentBusiness = percentBusiness
-        self.accountOne = accountOne
-        self.accountTwo = accountTwo
+        self.accountOneName = accountOneName
+        self.accountOneKey = accountOneKey
+        self.accountTwoName = accountTwoName
+        self.accountTwoKey = accountTwoKey
         self.howMany = howMany
-        self.fuelTypeItem = fuelTypeItem
+        self.fuelTypeId = fuelTypeId
         self.useTax = useTax
         self.notes = notes
         self.picUrl = picUrl
-        self.projectDocs = projectDocs
+        self.projectPicTypeId = projectPicTypeId
         self.timeStamp = timeStamp
         self.latitude = latitude
         self.longitude = longitude
-        self.mileStone = mileStone
         self.ref = nil
     }
     
     init(snapshot: DataSnapshot) {
         key = snapshot.key
         let snapshotValue = snapshot.value as! [String: AnyObject]
-        universalItemType = snapshotValue["universalItemType"] as! UniversalItemType
-        projectItem = snapshotValue["projectItem"] as? ProjectItem
-        odometerReading = snapshotValue["odometerReading"] as? Int
-        who = snapshotValue["who"] as? EntityItem
-        what = snapshotValue["what"] as? Int
-        whom = snapshotValue["whom"] as? EntityItem
-        taxReasonItem = snapshotValue["taxReasonItem"] as? TaxReasonItem
-        vehicleItem = snapshotValue["vehicleItem"] as? VehicleItem
-        workersCompItem = snapshotValue["workersCompItem"] as? WorkersCompItem
-        advertisingMeansItem = snapshotValue["advertisingMeansItem"] as? AdvertisingMeansItem
-        personalReasonItem = snapshotValue["personalReasonItem"] as? PersonalReasonItem
-        percentBusiness = snapshotValue["percentBusiness"] as? Int
-        accountOne = snapshotValue["accountOne"] as? AccountItem
-        accountTwo = snapshotValue["accountTwo"] as? AccountItem
-        howMany = snapshotValue["howMany"] as? Int
-        fuelTypeItem = snapshotValue["fuelTypeItem"] as? FuelTypeItem
-        useTax = snapshotValue["useTax"] as? Bool
-        notes = snapshotValue["notes"] as? String
-        picUrl = snapshotValue["picUrl"] as? String
-        projectDocs = snapshotValue["projectDocs"] as? [ProjectDocItem]
-        timeStamp = snapshotValue["timeStamp"] as! Int
-        latitude = snapshotValue["latitude"] as? Int
-        longitude = snapshotValue["longitude"] as? Int
-        mileStone = snapshotValue["mileStone"] as? Int
+        universalItemType = snapshotValue["universalItemType"] as! Int
+        projectItemName = snapshotValue["projectItemName"] as! String
+        projectItemKey = snapshotValue["projectItemKey"] as! String
+        odometerReading = snapshotValue["odometerReading"] as! Int
+        whoName = snapshotValue["whoName"] as! String
+        whoKey = snapshotValue["whoKey"] as! String
+        what = snapshotValue["what"] as! Int
+        whomName = snapshotValue["whomName"] as! String
+        whomKey = snapshotValue["whomKey"] as! String
+        taxReasonId = snapshotValue["taxReasonId"] as! Int
+        vehicleName = snapshotValue["vehicleName"] as! String
+        vehicleKey = snapshotValue["vehicleKey"] as! String
+        workersCompId = snapshotValue["workersCompId"] as! Int
+        advertisingMeansId = snapshotValue["advertisingMeansId"] as! Int
+        personalReasonId = snapshotValue["personalReasonId"] as! Int
+        percentBusiness = snapshotValue["percentBusiness"] as! Int
+        accountOneName = snapshotValue["accountOneName"] as! String
+        accountOneKey = snapshotValue["accountOneKey"] as! String
+        accountTwoName = snapshotValue["accountTwoName"] as! String
+        accountTwoKey = snapshotValue["accountTwoKey"] as! String
+        howMany = snapshotValue["howMany"] as! Int
+        fuelTypeId = snapshotValue["fuelTypeId"] as! Int
+        useTax = snapshotValue["useTax"] as! Bool
+        notes = snapshotValue["notes"] as! String
+        picUrl = snapshotValue["picUrl"] as! String
+        projectPicTypeId = snapshotValue["projectPicTypeId"] as! Int
+        timeStamp = snapshotValue["timeStamp"] as Any
+        latitude = snapshotValue["latitude"] as! Double
+        longitude = snapshotValue["longitude"] as! Double
         ref = snapshot.ref
     }
     
     func toAnyObject() -> Any {
         return [
             "universalItemType": universalItemType,
-            "projectItem": projectItem!,
-            "odometerReading": odometerReading!,
-            "who": who!,
-            "what": what!,
-            "whom": whom!,
-            "taxReasonItem": taxReasonItem!,
-            "vehicleItem": vehicleItem!,
-            "workersCompItem": workersCompItem!,
-            "advertisingMeansItem": advertisingMeansItem!,
-            "personalReasonItem": personalReasonItem!,
-            "percentBusiness": percentBusiness!,
-            "accountOne": accountTwo!,
-            "accountTwo": accountTwo!,
-            "howMany": howMany!,
-            "fuelTypeItem": fuelTypeItem!,
-            "useTax": useTax!,
-            "notes": notes!,
-            "picUrl": picUrl!,
-            "projectDocs": projectDocs!,
+            "projectItemName": projectItemName,
+            "projectItemKey": projectItemKey,
+            "odometerReading": odometerReading,
+            "whoName": whoName,
+            "whoKey": whoKey,
+            "what": what,
+            "whomName": whomName,
+            "whomKey": whomKey,
+            "taxReasonId": taxReasonId,
+            "vehicleName": vehicleName,
+            "vehicleKey": vehicleKey,
+            "workersCompId": workersCompId,
+            "advertisingMeansId": advertisingMeansId,
+            "personalReasonId": personalReasonId,
+            "percentBusiness": percentBusiness,
+            "accountOneName": accountOneName,
+            "accountOneKey": accountOneKey,
+            "accountTwoName": accountTwoName,
+            "accountTwoKey": accountTwoKey,
+            "howMany": howMany,
+            "fuelTypeId": fuelTypeId,
+            "useTax": useTax,
+            "notes": notes,
+            "picUrl": picUrl,
+            "projectPicTypeId": projectPicTypeId,
             "timeStamp": timeStamp,
-            "latitude": latitude!,
-            "longitude": longitude!,
-            "mileStone": mileStone!
+            "latitude": latitude,
+            "longitude": longitude
         ]
     }
     

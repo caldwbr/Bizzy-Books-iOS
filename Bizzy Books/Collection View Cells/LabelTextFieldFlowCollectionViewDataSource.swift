@@ -14,6 +14,7 @@ class LabelTextFieldFlowCollectionViewDataSource : NSObject, UICollectionViewDat
     
     var items = [FlowItem]()
     var theTextFieldYes = UITextField()
+    var theSecondaryTextFieldYes = UITextField()
     
     // MARK: - UICollectionViewDataSource
     
@@ -29,10 +30,13 @@ class LabelTextFieldFlowCollectionViewDataSource : NSObject, UICollectionViewDat
 
         cell = collectionView.dequeueReusableCell(withReuseIdentifier: item.cellIdentifier, for: indexPath)
         if item.cellIdentifier == "TextFieldCollectionViewCell" {
-            print("1")
             let theCell = cell as? TextFieldCollectionViewCell
-            print("2")
-            theTextFieldYes = (theCell?.textField as AllowedCharsTextField!)
+            if indexPath.item == 6 {
+                theSecondaryTextFieldYes = (theCell?.textField as AllowedCharsTextField!)
+            } else {
+                theTextFieldYes = (theCell?.textField as AllowedCharsTextField!)
+            }
+            
             //print(theTextFieldYes.amt)
             /*if let c = cell as? FlowItemConfigurable {
                 theTextFieldYes.addTarget(self, action: { c.update(item: item) }, for: UIControlEvents.editingChanged)

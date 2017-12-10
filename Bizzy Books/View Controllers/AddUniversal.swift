@@ -13,12 +13,16 @@ import Firebase
 import Contacts
 import StoreKit
 import Freddy
+import CoreLocation
 
-class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CLLocationManagerDelegate {
     
     // Contacts Stuff
     var recommendedContacts = [CNContact]()
     var selectedContact: CNContact?
+    let locationManager = CLLocationManager()
+    var latitude: Double = 0.0
+    var longitude: Double = 0.0
     
     var digits = "0123456789"
     var negPossibleDigits = "0123456789-"
@@ -26,14 +30,26 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var bradsStore = IAPProcessor.shared
 
     var masterRef: DatabaseReference!
+    var universalsRef: DatabaseReference!
     var entitiesRef: DatabaseReference!
     var projectsRef: DatabaseReference!
     var vehiclesRef: DatabaseReference!
     var accountsRef: DatabaseReference!
     var currentlySubscribedRef: DatabaseReference!
     var specialAccessRef: DatabaseReference!
+    var userCurrentImageIdCountRef: DatabaseReference!
     
-    var firebaseEntities = [EntityItem]()
+    var isUserCurrentlySubscribed: Bool = false
+    var hasUserSpecialAccess: Bool = false
+    
+    var thereIsAnImage = false
+    var userCurrentImageIdCount: Int = 0
+    var userCurrentImageIdCountString: String = ""
+    var userCurrentImageIdCountStringPlusType: String = ""
+    var downloadURL: URL?
+    
+    var firebaseUniversals: [UniversalItem] = []
+    var firebaseEntities: [EntityItem] = []
     var firebaseProjects: [ProjectItem] = []
     var firebaseVehicles: [VehicleItem] = []
     var firebaseAccounts: [AccountItem] = []
@@ -41,8 +57,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var filteredFirebaseProjects: [ProjectItem] = []
     var filteredFirebaseVehicles: [VehicleItem] = []
     var filteredFirebaseAccounts: [AccountItem] = []
-    var isUserCurrentlySubscribed: Bool = false
-    var hasUserSpecialAccess: Bool = false
+    
     
     var tempKeyHolder: String = ""
     
@@ -66,7 +81,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var whatTaxReasonPlaceholder = "what tax reason ▾"
     var whatTaxReasonPlaceholderId = -1
     var whatPersonalReasonPlaceholder = "what personal reason ▾"
-    var whatPeraonalReasonPlaceholderId = -1
+    var whatPersonalReasonPlaceholderId = -1
     var projectPlaceholder = "Project ▾"
     var projectPlaceholderKeyString = ""
     var fuelTypePlaceholder = "fuel ▾"
@@ -101,15 +116,15 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         }
     }
     var primaryAccountTapped = false // Starts off false, can be changed to true (for filtering in transfer section)
-    var timeStamp = 0
+    var addUniversalKeyString = ""
     var addEntityKeyString = ""
     var addProjectKeyString = ""
     var addVehicleKeyString = ""
     var addAccountKeyString = ""
-    var addUniversalKeyString = ""
     
     var thePercent = 50
     var theAmt = 0
+    var howMany = 0
     var entityPickerData: [String] = [String]()
     var taxReasonPickerData: [String] = [String]()
     var wcPickerData: [String] = [String]()
@@ -447,6 +462,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     //Use Tax View Items (not a popup, but part of bottom bar)
     @IBOutlet var useTaxSwitchContainer: UIView!
     @IBOutlet var useTaxSwitch: UISwitch!
+    var thereIsUseTax: Bool = false
     
     @IBOutlet weak var addEntityNameTextField: UITextField!
     @IBOutlet weak var addEntityPhoneNumberTextField: UITextField!
@@ -818,7 +834,14 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         self.selectSecondaryAccountTableView.keyboardDismissMode = .interactive
         self.addProjectSelectCustomerTableView.keyboardDismissMode = .interactive
         
+        locationManager.requestWhenInUseAuthorization()
         
+        // If location services is enabled get the users location
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest // You can change the locaiton accuary here.
+            locationManager.startUpdatingLocation()
+        }
         
         theFormatter.usesGroupingSeparator = true
         theFormatter.numberStyle = .currency
@@ -906,6 +929,15 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         setTextAndIconOnLabel(text: amountText, icon: iconPersonal, label: amountPersonalLabel)
     }
     
+    // Print out the location to the console
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            print(location.coordinate)
+            latitude = location.coordinate.latitude
+            longitude = location.coordinate.longitude
+        }
+    }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             let imageAspectRatio = (Double(image.size.height) / Double(image.size.width))
@@ -925,6 +957,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             scrollView.contentSize = CGSize(width: imageWidth, height: theHeight)
             imageView.frame = CGRect(x: 0, y: 0, width: imageWidth, height: imageHeight)
             imageView.image = image
+            self.thereIsAnImage = true
         }
         picker.dismiss(animated: true, completion: nil)
     }
@@ -976,12 +1009,14 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         masterRef = Database.database().reference().child("users").child(userUID)
+        universalsRef = Database.database().reference().child("users").child(userUID).child("universals")
         entitiesRef = Database.database().reference().child("users").child(userUID).child("entities")
         projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
         vehiclesRef = Database.database().reference().child("users").child(userUID).child("vehicles")
         accountsRef = Database.database().reference().child("users").child(userUID).child("accounts")
         currentlySubscribedRef = Database.database().reference().child("users").child(userUID).child("currentlySubscribed")
         specialAccessRef = Database.database().reference().child("users").child(userUID).child("specialAccess")
+        userCurrentImageIdCountRef = Database.database().reference().child("users").child(userUID).child("userCurrentImageIdCount")
         entitiesRef.observe(.value) { (snapshot) in
             for item in snapshot.children {
                 let firebaseEntity = EntityItem(snapshot: item as! DataSnapshot)
@@ -1034,12 +1069,24 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 self.specialAccessRef.setValue(false)
             }
         }
+        userCurrentImageIdCountRef.observe(.value) { (snapshot) in
+            if let count = snapshot.value as? String {
+                if let countAsInt = Int(count) {
+                    self.userCurrentImageIdCount = countAsInt
+                }
+            }
+        }
         //masterRef.setValue(["username": "Brad Caldwell"]) //This erases all siblings!!!!!! Including any childrenbyautoid!!!
         //masterRef.childByAutoId().setValue([3, 4, -88, 45, true])
     }
     
     @objc func useTaxSwitchToggled(useTaxSwitch: UISwitch) {
         print("Use tax switch toggled")
+        if useTaxSwitch.isOn {
+            thereIsUseTax = true
+        } else {
+            thereIsUseTax = false
+        }
     }
     
     @IBAction func useTaxMoreInfoPressed(_ sender: UIButton) {
@@ -1196,9 +1243,9 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             LabelFlowItem(text: "to", color: .gray, action: nil),
             LabelFlowItem(text: whomPlaceholder, color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
             LabelFlowItem(text: "for", color: .gray, action: nil),
-            LabelFlowItem(text: whatTaxReasonPlaceholder, color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.popUpAnimateIn(popUpView: self.genericPickerView); self.pickerCode = 0 }),
+            LabelFlowItem(text: whatPersonalReasonPlaceholder, color: UIColor.BizzyColor.Magenta.PersonalReason, action: { self.pickerCode = 3;  self.popUpAnimateIn(popUpView: self.genericPickerView) }),
             LabelFlowItem(text: "and", color: .gray, action: nil),
-            LabelFlowItem(text: whatPersonalReasonPlaceholder, color: UIColor.BizzyColor.Magenta.PersonalReason, action: { self.pickerCode = 3; self.popUpAnimateIn(popUpView: self.genericPickerView) })
+            LabelFlowItem(text: whatTaxReasonPlaceholder, color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.pickerCode = 0; self.popUpAnimateIn(popUpView: self.genericPickerView) })
         ]
         switch universalArray[6] {
         case 2:
@@ -1434,7 +1481,159 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
+        returnIfAnyPertinentItemsForgotten()
+        if thereIsAnImage {
+            if let uploadData = UIImagePNGRepresentation(self.imageView.image!) {
+                userCurrentImageIdCount += 1
+                userCurrentImageIdCountString = String(userCurrentImageIdCount)
+                userCurrentImageIdCountStringPlusType = userCurrentImageIdCountString + ".png"
+                let storage = Storage.storage()
+                let storageRef = storage.reference()
+                let imagesRef = storageRef.child("users").child(userUID).child(userCurrentImageIdCountStringPlusType)
+                userCurrentImageIdCountRef.setValue(userCurrentImageIdCountString)
+                let uploadTask = imagesRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
+                    if error != nil {
+                        print(String(describing: error))
+                        return
+                    }
+                    print(String(describing: metadata))
+                    self.downloadURL = metadata?.downloadURL()
+                })
+                uploadTask.observe(.progress) { snapshot in
+                    // Upload reported progress
+                    let percentComplete = 100.0 * Double(snapshot.progress!.completedUnitCount)
+                        / Double(snapshot.progress!.totalUnitCount)
+                }
+                
+                uploadTask.observe(.success) { snapshot in
+                    // Upload completed successfully
+                    self.saveUniversal()
+                }
+                
+                uploadTask.observe(.failure) { snapshot in
+                    if let error = snapshot.error as? NSError {
+                        switch (StorageErrorCode(rawValue: error.code)!) {
+                        case .objectNotFound:
+                            // File doesn't exist
+                            break
+                        case .unauthorized:
+                            // User doesn't have permission to access file
+                            break
+                        case .cancelled:
+                            // User canceled the upload
+                            break
+                            
+                            /* ... */
+                            
+                        case .unknown:
+                            // Unknown error occurred, inspect the server response
+                            break
+                        default:
+                            // A separate error occurred. This is a good place to retry the upload.
+                            break
+                        }
+                    }
+                }
 
+            }
+        } else {
+            self.saveUniversal()
+        }
+    }
+    
+    func saveUniversal() {
+        let addUniversalKeyReference = universalsRef.childByAutoId()
+        self.addUniversalKeyString = addUniversalKeyReference.key
+        var notes = ""
+        var urlString = ""
+        let timeStampDictionaryForFirebase = [".sv": "timestamp"]
+        if let theNotes = notesTextField.text {
+            notes = theNotes
+        }
+        if let theUrl = downloadURL {
+            urlString = theUrl.absoluteString
+        }
+        if let primaryTextField = dataSource.theTextFieldYes as? AllowedCharsTextField {
+            theAmt = primaryTextField.amt
+        }
+        if selectedType == 3 {
+            if let secondaryTextField = dataSource.theSecondaryTextFieldYes as? AllowedCharsTextField {
+                howMany = secondaryTextField.amt
+            }
+        }
+        switch self.selectedType {
+        case 4: //Transfer
+            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: 0, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompId: workersCompPlaceholderId, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourPrimaryAccountPlaceholder, accountOneKey: yourPrimaryAccountPlaceholderKeyString, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, howMany: howMany, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, key: addUniversalKeyString)
+            universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
+        default:
+            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: 0, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompId: workersCompPlaceholderId, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, howMany: howMany, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, key: addUniversalKeyString)
+            universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
+        }
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func returnIfAnyPertinentItemsForgotten() {
+        switch self.selectedType {
+        case 0:
+            guard projectPlaceholderKeyString != "" else { return }
+            guard whoPlaceholderKeyString != "" else { return }
+            guard whomPlaceholderKeyString != "" else { return }
+            guard whatTaxReasonPlaceholderId != -1 else { return }
+            if whatTaxReasonPlaceholderId == 2 {
+                guard workersCompPlaceholderId != -1 else { return }
+            } else if whatTaxReasonPlaceholderId == 5 {
+                guard vehiclePlaceholderKeyString != "" else { return }
+            } else if whatTaxReasonPlaceholderId == 6 {
+                guard advertisingMeansPlaceholderId != -1 else { return }
+            }
+            guard yourAccountPlaceholderKeyString != "" else { return }
+        case 1:
+            guard whoPlaceholderKeyString != "" else { return }
+            guard whomPlaceholderKeyString != "" else { return }
+            guard whatPersonalReasonPlaceholderId != -1 else { return }
+            guard yourAccountPlaceholderKeyString != "" else { return }
+        case 2:
+            guard projectPlaceholderKeyString != "" else { return }
+            guard whoPlaceholderKeyString != "" else { return }
+            guard whomPlaceholderKeyString != "" else { return }
+            guard whatPersonalReasonPlaceholderId != -1 else { return }
+            guard whatTaxReasonPlaceholderId != -1 else { return }
+            if whatTaxReasonPlaceholderId == 2 {
+                guard workersCompPlaceholderId != -1 else { return }
+            } else if whatTaxReasonPlaceholderId == 5 {
+                guard vehiclePlaceholderKeyString != "" else { return }
+            } else if whatTaxReasonPlaceholderId == 6 {
+                guard advertisingMeansPlaceholderId != -1 else { return }
+            }
+            guard yourAccountPlaceholderKeyString != "" else { return }
+        case 3:
+            guard odometerTextField.text != "" else { return }
+            guard whoPlaceholderKeyString != "" else { return }
+            guard whomPlaceholderKeyString != "" else { return }
+            guard fuelTypePlaceholderId != -1 else { return }
+            guard vehiclePlaceholderKeyString != "" else { return }
+            guard yourAccountPlaceholderKeyString != "" else { return }
+        case 4:
+            guard yourPrimaryAccountPlaceholderKeyString != "" else { return }
+            guard yourSecondaryAccountPlaceholderKeyString != "" else { return }
+        case 5:
+            guard yourAccountPlaceholderKeyString != "" else { return }
+        case 6:
+            guard projectMediaTypePlaceholderId != -1 else { return }
+        default:
+            guard projectPlaceholderKeyString != "" else { return }
+            guard whoPlaceholderKeyString != "" else { return }
+            guard whomPlaceholderKeyString != "" else { return }
+            guard whatTaxReasonPlaceholderId != -1 else { return }
+            if whatTaxReasonPlaceholderId == 2 {
+                guard workersCompPlaceholderId != -1 else { return }
+            } else if whatTaxReasonPlaceholderId == 5 {
+                guard vehiclePlaceholderKeyString != "" else { return }
+            } else if whatTaxReasonPlaceholderId == 6 {
+                guard advertisingMeansPlaceholderId != -1 else { return }
+            }
+            guard yourAccountPlaceholderKeyString != "" else { return }
+        }
     }
     
 }
