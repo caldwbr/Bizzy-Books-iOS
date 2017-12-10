@@ -68,7 +68,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var selectedType = 0
     var pickerCode = 0 {
         didSet {
-            genericPickerView?.reloadAllComponents()
+            genericPickerView?.reloadAllComponents() //This is the line that loads data to those pesky difficult-to-understand pickers that just stay there without any popup
             genericPickerView?.selectRow(0, inComponent: 0, animated: false)
         }
     }
@@ -278,6 +278,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             whoPlaceholder = selectWhoTextField.text!
             popUpAnimateOut(popUpView: selectWhoView)
             tempKeyHolder = ""
+            reloadSentence(selectedType: selectedType)
         }
     }
     
@@ -299,6 +300,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             whomPlaceholder = selectWhomTextField.text!
             popUpAnimateOut(popUpView: selectWhomView)
             tempKeyHolder = ""
+            reloadSentence(selectedType: selectedType)
         }
     }
     
@@ -307,18 +309,39 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var selectVehicleTableView: UITableView!
     @IBOutlet weak var selectVehicleTextField: UITextField!
     @IBAction func vehicleAddButtonTapped(_ sender: UIButton) {
-        pickerCode = 4
+        selectVehicleTextField.text = ""
+        filteredFirebaseVehicles.removeAll()
+        tempKeyHolder = ""
+        if selectVehicleTableView != nil {
+            selectVehicleTableView.reloadData()
+            selectVehicleTableView.isHidden = true
+        }
+        pickerCode = 8
         popUpAnimateIn(popUpView: addVehicleView)
     }
     @IBAction func vehicleDismissTapped(_ sender: UIButton) {
+        selectVehicleTextField.text = ""
+        filteredFirebaseVehicles.removeAll()
+        tempKeyHolder = ""
+        if selectVehicleTableView != nil {
+            selectVehicleTableView.reloadData()
+            selectVehicleTableView.isHidden = true
+        }
         popUpAnimateOut(popUpView: selectVehicleView)
     }
     @IBAction func vehicleAcceptTapped(_ sender: UIButton) {
         if !tempKeyHolder.isEmpty && !selectVehicleTextField.text!.isEmpty{
             vehiclePlaceholderKeyString = tempKeyHolder
             vehiclePlaceholder = selectVehicleTextField.text!
+            selectVehicleTextField.text = ""
+            filteredFirebaseVehicles.removeAll()
+            if selectVehicleTableView != nil {
+                selectVehicleTableView.reloadData()
+                selectVehicleTableView.isHidden = true
+            }
             popUpAnimateOut(popUpView: selectVehicleView)
             tempKeyHolder = ""
+            reloadSentence(selectedType: selectedType)
         }
     }
     
@@ -341,10 +364,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             let thisAccountItem = AccountItem(name: addAccountNameTextField.text!, phoneNumber: addAccountPhoneNumberTextField.text!, email: addAccountEmailTextField.text!, street: addAccountStreetTextField.text!, city: addAccountCityTextField.text!, state: addAccountStateTextField.text!, startingBal: addAccountStartingBalanceTextField.amt)
             accountsRef.child(addAccountKeyString).setValue(thisAccountItem.toAnyObject())
             popUpAnimateOut(popUpView: addAccountView)
-            if self.accountSenderCode == 0 {
+            if accountSenderCode == 0 {
                 yourAccountPlaceholderKeyString = addAccountKeyString
                 yourAccountPlaceholder = thisAccountItem.name
-            } else if self.accountSenderCode == 1 {
+            } else if accountSenderCode == 1 {
                 yourSecondaryAccountPlaceholderKeyString = addAccountKeyString
                 yourSecondaryAccountPlaceholder = thisAccountItem.name
             }
@@ -363,11 +386,11 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 self.selectAccountView.removeFromSuperview()
             case 4:
                 self.reloadSentence(selectedType: self.selectedType)
-                if self.accountSenderCode == 1 {
-                    self.selectSecondaryAccountView.removeFromSuperview()
-                    self.accountSenderCode = 0
+                if accountSenderCode == 1 {
+                    selectSecondaryAccountView.removeFromSuperview()
+                    accountSenderCode = 0
                 } else {
-                    self.selectAccountView.removeFromSuperview()
+                    selectAccountView.removeFromSuperview()
                 }
             case 5:
                 self.reloadSentence(selectedType: self.selectedType)
@@ -586,22 +609,12 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             }
         }
     }
-    @IBAction func selectVehicleTextFieldTouchedDown(_ sender: UITextField) {
-        if (sender.text) != nil {
-            if !(sender.text?.isEmpty)! {
-                if self.selectVehicleTableView.isHidden == false {
-                    self.selectVehicleTableView.isHidden = true
-                } else {
-                    self.selectVehicleTableView.isHidden = false
-                }
-            }
-        }
-    }
+
     @IBAction func selectVehicleTextFieldChanged(_ sender: UITextField) {
         tempKeyHolder = ""
-        self.selectVehicleTableView.isHidden = false
         if let searchText = sender.text {
             if !searchText.isEmpty {
+                selectVehicleTableView.isHidden = false
                 filteredFirebaseVehicles = firebaseVehicles.filter({ (vehicleItem) -> Bool in
                     if vehicleItem.year.localizedCaseInsensitiveContains(searchText) || vehicleItem.make.localizedCaseInsensitiveContains(searchText) || vehicleItem.model.localizedCaseInsensitiveContains(searchText) {
                         return true
@@ -610,6 +623,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                     }
                 })
                 selectVehicleTableView.reloadData()
+            } else {
+                filteredFirebaseVehicles.removeAll()
+                selectVehicleTableView.reloadData()
+                selectVehicleTableView.isHidden = true
             }
         }
     }
@@ -834,6 +851,9 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         self.selectSecondaryAccountTableView.keyboardDismissMode = .interactive
         self.addProjectSelectCustomerTableView.keyboardDismissMode = .interactive
         
+        //Prevent empty cells in tableview
+        selectVehicleTableView.tableFooterView = UIView(frame: .zero)
+        
         locationManager.requestWhenInUseAuthorization()
         
         // If location services is enabled get the users location
@@ -927,6 +947,12 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         let iconPersonal = "personal"
         setTextAndIconOnLabel(text: amountText, icon: iconBusiness, label: amountBusinessLabel)
         setTextAndIconOnLabel(text: amountText, icon: iconPersonal, label: amountPersonalLabel)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        if selectVehicleView != nil {
+            selectVehicleView.frame = CGRect(x: (Int((UIScreen.main.bounds.size.width*0.5) - 167)), y: 100, width: 334, height: 311)
+        }
     }
     
     // Print out the location to the console
@@ -1192,7 +1218,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         case 2:
             dataSource.items.append(LabelFlowItem(text: workersCompPlaceholder, color: UIColor.BizzyColor.Orange.WC, action: { self.popUpAnimateIn(popUpView: self.genericPickerView); self.pickerCode = 1 }))
         case 5:
-            dataSource.items.append(LabelFlowItem(text: taxVehiclePlaceholder, color: UIColor.BizzyColor.Orange.Vehicle, action: { self.popUpAnimateIn(popUpView: self.selectVehicleView) }))
+            dataSource.items.append(LabelFlowItem(text: vehiclePlaceholder, color: UIColor.BizzyColor.Orange.Vehicle, action: { self.popUpAnimateIn(popUpView: self.selectVehicleView) }))
         case 6:
             dataSource.items.append(LabelFlowItem(text: advertisingMeansPlaceholder, color: UIColor.BizzyColor.Orange.AdMeans, action: { self.pickerCode = 2; self.popUpAnimateIn(popUpView: self.genericPickerView) }))
         default:
@@ -1386,10 +1412,11 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             return howDidTheyHearOfYouPickerData.count //How did they hear of you project label
         case 7:
             return projectMediaTypePickerData.count
+        case 8:
+            return fuelTypePickerData.count
         default:
             return taxReasonPickerData.count
         }
-        
     }
     
     // The data to return for the row and component (column) that's being passed in
@@ -1413,6 +1440,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             return howDidTheyHearOfYouPickerData[row] //How did they hear of you project label
         case 7:
             return projectMediaTypePickerData[row]
+        case 8:
+            return fuelTypePickerData[row]
         default:
             return taxReasonPickerData[row]
         }
@@ -1422,7 +1451,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         switch pickerCode {
         case 0: //What tax reason
             universalArray[6] = row
-            self.whatTaxReasonPlaceholder = taxReasonPickerData[row]
+            whatTaxReasonPlaceholder = taxReasonPickerData[row]
+            whatTaxReasonPlaceholderId = row
             switch selectedType {
             case 0: //Business Type
                 if self.dataSource.items.indices.contains(8) { //This just gets rid of veh, adMeans, or wc item if present before reloading.
@@ -1436,33 +1466,40 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             popUpAnimateOut(popUpView: pickerView)
         case 1: //Worker's comp
             universalArray[8] = row
-            self.workersCompPlaceholder = wcPickerData[row]
+            workersCompPlaceholder = wcPickerData[row]
+            workersCompPlaceholderId = row
             popUpAnimateOut(popUpView: pickerView)
         case 2: //What kind of advertising did you purchase
             universalArray[9] = row
-            self.advertisingMeansPlaceholder = advertisingMeansPickerData[row]
+            advertisingMeansPlaceholder = advertisingMeansPickerData[row]
+            advertisingMeansPlaceholderId = row
             popUpAnimateOut(popUpView: pickerView)
         case 3: //What personal reason
             universalArray[10] = row
-            self.whatPersonalReasonPlaceholder = personalReasonPickerData[row]
+            whatPersonalReasonPlaceholder = personalReasonPickerData[row]
+            whatPersonalReasonPlaceholderId = row
             popUpAnimateOut(popUpView: pickerView)
         case 4: //Fuel type
             universalArray[15] = row
-            self.fuelTypePlaceholder = fuelTypePickerData[row]
+            fuelTypePlaceholder = fuelTypePickerData[row]
+            fuelTypePlaceholderId = row
+            popUpAnimateOut(popUpView: pickerView)
         case 5: //Type of entity i.e. customer, sub, employee, store, etc.
             chosenEntity = row
         case 6: //How did they hear of you
             chosenHowDidTheyHearOfYou = row
         case 7: //Project media type
-            self.projectMediaTypePlaceholder = projectMediaTypePickerData[row]
-            self.projectMediaTypePlaceholderId = row
+            projectMediaTypePlaceholder = projectMediaTypePickerData[row]
+            projectMediaTypePlaceholderId = row
             popUpAnimateOut(popUpView: pickerView)
+        case 8: //Fuel type picker inside addVehicleView
+            let _ = 0 //Absolutely no reason except it wants something here
         default: //What tax reason
             universalArray[6] = row
             self.whatTaxReasonPlaceholder = taxReasonPickerData[row]
             popUpAnimateOut(popUpView: pickerView)
         }
-        if !(pickerCode == 4) && !(pickerCode == 5) && !(pickerCode == 6) {
+        if !(pickerCode == 5) && !(pickerCode == 6) && !(pickerCode == 8) {
             reloadSentence(selectedType: selectedType)
         }
     }
@@ -1730,7 +1767,7 @@ extension AddUniversal: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        tableView.deselectRow(at: indexPath, animated: true) //Added this to stop chicanery of cells still being selected if you change your mind and go back a second time.
         switch tableView {
         case self.contactSuggestionsTableView:
             let contact = self.recommendedContacts[indexPath.row]
@@ -1776,7 +1813,7 @@ extension AddUniversal: UITableViewDataSource, UITableViewDelegate {
         case self.selectVehicleTableView:
             let vehicle = filteredFirebaseVehicles[indexPath.row]
             self.selectVehicleTableView.isHidden = true
-            self.selectVehicleTextField.text = vehicle.year + "" + vehicle.make + "" + vehicle.model
+            self.selectVehicleTextField.text = vehicle.year + " " + vehicle.make + " " + vehicle.model
             self.tempKeyHolder = vehicle.key
             self.filteredFirebaseVehicles.removeAll()
         case self.selectAccountTableView:
