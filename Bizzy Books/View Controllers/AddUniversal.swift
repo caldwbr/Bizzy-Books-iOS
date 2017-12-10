@@ -1482,6 +1482,9 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         returnIfAnyPertinentItemsForgotten()
+    }
+    
+    func afterTheReturnTest() {
         if thereIsAnImage {
             if let uploadData = UIImagePNGRepresentation(self.imageView.image!) {
                 userCurrentImageIdCount += 1
@@ -1534,7 +1537,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                         }
                     }
                 }
-
+                
             }
         } else {
             self.saveUniversal()
@@ -1634,6 +1637,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             }
             guard yourAccountPlaceholderKeyString != "" else { return }
         }
+        afterTheReturnTest()
     }
     
 }
