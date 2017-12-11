@@ -873,7 +873,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyBest // You can change the locaiton accuary here.
-            //locationManager.startUpdatingLocation()
+            locationManager.startUpdatingLocation()
         }
         
         theFormatter.usesGroupingSeparator = true
@@ -988,25 +988,24 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        checkPermission()
+        checkPermissionForPhotos()
     }
     
-    func checkPermission() {
+    func checkPermissionForPhotos() {
         
         let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
         
         switch photoAuthorizationStatus {
-        case .authorized: print("Access is granted by user")
-        case .notDetermined:
-            PHPhotoLibrary.requestAuthorization({ (newStatus) in
-                print("status is \(newStatus)")
-                if newStatus == PHAuthorizationStatus.authorized {
-                    print("success") }
-                
-            })
-        case .restricted: print("User do not have access to photo album.")
-        case .denied: print("User has denied the permission.")
-            
+            case .authorized: print("Access is granted by user")
+            case .notDetermined:
+                PHPhotoLibrary.requestAuthorization({ (newStatus) in
+                    print("status is \(newStatus)")
+                    if newStatus == PHAuthorizationStatus.authorized {
+                        print("success") }
+                    
+                })
+            case .restricted: print("User do not have access to photo album.")
+            case .denied: print("User has denied the permission.")
         }
     }
     
@@ -1016,6 +1015,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             print(location.coordinate)
             latitude = location.coordinate.latitude
             longitude = location.coordinate.longitude
+            locationManager.stopUpdatingLocation()
         }
     }
     
