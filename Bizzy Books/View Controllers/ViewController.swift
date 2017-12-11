@@ -24,14 +24,19 @@ class ViewController: UIViewController, FUIAuthDelegate {
         var kFacebookAppID = "1583985615235483"
     var backgroundImage : UIImageView! //right here
     //var customAuthPickerViewController : FIRAuthPickerViewController!
+    var entitiesRef: DatabaseReference!
+    var youEntityRef: DatabaseReference!
+    var addEntityKeyString: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         checkLoggedIn()
-        
     }
-    
+
+    @IBOutlet var welcomeView: UIView!
+    @IBAction func welcomeViewGotItPressed(_ sender: UIButton) {
+        popUpAnimateOut(popUpView: welcomeView)
+    }
     @IBOutlet weak var profilePic: UIImageView!
     
     func checkLoggedIn() {
@@ -42,11 +47,14 @@ class ViewController: UIViewController, FUIAuthDelegate {
                 if user?.photoURL == nil {
                 }else{
                     if let imageUrl = NSData(contentsOf: (user?.photoURL)!){
-                        self.profilePic.image = UIImage(data: imageUrl as Data) 
+                        self.profilePic.image = UIImage(data: imageUrl as Data)
                     } else {
                         self.profilePic.image = UIImage(named: "bizzybooksbee")
                     }
                 }
+                self.entitiesRef = Database.database().reference().child("users").child(userUID).child("entities")
+                self.youEntityRef = Database.database().reference().child("users").child(userUID).child("youEntity")
+                self.initializeIfFirstAppUse()
             } else {
                 // No user is signed in.
                 self.login()
@@ -91,7 +99,59 @@ class ViewController: UIViewController, FUIAuthDelegate {
         let sourceApplication = options[UIApplicationOpenURLOptionUniversalLinksOnly] as! String
         return FUIAuth.defaultAuthUI()!.handleOpen(url as URL, sourceApplication: sourceApplication )
     }
+    
+    func popUpAnimateIn(popUpView: UIView) {
+        self.view.addSubview(popUpView)
+        popUpView.center = self.view.center
+        popUpView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+        popUpView.alpha = 0
+        
+        UIView.animate(withDuration: 0.4) {
+            popUpView.alpha = 1
+            popUpView.transform = CGAffineTransform.identity
+        }
+    }
+    
+    func popUpAnimateOut(popUpView: UIView) {
+        UIView.animate(withDuration: 0.4, animations: {
+            popUpView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            popUpView.alpha = 0
+        }) { (success:Bool) in
+            popUpView.removeFromSuperview()
+        }
+    }
+    
+    func initializeIfFirstAppUse() {
+        let firstLaunch = FirstLaunch(userDefaults: .standard, key: "com.bizzybooks.FirstLaunch.WasLaunchedBefore")
+        
+        if firstLaunch.isFirstLaunch {
+            // do things // MOVE stuff from the always closure below into this one when you're ready for final deployment of app!
+        }
+        
+        let alwaysFirstLaunch = FirstLaunch.alwaysFirst()
+        
+        if alwaysFirstLaunch.isFirstLaunch {
+            // will always execute
+            let addEntityKeyReference = entitiesRef.childByAutoId()
+            addEntityKeyString = addEntityKeyReference.key
+            let thisEntityItem = EntityItem(type: 9, name: "You", phoneNumber: "", email: "", street: "", city: "", state: "", ssn: "", ein: "", key: addEntityKeyString)
+            entitiesRef.child(addEntityKeyString).setValue(thisEntityItem.toAnyObject())
+            youEntityRef.setValue(addEntityKeyString)
+            popUpAnimateIn(popUpView: welcomeView)
+        }
+    }
  
+    @IBAction func settingsPressed(_ sender: UIBarButtonItem) {
+        if let appSettings = NSURL(string: UIApplicationOpenSettingsURLString) {
+            let string: String = ""
+            let any: Any = ""
+            UIApplication.shared.open(appSettings as URL, options: [string: any], completionHandler: { (success) in
+                if success {
+                    print("Good")
+                }
+            })
+        }
+    }
 }
 
 extension UIViewController {
@@ -104,5 +164,36 @@ extension UIViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+}
+
+final class FirstLaunch {
+    
+    let wasLaunchedBefore: Bool
+    var isFirstLaunch: Bool {
+        return !wasLaunchedBefore
+    }
+    
+    init(getWasLaunchedBefore: () -> Bool,
+         setWasLaunchedBefore: (Bool) -> ()) {
+        let wasLaunchedBefore = getWasLaunchedBefore()
+        self.wasLaunchedBefore = wasLaunchedBefore
+        if !wasLaunchedBefore {
+            setWasLaunchedBefore(true)
+        }
+    }
+    
+    convenience init(userDefaults: UserDefaults, key: String) {
+        self.init(getWasLaunchedBefore: { userDefaults.bool(forKey: key) },
+                  setWasLaunchedBefore: { userDefaults.set($0, forKey: key) })
+    }
+    
+}
+
+extension FirstLaunch {
+    
+    static func alwaysFirst() -> FirstLaunch {
+        return FirstLaunch(getWasLaunchedBefore: { return false }, setWasLaunchedBefore: { _ in })
+    }
+    
 }
 

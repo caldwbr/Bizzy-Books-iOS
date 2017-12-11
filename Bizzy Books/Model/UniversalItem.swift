@@ -41,9 +41,11 @@ struct UniversalItem {
     let timeStamp: Any
     let latitude: Double //Times 100,000?? Optional because desktops don't produce lat and long I don't think
     let longitude: Double //Times 100,000?? Optional because desktops don't produce lat and long I don't think
+    let atmFee: Bool // For future use
+    let feeAmount: Int // For future use
     let ref: DatabaseReference?
     
-    init(universalItemType: Int, projectItemName: String, projectItemKey: String, odometerReading: Int, whoName: String, whoKey: String, what: Int, whomName: String, whomKey: String, taxReasonId: Int, vehicleName: String, vehicleKey: String, workersCompId: Int, advertisingMeansId: Int, personalReasonId: Int, percentBusiness: Int, accountOneName: String, accountOneKey: String, accountTwoName: String, accountTwoKey: String, howMany: Int, fuelTypeId: Int, useTax: Bool, notes: String, picUrl: String, projectPicTypeId: Int, timeStamp: Any, latitude: Double, longitude: Double, key: String = "") {
+    init(universalItemType: Int, projectItemName: String, projectItemKey: String, odometerReading: Int, whoName: String, whoKey: String, what: Int, whomName: String, whomKey: String, taxReasonId: Int, vehicleName: String, vehicleKey: String, workersCompId: Int, advertisingMeansId: Int, personalReasonId: Int, percentBusiness: Int, accountOneName: String, accountOneKey: String, accountTwoName: String, accountTwoKey: String, howMany: Int, fuelTypeId: Int, useTax: Bool, notes: String, picUrl: String, projectPicTypeId: Int, timeStamp: Any, latitude: Double, longitude: Double, atmFee: Bool, feeAmount: Int, key: String = "") {
         self.key = key
         self.universalItemType = universalItemType
         self.projectItemName = projectItemName
@@ -74,6 +76,8 @@ struct UniversalItem {
         self.timeStamp = timeStamp
         self.latitude = latitude
         self.longitude = longitude
+        self.atmFee = atmFee
+        self.feeAmount = feeAmount
         self.ref = nil
     }
     
@@ -109,6 +113,8 @@ struct UniversalItem {
         timeStamp = snapshotValue["timeStamp"] as Any
         latitude = snapshotValue["latitude"] as! Double
         longitude = snapshotValue["longitude"] as! Double
+        atmFee = snapshotValue["atmFee"] as! Bool
+        feeAmount = snapshotValue["feeAmoount"] as! Int
         ref = snapshot.ref
     }
     
@@ -142,7 +148,9 @@ struct UniversalItem {
             "projectPicTypeId": projectPicTypeId,
             "timeStamp": timeStamp,
             "latitude": latitude,
-            "longitude": longitude
+            "longitude": longitude,
+            "atmFee": atmFee,
+            "feeAmount": feeAmount
         ]
     }
     

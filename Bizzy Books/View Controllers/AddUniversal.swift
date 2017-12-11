@@ -14,6 +14,7 @@ import Contacts
 import StoreKit
 import Freddy
 import CoreLocation
+import Photos
 
 class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CLLocationManagerDelegate {
     
@@ -29,7 +30,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     let theFormatter = NumberFormatter()
     var bradsStore = IAPProcessor.shared
 
-    var masterRef: DatabaseReference!
+    var youRef: DatabaseReference!
     var universalsRef: DatabaseReference!
     var entitiesRef: DatabaseReference!
     var projectsRef: DatabaseReference!
@@ -57,7 +58,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var filteredFirebaseProjects: [ProjectItem] = []
     var filteredFirebaseVehicles: [VehicleItem] = []
     var filteredFirebaseAccounts: [AccountItem] = []
-    
     
     var tempKeyHolder: String = ""
     
@@ -90,6 +90,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var vehiclePlaceholderKeyString = ""
     var yourAccountPlaceholder = "Your account ▾"
     var yourAccountPlaceholderKeyString = ""
+    var accountTypePlaceholder = "Bank account"
+    var accountTypePlaceholderId = 0
     var bizzyBooksBalanceAsString = ""
     var bizzyBooksBalanceAsInt = 0
     var bizzyBooksBalanceAsDouble = 0.0
@@ -108,6 +110,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var taxVehiclePlaceholderKeyString = ""
     var projectMediaTypePlaceholder = "Type of picture ▾ ?"
     var projectMediaTypePlaceholderId = -1
+    var atmFee = false
+    var feeAmount = 0
     
     // 0 = Who, 1 = Whom, 2 = Project Customer
     var entitySenderCode = 0 {
@@ -133,6 +137,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var fuelTypePickerData: [String] = [String]()
     var howDidTheyHearOfYouPickerData: [String] = [String]()
     var projectMediaTypePickerData: [String] = [String]()
+    var addAccountAccountTypePickerData: [String] = [String]()
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var leftTopView: DropdownFlowView!
     @IBOutlet weak var rightTopView: UIView!
@@ -179,6 +184,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var overheadQuestionImage: UIImageView!
     @IBOutlet weak var projectTextField: UITextField!
     @IBAction func projectAddButtonTapped(_ sender: UIButton) {
+        selectProjectClearing()
         pickerCode = 6
         popUpAnimateIn(popUpView: addProjectView)
     }
@@ -186,13 +192,25 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if !tempKeyHolder.isEmpty && !projectTextField.text!.isEmpty{
             projectPlaceholderKeyString = tempKeyHolder
             projectPlaceholder = projectTextField.text!
+            selectProjectClearing()
             self.projectLabel.text = self.projectPlaceholder
             popUpAnimateOut(popUpView: selectProjectView)
             tempKeyHolder = ""
         }
     }
     @IBAction func projectDismissTapped(_ sender: UIButton) {
+        selectProjectClearing()
         popUpAnimateOut(popUpView: selectProjectView)
+    }
+    
+    func selectProjectClearing() {
+        projectTextField.text = ""
+        filteredFirebaseProjects.removeAll()
+        tempKeyHolder = ""
+        if selectProjectTableView != nil {
+            selectProjectTableView.reloadData()
+            selectProjectTableView.isHidden = true
+        }
     }
     
     @IBOutlet weak var howDidTheyHearOfYouPickerView: UIPickerView!
@@ -265,20 +283,33 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var selectWhoTableView: UITableView!
     @IBOutlet weak var selectWhoTextField: UITextField!
     @IBAction func whoAddButtonTapped(_ sender: UIButton) {
+        selectWhoClearing()
         pickerCode = 5
         entitySenderCode = 0
         popUpAnimateIn(popUpView: addEntityView)
     }
     @IBAction func whoDismissTapped(_ sender: UIButton) {
+        selectWhoClearing()
         popUpAnimateOut(popUpView: selectWhoView)
     }
     @IBAction func whoAcceptTapped(_ sender: UIButton) {
         if !tempKeyHolder.isEmpty && !selectWhoTextField.text!.isEmpty{
             whoPlaceholderKeyString = tempKeyHolder
             whoPlaceholder = selectWhoTextField.text!
+            selectWhoClearing()
             popUpAnimateOut(popUpView: selectWhoView)
             tempKeyHolder = ""
             reloadSentence(selectedType: selectedType)
+        }
+    }
+    
+    func selectWhoClearing() {
+        selectWhoTextField.text = ""
+        filteredFirebaseEntities.removeAll()
+        tempKeyHolder = ""
+        if selectWhoTableView != nil {
+            selectWhoTableView.reloadData()
+            selectWhoTableView.isHidden = true
         }
     }
     
@@ -287,20 +318,33 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var selectWhomTableView: UITableView!
     @IBOutlet weak var selectWhomTextField: UITextField!
     @IBAction func whomAddButtonTapped(_ sender: UIButton) {
+        selectWhomClearing()
         pickerCode = 5
         entitySenderCode = 1
         popUpAnimateIn(popUpView: addEntityView)
     }
     @IBAction func whomDismissTapped(_ sender: UIButton) {
+        selectWhomClearing()
         popUpAnimateOut(popUpView: selectWhomView)
     }
     @IBAction func whomAcceptTapped(_ sender: UIButton) {
         if !tempKeyHolder.isEmpty && !selectWhomTextField.text!.isEmpty{
             whomPlaceholderKeyString = tempKeyHolder
             whomPlaceholder = selectWhomTextField.text!
+            selectWhomClearing()
             popUpAnimateOut(popUpView: selectWhomView)
             tempKeyHolder = ""
             reloadSentence(selectedType: selectedType)
+        }
+    }
+    
+    func selectWhomClearing() {
+        selectWhomTextField.text = ""
+        filteredFirebaseEntities.removeAll()
+        tempKeyHolder = ""
+        if selectWhomTableView != nil {
+            selectWhomTableView.reloadData()
+            selectWhomTableView.isHidden = true
         }
     }
     
@@ -309,42 +353,36 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var selectVehicleTableView: UITableView!
     @IBOutlet weak var selectVehicleTextField: UITextField!
     @IBAction func vehicleAddButtonTapped(_ sender: UIButton) {
-        selectVehicleTextField.text = ""
-        filteredFirebaseVehicles.removeAll()
-        tempKeyHolder = ""
-        if selectVehicleTableView != nil {
-            selectVehicleTableView.reloadData()
-            selectVehicleTableView.isHidden = true
-        }
+        selectVehicleClearing()
         pickerCode = 8
         popUpAnimateIn(popUpView: addVehicleView)
     }
     @IBAction func vehicleDismissTapped(_ sender: UIButton) {
-        selectVehicleTextField.text = ""
-        filteredFirebaseVehicles.removeAll()
-        tempKeyHolder = ""
-        if selectVehicleTableView != nil {
-            selectVehicleTableView.reloadData()
-            selectVehicleTableView.isHidden = true
-        }
+        selectVehicleClearing()
         popUpAnimateOut(popUpView: selectVehicleView)
     }
     @IBAction func vehicleAcceptTapped(_ sender: UIButton) {
         if !tempKeyHolder.isEmpty && !selectVehicleTextField.text!.isEmpty{
             vehiclePlaceholderKeyString = tempKeyHolder
             vehiclePlaceholder = selectVehicleTextField.text!
-            selectVehicleTextField.text = ""
-            filteredFirebaseVehicles.removeAll()
-            if selectVehicleTableView != nil {
-                selectVehicleTableView.reloadData()
-                selectVehicleTableView.isHidden = true
-            }
+            selectVehicleClearing()
             popUpAnimateOut(popUpView: selectVehicleView)
             tempKeyHolder = ""
             reloadSentence(selectedType: selectedType)
         }
     }
     
+    func selectVehicleClearing() {
+        selectVehicleTextField.text = ""
+        filteredFirebaseVehicles.removeAll()
+        tempKeyHolder = ""
+        if selectVehicleTableView != nil {
+            selectVehicleTableView.reloadData()
+            selectVehicleTableView.isHidden = true
+        }
+    }
+    
+    @IBOutlet weak var addAccountAccountTypePickerView: UIPickerView!
     @IBOutlet var addAccountView: UIView!
     @IBOutlet weak var addAccountNameTextField: UITextField!
     @IBOutlet weak var addAccountStartingBalanceTextField: AllowedCharsTextField!
@@ -361,7 +399,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if !((addAccountNameTextField.text?.isEmpty)!), !((addAccountStartingBalanceTextField.text?.isEmpty)!) {
             let addAccountKeyReference = accountsRef.childByAutoId()
             addAccountKeyString = addAccountKeyReference.key
-            let thisAccountItem = AccountItem(name: addAccountNameTextField.text!, phoneNumber: addAccountPhoneNumberTextField.text!, email: addAccountEmailTextField.text!, street: addAccountStreetTextField.text!, city: addAccountCityTextField.text!, state: addAccountStateTextField.text!, startingBal: addAccountStartingBalanceTextField.amt)
+            let thisAccountItem = AccountItem(name: addAccountNameTextField.text!, accountTypeId: accountTypePlaceholderId, phoneNumber: addAccountPhoneNumberTextField.text!, email: addAccountEmailTextField.text!, street: addAccountStreetTextField.text!, city: addAccountCityTextField.text!, state: addAccountStateTextField.text!, startingBal: Int(addAccountStartingBalanceTextField.text!)!, creditDetailsAvailable: false, isLoan: false, loanType: 0, loanTypeSubcategory: 0, loanPercentOne: 0.0, loanPercentTwo: 0.0, loanPercentThree: 0.0, loanPercentFour: 0.0, loanIntFactorOne: 0, loanIntFactorTwo: 0, loanIntFactorThree: 0, loanIntFactorFour: 0, maxLimit: 0, maxCashAdvanceAllowance: 0, closeDay: 0, dueDay: 0, cycle: 0, minimumPaymentRequired: 0, lateFeeAsOneTimeInt: 0, lateFeeAsPercentageOfTotalBalance: 0.0, cycleDues: 0, duesCycle: 0, minimumPaymentToBeSmart: 0, interestRate: 0.0, interestKind: 0, key: addAccountKeyString)
             accountsRef.child(addAccountKeyString).setValue(thisAccountItem.toAnyObject())
             popUpAnimateOut(popUpView: addAccountView)
             if accountSenderCode == 0 {
@@ -411,12 +449,15 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var selectAccountTableView: UITableView!
     @IBOutlet weak var selectAccountTextField: UITextField!
     @IBAction func accountAddButtonTapped(_ sender: UIButton) {
+        selectAccountClearing()
+        pickerCode = 9
         popUpAnimateIn(popUpView: addAccountView)
     }
     @IBAction func accountDismissTapped(_ sender: UIButton) {
         if primaryAccountTapped == true {
             primaryAccountTapped = false
         }
+        selectAccountClearing()
         popUpAnimateOut(popUpView: selectAccountView)
     }
     @IBAction func accountAcceptTapped(_ sender: UIButton) {
@@ -445,6 +486,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 yourAccountPlaceholder = selectAccountTextField.text!
                 self.accountLabel.text = yourAccountPlaceholder
             }
+            selectAccountClearing()
             popUpAnimateOut(popUpView: selectAccountView)
             tempKeyHolder = ""
             if primaryAccountTapped == true {
@@ -453,19 +495,28 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         }
     }
     
+    func selectAccountClearing() {
+        selectAccountTextField.text = ""
+        filteredFirebaseAccounts.removeAll()
+        tempKeyHolder = ""
+        if selectAccountTableView != nil {
+            selectAccountTableView.reloadData()
+            selectAccountTableView.isHidden = true
+        }
+    }
+    
     //Secondary Account Popup Items (always to)
     @IBOutlet var selectSecondaryAccountView: UIView!
     @IBOutlet weak var selectSecondaryAccountTableView: UITableView!
     @IBOutlet weak var selectSecondaryAccountTextField: UITextField!
     @IBAction func secondaryAccountAddButtonTapped(_ sender: UIButton) {
-        filteredFirebaseAccounts.removeAll()
-        selectSecondaryAccountTableView.reloadData()
+        selectSecondaryAccountClearing()
         accountSenderCode = 1
+        pickerCode = 9
         popUpAnimateIn(popUpView: addAccountView)
     }
     @IBAction func secondaryAccountDismissTapped(_ sender: UIButton) {
-        filteredFirebaseAccounts.removeAll()
-        selectSecondaryAccountTableView.reloadData()
+        selectSecondaryAccountClearing()
         popUpAnimateOut(popUpView: selectSecondaryAccountView)
     }
     @IBAction func secondaryAccountAcceptTapped(_ sender: UIButton) {
@@ -473,10 +524,18 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             yourSecondaryAccountPlaceholderKeyString = tempKeyHolder
             yourSecondaryAccountPlaceholder = selectSecondaryAccountTextField.text!
             self.reloadSentence(selectedType: selectedType)
+            selectSecondaryAccountClearing()
             popUpAnimateOut(popUpView: selectSecondaryAccountView)
-            tempKeyHolder = ""
-            filteredFirebaseAccounts.removeAll()
+        }
+    }
+    
+    func selectSecondaryAccountClearing() {
+        selectSecondaryAccountTextField.text = ""
+        filteredFirebaseAccounts.removeAll()
+        tempKeyHolder = ""
+        if selectSecondaryAccountTableView != nil {
             selectSecondaryAccountTableView.reloadData()
+            selectSecondaryAccountTableView.isHidden = true
         }
     }
     
@@ -498,17 +557,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     
     //"Touch up inside" doesn't work with textfields, so we use "touch down"!! LOL!!
-    @IBAction func contactNameFieldTouchedDown(_ sender: UITextField) {
-        if (sender.text) != nil {
-            if !(sender.text?.isEmpty)! {
-                if self.contactSuggestionsTableView.isHidden == false {
-                    self.contactSuggestionsTableView.isHidden = true
-                } else {
-                    self.contactSuggestionsTableView.isHidden = false
-                }
-            }
-        }
-    }
     
     //Suggested contacts for entity
     @IBAction func contactNameTextFieldChanged(_ sender: UITextField) {
@@ -526,51 +574,36 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                         // Denied permission
                     }
                 })
-            }
-        }
-    }
-    @IBAction func selectWhoTextFieldTouchedDown(_ sender: UITextField) {
-        if (sender.text) != nil {
-            if !(sender.text?.isEmpty)! {
-                if self.selectWhoTableView.isHidden == false {
-                    self.selectWhoTableView.isHidden = true
-                } else {
-                    self.selectWhoTableView.isHidden = false
-                }
+            } else {
+                recommendedContacts.removeAll()
+                contactSuggestionsTableView.reloadData()
+                contactSuggestionsTableView.isHidden = true
             }
         }
     }
     @IBAction func selectWhoTextFieldChanged(_ sender: UITextField) {
         tempKeyHolder = ""
-        self.selectWhoTableView.isHidden = false
         if let searchText = sender.text {
             if !searchText.isEmpty {
+                selectWhoTableView.isHidden = false
                 self.filteredFirebaseEntities.removeAll()
                 let thisFilteredFirebaseEntities = firebaseEntities.filter({$0.name.localizedCaseInsensitiveContains(searchText)})
                 for entity in thisFilteredFirebaseEntities {
                     self.filteredFirebaseEntities.append(entity)
                 }
-                print(self.filteredFirebaseEntities.count)
                 self.selectWhoTableView.reloadData()
-            }
-        }
-    }
-    @IBAction func selectWhomTextFieldTouchedDown(_ sender: UITextField) {
-        if (sender.text) != nil {
-            if !(sender.text?.isEmpty)! {
-                if self.selectWhomTableView.isHidden == false {
-                    self.selectWhomTableView.isHidden = true
-                } else {
-                    self.selectWhomTableView.isHidden = false
-                }
+            } else {
+                filteredFirebaseEntities.removeAll()
+                selectWhoTableView.reloadData()
+                selectWhoTableView.isHidden = true
             }
         }
     }
     @IBAction func selectWhomTextFieldChanged(_ sender: UITextField) {
         tempKeyHolder = ""
-        self.selectWhomTableView.isHidden = false
         if let searchText = sender.text {
             if !searchText.isEmpty {
+                selectWhomTableView.isHidden = false
                 filteredFirebaseEntities = firebaseEntities.filter({ (entityItem) -> Bool in
                     if entityItem.name.localizedCaseInsensitiveContains(searchText) {
                         return true
@@ -579,25 +612,18 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                     }
                 })
                 selectWhomTableView.reloadData()
-            }
-        }
-    }
-    @IBAction func selectProjectTextFieldTouchedDown(_ sender: UITextField) {
-        if (sender.text) != nil {
-            if !(sender.text?.isEmpty)! {
-                if self.selectProjectTableView.isHidden == false {
-                    self.selectProjectTableView.isHidden = true
-                } else {
-                    self.selectProjectTableView.isHidden = false
-                }
+            } else {
+                filteredFirebaseEntities.removeAll()
+                selectWhomTableView.reloadData()
+                selectWhomTableView.isHidden = true
             }
         }
     }
     @IBAction func selectProjectTextFieldChanged(_ sender: UITextField) {
         tempKeyHolder = ""
-        self.selectProjectTableView.isHidden = false
         if let searchText = sender.text {
             if !searchText.isEmpty {
+                selectProjectTableView.isHidden = false
                 filteredFirebaseProjects = firebaseProjects.filter({ (projectItem) -> Bool in
                     if projectItem.name.localizedCaseInsensitiveContains(searchText) {
                         return true
@@ -606,6 +632,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                     }
                 })
                 selectProjectTableView.reloadData()
+            } else {
+                filteredFirebaseProjects.removeAll()
+                selectProjectTableView.reloadData()
+                selectProjectTableView.isHidden = true
             }
         }
     }
@@ -630,22 +660,11 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             }
         }
     }
-    @IBAction func selectAccountTextFieldTouchedDown(_ sender: UITextField) {
-        if (sender.text) != nil {
-            if !(sender.text?.isEmpty)! {
-                if self.selectAccountTableView.isHidden == false {
-                    self.selectAccountTableView.isHidden = true
-                } else {
-                    self.selectAccountTableView.isHidden = false
-                }
-            }
-        }
-    }
     @IBAction func selectAccountTextFieldChanged(_ sender: UITextField) {
         tempKeyHolder = ""
-        self.selectAccountTableView.isHidden = false
         if let searchText = sender.text {
             if !searchText.isEmpty {
+                selectAccountTableView.isHidden = false
                 filteredFirebaseAccounts = firebaseAccounts.filter({ (accountItem) -> Bool in
                     if accountItem.name.localizedCaseInsensitiveContains(searchText) {
                         if primaryAccountTapped == true {
@@ -662,25 +681,18 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                     }
                 })
                 selectAccountTableView.reloadData()
-            }
-        }
-    }
-    @IBAction func selectSecondaryAccountTextFieldTouchedDown(_ sender: UITextField) {
-        if (sender.text) != nil {
-            if !(sender.text?.isEmpty)! {
-                if self.selectSecondaryAccountTableView.isHidden == false {
-                    self.selectSecondaryAccountTableView.isHidden = true
-                } else {
-                    self.selectSecondaryAccountTableView.isHidden = false
-                }
+            } else {
+                filteredFirebaseAccounts.removeAll()
+                selectAccountTableView.reloadData()
+                selectAccountTableView.isHidden = true
             }
         }
     }
     @IBAction func selectSecondaryAccountTextFieldChanged(_ sender: UITextField) {
         tempKeyHolder = ""
-        self.selectSecondaryAccountTableView.isHidden = false
         if let searchText = sender.text {
             if !searchText.isEmpty {
+                selectSecondaryAccountTableView.isHidden = false
                 filteredFirebaseAccounts = firebaseAccounts.filter({ (accountItem) -> Bool in
                     if accountItem.name.localizedCaseInsensitiveContains(searchText) {
                         if accountItem.key != yourPrimaryAccountPlaceholderKeyString {
@@ -693,26 +705,18 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                     }
                 })
                 selectSecondaryAccountTableView.reloadData()
+            } else {
+                filteredFirebaseAccounts.removeAll()
+                selectSecondaryAccountTableView.reloadData()
+                selectSecondaryAccountTableView.isHidden = true
             }
         }
     }
-    @IBAction func addProjectSelectCustomerTextFieldTouchedDown(_ sender: UITextField) {
-        if (sender.text) != nil {
-            if !(sender.text?.isEmpty)! {
-                if self.addProjectSelectCustomerTableView.isHidden == false {
-                    self.addProjectSelectCustomerTableView.isHidden = true
-                } else {
-                    self.addProjectSelectCustomerTableView.isHidden = false
-                }
-            }
-        }
-    }
-    
     @IBAction func addProjectSelectCustomerTextFieldChanged(_ sender: UITextField) {
         tempKeyHolder = ""
-        self.addProjectSelectCustomerTableView.isHidden = false
         if let searchText = sender.text {
             if !searchText.isEmpty {
+                addProjectSelectCustomerTableView.isHidden = false
                 filteredFirebaseEntities = firebaseEntities.filter({ (entityItem) -> Bool in
                     if entityItem.name.localizedCaseInsensitiveContains(searchText) {
                         return true
@@ -721,6 +725,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                     }
                 })
                 addProjectSelectCustomerTableView.reloadData()
+            } else {
+                filteredFirebaseEntities.removeAll()
+                addProjectSelectCustomerTableView.reloadData()
+                addProjectSelectCustomerTableView.isHidden = true
             }
         }
     }
@@ -853,6 +861,11 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         
         //Prevent empty cells in tableview
         selectVehicleTableView.tableFooterView = UIView(frame: .zero)
+        selectProjectTableView.tableFooterView = UIView(frame: .zero)
+        selectWhoTableView.tableFooterView = UIView(frame: .zero)
+        selectWhomTableView.tableFooterView = UIView(frame: .zero)
+        selectAccountTableView.tableFooterView = UIView(frame: .zero)
+        selectSecondaryAccountTableView.tableFooterView = UIView(frame: .zero)
         
         locationManager.requestWhenInUseAuthorization()
         
@@ -860,7 +873,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyBest // You can change the locaiton accuary here.
-            locationManager.startUpdatingLocation()
+            //locationManager.startUpdatingLocation()
         }
         
         theFormatter.usesGroupingSeparator = true
@@ -878,6 +891,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         self.howDidTheyHearOfYouPickerView.dataSource = self
         self.addVehicleFuelPickerView.delegate = self
         self.addVehicleFuelPickerView.dataSource = self
+        self.addAccountAccountTypePickerView.delegate = self
+        self.addAccountAccountTypePickerView.dataSource = self
         
         //Set up pickers' data
         taxReasonPickerData = ["income", "supplies", "labor", "meals", "office", "vehicle", "advertising", "pro help", "machine rental", "property rental", "tax+license", "insurance (wc+gl)", "travel", "employee benefit", "depreciation", "depletion", "utilities", "commissions", "wages", "mortgate interest", "other interest", "pension", "repairs"]
@@ -886,8 +901,9 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         howDidTheyHearOfYouPickerData = advertisingMeansPickerData
         personalReasonPickerData = ["food", "fun", "pet", "utilities", "phone", "office", "giving", "insurance", "house", "yard", "medical", "travel", "clothes", "other"]
         fuelTypePickerData = ["87 gas", "89 gas", "91 gas", "diesel"]
-        entityPickerData = ["customer", "vendor", "sub", "employee", "store", "other"]
+        entityPickerData = ["customer", "vendor", "sub", "employee", "store", "government", "other"] // You is at position 7 but not available to user
         projectMediaTypePickerData = ["Before", "During", "After", "Drawing", "Calculations", "Material list", "Estimate", "Contract", "Labor warranty", "Material warranty", "Safety", "Other"]
+        addAccountAccountTypePickerData = ["Bank account", "Credit account", "Cash account", "Store refund account"]
         
         //Clip corners of all popups for better aesthetics
         selectProjectView.layer.cornerRadius = 5
@@ -948,10 +964,49 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         setTextAndIconOnLabel(text: amountText, icon: iconBusiness, label: amountBusinessLabel)
         setTextAndIconOnLabel(text: amountText, icon: iconPersonal, label: amountPersonalLabel)
     }
-    
+  
     override func viewDidLayoutSubviews() {
         if selectVehicleView != nil {
             selectVehicleView.frame = CGRect(x: (Int((UIScreen.main.bounds.size.width*0.5) - 167)), y: 100, width: 334, height: 311)
+        }
+        if selectProjectView != nil {
+            selectProjectView.frame = CGRect(x: (Int((UIScreen.main.bounds.size.width*0.5) - 167)), y: 100, width: 334, height: 366)
+        }
+        if selectWhoView != nil {
+            selectWhoView.frame = CGRect(x: (Int((UIScreen.main.bounds.size.width*0.5) - 167)), y: 100, width: 334, height: 366)
+        }
+        if selectWhomView != nil {
+            selectWhomView.frame = CGRect(x: (Int((UIScreen.main.bounds.size.width*0.5) - 167)), y: 100, width: 334, height: 366)
+        }
+        if selectAccountView != nil {
+            selectAccountView.frame = CGRect(x: (Int((UIScreen.main.bounds.size.width*0.5) - 167)), y: 100, width: 334, height: 366)
+        }
+        if selectSecondaryAccountView != nil {
+            selectSecondaryAccountView.frame = CGRect(x: (Int((UIScreen.main.bounds.size.width*0.5) - 167)), y: 100, width: 334, height: 366)
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        checkPermission()
+    }
+    
+    func checkPermission() {
+        
+        let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
+        
+        switch photoAuthorizationStatus {
+        case .authorized: print("Access is granted by user")
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization({ (newStatus) in
+                print("status is \(newStatus)")
+                if newStatus == PHAuthorizationStatus.authorized {
+                    print("success") }
+                
+            })
+        case .restricted: print("User do not have access to photo album.")
+        case .denied: print("User has denied the permission.")
+            
         }
     }
     
@@ -976,14 +1031,14 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             let collectionViewHeight = Int(collectionView.contentSize.height)
             let extra = 80
             imageHeight = Int(Double(screenWidth) * imageAspectRatio)
-            self.reloadSentence(selectedType: self.selectedType)
+            reloadSentence(selectedType: selectedType)
             bottomStackViewHeight.constant += CGFloat(imageHeight + 20)
             let bottomInt = Int(bottomStackViewHeight.constant)
             let theHeight = extra + topStackViewHeight + notesHeight + collectionViewHeight + bottomInt
             scrollView.contentSize = CGSize(width: imageWidth, height: theHeight)
             imageView.frame = CGRect(x: 0, y: 0, width: imageWidth, height: imageHeight)
             imageView.image = image
-            self.thereIsAnImage = true
+            thereIsAnImage = true
         }
         picker.dismiss(animated: true, completion: nil)
     }
@@ -1034,7 +1089,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        masterRef = Database.database().reference().child("users").child(userUID)
+        youRef = Database.database().reference().child("users").child(userUID).child("youEntity")
         universalsRef = Database.database().reference().child("users").child(userUID).child("universals")
         entitiesRef = Database.database().reference().child("users").child(userUID).child("entities")
         projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
@@ -1102,6 +1157,13 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 }
             }
         }
+        youRef.observe(.value) { (snapshot) in
+            if let youKey = snapshot.value as? String {
+                self.whoPlaceholder = "You"
+                self.whoPlaceholderKeyString = youKey
+                self.reloadSentence(selectedType: self.selectedType)
+            }
+        }
         //masterRef.setValue(["username": "Brad Caldwell"]) //This erases all siblings!!!!!! Including any childrenbyautoid!!!
         //masterRef.childByAutoId().setValue([3, 4, -88, 45, true])
     }
@@ -1144,19 +1206,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         }
     }
     
-    func popUpAnimateIn(popUpScrollView: UIScrollView) {
-        self.view.addSubview(popUpScrollView)
-        popUpScrollView.center = self.view.center
-        popUpScrollView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-        popUpScrollView.alpha = 0
-        
-        UIScrollView.animate(withDuration: 0.4) {
-            self.visualEffectView.isHidden = false
-            popUpScrollView.alpha = 1
-            popUpScrollView.transform = CGAffineTransform.identity
-        }
-    }
-    
     func popUpAnimateOut(popUpView: UIView) {
         UIView.animate(withDuration: 0.4, animations: { 
             popUpView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
@@ -1164,16 +1213,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             self.visualEffectView.isHidden = true
         }) { (success:Bool) in
             popUpView.removeFromSuperview()
-        }
-    }
-    
-    func popUpAnimateOut(popUpScrollView: UIScrollView) {
-        UIScrollView.animate(withDuration: 0.4, animations: {
-            popUpScrollView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            popUpScrollView.alpha = 0
-            self.visualEffectView.isHidden = true
-        }) { (success:Bool) in
-            popUpScrollView.removeFromSuperview()
         }
     }
     
@@ -1414,6 +1453,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             return projectMediaTypePickerData.count
         case 8:
             return fuelTypePickerData.count
+        case 9:
+            return addAccountAccountTypePickerData.count
         default:
             return taxReasonPickerData.count
         }
@@ -1442,6 +1483,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             return projectMediaTypePickerData[row]
         case 8:
             return fuelTypePickerData[row]
+        case 9:
+            return addAccountAccountTypePickerData[row]
         default:
             return taxReasonPickerData[row]
         }
@@ -1494,12 +1537,15 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             popUpAnimateOut(popUpView: pickerView)
         case 8: //Fuel type picker inside addVehicleView
             let _ = 0 //Absolutely no reason except it wants something here
+        case 9: //Add account account type picker stuff
+            accountTypePlaceholder = addAccountAccountTypePickerData[row]
+            accountTypePlaceholderId = row
         default: //What tax reason
             universalArray[6] = row
             self.whatTaxReasonPlaceholder = taxReasonPickerData[row]
             popUpAnimateOut(popUpView: pickerView)
         }
-        if !(pickerCode == 5) && !(pickerCode == 6) && !(pickerCode == 8) {
+        if !(pickerCode == 5) && !(pickerCode == 6) && !(pickerCode == 8) && !(pickerCode == 9) {
             reloadSentence(selectedType: selectedType)
         }
     }
@@ -1603,10 +1649,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         }
         switch self.selectedType {
         case 4: //Transfer
-            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: 0, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompId: workersCompPlaceholderId, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourPrimaryAccountPlaceholder, accountOneKey: yourPrimaryAccountPlaceholderKeyString, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, howMany: howMany, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, key: addUniversalKeyString)
+            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: 0, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompId: workersCompPlaceholderId, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourPrimaryAccountPlaceholder, accountOneKey: yourPrimaryAccountPlaceholderKeyString, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, howMany: howMany, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
             universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
         default:
-            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: 0, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompId: workersCompPlaceholderId, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, howMany: howMany, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, key: addUniversalKeyString)
+            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: 0, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompId: workersCompPlaceholderId, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, howMany: howMany, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
             universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
         }
         self.navigationController?.popViewController(animated: true)

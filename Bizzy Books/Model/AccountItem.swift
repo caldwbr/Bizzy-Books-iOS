@@ -13,23 +13,75 @@ struct AccountItem {
     
     let key: String
     let name: String
+    let accountTypeId: Int //0 = Bank Account, 1 = Credit Account, 2 = Cash, 3 = Refund Store Credit
     let phoneNumber: String
     let email: String
     let street: String
     let city: String
     let state: String
     let startingBal: Int
+    let creditDetailsAvailable: Bool
+    let isLoan: Bool //More strictly, is it something that will definitely incur interest fee even when paid "on time"?
+    let loanType: Int //For future use - for example, 6 monthly repayments equally divide original premium plus 4% of interest for first two months, and plus 1% of interest for next 4 months ALL THIS could be 0, and 1 could represent something else, etc.
+    let loanTypeSubcategory: Int //For future use if needed
+    let loanPercentOne: Double //Future use if needed
+    let loanPercentTwo: Double //Future use if needed
+    let loanPercentThree: Double //Future use if needed
+    let loanPercentFour: Double //Future use if needed
+    let loanIntFactorOne: Int //Future use if needed
+    let loanIntFactorTwo: Int //Future use if needed
+    let loanIntFactorThree: Int //Future use if needed
+    let loanIntFactorFour: Int //Future use if needed
+    let maxLimit: Int //Credit card max allowed borrow amount
+    let maxCashAdvanceAllowance: Int
+    let closeDay: Int //Day of cycle credit card closes (curtain for what is billed that month)
+    let dueDay: Int //Day of cycle credit card payment is due
+    let cycle: Int //Per week? per month? I.e. 0 = Month, 1 = Week, ...
+    let minimumPaymentRequired: Int //Minimum payment required so as not to incur late fees
+    let lateFeeAsOneTimeInt: Int
+    let lateFeeAsPercentageOfTotalBalance: Double //Expressed as 12.00% for example.
+    let cycleDues: Int //If there's a per-cycle due like $20/mo to be in the program
+    let duesCycle: Int //0 = month, 1 = week...
+    let minimumPaymentToBeSmart: Int //Minimum payment advisable so as not to incur interest fees (THIS NUMBER IS USUALLY CONVENIENTLY HIDDEN OR OBFUSCATED BY THOSE CREDIT CARD COMPANY JERKS!)
+    let interestRate: Double // Expressed as % ie 29.99% apr per year
+    let interestKind: Int // APR or the other kind plus are there any others?
     let ref: DatabaseReference?
     
-    init(name: String, phoneNumber: String, email: String, street: String, city: String, state: String, startingBal: Int, key: String = "") {
+    init(name: String, accountTypeId: Int, phoneNumber: String, email: String, street: String, city: String, state: String, startingBal: Int, creditDetailsAvailable: Bool, isLoan: Bool, loanType: Int, loanTypeSubcategory: Int, loanPercentOne: Double, loanPercentTwo: Double, loanPercentThree: Double, loanPercentFour: Double, loanIntFactorOne: Int, loanIntFactorTwo: Int, loanIntFactorThree: Int, loanIntFactorFour: Int, maxLimit: Int, maxCashAdvanceAllowance: Int, closeDay: Int, dueDay: Int, cycle: Int, minimumPaymentRequired: Int, lateFeeAsOneTimeInt: Int, lateFeeAsPercentageOfTotalBalance: Double, cycleDues: Int, duesCycle: Int, minimumPaymentToBeSmart: Int, interestRate: Double, interestKind: Int, key: String = "") {
         self.key = key
         self.name = name
+        self.accountTypeId = accountTypeId
         self.phoneNumber = phoneNumber
         self.email = email
         self.street = street
         self.city = city
         self.state = state
         self.startingBal = startingBal
+        self.creditDetailsAvailable = creditDetailsAvailable
+        self.isLoan = isLoan
+        self.loanType = loanType
+        self.loanTypeSubcategory = loanTypeSubcategory
+        self.loanPercentOne = loanPercentOne
+        self.loanPercentTwo = loanPercentTwo
+        self.loanPercentThree = loanPercentThree
+        self.loanPercentFour = loanPercentFour
+        self.loanIntFactorOne = loanIntFactorOne
+        self.loanIntFactorTwo = loanIntFactorTwo
+        self.loanIntFactorThree = loanIntFactorThree
+        self.loanIntFactorFour = loanIntFactorFour
+        self.maxLimit = maxLimit
+        self.maxCashAdvanceAllowance = maxCashAdvanceAllowance
+        self.closeDay = closeDay
+        self.dueDay = dueDay
+        self.cycle = cycle
+        self.minimumPaymentRequired = minimumPaymentRequired
+        self.lateFeeAsOneTimeInt = lateFeeAsOneTimeInt
+        self.lateFeeAsPercentageOfTotalBalance = lateFeeAsPercentageOfTotalBalance
+        self.cycleDues = cycleDues
+        self.duesCycle = duesCycle
+        self.minimumPaymentToBeSmart = minimumPaymentToBeSmart
+        self.interestRate = interestRate
+        self.interestKind = interestKind
         self.ref = nil
     }
     
@@ -37,24 +89,76 @@ struct AccountItem {
         key = snapshot.key
         let snapshotValue = snapshot.value as! [String: AnyObject]
         name = snapshotValue["name"] as! String
+        accountTypeId = snapshotValue["accountTypeId"] as! Int
         phoneNumber = snapshotValue["phoneNumber"] as! String
         email = snapshotValue["email"] as! String
         street = snapshotValue["street"] as! String
         city = snapshotValue["city"] as! String
         state = snapshotValue["state"] as! String
         startingBal = snapshotValue["startingBal"] as! Int
+        creditDetailsAvailable = snapshotValue["creditDetailsAvailable"] as! Bool
+        isLoan = snapshotValue["isLoan"] as! Bool
+        loanType = snapshotValue["loanType"] as! Int
+        loanTypeSubcategory = snapshotValue["loanTypeSubcategory"] as! Int
+        loanPercentOne = snapshotValue["loanPercentOne"] as! Double
+        loanPercentTwo = snapshotValue["loanPercentTwo"] as! Double
+        loanPercentThree = snapshotValue["loanPercentThree"] as! Double
+        loanPercentFour = snapshotValue["loanPercentFour"] as! Double
+        loanIntFactorOne = snapshotValue["loanIntFactorOne"] as! Int
+        loanIntFactorTwo = snapshotValue["loanIntFactorTwo"] as! Int
+        loanIntFactorThree = snapshotValue["loanIntFactorThree"] as! Int
+        loanIntFactorFour = snapshotValue["loanIntFactorFour"] as! Int
+        maxLimit = snapshotValue["maxLimit"] as! Int
+        maxCashAdvanceAllowance = snapshotValue["maxCashAdvanceAllowance"] as! Int
+        closeDay = snapshotValue["closeDay"] as! Int
+        dueDay = snapshotValue["dueDay"] as! Int
+        cycle = snapshotValue["cycle"] as! Int
+        minimumPaymentRequired = snapshotValue["minimumPaymentRequired"] as! Int
+        lateFeeAsOneTimeInt = snapshotValue["lateFeeAsOneTimeInt"] as! Int
+        lateFeeAsPercentageOfTotalBalance = snapshotValue["lateFeeAsPercentageOfTotalBalance"] as! Double
+        cycleDues = snapshotValue["cycleDues"] as! Int
+        duesCycle = snapshotValue["duesCycle"] as! Int
+        minimumPaymentToBeSmart = snapshotValue["minimumPaymentToBeSmart"] as! Int
+        interestRate = snapshotValue["interestRate"] as! Double
+        interestKind = snapshotValue["interestKind"] as! Int
         ref = snapshot.ref
     }
     
     func toAnyObject() -> Any {
         return [
             "name": name,
+            "accountTypeId": accountTypeId,
             "phoneNumber": phoneNumber,
             "email": email,
             "street": street,
             "city": city,
             "state": state,
-            "startingBal": startingBal
+            "startingBal": startingBal,
+            "creditDetailsAvailable": creditDetailsAvailable,
+            "isLoan": isLoan,
+            "loanType": loanType,
+            "loanTypeSubcategory": loanTypeSubcategory,
+            "loanPercentOne": loanPercentOne,
+            "loanPercentTwo": loanPercentTwo,
+            "loanPercentThree": loanPercentThree,
+            "loanPercentFour": loanPercentFour,
+            "loanIntFactorOne": loanIntFactorOne,
+            "loanIntFactorTwo": loanIntFactorTwo,
+            "loanIntFactorThree": loanIntFactorThree,
+            "loanIntFactorFour": loanIntFactorFour,
+            "maxLimit": maxLimit,
+            "maxCashAdvanceAllowance": maxCashAdvanceAllowance,
+            "closeDay": closeDay,
+            "dueDay": dueDay,
+            "cycle": cycle,
+            "minimumPaymentRequired": minimumPaymentRequired,
+            "lateFeeAsOneTimeInt": lateFeeAsOneTimeInt,
+            "lateFeeAsPercentageOfTotalBalance": lateFeeAsPercentageOfTotalBalance,
+            "cycleDues": cycleDues,
+            "duesCycle": duesCycle,
+            "minimumPaymentToBeSmart": minimumPaymentToBeSmart,
+            "interestRate": interestRate,
+            "interestKind": interestKind
         ]
     }
     
