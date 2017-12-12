@@ -161,8 +161,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var amountPersonalLabel: UILabel!
     @IBOutlet weak var percentBusinessView: UIView!
     
-    @IBOutlet weak var percentBusinessViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var bottomStackViewHeight: NSLayoutConstraint!
     //Visual Effects View
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     
@@ -964,33 +962,12 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         setTextAndIconOnLabel(text: amountText, icon: iconBusiness, label: amountBusinessLabel)
         setTextAndIconOnLabel(text: amountText, icon: iconPersonal, label: amountPersonalLabel)
     }
-  
-    override func viewDidLayoutSubviews() {
-        if selectVehicleView != nil {
-            selectVehicleView.frame = CGRect(x: (Int((UIScreen.main.bounds.size.width*0.5) - 167)), y: 100, width: 334, height: 311)
-        }
-        if selectProjectView != nil {
-            selectProjectView.frame = CGRect(x: (Int((UIScreen.main.bounds.size.width*0.5) - 167)), y: 100, width: 334, height: 366)
-        }
-        if selectWhoView != nil {
-            selectWhoView.frame = CGRect(x: (Int((UIScreen.main.bounds.size.width*0.5) - 167)), y: 100, width: 334, height: 366)
-        }
-        if selectWhomView != nil {
-            selectWhomView.frame = CGRect(x: (Int((UIScreen.main.bounds.size.width*0.5) - 167)), y: 100, width: 334, height: 366)
-        }
-        if selectAccountView != nil {
-            selectAccountView.frame = CGRect(x: (Int((UIScreen.main.bounds.size.width*0.5) - 167)), y: 100, width: 334, height: 366)
-        }
-        if selectSecondaryAccountView != nil {
-            selectSecondaryAccountView.frame = CGRect(x: (Int((UIScreen.main.bounds.size.width*0.5) - 167)), y: 100, width: 334, height: 366)
-        }
-    }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         checkPermissionForPhotos()
     }
-    
+
     func checkPermissionForPhotos() {
         
         let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
@@ -1021,22 +998,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            let imageAspectRatio = (Double(image.size.height) / Double(image.size.width))
-            let screenSize: CGRect = UIScreen.main.bounds
-            let screenWidth = screenSize.width
-            let imageWidth = Int(screenWidth)
-            var imageHeight: Int
-            let topStackViewHeight = Int(topStackView.intrinsicContentSize.height)
-            let notesHeight = Int(notesTextField.intrinsicContentSize.height)
-            let collectionViewHeight = Int(collectionView.contentSize.height)
-            let extra = 80
-            imageHeight = Int(Double(screenWidth) * imageAspectRatio)
-            reloadSentence(selectedType: selectedType)
-            bottomStackViewHeight.constant += CGFloat(imageHeight + 20)
-            let bottomInt = Int(bottomStackViewHeight.constant)
-            let theHeight = extra + topStackViewHeight + notesHeight + collectionViewHeight + bottomInt
-            scrollView.contentSize = CGSize(width: imageWidth, height: theHeight)
-            imageView.frame = CGRect(x: 0, y: 0, width: imageWidth, height: imageHeight)
             imageView.image = image
             thereIsAnImage = true
         }
@@ -1195,7 +1156,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     func popUpAnimateIn(popUpView: UIView) {
         self.view.addSubview(popUpView)
-        popUpView.center = self.view.center
+        popUpView.center.x = self.view.center.x
+        popUpView.center.y = self.view.center.y - 100
         popUpView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
         popUpView.alpha = 0
         
@@ -1222,8 +1184,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         collectionView.reloadData()
         
         // Resize the collection view's height according to it's contents
-        view.layoutIfNeeded()
-        collectionViewHeightConstraint.constant = collectionView.contentSize.height
+        //view.layoutIfNeeded()
+        //collectionViewHeightConstraint.constant = collectionView.contentSize.height
         view.layoutIfNeeded()
 
     }
@@ -1263,14 +1225,9 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         default:
             break
         }
-        //dataSource.theTextFieldYes.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
-        scrollView.layoutIfNeeded()
-        underScrollView.layoutIfNeeded()
         projectLabel.isHidden = false
         odometerTextField.isHidden = true
         percentBusinessView.isHidden = true
-        percentBusinessViewHeight.constant = 0
-        bottomStackViewHeight.constant = 20
         bottomStackView.layoutIfNeeded()
         accountLabel.isHidden = false
         reloadCollectionView()
@@ -1291,8 +1248,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         projectLabel.isHidden = true
         odometerTextField.isHidden = true
         percentBusinessView.isHidden = true
-        percentBusinessViewHeight.constant = 0
-        bottomStackViewHeight.constant = 20
         bottomStackView.layoutIfNeeded()
         accountLabel.isHidden = false
         reloadCollectionView()
@@ -1325,8 +1280,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         projectLabel.isHidden = false
         odometerTextField.isHidden = true
         percentBusinessView.isHidden = false
-        percentBusinessViewHeight.constant = 120
-        bottomStackViewHeight.constant = 140
         bottomStackView.layoutIfNeeded()
         accountLabel.isHidden = false
         reloadCollectionView()
@@ -1358,8 +1311,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         projectLabel.isHidden = true
         odometerTextField.isHidden = false
         percentBusinessView.isHidden = true
-        percentBusinessViewHeight.constant = 0
-        bottomStackViewHeight.constant = 20
         bottomStackView.layoutIfNeeded()
         accountLabel.isHidden = false
         reloadCollectionView()
@@ -1380,8 +1331,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         projectLabel.isHidden = true
         odometerTextField.isHidden = true
         percentBusinessView.isHidden = true
-        percentBusinessViewHeight.constant = 0
-        bottomStackViewHeight.constant = 20
         bottomStackView.layoutIfNeeded()
         accountLabel.isHidden = true
         reloadCollectionView()
@@ -1400,8 +1349,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         projectLabel.isHidden = true
         odometerTextField.isHidden = true
         percentBusinessView.isHidden = true
-        percentBusinessViewHeight.constant = 0
-        bottomStackViewHeight.constant = 20
         bottomStackView.layoutIfNeeded()
         accountLabel.isHidden = true
         reloadCollectionView()
@@ -1416,8 +1363,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         projectLabel.isHidden = false
         odometerTextField.isHidden = true
         percentBusinessView.isHidden = true
-        percentBusinessViewHeight.constant = 0
-        bottomStackViewHeight.constant = 20
         bottomStackView.layoutIfNeeded()
         accountLabel.isHidden = true
         reloadCollectionView()
