@@ -102,7 +102,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var yourSecondaryAccountPlaceholderKeyString = ""
     var workersCompPlaceholder = "Worker's comp ▾ ?"
     var workersCompPlaceholderId = -1
-    var advertisingMeansPlaceholder = "Advertising means ▾ ?"
+    var advertisingMeansPlaceholder = "(advertising means ▾ )"
     var advertisingMeansPlaceholderId = -1
     var howDidTheyHearOfYouPlaceholder = "How did they hear of you ▾ ?"
     var howDidTheyHearOfYouPlaceholderId = -1
