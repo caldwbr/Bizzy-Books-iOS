@@ -144,7 +144,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var notesTextField: UITextField!
     @IBOutlet weak var odometerTextField: AllowedCharsTextField!
     @IBOutlet weak var projectLabel: UILabel!
-    @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var accountLabel: UILabel!
     @IBOutlet weak var percentBusinessLabel: UILabel!
     @IBAction func percentBusinessSlider(_ sender: UISlider) {
@@ -165,6 +164,11 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     
     //Project Popup Items
+    @IBOutlet var overheadMoreInfoView: UIView!
+    @IBOutlet weak var overheadQuestionImageView: UIImageView!
+    @IBAction func overheadMoreInfoOkPressed(_ sender: UIButton) {
+        overheadMoreInfoView.removeFromSuperview()
+    }
     @IBOutlet var selectProjectView: UIView!
     @IBOutlet weak var selectProjectTableView: UITableView!
     @IBOutlet weak var projectSearchView: UIView!
@@ -179,7 +183,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         }
     }
     @IBOutlet weak var addNewProjectButton: UIButton!
-    @IBOutlet weak var overheadQuestionImage: UIImageView!
+
     @IBOutlet weak var projectTextField: UITextField!
     @IBAction func projectAddButtonTapped(_ sender: UIButton) {
         selectProjectClearing()
@@ -360,7 +364,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         popUpAnimateOut(popUpView: selectVehicleView)
     }
     @IBAction func vehicleAcceptTapped(_ sender: UIButton) {
-        if !tempKeyHolder.isEmpty && !selectVehicleTextField.text!.isEmpty{
+        if !tempKeyHolder.isEmpty && !selectVehicleTextField.text!.isEmpty {
             vehiclePlaceholderKeyString = tempKeyHolder
             vehiclePlaceholder = selectVehicleTextField.text!
             selectVehicleClearing()
@@ -955,6 +959,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         //Making a tap listener on Account label
         let accountLabelGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector((handleAccountLabelTap)))
         self.accountLabel.addGestureRecognizer(accountLabelGestureRecognizer)
+        
+        //Making an overhead question image tap listener
+        let overheadImageViewGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector((handleOverheadImageViewTap)))
+        self.overheadQuestionImageView.addGestureRecognizer(overheadImageViewGestureRecognizer)
 
         let amountText = "$0.00 "
         let iconBusiness = "business"
@@ -1152,6 +1160,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     @objc func handleAccountLabelTap(accountLabelGestureRecognizer: UITapGestureRecognizer) {
         popUpAnimateIn(popUpView: selectAccountView)
+    }
+    
+    @objc func handleOverheadImageViewTap(overheadImageViewGestureRecognizer: UITapGestureRecognizer) {
+        popUpAnimateIn(popUpView: overheadMoreInfoView)
     }
     
     func popUpAnimateIn(popUpView: UIView) {
