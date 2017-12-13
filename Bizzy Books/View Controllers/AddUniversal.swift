@@ -1542,10 +1542,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     func afterTheReturnTest() {
         if thereIsAnImage {
-            if let uploadData = UIImagePNGRepresentation(self.imageView.image!) {
+            if let uploadData = UIImageJPEGRepresentation(self.imageView.image!, 0.1) {
                 userCurrentImageIdCount += 1
                 userCurrentImageIdCountString = String(userCurrentImageIdCount)
-                userCurrentImageIdCountStringPlusType = userCurrentImageIdCountString + ".png"
+                userCurrentImageIdCountStringPlusType = userCurrentImageIdCountString + ".jpg"
                 let storage = Storage.storage()
                 let storageRef = storage.reference()
                 let imagesRef = storageRef.child("users").child(userUID).child(userCurrentImageIdCountStringPlusType)
