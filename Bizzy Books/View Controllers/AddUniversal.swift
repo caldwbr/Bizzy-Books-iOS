@@ -48,6 +48,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var userCurrentImageIdCountString: String = ""
     var userCurrentImageIdCountStringPlusType: String = ""
     var downloadURL: URL?
+    var currentlyUploading = false
     
     var firebaseUniversals: [UniversalItem] = []
     var firebaseEntities: [EntityItem] = []
@@ -1024,8 +1025,67 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             imageViewHeightConstraint.constant = imageViewHeight
             imageView.image = image
             thereIsAnImage = true
+            DispatchQueue.global(qos: .background).async {
+                self.attemptImageUploadToFirebase()
+            }
         }
         picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func attemptImageUploadToFirebase() {
+        if let uploadData = UIImageJPEGRepresentation(self.imageView.image!, 0.1) {
+            self.currentlyUploading = true
+            userCurrentImageIdCount += 1
+            userCurrentImageIdCountString = String(userCurrentImageIdCount)
+            userCurrentImageIdCountStringPlusType = userCurrentImageIdCountString + ".jpg"
+            let storage = Storage.storage()
+            let storageRef = storage.reference()
+            let imagesRef = storageRef.child("users").child(userUID).child(userCurrentImageIdCountStringPlusType)
+            userCurrentImageIdCountRef.setValue(userCurrentImageIdCountString)
+            let uploadTask = imagesRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
+                if error != nil {
+                    print(String(describing: error))
+                    return
+                }
+                print(String(describing: metadata))
+                self.downloadURL = metadata?.downloadURL()
+            })
+            uploadTask.observe(.progress) { snapshot in
+                // Upload reported progress
+                let percentComplete = 100.0 * Double(snapshot.progress!.completedUnitCount)
+                    / Double(snapshot.progress!.totalUnitCount)
+            }
+            
+            uploadTask.observe(.success) { snapshot in
+                // Upload completed successfully
+                self.currentlyUploading = false
+            }
+            
+            uploadTask.observe(.failure) { snapshot in
+                if let error = snapshot.error as? NSError {
+                    switch (StorageErrorCode(rawValue: error.code)!) {
+                    case .objectNotFound:
+                        // File doesn't exist
+                        break
+                    case .unauthorized:
+                        // User doesn't have permission to access file
+                        break
+                    case .cancelled:
+                        // User canceled the upload
+                        break
+                        
+                        /* ... */
+                        
+                    case .unknown:
+                        // Unknown error occurred, inspect the server response
+                        break
+                    default:
+                        // A separate error occurred. This is a good place to retry the upload.
+                        break
+                    }
+                }
+            }
+        }
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -1540,97 +1600,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         returnIfAnyPertinentItemsForgotten()
     }
     
-    func afterTheReturnTest() {
-        if thereIsAnImage {
-            if let uploadData = UIImageJPEGRepresentation(self.imageView.image!, 0.1) {
-                userCurrentImageIdCount += 1
-                userCurrentImageIdCountString = String(userCurrentImageIdCount)
-                userCurrentImageIdCountStringPlusType = userCurrentImageIdCountString + ".jpg"
-                let storage = Storage.storage()
-                let storageRef = storage.reference()
-                let imagesRef = storageRef.child("users").child(userUID).child(userCurrentImageIdCountStringPlusType)
-                userCurrentImageIdCountRef.setValue(userCurrentImageIdCountString)
-                let uploadTask = imagesRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
-                    if error != nil {
-                        print(String(describing: error))
-                        return
-                    }
-                    print(String(describing: metadata))
-                    self.downloadURL = metadata?.downloadURL()
-                })
-                uploadTask.observe(.progress) { snapshot in
-                    // Upload reported progress
-                    let percentComplete = 100.0 * Double(snapshot.progress!.completedUnitCount)
-                        / Double(snapshot.progress!.totalUnitCount)
-                }
-                
-                uploadTask.observe(.success) { snapshot in
-                    // Upload completed successfully
-                    self.saveUniversal()
-                }
-                
-                uploadTask.observe(.failure) { snapshot in
-                    if let error = snapshot.error as? NSError {
-                        switch (StorageErrorCode(rawValue: error.code)!) {
-                        case .objectNotFound:
-                            // File doesn't exist
-                            break
-                        case .unauthorized:
-                            // User doesn't have permission to access file
-                            break
-                        case .cancelled:
-                            // User canceled the upload
-                            break
-                            
-                            /* ... */
-                            
-                        case .unknown:
-                            // Unknown error occurred, inspect the server response
-                            break
-                        default:
-                            // A separate error occurred. This is a good place to retry the upload.
-                            break
-                        }
-                    }
-                }
-                
-            }
-        } else {
-            self.saveUniversal()
-        }
-    }
-    
-    func saveUniversal() {
-        let addUniversalKeyReference = universalsRef.childByAutoId()
-        self.addUniversalKeyString = addUniversalKeyReference.key
-        var notes = ""
-        var urlString = ""
-        let timeStampDictionaryForFirebase = [".sv": "timestamp"]
-        if let theNotes = notesTextField.text {
-            notes = theNotes
-        }
-        if let theUrl = downloadURL {
-            urlString = theUrl.absoluteString
-        }
-        if let primaryTextField = dataSource.theTextFieldYes as? AllowedCharsTextField {
-            theAmt = primaryTextField.amt
-        }
-        if selectedType == 3 {
-            if let secondaryTextField = dataSource.theSecondaryTextFieldYes as? AllowedCharsTextField {
-                howMany = secondaryTextField.amt
-            }
-        }
-        switch self.selectedType {
-        case 4: //Transfer
-            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: 0, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompId: workersCompPlaceholderId, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourPrimaryAccountPlaceholder, accountOneKey: yourPrimaryAccountPlaceholderKeyString, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, howMany: howMany, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
-            universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
-        default:
-            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: 0, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompId: workersCompPlaceholderId, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, howMany: howMany, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
-            universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
-        }
-        self.navigationController?.popViewController(animated: true)
-    }
-    
     func returnIfAnyPertinentItemsForgotten() {
         switch self.selectedType {
         case 0:
@@ -1693,7 +1662,46 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             }
             guard yourAccountPlaceholderKeyString != "" else { return }
         }
-        afterTheReturnTest()
+        returnIfImageIsStillUploadingToFirebase()
+    }
+    
+    func returnIfImageIsStillUploadingToFirebase() {
+        if self.currentlyUploading == true {
+            return
+        } else {
+            saveUniversal()
+        }
+    }
+    
+    func saveUniversal() {
+        let addUniversalKeyReference = universalsRef.childByAutoId()
+        self.addUniversalKeyString = addUniversalKeyReference.key
+        var notes = ""
+        var urlString = ""
+        let timeStampDictionaryForFirebase = [".sv": "timestamp"]
+        if let theNotes = notesTextField.text {
+            notes = theNotes
+        }
+        if let theUrl = downloadURL {
+            urlString = theUrl.absoluteString
+        }
+        if let primaryTextField = dataSource.theTextFieldYes as? AllowedCharsTextField {
+            theAmt = primaryTextField.amt
+        }
+        if selectedType == 3 {
+            if let secondaryTextField = dataSource.theSecondaryTextFieldYes as? AllowedCharsTextField {
+                howMany = secondaryTextField.amt
+            }
+        }
+        switch self.selectedType {
+        case 4: //Transfer
+            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: 0, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompId: workersCompPlaceholderId, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourPrimaryAccountPlaceholder, accountOneKey: yourPrimaryAccountPlaceholderKeyString, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, howMany: howMany, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
+            universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
+        default:
+            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: 0, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompId: workersCompPlaceholderId, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, howMany: howMany, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
+            universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
+        }
+        self.navigationController?.popViewController(animated: true)
     }
     
 }
