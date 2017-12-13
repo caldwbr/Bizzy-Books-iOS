@@ -191,15 +191,23 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         popUpAnimateIn(popUpView: addProjectView)
     }
     @IBAction func projectAcceptTapped(_ sender: UIButton) {
-        if !tempKeyHolder.isEmpty && !projectTextField.text!.isEmpty{
-            projectPlaceholderKeyString = tempKeyHolder
-            projectPlaceholder = projectTextField.text!
-            selectProjectClearing()
-            self.projectLabel.text = self.projectPlaceholder
-            popUpAnimateOut(popUpView: selectProjectView)
-            tempKeyHolder = ""
+        if overheadSwitch.isOn {
+            projectPlaceholderKeyString = "0" // Zero for overhead! lol
+            projectPlaceholder = "Overhead"
+        } else {
+            if !tempKeyHolder.isEmpty && !projectTextField.text!.isEmpty {
+                projectPlaceholderKeyString = tempKeyHolder
+                projectPlaceholder = projectTextField.text!
+            } else {
+                return
+            }
         }
+        selectProjectClearing()
+        self.projectLabel.text = self.projectPlaceholder
+        popUpAnimateOut(popUpView: selectProjectView)
+        tempKeyHolder = ""
     }
+    
     @IBAction func projectDismissTapped(_ sender: UIButton) {
         selectProjectClearing()
         popUpAnimateOut(popUpView: selectProjectView)
@@ -1004,8 +1012,16 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         }
     }
     
+    @IBOutlet weak var imageViewHeightConstraint: NSLayoutConstraint!
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            let aspectRatio = image.size.height / image.size.width
+            let screenSize = UIScreen.main.bounds
+            let screenWidth = screenSize.width
+            let imageViewWidth = screenWidth
+            let imageViewHeight = imageViewWidth * aspectRatio
+            imageViewHeightConstraint.constant = imageViewHeight
             imageView.image = image
             thereIsAnImage = true
         }

@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -425,8 +424,7 @@
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9uM-ie-lWn">
                                                 <rect key="frame" x="0.0" y="461" width="375" height="375"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" secondItem="9uM-ie-lWn" secondAttribute="height" multiplier="1:1" id="0l0-cq-twL"/>
-                                                    <constraint firstAttribute="height" constant="375" id="9wW-97-HbY"/>
+                                                    <constraint firstAttribute="height" constant="375" id="kGv-gm-ai2"/>
                                                 </constraints>
                                             </imageView>
                                             <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j1D-Zw-q0Z">
@@ -453,14 +451,13 @@
                                             <constraint firstAttribute="bottom" secondItem="9uM-ie-lWn" secondAttribute="bottom" constant="20" id="YSa-ZA-XSK"/>
                                             <constraint firstItem="Q6p-MC-P7I" firstAttribute="leading" secondItem="jTt-wu-oG1" secondAttribute="leading" constant="20" id="Yjl-ay-IR4"/>
                                             <constraint firstItem="cCl-dZ-Fna" firstAttribute="top" secondItem="jTt-wu-oG1" secondAttribute="top" constant="8" id="awD-q1-i8y"/>
-                                            <constraint firstAttribute="trailing" secondItem="9uM-ie-lWn" secondAttribute="trailing" id="cIi-6O-nRf"/>
                                             <constraint firstItem="SxV-kh-Bi9" firstAttribute="leading" secondItem="jTt-wu-oG1" secondAttribute="leading" constant="20" id="eUl-W9-BeA"/>
+                                            <constraint firstItem="9uM-ie-lWn" firstAttribute="leading" secondItem="jTt-wu-oG1" secondAttribute="leading" id="ebV-Pl-Q2m"/>
                                             <constraint firstItem="f7q-Rf-pcz" firstAttribute="top" secondItem="Q6p-MC-P7I" secondAttribute="bottom" constant="20" id="fzz-Qv-Mc6"/>
                                             <constraint firstAttribute="trailing" secondItem="cCl-dZ-Fna" secondAttribute="trailing" constant="30" id="hJO-V5-gEH"/>
-                                            <constraint firstItem="9uM-ie-lWn" firstAttribute="width" secondItem="jTt-wu-oG1" secondAttribute="width" id="n9K-pk-egQ"/>
                                             <constraint firstAttribute="trailing" secondItem="Q6p-MC-P7I" secondAttribute="trailing" constant="20" id="rQO-Wh-5gd"/>
-                                            <constraint firstItem="9uM-ie-lWn" firstAttribute="leading" secondItem="jTt-wu-oG1" secondAttribute="leading" id="sCY-Zc-FdJ"/>
                                             <constraint firstAttribute="trailing" secondItem="SxV-kh-Bi9" secondAttribute="trailing" constant="20" id="tmu-Kb-ojP"/>
+                                            <constraint firstAttribute="trailing" secondItem="9uM-ie-lWn" secondAttribute="trailing" id="uWA-20-Djw"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -550,6 +547,7 @@
                         <outlet property="genericPickerView" destination="BOy-dT-biU" id="K0F-Ke-PtP"/>
                         <outlet property="howDidTheyHearOfYouPickerView" destination="a79-zN-uj4" id="5Gj-ND-cfb"/>
                         <outlet property="imageView" destination="9uM-ie-lWn" id="RVK-sr-AJT"/>
+                        <outlet property="imageViewHeightConstraint" destination="kGv-gm-ai2" id="6Tc-Rw-Jgv"/>
                         <outlet property="leftTopView" destination="EMe-Qr-XHR" id="nMY-Me-ywM"/>
                         <outlet property="notesTextField" destination="SxV-kh-Bi9" id="bhh-xp-vqw"/>
                         <outlet property="odometerTextField" destination="fa1-eb-xLQ" id="mkU-jU-94R"/>
