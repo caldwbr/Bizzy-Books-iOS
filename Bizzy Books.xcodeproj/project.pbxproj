@@ -23,6 +23,8 @@
 		EB1915C61FD768DD0078AA64 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB1915C51FD768DD0078AA64 /* StoreKit.framework */; };
 		EB1915C81FD85B370078AA64 /* IAPProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1915C71FD85B370078AA64 /* IAPProcessor.swift */; };
 		EB2441AE1FE20BF6004EDC56 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2441AD1FE20BF6004EDC56 /* CardView.swift */; };
+		EB2441B01FE20C44004EDC56 /* EntityCardViewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB2441AF1FE20C44004EDC56 /* EntityCardViewCollectionViewCell.xib */; };
+		EB2441B21FE20C81004EDC56 /* EntityCardViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2441B11FE20C81004EDC56 /* EntityCardViewCollectionViewCell.swift */; };
 		EB3F93BA1DDD41900049C343 /* AddUniversal.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3F93B91DDD41900049C343 /* AddUniversal.swift */; };
 		EB4392C01EF6077700C568C3 /* BizzyAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */; };
 		EB4734941DE25BD900F6928E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB4734931DE25BD900F6928E /* Assets.xcassets */; };
@@ -67,6 +69,8 @@
 		EB1915C51FD768DD0078AA64 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		EB1915C71FD85B370078AA64 /* IAPProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPProcessor.swift; sourceTree = "<group>"; };
 		EB2441AD1FE20BF6004EDC56 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		EB2441AF1FE20C44004EDC56 /* EntityCardViewCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EntityCardViewCollectionViewCell.xib; sourceTree = "<group>"; };
+		EB2441B11FE20C81004EDC56 /* EntityCardViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityCardViewCollectionViewCell.swift; sourceTree = "<group>"; };
 		EB3F93B91DDD41900049C343 /* AddUniversal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddUniversal.swift; sourceTree = "<group>"; };
 		EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BizzyAuthViewController.swift; sourceTree = "<group>"; };
 		EB4734931DE25BD900F6928E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -134,6 +138,8 @@
 			isa = PBXGroup;
 			children = (
 				EB2441AD1FE20BF6004EDC56 /* CardView.swift */,
+				EB2441AF1FE20C44004EDC56 /* EntityCardViewCollectionViewCell.xib */,
+				EB2441B11FE20C81004EDC56 /* EntityCardViewCollectionViewCell.swift */,
 			);
 			path = "Card View Collection View Cells";
 			sourceTree = "<group>";
@@ -323,6 +329,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB2441B01FE20C44004EDC56 /* EntityCardViewCollectionViewCell.xib in Resources */,
 				EB0B96671FD8744700E8829C /* LaunchScreen.storyboard in Resources */,
 				EB851E4C1D957932002D19F4 /* GoogleService-Info.plist in Resources */,
 				EB4734941DE25BD900F6928E /* Assets.xcassets in Resources */,
@@ -501,6 +508,7 @@
 				EB851E3F1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld in Sources */,
 				EB05238E1FD0BAAF00C13E8C /* AllowedCharsTextField.swift in Sources */,
 				EB5856AC1FB635E8006C6212 /* VehicleItem.swift in Sources */,
+				EB2441B21FE20C81004EDC56 /* EntityCardViewCollectionViewCell.swift in Sources */,
 				FA7B73211EFC5983007A1AEA /* DropdownReusableView.swift in Sources */,
 				EB007BAF1FB7E39A00014769 /* AdvertisingMeansItem.swift in Sources */,
 				EBB77BDE1EFE2D4D0084D014 /* UIColor+Hex.swift in Sources */,
