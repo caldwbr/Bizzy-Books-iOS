@@ -27,6 +27,7 @@ class ViewController: UIViewController, FUIAuthDelegate {
     var entitiesRef: DatabaseReference!
     var youEntityRef: DatabaseReference!
     var addEntityKeyString: String = ""
+    @IBOutlet weak var cardViewCollectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
