@@ -1026,14 +1026,14 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             imageView.image = image
             thereIsAnImage = true
             DispatchQueue.global(qos: .background).async {
-                self.attemptImageUploadToFirebase()
+                self.attemptImageUploadToFirebase(image: image)
             }
         }
         picker.dismiss(animated: true, completion: nil)
     }
     
-    func attemptImageUploadToFirebase() {
-        if let uploadData = UIImageJPEGRepresentation(self.imageView.image!, 0.1) {
+    func attemptImageUploadToFirebase(image: UIImage) {
+        if let uploadData = UIImageJPEGRepresentation(image, 0.1) {
             self.currentlyUploading = true
             userCurrentImageIdCount += 1
             userCurrentImageIdCountString = String(userCurrentImageIdCount)
