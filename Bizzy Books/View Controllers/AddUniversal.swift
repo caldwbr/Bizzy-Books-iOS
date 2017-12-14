@@ -1245,7 +1245,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     func popUpAnimateIn(popUpView: UIView) {
         self.view.addSubview(popUpView)
         popUpView.center.x = self.view.center.x
-        popUpView.center.y = self.view.center.y - 100
+        popUpView.center.y = self.view.center.y - 50
         popUpView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
         popUpView.alpha = 0
         
