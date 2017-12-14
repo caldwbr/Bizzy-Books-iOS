@@ -175,7 +175,7 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jTt-wu-oG1" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="856"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="826"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="cCl-dZ-Fna">
                                                 <rect key="frame" x="30" y="8" width="315" height="50"/>
@@ -253,10 +253,10 @@
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Q6p-MC-P7I">
-                                                <rect key="frame" x="20" y="116" width="335" height="150"/>
+                                                <rect key="frame" x="20" y="116" width="335" height="120"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="150" id="hDJ-TD-0fs"/>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="120" id="hDJ-TD-0fs"/>
                                                 </constraints>
                                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="kEG-f9-9K6">
                                                     <size key="itemSize" width="50" height="50"/>
@@ -354,7 +354,7 @@
                                                 </cells>
                                             </collectionView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="f7q-Rf-pcz">
-                                                <rect key="frame" x="0.0" y="286" width="375" height="155"/>
+                                                <rect key="frame" x="0.0" y="256" width="375" height="155"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nuR-79-mdb">
                                                         <rect key="frame" x="20" y="0.0" width="335" height="134.5"/>
@@ -422,16 +422,16 @@
                                                 </constraints>
                                             </stackView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9uM-ie-lWn">
-                                                <rect key="frame" x="0.0" y="461" width="375" height="375"/>
+                                                <rect key="frame" x="0.0" y="431" width="375" height="375"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="375" id="kGv-gm-ai2"/>
                                                 </constraints>
                                             </imageView>
                                             <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j1D-Zw-q0Z">
-                                                <rect key="frame" x="0.0" y="-104" width="375" height="1631"/>
+                                                <rect key="frame" x="0.0" y="-104" width="375" height="1601"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" id="6Zk-De-vOi">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="1631"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="1601"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </view>
                                                 <color key="backgroundColor" white="1" alpha="0.9766160102739726" colorSpace="calibratedWhite"/>
