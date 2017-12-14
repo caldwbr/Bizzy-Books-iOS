@@ -9,7 +9,7 @@
 import Foundation
 import Firebase
 
-struct EntityItem {
+struct EntityItem: MultiversalItem {
     
     let key: String //By "key" is meant "id"
     let type: Int

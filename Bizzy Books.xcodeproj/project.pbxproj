@@ -25,6 +25,7 @@
 		EB2441AE1FE20BF6004EDC56 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2441AD1FE20BF6004EDC56 /* CardView.swift */; };
 		EB2441B01FE20C44004EDC56 /* EntityCardViewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB2441AF1FE20C44004EDC56 /* EntityCardViewCollectionViewCell.xib */; };
 		EB2441B21FE20C81004EDC56 /* EntityCardViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2441B11FE20C81004EDC56 /* EntityCardViewCollectionViewCell.swift */; };
+		EB2441B41FE2E5E3004EDC56 /* MultiversalItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2441B31FE2E5E3004EDC56 /* MultiversalItem.swift */; };
 		EB3F93BA1DDD41900049C343 /* AddUniversal.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3F93B91DDD41900049C343 /* AddUniversal.swift */; };
 		EB4392C01EF6077700C568C3 /* BizzyAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */; };
 		EB4734941DE25BD900F6928E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB4734931DE25BD900F6928E /* Assets.xcassets */; };
@@ -71,6 +72,7 @@
 		EB2441AD1FE20BF6004EDC56 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		EB2441AF1FE20C44004EDC56 /* EntityCardViewCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EntityCardViewCollectionViewCell.xib; sourceTree = "<group>"; };
 		EB2441B11FE20C81004EDC56 /* EntityCardViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityCardViewCollectionViewCell.swift; sourceTree = "<group>"; };
+		EB2441B31FE2E5E3004EDC56 /* MultiversalItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiversalItem.swift; sourceTree = "<group>"; };
 		EB3F93B91DDD41900049C343 /* AddUniversal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddUniversal.swift; sourceTree = "<group>"; };
 		EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BizzyAuthViewController.swift; sourceTree = "<group>"; };
 		EB4734931DE25BD900F6928E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 				EB007BB41FB7F39E00014769 /* ProjectDocItem.swift */,
 				EB05238D1FD0BAAF00C13E8C /* AllowedCharsTextField.swift */,
 				EB1915C71FD85B370078AA64 /* IAPProcessor.swift */,
+				EB2441B31FE2E5E3004EDC56 /* MultiversalItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -501,6 +504,7 @@
 				EB5856AA1FB635CA006C6212 /* UniversalItem.swift in Sources */,
 				EB4392C01EF6077700C568C3 /* BizzyAuthViewController.swift in Sources */,
 				EBB77BDA1EFC37170084D014 /* LabelTextFieldFlowCells.swift in Sources */,
+				EB2441B41FE2E5E3004EDC56 /* MultiversalItem.swift in Sources */,
 				FA7B731D1EFC5785007A1AEA /* DropdownFlowCollectionViewCell.swift in Sources */,
 				EB5856AE1FB63612006C6212 /* ProjectItem.swift in Sources */,
 				EB007BB31FB7E97100014769 /* FuelTypeItem.swift in Sources */,

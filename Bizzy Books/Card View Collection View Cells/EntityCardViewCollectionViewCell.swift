@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EntityCardViewCollectionViewCell {
+class EntityCardViewCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var entityCardViewNameLabel: UILabel!
     @IBOutlet weak var entityCardViewLineBreakView: UIView!
@@ -21,5 +21,13 @@ class EntityCardViewCollectionViewCell {
     @IBOutlet weak var entityCardViewCityStateLabel: UILabel!
     @IBOutlet weak var entityCardViewSSNLabel: UILabel!
     @IBOutlet weak var entityCardViewEINLabel: UILabel!
+    @IBOutlet weak var widthConstraint: NSLayoutConstraint!
+ 
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.contentView.translatesAutoresizingMaskIntoConstraints = false
+        let screenWidth = UIScreen.main.bounds.size.width
+        widthConstraint.constant = screenWidth - (2 * 12)
+    }
     
 }

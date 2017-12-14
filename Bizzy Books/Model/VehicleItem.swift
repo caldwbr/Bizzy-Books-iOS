@@ -9,7 +9,7 @@
 import Foundation
 import Firebase
 
-struct VehicleItem {
+struct VehicleItem: MultiversalItem {
     
     let key: String //By "key" is meant "id"
     let year: String

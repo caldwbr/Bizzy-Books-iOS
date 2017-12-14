@@ -18,7 +18,7 @@ import FBSDKLoginKit
 var userUID = ""
 var userTokens = ""
 
-class ViewController: UIViewController, FUIAuthDelegate {
+class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSource {
     
     //var db = FIRDatabaseReference.init()
         var kFacebookAppID = "1583985615235483"
@@ -28,9 +28,16 @@ class ViewController: UIViewController, FUIAuthDelegate {
     var youEntityRef: DatabaseReference!
     var addEntityKeyString: String = ""
     @IBOutlet weak var cardViewCollectionView: UICollectionView!
+    var multiversalItems: [MultiversalItem] = [MultiversalItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        cardViewCollectionView.register(UINib.init(nibName: "EntityCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "EntityCardViewCollectionViewCell")
+        if let cardViewFlowLayout = cardViewCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            print("We are inside")
+            cardViewFlowLayout.estimatedItemSize = CGSize(width: 1, height: 1)
+        }
+        cardViewCollectionView.dataSource = self
         checkLoggedIn()
     }
 
@@ -56,6 +63,7 @@ class ViewController: UIViewController, FUIAuthDelegate {
                 self.entitiesRef = Database.database().reference().child("users").child(userUID).child("entities")
                 self.youEntityRef = Database.database().reference().child("users").child(userUID).child("youEntity")
                 self.initializeIfFirstAppUse()
+                self.makeFirebaseUserPointTheDataSourceForCollectionViewByAppendingToMultiversalItemsArray()
             } else {
                 // No user is signed in.
                 self.login()
@@ -101,6 +109,17 @@ class ViewController: UIViewController, FUIAuthDelegate {
         return FUIAuth.defaultAuthUI()!.handleOpen(url as URL, sourceApplication: sourceApplication )
     }
     
+    func makeFirebaseUserPointTheDataSourceForCollectionViewByAppendingToMultiversalItemsArray() {
+        //Starting with entities for testing
+        entitiesRef.observe(.value) { (snapshot) in
+            for item in snapshot.children {
+                let firebaseEntity = EntityItem(snapshot: item as! DataSnapshot)
+                self.multiversalItems.append(firebaseEntity)
+            }
+            self.cardViewCollectionView.reloadData()
+        }
+    }
+    
     func popUpAnimateIn(popUpView: UIView) {
         self.view.addSubview(popUpView)
         popUpView.center = self.view.center
@@ -121,6 +140,30 @@ class ViewController: UIViewController, FUIAuthDelegate {
             popUpView.removeFromSuperview()
         }
     }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1 //Change to 10 or 11 or whatever when other cards are built
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return multiversalItems.count
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "EntityCardViewCollectionViewCell", for: indexPath) as! EntityCardViewCollectionViewCell
+        if let entityItem = multiversalItems[indexPath.row] as? EntityItem {
+            cell.entityCardViewNameLabel.text = entityItem.name
+            cell.entityCardViewPhoneNumberLabel.text = entityItem.phoneNumber
+            cell.entityCardViewEmailLabel.text = entityItem.email
+            cell.entityCardViewStreetLabel.text = entityItem.street
+            cell.entityCardViewCityStateLabel.text = String(entityItem.city + ", " + entityItem.state)
+            cell.entityCardViewSSNLabel.text = entityItem.ssn
+            cell.entityCardViewEINLabel.text = entityItem.ein
+        }
+        return cell
+    }
+    
+    
     
     func initializeIfFirstAppUse() {
         let firstLaunch = FirstLaunch(userDefaults: .standard, key: "com.bizzybooks.FirstLaunch.WasLaunchedBefore")

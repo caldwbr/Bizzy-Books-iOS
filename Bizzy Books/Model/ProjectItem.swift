@@ -9,7 +9,7 @@
 import Foundation
 import Firebase
 
-struct ProjectItem {
+struct ProjectItem: MultiversalItem {
     
     let key: String //By "key" is meant "id," but to Firebase it means something chronologically too
     let name: String

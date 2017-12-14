@@ -9,7 +9,7 @@
 import Foundation
 import Firebase
 
-struct UniversalItem {
+struct UniversalItem: MultiversalItem {
     
     let key: String //By "key" is meant "id"
     let universalItemType: Int //0 - Business, 1 - Personal, 2 - Mixed, 3 - Fuel, 4 - Transfer, 5 - Adjust, 6 - Documents

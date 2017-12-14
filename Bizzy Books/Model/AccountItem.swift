@@ -9,7 +9,7 @@
 import Foundation
 import Firebase
 
-struct AccountItem {
+struct AccountItem: MultiversalItem {
     
     let key: String
     let name: String
