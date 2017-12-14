@@ -22,6 +22,7 @@
 		EB190FC71F0B3CC500C80E07 /* ContactsLogicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB190FC61F0B3CC500C80E07 /* ContactsLogicManager.swift */; };
 		EB1915C61FD768DD0078AA64 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB1915C51FD768DD0078AA64 /* StoreKit.framework */; };
 		EB1915C81FD85B370078AA64 /* IAPProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1915C71FD85B370078AA64 /* IAPProcessor.swift */; };
+		EB2441AE1FE20BF6004EDC56 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2441AD1FE20BF6004EDC56 /* CardView.swift */; };
 		EB3F93BA1DDD41900049C343 /* AddUniversal.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3F93B91DDD41900049C343 /* AddUniversal.swift */; };
 		EB4392C01EF6077700C568C3 /* BizzyAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */; };
 		EB4734941DE25BD900F6928E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB4734931DE25BD900F6928E /* Assets.xcassets */; };
@@ -65,6 +66,7 @@
 		EB190FC61F0B3CC500C80E07 /* ContactsLogicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsLogicManager.swift; sourceTree = "<group>"; };
 		EB1915C51FD768DD0078AA64 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		EB1915C71FD85B370078AA64 /* IAPProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPProcessor.swift; sourceTree = "<group>"; };
+		EB2441AD1FE20BF6004EDC56 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		EB3F93B91DDD41900049C343 /* AddUniversal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddUniversal.swift; sourceTree = "<group>"; };
 		EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BizzyAuthViewController.swift; sourceTree = "<group>"; };
 		EB4734931DE25BD900F6928E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -128,6 +130,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		EB2441AC1FE20BB4004EDC56 /* Card View Collection View Cells */ = {
+			isa = PBXGroup;
+			children = (
+				EB2441AD1FE20BF6004EDC56 /* CardView.swift */,
+			);
+			path = "Card View Collection View Cells";
+			sourceTree = "<group>";
+		};
 		EB761D6F1F12F3360022DC7C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -161,7 +171,8 @@
 				EB851E361D9578B2002D19F4 /* AppDelegate.swift */,
 				FA7B731A1EFC5759007A1AEA /* Model */,
 				EBE448081FBD455D00DFD0AD /* Table View Cells */,
-				FA7B731B1EFC5769007A1AEA /* Collection View Cells */,
+				EB2441AC1FE20BB4004EDC56 /* Card View Collection View Cells */,
+				FA7B731B1EFC5769007A1AEA /* Sentence Collection View Cells */,
 				FA7B73191EFC5745007A1AEA /* View Controllers */,
 				EB851E3A1D9578B2002D19F4 /* Main.storyboard */,
 				EB0B96661FD8744700E8829C /* LaunchScreen.storyboard */,
@@ -217,7 +228,7 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		FA7B731B1EFC5769007A1AEA /* Collection View Cells */ = {
+		FA7B731B1EFC5769007A1AEA /* Sentence Collection View Cells */ = {
 			isa = PBXGroup;
 			children = (
 				EBB77BD91EFC37170084D014 /* LabelTextFieldFlowCells.swift */,
@@ -228,7 +239,7 @@
 				FA7B73171EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift */,
 				EBB77BD71EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift */,
 			);
-			path = "Collection View Cells";
+			path = "Sentence Collection View Cells";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -500,6 +511,7 @@
 				EB007BB11FB7E7DB00014769 /* PersonalReasonItem.swift in Sources */,
 				EB1915C81FD85B370078AA64 /* IAPProcessor.swift in Sources */,
 				EBB77BD61EFC36070084D014 /* LabelTextFieldFlowItem.swift in Sources */,
+				EB2441AE1FE20BF6004EDC56 /* CardView.swift in Sources */,
 				FA7B73181EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
