@@ -27,7 +27,11 @@ class EntityCardViewCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         self.contentView.translatesAutoresizingMaskIntoConstraints = false
         let screenWidth = UIScreen.main.bounds.size.width
-        widthConstraint.constant = screenWidth - (2 * 12)
+        if screenWidth > 374.0 {
+            widthConstraint.constant = 350.0
+        } else {
+            widthConstraint.constant = screenWidth - (2 * 12)
+        }
     }
     
 }

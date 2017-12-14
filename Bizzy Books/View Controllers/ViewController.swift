@@ -35,7 +35,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
         cardViewCollectionView.register(UINib.init(nibName: "EntityCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "EntityCardViewCollectionViewCell")
         if let cardViewFlowLayout = cardViewCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             print("We are inside")
-            cardViewFlowLayout.estimatedItemSize = CGSize(width: 1, height: 1)
+            cardViewFlowLayout.estimatedItemSize = CGSize(width: 350, height: 200)
         }
         cardViewCollectionView.dataSource = self
         checkLoggedIn()
