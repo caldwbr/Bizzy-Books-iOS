@@ -40,15 +40,15 @@ struct EntityItem: MultiversalItem {
     init(snapshot: DataSnapshot) {
         key = snapshot.key
         let snapshotValue = snapshot.value as! [String: AnyObject]
-        type = snapshotValue["type"] as! Int
-        name = snapshotValue["name"] as! String
-        phoneNumber = snapshotValue["phoneNumber"] as! String
-        email = snapshotValue["email"] as! String
-        street = snapshotValue["street"] as! String
-        city = snapshotValue["city"] as! String
-        state = snapshotValue["state"] as! String
-        ssn = snapshotValue["ssn"] as! String
-        ein = snapshotValue["ein"] as! String
+        type = snapshotValue["type"] as? Int ?? 0
+        name = snapshotValue["name"] as? String ?? ""
+        phoneNumber = snapshotValue["phoneNumber"] as? String ?? ""
+        email = snapshotValue["email"] as? String ?? ""
+        street = snapshotValue["street"] as? String ?? ""
+        city = snapshotValue["city"] as? String ?? ""
+        state = snapshotValue["state"] as? String ?? ""
+        ssn = snapshotValue["ssn"] as? String ?? ""
+        ein = snapshotValue["ein"] as? String ?? ""
         ref = snapshot.ref
     }
     

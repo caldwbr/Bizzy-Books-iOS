@@ -153,17 +153,21 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
         let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "EntityCardViewCollectionViewCell", for: indexPath) as! EntityCardViewCollectionViewCell
         if let entityItem = multiversalItems[indexPath.row] as? EntityItem {
             cell.entityCardViewNameLabel.text = entityItem.name
-            cell.entityCardViewPhoneNumberLabel.text = entityItem.phoneNumber
-            cell.entityCardViewEmailLabel.text = entityItem.email
-            cell.entityCardViewStreetLabel.text = entityItem.street
-            cell.entityCardViewCityStateLabel.text = String(entityItem.city + ", " + entityItem.state)
-            cell.entityCardViewSSNLabel.text = entityItem.ssn
+            //cell.entityCardViewPhoneNumberLabel.text = entityItem.phoneNumber
+            //cell.entityCardViewEmailLabel.text = entityItem.email
+            //cell.entityCardViewStreetLabel.text = entityItem.street
+            //cell.entityCardViewCityStateLabel.text = String(entityItem.city + ", " + entityItem.state)
+            //cell.entityCardViewSSNLabel.text = entityItem.ssn
+            //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''']
             cell.entityCardViewEINLabel.text = entityItem.ein
         }
         return cell
     }
     
-    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        cardViewCollectionView?.collectionViewLayout.invalidateLayout()
+    }
     
     func initializeIfFirstAppUse() {
         let firstLaunch = FirstLaunch(userDefaults: .standard, key: "com.bizzybooks.FirstLaunch.WasLaunchedBefore")

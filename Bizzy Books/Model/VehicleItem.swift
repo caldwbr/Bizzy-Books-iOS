@@ -38,14 +38,14 @@ struct VehicleItem: MultiversalItem {
     init(snapshot: DataSnapshot) {
         key = snapshot.key
         let snapshotValue = snapshot.value as! [String: AnyObject]
-        year = snapshotValue["year"] as! String
-        make = snapshotValue["make"] as! String
-        model = snapshotValue["model"] as! String
-        color = snapshotValue["color"] as! String
-        fuel = snapshotValue["fuel"] as! Int
-        placedInCommissionDate = snapshotValue["placedInCommissionDate"] as! String
-        licensePlateNumber = snapshotValue["licensePlateNumber"] as! String
-        vehicleIdentificationNumber = snapshotValue["vehicleIdentificationNumber"] as! String
+        year = snapshotValue["year"] as? String ?? ""
+        make = snapshotValue["make"] as? String ?? ""
+        model = snapshotValue["model"] as? String ?? ""
+        color = snapshotValue["color"] as? String ?? ""
+        fuel = snapshotValue["fuel"] as? Int ?? 0
+        placedInCommissionDate = snapshotValue["placedInCommissionDate"] as? String ?? ""
+        licensePlateNumber = snapshotValue["licensePlateNumber"] as? String ?? ""
+        vehicleIdentificationNumber = snapshotValue["vehicleIdentificationNumber"] as? String ?? ""
         ref = snapshot.ref
     }
     

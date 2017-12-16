@@ -42,15 +42,15 @@ struct ProjectItem: MultiversalItem {
     init(snapshot: DataSnapshot) {
         key = snapshot.key
         let snapshotValue = snapshot.value as! [String: AnyObject]
-        name = snapshotValue["name"] as! String
-        customerName = snapshotValue["customerName"] as! String
-        customerKey = snapshotValue["customerKey"] as! String
-        howDidTheyHearOfYou = snapshotValue["howDidTheyHearOfYou"] as! Int
-        projectTags = snapshotValue["projectTags"] as! String
-        projectAddressStreet = snapshotValue["projectAddressStreet"] as! String
-        projectAddressCity = snapshotValue["projectAddressCity"] as! String
-        projectAddressState = snapshotValue["projectAddressState"] as! String
-        projectNotes = snapshotValue["projectNotes"] as! String
+        name = snapshotValue["name"] as? String ?? ""
+        customerName = snapshotValue["customerName"] as? String ?? ""
+        customerKey = snapshotValue["customerKey"] as? String ?? ""
+        howDidTheyHearOfYou = snapshotValue["howDidTheyHearOfYou"] as? Int ?? 0
+        projectTags = snapshotValue["projectTags"] as? String ?? ""
+        projectAddressStreet = snapshotValue["projectAddressStreet"] as? String ?? ""
+        projectAddressCity = snapshotValue["projectAddressCity"] as? String ?? ""
+        projectAddressState = snapshotValue["projectAddressState"] as? String ?? ""
+        projectNotes = snapshotValue["projectNotes"] as? String ?? ""
         ref = snapshot.ref
     }
     
