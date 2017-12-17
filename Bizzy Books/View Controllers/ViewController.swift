@@ -211,7 +211,8 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
             // will always execute
             let addEntityKeyReference = entitiesRef.childByAutoId()
             addEntityKeyString = addEntityKeyReference.key
-            let thisEntityItem = EntityItem(type: 9, name: "You", phoneNumber: "", email: "", street: "", city: "", state: "", ssn: "", ein: "", key: addEntityKeyString)
+            let timeStampDictionaryForFirebase = [".sv": "timestamp"]
+            let thisEntityItem = EntityItem(type: 9, name: "You", phoneNumber: "", email: "", street: "", city: "", state: "", ssn: "", ein: "", timeStamp: timeStampDictionaryForFirebase, key: addEntityKeyString)
             entitiesRef.child(addEntityKeyString).setValue(thisEntityItem.toAnyObject())
             youEntityRef.setValue(addEntityKeyString)
             popUpAnimateIn(popUpView: welcomeView)

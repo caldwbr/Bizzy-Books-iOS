@@ -46,9 +46,10 @@ struct AccountItem: MultiversalItem {
     let minimumPaymentToBeSmart: Int //Minimum payment advisable so as not to incur interest fees (THIS NUMBER IS USUALLY CONVENIENTLY HIDDEN OR OBFUSCATED BY THOSE CREDIT CARD COMPANY JERKS!)
     let interestRate: Double // Expressed as % ie 29.99% apr per year
     let interestKind: Int // APR or the other kind plus are there any others?
+    let timeStamp: Any
     let ref: DatabaseReference?
     
-    init(name: String, accountTypeId: Int, phoneNumber: String, email: String, street: String, city: String, state: String, startingBal: Int, creditDetailsAvailable: Bool, isLoan: Bool, loanType: Int, loanTypeSubcategory: Int, loanPercentOne: Double, loanPercentTwo: Double, loanPercentThree: Double, loanPercentFour: Double, loanIntFactorOne: Int, loanIntFactorTwo: Int, loanIntFactorThree: Int, loanIntFactorFour: Int, maxLimit: Int, maxCashAdvanceAllowance: Int, closeDay: Int, dueDay: Int, cycle: Int, minimumPaymentRequired: Int, lateFeeAsOneTimeInt: Int, lateFeeAsPercentageOfTotalBalance: Double, cycleDues: Int, duesCycle: Int, minimumPaymentToBeSmart: Int, interestRate: Double, interestKind: Int, key: String = "") {
+    init(name: String, accountTypeId: Int, phoneNumber: String, email: String, street: String, city: String, state: String, startingBal: Int, creditDetailsAvailable: Bool, isLoan: Bool, loanType: Int, loanTypeSubcategory: Int, loanPercentOne: Double, loanPercentTwo: Double, loanPercentThree: Double, loanPercentFour: Double, loanIntFactorOne: Int, loanIntFactorTwo: Int, loanIntFactorThree: Int, loanIntFactorFour: Int, maxLimit: Int, maxCashAdvanceAllowance: Int, closeDay: Int, dueDay: Int, cycle: Int, minimumPaymentRequired: Int, lateFeeAsOneTimeInt: Int, lateFeeAsPercentageOfTotalBalance: Double, cycleDues: Int, duesCycle: Int, minimumPaymentToBeSmart: Int, interestRate: Double, interestKind: Int, timeStamp: Any, key: String = "") {
         self.key = key
         self.name = name
         self.accountTypeId = accountTypeId
@@ -83,6 +84,7 @@ struct AccountItem: MultiversalItem {
         self.minimumPaymentToBeSmart = minimumPaymentToBeSmart
         self.interestRate = interestRate
         self.interestKind = interestKind
+        self.timeStamp = timeStamp
         self.ref = nil
     }
     
@@ -122,6 +124,7 @@ struct AccountItem: MultiversalItem {
         minimumPaymentToBeSmart = snapshotValue["minimumPaymentToBeSmart"] as? Int ?? 0
         interestRate = snapshotValue["interestRate"] as? Double ?? 0.0
         interestKind = snapshotValue["interestKind"] as? Int ?? 0
+        timeStamp = snapshotValue["timeStamp"] ?? 0
         ref = snapshot.ref
     }
     
@@ -159,7 +162,8 @@ struct AccountItem: MultiversalItem {
             "duesCycle": duesCycle,
             "minimumPaymentToBeSmart": minimumPaymentToBeSmart,
             "interestRate": interestRate,
-            "interestKind": interestKind
+            "interestKind": interestKind,
+            "timeStamp": timeStamp
         ]
     }
     

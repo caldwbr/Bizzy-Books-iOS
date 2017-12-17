@@ -17,6 +17,7 @@ extension UIColor {
         }
         struct Yellow {
             static let TheFabButton = UIColor(netHex: 0xFFD740) //Accent
+            static let ProjectStatus = UIColor(netHex: 0xFFD740)
         }
         struct Green {
             static let What = UIColor(netHex: 0x388E3C) //Lighter Green

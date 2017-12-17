@@ -22,9 +22,10 @@ struct EntityItem: MultiversalItem {
     let state: String
     let ssn: String
     let ein: String
+    let timeStamp: Any
     let ref: DatabaseReference?
     
-    init(type: Int, name: String, phoneNumber: String, email: String, street: String, city: String, state: String, ssn: String, ein: String, key: String = "") {
+    init(type: Int, name: String, phoneNumber: String, email: String, street: String, city: String, state: String, ssn: String, ein: String, timeStamp: Any, key: String = "") {
         self.key = key
         self.type = type
         self.name = name
@@ -35,6 +36,7 @@ struct EntityItem: MultiversalItem {
         self.state = state
         self.ssn = ssn
         self.ein = ein
+        self.timeStamp = timeStamp
         self.ref = nil
     }
     
@@ -50,6 +52,7 @@ struct EntityItem: MultiversalItem {
         state = snapshotValue["state"] as? String ?? ""
         ssn = snapshotValue["ssn"] as? String ?? ""
         ein = snapshotValue["ein"] as? String ?? ""
+        timeStamp = snapshotValue["timeStamp"] ?? 0
         ref = snapshot.ref
     }
     
@@ -63,7 +66,8 @@ struct EntityItem: MultiversalItem {
             "city": city,
             "state": state,
             "ssn": ssn,
-            "ein": ein
+            "ein": ein,
+            "timeStamp": timeStamp
         ]
     }
     

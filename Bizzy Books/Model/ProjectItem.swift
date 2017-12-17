@@ -23,10 +23,12 @@ struct ProjectItem: MultiversalItem {
     let projectAddressState: String
     let projectNotes: String
     //let projectDocItems: [ProjectDocItem]?
-    //let projectStatus: Int //0 - Job Lead, 1 - Bid, 2 - Under Contract, 3 - Paid
+    let projectStatusName: String
+    let projectStatusId: Int //0 - Job lead, 1 - Bid, 2 - Contract, 3 - Paid, 4 - Lost, 5 - Other
+    let timeStamp: Any
     let ref: DatabaseReference?
     
-    init(name: String, customerName: String, customerKey: String, howDidTheyHearOfYou: Int, projectTags: String, projectAddressStreet: String, projectAddressCity: String, projectAddressState: String, projectNotes: String, key: String = "") {
+    init(name: String, customerName: String, customerKey: String, howDidTheyHearOfYou: Int, projectTags: String, projectAddressStreet: String, projectAddressCity: String, projectAddressState: String, projectNotes: String, projectStatusName: String, projectStatusId: Int, timeStamp: Any, key: String = "") {
         self.key = key
         self.name = name
         self.customerName = customerName
@@ -37,6 +39,9 @@ struct ProjectItem: MultiversalItem {
         self.projectAddressCity = projectAddressCity
         self.projectAddressState = projectAddressState
         self.projectNotes = projectNotes
+        self.projectStatusName = projectStatusName
+        self.projectStatusId = projectStatusId
+        self.timeStamp = timeStamp
         self.ref = nil
     }
     
@@ -52,6 +57,9 @@ struct ProjectItem: MultiversalItem {
         projectAddressCity = snapshotValue["projectAddressCity"] as? String ?? ""
         projectAddressState = snapshotValue["projectAddressState"] as? String ?? ""
         projectNotes = snapshotValue["projectNotes"] as? String ?? ""
+        projectStatusName = snapshotValue["projectStatusName"] as? String ?? ""
+        projectStatusId = snapshotValue["projectStatusId"] as? Int ?? 0
+        timeStamp = snapshotValue["timeStamp"] ?? 0
         ref = snapshot.ref
     }
     
@@ -65,7 +73,10 @@ struct ProjectItem: MultiversalItem {
             "projectAddressStreet": projectAddressStreet,
             "projectAddressCity": projectAddressCity,
             "projectAddressState": projectAddressState,
-            "projectNotes": projectNotes
+            "projectNotes": projectNotes,
+            "projectStatusName": projectStatusName,
+            "projectStatusId": projectStatusId,
+            "timeStamp": timeStamp
         ]
     }
 }

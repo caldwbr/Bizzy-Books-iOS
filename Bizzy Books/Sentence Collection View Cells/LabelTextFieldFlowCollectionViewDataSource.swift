@@ -36,11 +36,6 @@ class LabelTextFieldFlowCollectionViewDataSource : NSObject, UICollectionViewDat
                 theTextFieldYes = (theCell?.textField as AllowedCharsTextField!)
             }
             
-            //print(theTextFieldYes.amt)
-            /*if let c = cell as? FlowItemConfigurable {
-                theTextFieldYes.addTarget(self, action: { c.update(item: item) }, for: UIControlEvents.editingChanged)
-            }*/
-            
         }
 
         

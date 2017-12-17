@@ -111,6 +111,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var taxVehiclePlaceholderKeyString = ""
     var projectMediaTypePlaceholder = "Type of picture ▾ ?"
     var projectMediaTypePlaceholderId = -1
+    var projectStatusPlaceholder = "Project status ▾ ?"
+    var projectStatusPlaceholderId = -1
     var atmFee = false
     var feeAmount = 0
     
@@ -138,6 +140,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var fuelTypePickerData: [String] = [String]()
     var howDidTheyHearOfYouPickerData: [String] = [String]()
     var projectMediaTypePickerData: [String] = [String]()
+    var projectStatusPickerData: [String] = [String]()
     var addAccountAccountTypePickerData: [String] = [String]()
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var leftTopView: DropdownFlowView!
@@ -224,6 +227,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         }
     }
     
+    @IBOutlet weak var projectStatusPickerView: UIPickerView!
     @IBOutlet weak var howDidTheyHearOfYouPickerView: UIPickerView!
     @IBOutlet weak var addProjectSelectCustomerTableView: UITableView!
     @IBOutlet var addProjectView: UIView!
@@ -246,7 +250,12 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if !tempKeyHolder.isEmpty  && !addProjectNameTextField.text!.isEmpty && !addProjectSearchCustomerTextField.text!.isEmpty {
             let addProjectKeyReference = projectsRef.childByAutoId()
             addProjectKeyString = addProjectKeyReference.key
-            let thisProjectItem = ProjectItem(name: addProjectNameTextField.text!, customerName: addProjectSearchCustomerTextField.text!, customerKey: tempKeyHolder, howDidTheyHearOfYou: chosenHowDidTheyHearOfYou, projectTags: addProjectTagsTextField.text!, projectAddressStreet: addProjectStreetTextField.text!, projectAddressCity: addProjectCityTextField.text!, projectAddressState: addProjectStateTextField.text!, projectNotes: addProjectNotesTextField.text!)
+            if projectStatusPlaceholderId == -1 {
+                projectStatusPlaceholderId = 0
+                projectStatusPlaceholder = "Job lead"
+            }
+            let timeStampDictionaryForFirebase = [".sv": "timestamp"]
+            let thisProjectItem = ProjectItem(name: addProjectNameTextField.text!, customerName: addProjectSearchCustomerTextField.text!, customerKey: tempKeyHolder, howDidTheyHearOfYou: chosenHowDidTheyHearOfYou, projectTags: addProjectTagsTextField.text!, projectAddressStreet: addProjectStreetTextField.text!, projectAddressCity: addProjectCityTextField.text!, projectAddressState: addProjectStateTextField.text!, projectNotes: addProjectNotesTextField.text!, projectStatusName: projectStatusPlaceholder, projectStatusId: projectStatusPlaceholderId, timeStamp: timeStampDictionaryForFirebase)
             projectsRef.child(addProjectKeyString).setValue(thisProjectItem.toAnyObject())
             popUpAnimateOut(popUpView: addProjectView)
             self.projectPlaceholderKeyString = addProjectKeyString
@@ -272,7 +281,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if !addVehicleColorTextField.text!.isEmpty && !addVehicleYearTextField.text!.isEmpty && !addVehicleMakeTextField.text!.isEmpty && !addVehicleModelTextField.text!.isEmpty {
             let addVehicleKeyReference = vehiclesRef.childByAutoId()
             addVehicleKeyString = addVehicleKeyReference.key
-            let thisVehicleItem = VehicleItem(year: addVehicleYearTextField.text!, make: addVehicleMakeTextField.text!, model: addVehicleModelTextField.text!, color: addVehicleColorTextField.text!, fuel: addVehicleFuelPickerView.selectedRow(inComponent: 0), placedInCommissionDate: addVehiclePlacedInCommissionTextField.text!, licensePlateNumber: addVehicleLicensePlateNumberTextField.text!, vehicleIdentificationNumber: addVehicleVehicleIdentificationNumberTextField.text!)
+            let timeStampDictionaryForFirebase = [".sv": "timestamp"]
+            let thisVehicleItem = VehicleItem(year: addVehicleYearTextField.text!, make: addVehicleMakeTextField.text!, model: addVehicleModelTextField.text!, color: addVehicleColorTextField.text!, fuel: addVehicleFuelPickerView.selectedRow(inComponent: 0), placedInCommissionDate: addVehiclePlacedInCommissionTextField.text!, licensePlateNumber: addVehicleLicensePlateNumberTextField.text!, vehicleIdentificationNumber: addVehicleVehicleIdentificationNumberTextField.text!, timeStamp: timeStampDictionaryForFirebase)
             vehiclesRef.child(addVehicleKeyString).setValue(thisVehicleItem.toAnyObject())
             popUpAnimateOut(popUpView: addVehicleView)
             vehiclePlaceholderKeyString = addVehicleKeyString
@@ -410,7 +420,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if !((addAccountNameTextField.text?.isEmpty)!), !((addAccountStartingBalanceTextField.text?.isEmpty)!) {
             let addAccountKeyReference = accountsRef.childByAutoId()
             addAccountKeyString = addAccountKeyReference.key
-            let thisAccountItem = AccountItem(name: addAccountNameTextField.text!, accountTypeId: accountTypePlaceholderId, phoneNumber: addAccountPhoneNumberTextField.text!, email: addAccountEmailTextField.text!, street: addAccountStreetTextField.text!, city: addAccountCityTextField.text!, state: addAccountStateTextField.text!, startingBal: Int(addAccountStartingBalanceTextField.text!)!, creditDetailsAvailable: false, isLoan: false, loanType: 0, loanTypeSubcategory: 0, loanPercentOne: 0.0, loanPercentTwo: 0.0, loanPercentThree: 0.0, loanPercentFour: 0.0, loanIntFactorOne: 0, loanIntFactorTwo: 0, loanIntFactorThree: 0, loanIntFactorFour: 0, maxLimit: 0, maxCashAdvanceAllowance: 0, closeDay: 0, dueDay: 0, cycle: 0, minimumPaymentRequired: 0, lateFeeAsOneTimeInt: 0, lateFeeAsPercentageOfTotalBalance: 0.0, cycleDues: 0, duesCycle: 0, minimumPaymentToBeSmart: 0, interestRate: 0.0, interestKind: 0, key: addAccountKeyString)
+            let timeStampDictionaryForFirebase = [".sv": "timestamp"]
+            let thisAccountItem = AccountItem(name: addAccountNameTextField.text!, accountTypeId: accountTypePlaceholderId, phoneNumber: addAccountPhoneNumberTextField.text!, email: addAccountEmailTextField.text!, street: addAccountStreetTextField.text!, city: addAccountCityTextField.text!, state: addAccountStateTextField.text!, startingBal: Int(addAccountStartingBalanceTextField.text!)!, creditDetailsAvailable: false, isLoan: false, loanType: 0, loanTypeSubcategory: 0, loanPercentOne: 0.0, loanPercentTwo: 0.0, loanPercentThree: 0.0, loanPercentFour: 0.0, loanIntFactorOne: 0, loanIntFactorTwo: 0, loanIntFactorThree: 0, loanIntFactorFour: 0, maxLimit: 0, maxCashAdvanceAllowance: 0, closeDay: 0, dueDay: 0, cycle: 0, minimumPaymentRequired: 0, lateFeeAsOneTimeInt: 0, lateFeeAsPercentageOfTotalBalance: 0.0, cycleDues: 0, duesCycle: 0, minimumPaymentToBeSmart: 0, interestRate: 0.0, interestKind: 0, timeStamp: timeStampDictionaryForFirebase, key: addAccountKeyString)
             accountsRef.child(addAccountKeyString).setValue(thisAccountItem.toAnyObject())
             popUpAnimateOut(popUpView: addAccountView)
             if accountSenderCode == 0 {
@@ -760,7 +771,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         }
         let addEntityKeyReference = entitiesRef.childByAutoId()
         addEntityKeyString = addEntityKeyReference.key
-        let thisEntityItem = EntityItem(type: entityPickerView.selectedRow(inComponent: 0), name: addEntityNameTextField.text as String!, phoneNumber: addEntityPhoneNumberTextField.text as String!, email: addEntityEmailTextField.text as String!, street: addEntityStreetTextField.text as String!, city: addEntityCityTextField.text as String!, state: addEntityStateTextField.text as String!, ssn: addEntitySSNTextField.text as String!, ein: addEntityEINTextField.text as String!)
+        let timeStampDictionaryForFirebase = [".sv": "timestamp"]
+        let thisEntityItem = EntityItem(type: entityPickerView.selectedRow(inComponent: 0), name: addEntityNameTextField.text as String!, phoneNumber: addEntityPhoneNumberTextField.text as String!, email: addEntityEmailTextField.text as String!, street: addEntityStreetTextField.text as String!, city: addEntityCityTextField.text as String!, state: addEntityStateTextField.text as String!, ssn: addEntitySSNTextField.text as String!, ein: addEntityEINTextField.text as String!, timeStamp: timeStampDictionaryForFirebase)
         entitiesRef.child(addEntityKeyString).setValue(thisEntityItem.toAnyObject())
         switch entitySenderCode {
         case 0:
@@ -898,6 +910,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         self.genericPickerView.dataSource = self
         self.entityPickerView.delegate = self
         self.entityPickerView.dataSource = self
+        self.projectStatusPickerView.delegate = self
+        self.projectStatusPickerView.dataSource = self
         self.howDidTheyHearOfYouPickerView.delegate = self
         self.howDidTheyHearOfYouPickerView.dataSource = self
         self.addVehicleFuelPickerView.delegate = self
@@ -914,6 +928,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         fuelTypePickerData = ["87 gas", "89 gas", "91 gas", "diesel"]
         entityPickerData = ["customer", "vendor", "sub", "employee", "store", "government", "other"] // You is at position 7 but not available to user
         projectMediaTypePickerData = ["Before", "During", "After", "Drawing", "Calculations", "Material list", "Estimate", "Contract", "Labor warranty", "Material warranty", "Safety", "Other"]
+        projectStatusPickerData = ["Job lead", "Bid", "Contract", "Paid", "Lost", "Other"]
         addAccountAccountTypePickerData = ["Bank account", "Credit account", "Cash account", "Store refund account"]
         
         //Clip corners of all popups for better aesthetics
@@ -1446,7 +1461,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     func projectMediaCase() {
         universalArray[0] = 6
         dataSource.items = [
-            LabelFlowItem(text: projectMediaTypePlaceholder, color: UIColor.BizzyColor.Blue.Project, action: { self.pickerCode = 7; self.popUpAnimateIn(popUpView: self.genericPickerView) })
+            LabelFlowItem(text: projectMediaTypePlaceholder, color: UIColor.BizzyColor.Blue.Project, action: { self.pickerCode = 7; self.popUpAnimateIn(popUpView: self.genericPickerView) }),
+            LabelFlowItem(text: projectStatusPlaceholder, color: UIColor.BizzyColor.Yellow.ProjectStatus, action: { self.pickerCode = 10; self.popUpAnimateIn(popUpView: self.genericPickerView) })
         ]
         projectLabel.isHidden = false
         odometerTextField.isHidden = true
@@ -1466,118 +1482,146 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         
         print("getting numberOfRowsInComponent \(component) with pickerCode \(pickerCode)")
-
-        switch pickerCode {
+        
+        switch pickerView.tag {
         case 0:
-            return taxReasonPickerData.count
-        case 1:
-            return wcPickerData.count
-        case 2:
-            return advertisingMeansPickerData.count
-        case 3:
-            return personalReasonPickerData.count
-        case 4:
-            return fuelTypePickerData.count
-        case 5:
-            return entityPickerData.count
-        case 6:
-            return howDidTheyHearOfYouPickerData.count //How did they hear of you project label
-        case 7:
-            return projectMediaTypePickerData.count
-        case 8:
-            return fuelTypePickerData.count
-        case 9:
-            return addAccountAccountTypePickerData.count
-        default:
-            return taxReasonPickerData.count
+            switch pickerCode {
+            case 0:
+                return taxReasonPickerData.count
+            case 1:
+                return wcPickerData.count
+            case 2:
+                return advertisingMeansPickerData.count
+            case 3:
+                return personalReasonPickerData.count
+            case 4:
+                return fuelTypePickerData.count
+            case 5:
+                return entityPickerData.count
+            case 6:
+                return howDidTheyHearOfYouPickerData.count //How did they hear of you project label
+            case 7:
+                return projectMediaTypePickerData.count
+            case 8:
+                return fuelTypePickerData.count
+            case 9:
+                return addAccountAccountTypePickerData.count
+            case 10: // Under project MEDIA
+                return projectStatusPickerData.count
+            default:
+                return taxReasonPickerData.count
+            }
+        default: // I.e., tag = 1, which is only true for Add Project which has two picker views
+            return projectStatusPickerData.count
         }
+        
     }
     
     // The data to return for the row and component (column) that's being passed in
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         print("displaying row \(row) with pickerCode \(pickerCode)")
         
-        switch pickerCode {
+        switch pickerView.tag {
         case 0:
-            return taxReasonPickerData[row]
-        case 1:
-            return wcPickerData[row]
-        case 2:
-            return advertisingMeansPickerData[row]
-        case 3:
-            return personalReasonPickerData[row]
-        case 4:
-            return fuelTypePickerData[row]
-        case 5:
-            return entityPickerData[row]
-        case 6:
-            return howDidTheyHearOfYouPickerData[row] //How did they hear of you project label
-        case 7:
-            return projectMediaTypePickerData[row]
-        case 8:
-            return fuelTypePickerData[row]
-        case 9:
-            return addAccountAccountTypePickerData[row]
-        default:
-            return taxReasonPickerData[row]
+            switch pickerCode {
+            case 0:
+                return taxReasonPickerData[row]
+            case 1:
+                return wcPickerData[row]
+            case 2:
+                return advertisingMeansPickerData[row]
+            case 3:
+                return personalReasonPickerData[row]
+            case 4:
+                return fuelTypePickerData[row]
+            case 5:
+                return entityPickerData[row]
+            case 6:
+                return howDidTheyHearOfYouPickerData[row] //How did they hear of you project label
+            case 7:
+                return projectMediaTypePickerData[row]
+            case 8:
+                return fuelTypePickerData[row]
+            case 9:
+                return addAccountAccountTypePickerData[row]
+            case 10: // Under project MEDIA
+                return projectStatusPickerData[row]
+            default:
+                return taxReasonPickerData[row]
+            }
+        default: // I.e., tag = 1, which is only true for Add Project which has two picker views
+            return projectStatusPickerData[row]
         }
+        
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        switch pickerCode {
-        case 0: //What tax reason
-            universalArray[6] = row
-            whatTaxReasonPlaceholder = taxReasonPickerData[row]
-            whatTaxReasonPlaceholderId = row
-            switch selectedType {
-            case 0: //Business Type
-                if self.dataSource.items.indices.contains(8) { //This just gets rid of veh, adMeans, or wc item if present before reloading.
-                    self.dataSource.items.remove(at: 8) }
-            case 2: //Mixed Type
-                if self.dataSource.items.indices.contains(10) { //This just gets rid of veh, adMeans, or wc item if present before reloading.
-                    self.dataSource.items.remove(at: 10) }
-            default:
-                break
+        
+        switch pickerView.tag {
+        case 0:
+            switch pickerCode {
+            case 0: //What tax reason
+                universalArray[6] = row
+                whatTaxReasonPlaceholder = taxReasonPickerData[row]
+                whatTaxReasonPlaceholderId = row
+                switch selectedType {
+                case 0: //Business Type
+                    if self.dataSource.items.indices.contains(8) { //This just gets rid of veh, adMeans, or wc item if present before reloading.
+                        self.dataSource.items.remove(at: 8) }
+                case 2: //Mixed Type
+                    if self.dataSource.items.indices.contains(10) { //This just gets rid of veh, adMeans, or wc item if present before reloading.
+                        self.dataSource.items.remove(at: 10) }
+                default:
+                    break
+                }
+                popUpAnimateOut(popUpView: pickerView)
+            case 1: //Worker's comp
+                universalArray[8] = row
+                workersCompPlaceholder = wcPickerData[row]
+                workersCompPlaceholderId = row
+                popUpAnimateOut(popUpView: pickerView)
+            case 2: //What kind of advertising did you purchase
+                universalArray[9] = row
+                advertisingMeansPlaceholder = advertisingMeansPickerData[row]
+                advertisingMeansPlaceholderId = row
+                popUpAnimateOut(popUpView: pickerView)
+            case 3: //What personal reason
+                universalArray[10] = row
+                whatPersonalReasonPlaceholder = personalReasonPickerData[row]
+                whatPersonalReasonPlaceholderId = row
+                popUpAnimateOut(popUpView: pickerView)
+            case 4: //Fuel type
+                universalArray[15] = row
+                fuelTypePlaceholder = fuelTypePickerData[row]
+                fuelTypePlaceholderId = row
+                popUpAnimateOut(popUpView: pickerView)
+            case 5: //Type of entity i.e. customer, sub, employee, store, etc.
+                chosenEntity = row
+            case 6: //How did they hear of you
+                chosenHowDidTheyHearOfYou = row
+            case 7: //Project media type
+                projectMediaTypePlaceholder = projectMediaTypePickerData[row]
+                projectMediaTypePlaceholderId = row
+                popUpAnimateOut(popUpView: pickerView)
+            case 8: //Fuel type picker inside addVehicleView
+                let _ = 0 //Absolutely no reason except it wants something here
+            case 9: //Add account account type picker stuff
+                accountTypePlaceholder = addAccountAccountTypePickerData[row]
+                accountTypePlaceholderId = row
+            case 10: // 10 - project status picker under project MEDIA
+                projectStatusPlaceholder = projectStatusPickerData[row]
+                projectStatusPlaceholderId = row
+                popUpAnimateOut(popUpView: pickerView)
+            default: //What tax reason
+                universalArray[6] = row
+                self.whatTaxReasonPlaceholder = taxReasonPickerData[row]
+                popUpAnimateOut(popUpView: pickerView)
             }
-            popUpAnimateOut(popUpView: pickerView)
-        case 1: //Worker's comp
-            universalArray[8] = row
-            workersCompPlaceholder = wcPickerData[row]
-            workersCompPlaceholderId = row
-            popUpAnimateOut(popUpView: pickerView)
-        case 2: //What kind of advertising did you purchase
-            universalArray[9] = row
-            advertisingMeansPlaceholder = advertisingMeansPickerData[row]
-            advertisingMeansPlaceholderId = row
-            popUpAnimateOut(popUpView: pickerView)
-        case 3: //What personal reason
-            universalArray[10] = row
-            whatPersonalReasonPlaceholder = personalReasonPickerData[row]
-            whatPersonalReasonPlaceholderId = row
-            popUpAnimateOut(popUpView: pickerView)
-        case 4: //Fuel type
-            universalArray[15] = row
-            fuelTypePlaceholder = fuelTypePickerData[row]
-            fuelTypePlaceholderId = row
-            popUpAnimateOut(popUpView: pickerView)
-        case 5: //Type of entity i.e. customer, sub, employee, store, etc.
-            chosenEntity = row
-        case 6: //How did they hear of you
-            chosenHowDidTheyHearOfYou = row
-        case 7: //Project media type
-            projectMediaTypePlaceholder = projectMediaTypePickerData[row]
-            projectMediaTypePlaceholderId = row
-            popUpAnimateOut(popUpView: pickerView)
-        case 8: //Fuel type picker inside addVehicleView
-            let _ = 0 //Absolutely no reason except it wants something here
-        case 9: //Add account account type picker stuff
-            accountTypePlaceholder = addAccountAccountTypePickerData[row]
-            accountTypePlaceholderId = row
-        default: //What tax reason
-            universalArray[6] = row
-            self.whatTaxReasonPlaceholder = taxReasonPickerData[row]
-            popUpAnimateOut(popUpView: pickerView)
+        default: // I.e., tag = 1, which is only true for Add Project which has two picker views. Incidentally, pickercode will be 6 here because that's what the first-created picker view in add project happened to be, which will trigger BOTH pickers
+            projectStatusPlaceholder = projectStatusPickerData[row]
+            projectStatusPlaceholderId = row
         }
+        
         if !(pickerCode == 5) && !(pickerCode == 6) && !(pickerCode == 8) && !(pickerCode == 9) {
             reloadSentence(selectedType: selectedType)
         }
@@ -1695,13 +1739,19 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         }
         switch self.selectedType {
         case 4: //Transfer
-            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: 0, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompId: workersCompPlaceholderId, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourPrimaryAccountPlaceholder, accountOneKey: yourPrimaryAccountPlaceholderKeyString, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, howMany: howMany, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
+            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: 0, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourPrimaryAccountPlaceholder, accountOneKey: yourPrimaryAccountPlaceholderKeyString, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, howMany: howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
             universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
         default:
-            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: 0, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompId: workersCompPlaceholderId, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, howMany: howMany, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
+            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: 0, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, howMany: howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
             universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
         }
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.leftTopView.dropDownMenu.reloadAllComponents()
+        self.leftTopView.dropDownMenu.closeAllComponents(animated: true)
     }
     
 }

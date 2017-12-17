@@ -21,9 +21,10 @@ struct VehicleItem: MultiversalItem {
     let placedInCommissionDate: String
     let licensePlateNumber: String
     let vehicleIdentificationNumber: String
+    let timeStamp: Any
     let ref: DatabaseReference?
     
-    init(year: String, make: String, model: String, color: String, fuel: Int, placedInCommissionDate: String, licensePlateNumber: String, vehicleIdentificationNumber: String, key: String = "") {
+    init(year: String, make: String, model: String, color: String, fuel: Int, placedInCommissionDate: String, licensePlateNumber: String, vehicleIdentificationNumber: String, timeStamp: Any, key: String = "") {
         self.key = key
         self.year = year
         self.make = make
@@ -33,6 +34,7 @@ struct VehicleItem: MultiversalItem {
         self.placedInCommissionDate = placedInCommissionDate
         self.licensePlateNumber = licensePlateNumber
         self.vehicleIdentificationNumber = vehicleIdentificationNumber
+        self.timeStamp = timeStamp
         self.ref = nil
     }
     
@@ -47,6 +49,7 @@ struct VehicleItem: MultiversalItem {
         placedInCommissionDate = snapshotValue["placedInCommissionDate"] as? String ?? ""
         licensePlateNumber = snapshotValue["licensePlateNumber"] as? String ?? ""
         vehicleIdentificationNumber = snapshotValue["vehicleIdentificationNumber"] as? String ?? ""
+        timeStamp = snapshotValue["timeStamp"] ?? 0
         ref = snapshot.ref
     }
     
@@ -60,6 +63,7 @@ struct VehicleItem: MultiversalItem {
             "placedInCommissionDate": placedInCommissionDate,
             "licensePlateNumber": licensePlateNumber,
             "vehicleIdentificationNumber": vehicleIdentificationNumber,
+            "timeStamp": timeStamp
         ]
     }
     

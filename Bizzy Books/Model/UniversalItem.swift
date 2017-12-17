@@ -22,11 +22,15 @@ struct UniversalItem: MultiversalItem {
     let what: Int //Remember $5.48 is represented as 548, and needs to be divided by 100 before showing user and multiplied before storing.
     let whomName: String
     let whomKey: String
+    let taxReasonName: String
     let taxReasonId: Int
     let vehicleName: String
     let vehicleKey: String
+    let workersCompName: String
     let workersCompId: Int // 0 = Sub has wc, 1 = Incurred wc, 2 = wc n/a
+    let advertisingMeansName: String
     let advertisingMeansId: Int
+    let personalReasonName: String
     let personalReasonId: Int
     let percentBusiness: Int
     let accountOneName: String
@@ -34,10 +38,12 @@ struct UniversalItem: MultiversalItem {
     let accountTwoName: String
     let accountTwoKey: String
     let howMany: Int //x1000
+    let fuelTypeName: String
     let fuelTypeId: Int // 0 = 87, 1 = 89, 2 = 91, 3 = Diesel
     let useTax: Bool
     let notes: String
     let picUrl: String
+    let projectPicTypeName: String
     let projectPicTypeId: Int
     let timeStamp: Any
     let latitude: Double //Times 100,000?? Optional because desktops don't produce lat and long I don't think
@@ -46,7 +52,7 @@ struct UniversalItem: MultiversalItem {
     let feeAmount: Int // For future use
     let ref: DatabaseReference?
     
-    init(universalItemType: Int, projectItemName: String, projectItemKey: String, odometerReading: Int, whoName: String, whoKey: String, what: Int, whomName: String, whomKey: String, taxReasonId: Int, vehicleName: String, vehicleKey: String, workersCompId: Int, advertisingMeansId: Int, personalReasonId: Int, percentBusiness: Int, accountOneName: String, accountOneKey: String, accountTwoName: String, accountTwoKey: String, howMany: Int, fuelTypeId: Int, useTax: Bool, notes: String, picUrl: String, projectPicTypeId: Int, timeStamp: Any, latitude: Double, longitude: Double, atmFee: Bool, feeAmount: Int, key: String = "") {
+    init(universalItemType: Int, projectItemName: String, projectItemKey: String, odometerReading: Int, whoName: String, whoKey: String, what: Int, whomName: String, whomKey: String, taxReasonName: String, taxReasonId: Int, vehicleName: String, vehicleKey: String, workersCompName: String, workersCompId: Int, advertisingMeansName: String, advertisingMeansId: Int, personalReasonName: String, personalReasonId: Int, percentBusiness: Int, accountOneName: String, accountOneKey: String, accountTwoName: String, accountTwoKey: String, howMany: Int, fuelTypeName: String, fuelTypeId: Int, useTax: Bool, notes: String, picUrl: String, projectPicTypeName: String, projectPicTypeId: Int, timeStamp: Any, latitude: Double, longitude: Double, atmFee: Bool, feeAmount: Int, key: String = "") {
         self.key = key
         self.universalItemType = universalItemType
         self.projectItemName = projectItemName
@@ -57,11 +63,15 @@ struct UniversalItem: MultiversalItem {
         self.what = what
         self.whomName = whomName
         self.whomKey = whomKey
+        self.taxReasonName = taxReasonName
         self.taxReasonId = taxReasonId
         self.vehicleName = vehicleName
         self.vehicleKey = vehicleKey
+        self.workersCompName = workersCompName
         self.workersCompId = workersCompId
+        self.advertisingMeansName = advertisingMeansName
         self.advertisingMeansId = advertisingMeansId
+        self.personalReasonName = personalReasonName
         self.personalReasonId = personalReasonId
         self.percentBusiness = percentBusiness
         self.accountOneName = accountOneName
@@ -69,10 +79,12 @@ struct UniversalItem: MultiversalItem {
         self.accountTwoName = accountTwoName
         self.accountTwoKey = accountTwoKey
         self.howMany = howMany
+        self.fuelTypeName = fuelTypeName
         self.fuelTypeId = fuelTypeId
         self.useTax = useTax
         self.notes = notes
         self.picUrl = picUrl
+        self.projectPicTypeName = projectPicTypeName
         self.projectPicTypeId = projectPicTypeId
         self.timeStamp = timeStamp
         self.latitude = latitude
@@ -94,11 +106,15 @@ struct UniversalItem: MultiversalItem {
         what = snapshotValue["what"] as? Int ?? 0
         whomName = snapshotValue["whomName"] as? String ?? ""
         whomKey = snapshotValue["whomKey"] as? String ?? ""
+        taxReasonName = snapshotValue["taxReasonName"] as? String ?? ""
         taxReasonId = snapshotValue["taxReasonId"] as? Int ?? 0
         vehicleName = snapshotValue["vehicleName"] as? String ?? ""
         vehicleKey = snapshotValue["vehicleKey"] as? String ?? ""
+        workersCompName = snapshotValue["workersCompName"] as? String ?? ""
         workersCompId = snapshotValue["workersCompId"] as? Int ?? 0
+        advertisingMeansName = snapshotValue["advertisingMeansName"] as? String ?? ""
         advertisingMeansId = snapshotValue["advertisingMeansId"] as? Int ?? 0
+        personalReasonName = snapshotValue["personalReasonName"] as? String ?? ""
         personalReasonId = snapshotValue["personalReasonId"] as? Int ?? 0
         percentBusiness = snapshotValue["percentBusiness"] as? Int ?? 0
         accountOneName = snapshotValue["accountOneName"] as? String ?? ""
@@ -106,10 +122,12 @@ struct UniversalItem: MultiversalItem {
         accountTwoName = snapshotValue["accountTwoName"] as? String ?? ""
         accountTwoKey = snapshotValue["accountTwoKey"] as? String ?? ""
         howMany = snapshotValue["howMany"] as? Int ?? 0
+        fuelTypeName = snapshotValue["fuelTypeName"] as? String ?? ""
         fuelTypeId = snapshotValue["fuelTypeId"] as? Int ?? 0
         useTax = snapshotValue["useTax"] as? Bool ?? false
         notes = snapshotValue["notes"] as? String ?? ""
         picUrl = snapshotValue["picUrl"] as? String ?? ""
+        projectPicTypeName = snapshotValue["projectPicTypeName"] as? String ?? ""
         projectPicTypeId = snapshotValue["projectPicTypeId"] as? Int ?? 0
         timeStamp = snapshotValue["timeStamp"] ?? 0
         latitude = snapshotValue["latitude"] as? Double ?? 0.0
@@ -130,11 +148,15 @@ struct UniversalItem: MultiversalItem {
             "what": what,
             "whomName": whomName,
             "whomKey": whomKey,
+            "taxReasonName": taxReasonName,
             "taxReasonId": taxReasonId,
             "vehicleName": vehicleName,
             "vehicleKey": vehicleKey,
+            "workersCompName": workersCompName,
             "workersCompId": workersCompId,
+            "advertisingMeansName": advertisingMeansName,
             "advertisingMeansId": advertisingMeansId,
+            "personalReasonName": personalReasonName,
             "personalReasonId": personalReasonId,
             "percentBusiness": percentBusiness,
             "accountOneName": accountOneName,
@@ -142,10 +164,12 @@ struct UniversalItem: MultiversalItem {
             "accountTwoName": accountTwoName,
             "accountTwoKey": accountTwoKey,
             "howMany": howMany,
+            "fuelTypeName": fuelTypeName,
             "fuelTypeId": fuelTypeId,
             "useTax": useTax,
             "notes": notes,
             "picUrl": picUrl,
+            "projectPicTypeName": projectPicTypeName,
             "projectPicTypeId": projectPicTypeId,
             "timeStamp": timeStamp,
             "latitude": latitude,
