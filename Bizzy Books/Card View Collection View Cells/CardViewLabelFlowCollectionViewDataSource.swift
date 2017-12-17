@@ -1,19 +1,17 @@
 //
-//  LabelTextFieldFlowCollectionViewDataSource.swift
+//  CardViewLabelFlowCollectionViewDataSource.swift
 //  Bizzy Books
 //
-//  Created by Brad Caldwell on 6/22/17.
+//  Created by Brad Caldwell on 12/16/17.
 //  Copyright © 2017 Caldwell Contracting LLC. All rights reserved.
 //
 
 import UIKit
 
 
-class LabelTextFieldFlowCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class CardViewLabelFlowCollectionViewDataSource : NSObject, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     var items = [FlowItem]()
-    var theTextFieldYes = UITextField()
-    var theSecondaryTextFieldYes = UITextField()
     
     // MARK: - UICollectionViewDataSource
     
@@ -26,31 +24,15 @@ class LabelTextFieldFlowCollectionViewDataSource : NSObject, UICollectionViewDat
         
         let item = items[indexPath.item]
         var cell : UICollectionViewCell
-
-        cell = collectionView.dequeueReusableCell(withReuseIdentifier: item.cellIdentifier, for: indexPath)
-        if item.cellIdentifier == "TextFieldCollectionViewCell" {
-            let theCell = cell as? TextFieldCollectionViewCell
-            if indexPath.item == 6 {
-                theSecondaryTextFieldYes = (theCell?.textField as AllowedCharsTextField!)
-            } else {
-                theTextFieldYes = (theCell?.textField as AllowedCharsTextField!)
-            }
-            
-            //print(theTextFieldYes.amt)
-            /*if let c = cell as? FlowItemConfigurable {
-                theTextFieldYes.addTarget(self, action: { c.update(item: item) }, for: UIControlEvents.editingChanged)
-            }*/
-            
-        }
-
         
+        cell = collectionView.dequeueReusableCell(withReuseIdentifier: item.cellIdentifier, for: indexPath)
+
         if let c = cell as? FlowItemConfigurable {
             c.configure(item: item)
         }
         
         return cell
     }
-    
     
     // MARK: - UICollectionViewDelegateFlowLayout
     

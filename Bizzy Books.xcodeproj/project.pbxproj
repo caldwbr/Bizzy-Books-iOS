@@ -36,6 +36,9 @@
 		EB2441C51FE614F6004EDC56 /* AccountCardViewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB2441C41FE614F6004EDC56 /* AccountCardViewCollectionViewCell.xib */; };
 		EB2441C71FE61510004EDC56 /* VehicleCardViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2441C61FE61510004EDC56 /* VehicleCardViewCollectionViewCell.swift */; };
 		EB2441C91FE6152E004EDC56 /* VehicleCardViewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB2441C81FE6152E004EDC56 /* VehicleCardViewCollectionViewCell.xib */; };
+		EB2441CB1FE62D88004EDC56 /* CardViewSentenceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB2441CA1FE62D88004EDC56 /* CardViewSentenceCell.xib */; };
+		EB2441CD1FE63054004EDC56 /* CardViewSentenceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2441CC1FE63054004EDC56 /* CardViewSentenceCell.swift */; };
+		EB2441CF1FE6345F004EDC56 /* CardViewLabelFlowCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2441CE1FE6345F004EDC56 /* CardViewLabelFlowCollectionViewDataSource.swift */; };
 		EB3F93BA1DDD41900049C343 /* AddUniversal.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3F93B91DDD41900049C343 /* AddUniversal.swift */; };
 		EB4392C01EF6077700C568C3 /* BizzyAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */; };
 		EB4734941DE25BD900F6928E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB4734931DE25BD900F6928E /* Assets.xcassets */; };
@@ -93,6 +96,9 @@
 		EB2441C41FE614F6004EDC56 /* AccountCardViewCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountCardViewCollectionViewCell.xib; sourceTree = "<group>"; };
 		EB2441C61FE61510004EDC56 /* VehicleCardViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleCardViewCollectionViewCell.swift; sourceTree = "<group>"; };
 		EB2441C81FE6152E004EDC56 /* VehicleCardViewCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VehicleCardViewCollectionViewCell.xib; sourceTree = "<group>"; };
+		EB2441CA1FE62D88004EDC56 /* CardViewSentenceCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardViewSentenceCell.xib; sourceTree = "<group>"; };
+		EB2441CC1FE63054004EDC56 /* CardViewSentenceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewSentenceCell.swift; sourceTree = "<group>"; };
+		EB2441CE1FE6345F004EDC56 /* CardViewLabelFlowCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewLabelFlowCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		EB3F93B91DDD41900049C343 /* AddUniversal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddUniversal.swift; sourceTree = "<group>"; };
 		EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BizzyAuthViewController.swift; sourceTree = "<group>"; };
 		EB4734931DE25BD900F6928E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -170,6 +176,9 @@
 				EB2441C41FE614F6004EDC56 /* AccountCardViewCollectionViewCell.xib */,
 				EB2441C61FE61510004EDC56 /* VehicleCardViewCollectionViewCell.swift */,
 				EB2441C81FE6152E004EDC56 /* VehicleCardViewCollectionViewCell.xib */,
+				EB2441CA1FE62D88004EDC56 /* CardViewSentenceCell.xib */,
+				EB2441CC1FE63054004EDC56 /* CardViewSentenceCell.swift */,
+				EB2441CE1FE6345F004EDC56 /* CardViewLabelFlowCollectionViewDataSource.swift */,
 			);
 			path = "Card View Collection View Cells";
 			sourceTree = "<group>";
@@ -370,6 +379,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB2441CB1FE62D88004EDC56 /* CardViewSentenceCell.xib in Resources */,
 				EB2441B01FE20C44004EDC56 /* EntityCardViewCollectionViewCell.xib in Resources */,
 				EB2441C11FE614B5004EDC56 /* ProjectCardViewCollectionViewCell.xib in Resources */,
 				EB0B96671FD8744700E8829C /* LaunchScreen.storyboard in Resources */,
@@ -555,8 +565,10 @@
 				EB851E3F1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld in Sources */,
 				EB05238E1FD0BAAF00C13E8C /* AllowedCharsTextField.swift in Sources */,
 				EB5856AC1FB635E8006C6212 /* VehicleItem.swift in Sources */,
+				EB2441CD1FE63054004EDC56 /* CardViewSentenceCell.swift in Sources */,
 				EB2441C71FE61510004EDC56 /* VehicleCardViewCollectionViewCell.swift in Sources */,
 				EB2441B91FE5CC9C004EDC56 /* MultiversalItemViewModelController.swift in Sources */,
+				EB2441CF1FE6345F004EDC56 /* CardViewLabelFlowCollectionViewDataSource.swift in Sources */,
 				EB2441BF1FE6148D004EDC56 /* ProjectCardViewCollectionViewCell.swift in Sources */,
 				EB2441B21FE20C81004EDC56 /* EntityCardViewCollectionViewCell.swift in Sources */,
 				FA7B73211EFC5983007A1AEA /* DropdownReusableView.swift in Sources */,

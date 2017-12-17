@@ -10,14 +10,17 @@ import UIKit
 
 class UniversalCardViewCollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet weak var widthConstraint: NSLayoutConstraint!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.contentView.translatesAutoresizingMaskIntoConstraints = false
         let screenWidth = UIScreen.main.bounds.size.width
         if screenWidth > 374.0 {
-            //widthConstraint.constant = 350.0
+            widthConstraint.constant = 350.0
         } else {
-            //widthConstraint.constant = screenWidth - (2 * 12)
+            widthConstraint.constant = screenWidth - (2 * 12)
         }
     }
     
@@ -34,5 +37,7 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell {
         }
         */
     }
+    
+
 
 }
