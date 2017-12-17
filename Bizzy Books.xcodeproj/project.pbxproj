@@ -26,6 +26,16 @@
 		EB2441B01FE20C44004EDC56 /* EntityCardViewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB2441AF1FE20C44004EDC56 /* EntityCardViewCollectionViewCell.xib */; };
 		EB2441B21FE20C81004EDC56 /* EntityCardViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2441B11FE20C81004EDC56 /* EntityCardViewCollectionViewCell.swift */; };
 		EB2441B41FE2E5E3004EDC56 /* MultiversalItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2441B31FE2E5E3004EDC56 /* MultiversalItem.swift */; };
+		EB2441B61FE5C856004EDC56 /* MultiversalItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2441B51FE5C856004EDC56 /* MultiversalItemViewModel.swift */; };
+		EB2441B91FE5CC9C004EDC56 /* MultiversalItemViewModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2441B81FE5CC9C004EDC56 /* MultiversalItemViewModelController.swift */; };
+		EB2441BB1FE613CF004EDC56 /* UniversalCardViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2441BA1FE613CF004EDC56 /* UniversalCardViewCollectionViewCell.swift */; };
+		EB2441BD1FE6143C004EDC56 /* UniversalCardViewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB2441BC1FE6143C004EDC56 /* UniversalCardViewCollectionViewCell.xib */; };
+		EB2441BF1FE6148D004EDC56 /* ProjectCardViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2441BE1FE6148D004EDC56 /* ProjectCardViewCollectionViewCell.swift */; };
+		EB2441C11FE614B5004EDC56 /* ProjectCardViewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB2441C01FE614B5004EDC56 /* ProjectCardViewCollectionViewCell.xib */; };
+		EB2441C31FE614CC004EDC56 /* AccountCardViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2441C21FE614CC004EDC56 /* AccountCardViewCollectionViewCell.swift */; };
+		EB2441C51FE614F6004EDC56 /* AccountCardViewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB2441C41FE614F6004EDC56 /* AccountCardViewCollectionViewCell.xib */; };
+		EB2441C71FE61510004EDC56 /* VehicleCardViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2441C61FE61510004EDC56 /* VehicleCardViewCollectionViewCell.swift */; };
+		EB2441C91FE6152E004EDC56 /* VehicleCardViewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB2441C81FE6152E004EDC56 /* VehicleCardViewCollectionViewCell.xib */; };
 		EB3F93BA1DDD41900049C343 /* AddUniversal.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3F93B91DDD41900049C343 /* AddUniversal.swift */; };
 		EB4392C01EF6077700C568C3 /* BizzyAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */; };
 		EB4734941DE25BD900F6928E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB4734931DE25BD900F6928E /* Assets.xcassets */; };
@@ -73,6 +83,16 @@
 		EB2441AF1FE20C44004EDC56 /* EntityCardViewCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EntityCardViewCollectionViewCell.xib; sourceTree = "<group>"; };
 		EB2441B11FE20C81004EDC56 /* EntityCardViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityCardViewCollectionViewCell.swift; sourceTree = "<group>"; };
 		EB2441B31FE2E5E3004EDC56 /* MultiversalItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiversalItem.swift; sourceTree = "<group>"; };
+		EB2441B51FE5C856004EDC56 /* MultiversalItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiversalItemViewModel.swift; sourceTree = "<group>"; };
+		EB2441B81FE5CC9C004EDC56 /* MultiversalItemViewModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiversalItemViewModelController.swift; sourceTree = "<group>"; };
+		EB2441BA1FE613CF004EDC56 /* UniversalCardViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalCardViewCollectionViewCell.swift; sourceTree = "<group>"; };
+		EB2441BC1FE6143C004EDC56 /* UniversalCardViewCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UniversalCardViewCollectionViewCell.xib; sourceTree = "<group>"; };
+		EB2441BE1FE6148D004EDC56 /* ProjectCardViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCardViewCollectionViewCell.swift; sourceTree = "<group>"; };
+		EB2441C01FE614B5004EDC56 /* ProjectCardViewCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProjectCardViewCollectionViewCell.xib; sourceTree = "<group>"; };
+		EB2441C21FE614CC004EDC56 /* AccountCardViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCardViewCollectionViewCell.swift; sourceTree = "<group>"; };
+		EB2441C41FE614F6004EDC56 /* AccountCardViewCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountCardViewCollectionViewCell.xib; sourceTree = "<group>"; };
+		EB2441C61FE61510004EDC56 /* VehicleCardViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleCardViewCollectionViewCell.swift; sourceTree = "<group>"; };
+		EB2441C81FE6152E004EDC56 /* VehicleCardViewCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VehicleCardViewCollectionViewCell.xib; sourceTree = "<group>"; };
 		EB3F93B91DDD41900049C343 /* AddUniversal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddUniversal.swift; sourceTree = "<group>"; };
 		EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BizzyAuthViewController.swift; sourceTree = "<group>"; };
 		EB4734931DE25BD900F6928E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -142,8 +162,24 @@
 				EB2441AD1FE20BF6004EDC56 /* CardView.swift */,
 				EB2441AF1FE20C44004EDC56 /* EntityCardViewCollectionViewCell.xib */,
 				EB2441B11FE20C81004EDC56 /* EntityCardViewCollectionViewCell.swift */,
+				EB2441BA1FE613CF004EDC56 /* UniversalCardViewCollectionViewCell.swift */,
+				EB2441BC1FE6143C004EDC56 /* UniversalCardViewCollectionViewCell.xib */,
+				EB2441BE1FE6148D004EDC56 /* ProjectCardViewCollectionViewCell.swift */,
+				EB2441C01FE614B5004EDC56 /* ProjectCardViewCollectionViewCell.xib */,
+				EB2441C21FE614CC004EDC56 /* AccountCardViewCollectionViewCell.swift */,
+				EB2441C41FE614F6004EDC56 /* AccountCardViewCollectionViewCell.xib */,
+				EB2441C61FE61510004EDC56 /* VehicleCardViewCollectionViewCell.swift */,
+				EB2441C81FE6152E004EDC56 /* VehicleCardViewCollectionViewCell.xib */,
 			);
 			path = "Card View Collection View Cells";
+			sourceTree = "<group>";
+		};
+		EB2441B71FE5CC83004EDC56 /* Model Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				EB2441B81FE5CC9C004EDC56 /* MultiversalItemViewModelController.swift */,
+			);
+			path = "Model Controllers";
 			sourceTree = "<group>";
 		};
 		EB761D6F1F12F3360022DC7C /* Sources */ = {
@@ -181,6 +217,7 @@
 				EBE448081FBD455D00DFD0AD /* Table View Cells */,
 				EB2441AC1FE20BB4004EDC56 /* Card View Collection View Cells */,
 				FA7B731B1EFC5769007A1AEA /* Sentence Collection View Cells */,
+				EB2441B71FE5CC83004EDC56 /* Model Controllers */,
 				FA7B73191EFC5745007A1AEA /* View Controllers */,
 				EB851E3A1D9578B2002D19F4 /* Main.storyboard */,
 				EB0B96661FD8744700E8829C /* LaunchScreen.storyboard */,
@@ -233,6 +270,7 @@
 				EB05238D1FD0BAAF00C13E8C /* AllowedCharsTextField.swift */,
 				EB1915C71FD85B370078AA64 /* IAPProcessor.swift */,
 				EB2441B31FE2E5E3004EDC56 /* MultiversalItem.swift */,
+				EB2441B51FE5C856004EDC56 /* MultiversalItemViewModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -333,10 +371,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB2441B01FE20C44004EDC56 /* EntityCardViewCollectionViewCell.xib in Resources */,
+				EB2441C11FE614B5004EDC56 /* ProjectCardViewCollectionViewCell.xib in Resources */,
 				EB0B96671FD8744700E8829C /* LaunchScreen.storyboard in Resources */,
+				EB2441BD1FE6143C004EDC56 /* UniversalCardViewCollectionViewCell.xib in Resources */,
 				EB851E4C1D957932002D19F4 /* GoogleService-Info.plist in Resources */,
 				EB4734941DE25BD900F6928E /* Assets.xcassets in Resources */,
+				EB2441C51FE614F6004EDC56 /* AccountCardViewCollectionViewCell.xib in Resources */,
 				FA7B731F1EFC5976007A1AEA /* DropdownReusableView.xib in Resources */,
+				EB2441C91FE6152E004EDC56 /* VehicleCardViewCollectionViewCell.xib in Resources */,
 				EB851E3C1D9578B2002D19F4 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -502,6 +544,7 @@
 				EB007BB51FB7F39E00014769 /* ProjectDocItem.swift in Sources */,
 				EB007BA91FB7CF0C00014769 /* UniversalItemType.swift in Sources */,
 				EB5856AA1FB635CA006C6212 /* UniversalItem.swift in Sources */,
+				EB2441B61FE5C856004EDC56 /* MultiversalItemViewModel.swift in Sources */,
 				EB4392C01EF6077700C568C3 /* BizzyAuthViewController.swift in Sources */,
 				EBB77BDA1EFC37170084D014 /* LabelTextFieldFlowCells.swift in Sources */,
 				EB2441B41FE2E5E3004EDC56 /* MultiversalItem.swift in Sources */,
@@ -512,6 +555,9 @@
 				EB851E3F1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld in Sources */,
 				EB05238E1FD0BAAF00C13E8C /* AllowedCharsTextField.swift in Sources */,
 				EB5856AC1FB635E8006C6212 /* VehicleItem.swift in Sources */,
+				EB2441C71FE61510004EDC56 /* VehicleCardViewCollectionViewCell.swift in Sources */,
+				EB2441B91FE5CC9C004EDC56 /* MultiversalItemViewModelController.swift in Sources */,
+				EB2441BF1FE6148D004EDC56 /* ProjectCardViewCollectionViewCell.swift in Sources */,
 				EB2441B21FE20C81004EDC56 /* EntityCardViewCollectionViewCell.swift in Sources */,
 				FA7B73211EFC5983007A1AEA /* DropdownReusableView.swift in Sources */,
 				EB007BAF1FB7E39A00014769 /* AdvertisingMeansItem.swift in Sources */,
@@ -519,10 +565,12 @@
 				EB851E371D9578B2002D19F4 /* AppDelegate.swift in Sources */,
 				EB190FC71F0B3CC500C80E07 /* ContactsLogicManager.swift in Sources */,
 				EB5856A81FB6352D006C6212 /* AccountItem.swift in Sources */,
+				EB2441C31FE614CC004EDC56 /* AccountCardViewCollectionViewCell.swift in Sources */,
 				EB5856A61FB6311C006C6212 /* EntityItem.swift in Sources */,
 				EB007BB11FB7E7DB00014769 /* PersonalReasonItem.swift in Sources */,
 				EB1915C81FD85B370078AA64 /* IAPProcessor.swift in Sources */,
 				EBB77BD61EFC36070084D014 /* LabelTextFieldFlowItem.swift in Sources */,
+				EB2441BB1FE613CF004EDC56 /* UniversalCardViewCollectionViewCell.swift in Sources */,
 				EB2441AE1FE20BF6004EDC56 /* CardView.swift in Sources */,
 				FA7B73181EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 			);

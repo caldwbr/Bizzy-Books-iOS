@@ -11,6 +11,7 @@ import Firebase
 
 struct EntityItem: MultiversalItem {
     
+    var multiversalType: Int = 2
     let key: String //By "key" is meant "id"
     let type: Int
     let name: String

@@ -34,4 +34,17 @@ class EntityCardViewCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    func configure(_ multiversalItemViewModel: MultiversalItem) {
+        if let myMulti = multiversalItemViewModel as? EntityItem {
+            entityCardViewNameLabel.text = myMulti.name
+            entityCardViewPhoneNumberLabel.text = myMulti.phoneNumber
+            entityCardViewEmailLabel.text = myMulti.email
+            entityCardViewStreetLabel.text = myMulti.street
+            entityCardViewCityStateLabel.text = String(myMulti.city + ", " + myMulti.state)
+            entityCardViewSSNLabel.text = myMulti.ssn
+            entityCardViewEINLabel.text = myMulti.ein
+        }
+        
+    }
+    
 }

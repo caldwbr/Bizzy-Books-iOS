@@ -11,6 +11,7 @@ import Firebase
 
 struct AccountItem: MultiversalItem {
     
+    var multiversalType: Int = 3
     let key: String
     let name: String
     let accountTypeId: Int //0 = Bank Account, 1 = Credit Account, 2 = Cash, 3 = Refund Store Credit

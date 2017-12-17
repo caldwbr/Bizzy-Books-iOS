@@ -11,6 +11,7 @@ import Firebase
 
 struct VehicleItem: MultiversalItem {
     
+    var multiversalType: Int = 4
     let key: String //By "key" is meant "id"
     let year: String
     let make: String

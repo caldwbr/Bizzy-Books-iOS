@@ -29,6 +29,8 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
     var addEntityKeyString: String = ""
     @IBOutlet weak var cardViewCollectionView: UICollectionView!
     var multiversalItems: [MultiversalItem] = [MultiversalItem]()
+    var entityItems: [EntityItem] = [EntityItem]()
+    fileprivate let multiversalItemViewModelController = MultiversalItemViewModelController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,6 +66,16 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
                 self.youEntityRef = Database.database().reference().child("users").child(userUID).child("youEntity")
                 self.initializeIfFirstAppUse()
                 self.makeFirebaseUserPointTheDataSourceForCollectionViewByAppendingToMultiversalItemsArray()
+                /*//DispatchQueue.main.async {
+                    self.entitiesRef.observe(.value) { (snapshot) in
+                        for item in snapshot.children {
+                            let firebaseEntity = EntityItem(snapshot: item as! DataSnapshot)
+                            self.entityItems.append(firebaseEntity)
+                        }
+                    }
+                    print(String(describing: self.entityItems))
+                    self.cardViewCollectionView.reloadData()
+                //}*/
             } else {
                 // No user is signed in.
                 self.login()
@@ -111,12 +123,14 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
     
     func makeFirebaseUserPointTheDataSourceForCollectionViewByAppendingToMultiversalItemsArray() {
         //Starting with entities for testing
-        entitiesRef.observe(.value) { (snapshot) in
-            for item in snapshot.children {
-                let firebaseEntity = EntityItem(snapshot: item as! DataSnapshot)
-                self.multiversalItems.append(firebaseEntity)
+        DispatchQueue.main.async {
+            self.entitiesRef.observe(.value) { (snapshot) in
+                for item in snapshot.children {
+                    let firebaseEntity = EntityItem(snapshot: item as! DataSnapshot) as MultiversalItem
+                    self.multiversalItems.append(firebaseEntity)
+                }
+                self.cardViewCollectionView.reloadData()
             }
-            self.cardViewCollectionView.reloadData()
         }
     }
     
@@ -150,18 +164,33 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "EntityCardViewCollectionViewCell", for: indexPath) as! EntityCardViewCollectionViewCell
-        if let entityItem = multiversalItems[indexPath.row] as? EntityItem {
-            cell.entityCardViewNameLabel.text = entityItem.name
-            //cell.entityCardViewPhoneNumberLabel.text = entityItem.phoneNumber
-            //cell.entityCardViewEmailLabel.text = entityItem.email
-            //cell.entityCardViewStreetLabel.text = entityItem.street
-            //cell.entityCardViewCityStateLabel.text = String(entityItem.city + ", " + entityItem.state)
-            //cell.entityCardViewSSNLabel.text = entityItem.ssn
-            //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''']
-            cell.entityCardViewEINLabel.text = entityItem.ein
+        let multiversalType = multiversalItems[indexPath.row].multiversalType
+        switch multiversalType {
+        case 0:
+            let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalCardViewCollectionViewCell", for: indexPath) as! UniversalCardViewCollectionViewCell
+            cell.configure(multiversalItems[indexPath.row])
+            return cell
+        case 1:
+            let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "ProjectCardViewCollectionViewCell", for: indexPath) as! ProjectCardViewCollectionViewCell
+            cell.configure(multiversalItems[indexPath.row])
+            return cell
+        case 2:
+            let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "EntityCardViewCollectionViewCell", for: indexPath) as! EntityCardViewCollectionViewCell
+            cell.configure(multiversalItems[indexPath.row])
+            return cell
+        case 3:
+            let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "AccountCardViewCollectionViewCell", for: indexPath) as! AccountCardViewCollectionViewCell
+            cell.configure(multiversalItems[indexPath.row])
+            return cell
+        case 4:
+            let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "VehicleCardViewCollectionViewCell", for: indexPath) as! VehicleCardViewCollectionViewCell
+            cell.configure(multiversalItems[indexPath.row])
+            return cell
+        default:
+            let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalCardViewCollectionViewCell", for: indexPath) as! UniversalCardViewCollectionViewCell
+            cell.configure(multiversalItems[indexPath.row])
+            return cell
         }
-        return cell
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

@@ -9,5 +9,5 @@
 import Foundation
 
 protocol MultiversalItem {
-    
+    var multiversalType: Int { get set } // 0 = Universal, 1 = Project, 2 = Entity, 3 = Account, 4 = Vehicle
 }

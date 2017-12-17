@@ -11,6 +11,7 @@ import Firebase
 
 struct ProjectItem: MultiversalItem {
     
+    var multiversalType: Int = 1
     let key: String //By "key" is meant "id," but to Firebase it means something chronologically too
     let name: String
     let customerName: String
