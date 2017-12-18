@@ -75,6 +75,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     var accountSenderCode = 0 // 0 for selectedType = 0, 1, 2, 3, sometimes 4, and 5; 1 for selectedType = 4 SECONDARY ACCOUNT or just 0 for primary account; selectedType = 6 is irrelevant as no account is associated with ProjectMedia
     
+    var trueYouKeyString = ""
     var whoPlaceholder = "You"
     var whoPlaceholderKeyString = ""
     var whomPlaceholder = "whom ▾"
@@ -948,13 +949,13 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         self.addAccountAccountTypePickerView.dataSource = self
         
         //Set up pickers' data
-        taxReasonPickerData = ["income", "supplies", "labor", "meals", "office", "vehicle", "advertising", "pro help", "machine rental", "property rental", "tax+license", "insurance (wc+gl)", "travel", "employee benefit", "depreciation", "depletion", "utilities", "commissions", "wages", "mortgate interest", "other interest", "pension", "repairs"]
+        taxReasonPickerData = ["Income", "Supplies", "Labor", "Meals", "Office", "Vehicle", "Advertising", "Pro Help", "Machine Rental", "Property Rental", "Tax+License", "Insurance (WC+GL)", "Travel", "Employee Benefit", "Depreciation", "Depletion", "Utilities", "Commissions", "Wages", "Mortgate Interest", "Other Interest", "Pension", "Repairs"]
         wcPickerData = ["(sub has wc)", "(incurred wc)", "(wc n/a)"]
         advertisingMeansPickerData = ["(unknown)", "(referral)", "(website)", "(yp)", "(social media)", "(soliciting)", "(google adwords)", "(company shirts)", "(sign)", "(vehicle wrap)", "(billboard)", "(tv)", "(radio)", "(other)"]
         howDidTheyHearOfYouPickerData = advertisingMeansPickerData
-        personalReasonPickerData = ["food", "fun", "pet", "utilities", "phone", "office", "giving", "insurance", "house", "yard", "medical", "travel", "clothes", "other"]
-        fuelTypePickerData = ["87 gas", "89 gas", "91 gas", "diesel"]
-        entityPickerData = ["customer", "vendor", "sub", "employee", "store", "government", "other"] // You is at position 7 but not available to user
+        personalReasonPickerData = ["Food", "Fun", "Pet", "Utilities", "Phone", "Office", "Giving", "Insurance", "House", "Yard", "Medical", "Travel", "Clothes", "Other"]
+        fuelTypePickerData = ["87 Gas", "89 Gas", "91 Gas", "Diesel"]
+        entityPickerData = ["Customer", "Vendor", "Sub", "Employee", "Store", "Government", "Other"] // You is at position 7 but not available to user
         projectMediaTypePickerData = ["Before", "During", "After", "Drawing", "Calculations", "Material list", "Estimate", "Contract", "Labor warranty", "Material warranty", "Safety", "Other"]
         projectStatusPickerData = ["Job lead", "Bid", "Contract", "Paid", "Lost", "Other"]
         addAccountAccountTypePickerData = ["Bank account", "Credit account", "Cash account", "Store refund account"]
@@ -1249,6 +1250,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             if let youKey = snapshot.value as? String {
                 self.whoPlaceholder = "You"
                 self.whoPlaceholderKeyString = youKey
+                self.trueYouKeyString = youKey
                 self.reloadSentence(selectedType: self.selectedType)
             }
         }
@@ -1678,6 +1680,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             guard projectPlaceholderKeyString != "" else { return }
             guard whoPlaceholderKeyString != "" else { return }
             guard whomPlaceholderKeyString != "" else { return }
+            guard whoPlaceholderKeyString != whomPlaceholderKeyString else { return } //There wasn't a purchase if same person paid themselves - it should be handled as a TRANSFER case instead.
+            guard ((whoPlaceholderKeyString == trueYouKeyString) || (whomPlaceholderKeyString == trueYouKeyString)) else { return } //Checks that the user is somehow involved in the transaction, else they needn't enter it!
             guard whatTaxReasonPlaceholderId != -1 else { return }
             if whatTaxReasonPlaceholderId == 2 {
                 guard workersCompPlaceholderId != -1 else { return }
@@ -1690,12 +1694,14 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         case 1:
             guard whoPlaceholderKeyString != "" else { return }
             guard whomPlaceholderKeyString != "" else { return }
+            guard ((whoPlaceholderKeyString == trueYouKeyString) || (whomPlaceholderKeyString == trueYouKeyString)) else { return } //Checks that the user is somehow involved in the transaction, else they needn't enter it!
             guard whatPersonalReasonPlaceholderId != -1 else { return }
             guard yourAccountPlaceholderKeyString != "" else { return }
         case 2:
             guard projectPlaceholderKeyString != "" else { return }
             guard whoPlaceholderKeyString != "" else { return }
             guard whomPlaceholderKeyString != "" else { return }
+            guard ((whoPlaceholderKeyString == trueYouKeyString) || (whomPlaceholderKeyString == trueYouKeyString)) else { return } //Checks that the user is somehow involved in the transaction, else they needn't enter it!
             guard whatPersonalReasonPlaceholderId != -1 else { return }
             guard whatTaxReasonPlaceholderId != -1 else { return }
             if whatTaxReasonPlaceholderId == 2 {
@@ -1710,6 +1716,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             guard odometerTextField.text != "" else { return }
             guard whoPlaceholderKeyString != "" else { return }
             guard whomPlaceholderKeyString != "" else { return }
+            guard whomPlaceholderKeyString != trueYouKeyString else { return } //Checks that user doesn't try to pay themselves for their fuel!
             guard fuelTypePlaceholderId != -1 else { return }
             guard vehiclePlaceholderKeyString != "" else { return }
             guard yourAccountPlaceholderKeyString != "" else { return }
