@@ -46,6 +46,18 @@
                                 <constraint firstItem="IoA-Vh-pgT" firstAttribute="leading" secondItem="nfG-ZD-XmG" secondAttribute="leading" id="Wvv-Yi-OHw"/>
                             </constraints>
                         </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fOP-DK-2oZ">
+                            <rect key="frame" x="319" y="17" width="23" height="12"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ge2-Y1-WW1">
+                            <rect key="frame" x="8" y="17.5" width="31" height="12"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6uC-05-6Gb">
                             <rect key="frame" x="153" y="46" width="45" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -100,8 +112,11 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="ajO-9e-Y4z" secondAttribute="bottom" constant="8" id="28B-X2-3jv"/>
+                        <constraint firstItem="ge2-Y1-WW1" firstAttribute="centerY" secondItem="nfG-ZD-XmG" secondAttribute="centerY" id="48c-5X-etj"/>
                         <constraint firstItem="ajO-9e-Y4z" firstAttribute="top" secondItem="pOc-Y7-nUA" secondAttribute="bottom" constant="8" id="4Rd-nA-b2X"/>
+                        <constraint firstAttribute="trailing" secondItem="fOP-DK-2oZ" secondAttribute="trailing" constant="8" id="5Jf-ze-QRS"/>
                         <constraint firstItem="pOc-Y7-nUA" firstAttribute="top" secondItem="h8S-1v-Gkg" secondAttribute="bottom" constant="8" id="6Eh-6H-f3V"/>
+                        <constraint firstItem="ge2-Y1-WW1" firstAttribute="leading" secondItem="htk-9h-sBB" secondAttribute="leading" constant="8" id="8wH-qX-X3l"/>
                         <constraint firstItem="h8S-1v-Gkg" firstAttribute="top" secondItem="qCL-6U-v0x" secondAttribute="bottom" constant="8" id="BrI-jt-zpq"/>
                         <constraint firstItem="Uve-wr-upy" firstAttribute="top" secondItem="Y1j-ux-rcF" secondAttribute="bottom" constant="8" id="HT4-bt-MTi"/>
                         <constraint firstItem="pOc-Y7-nUA" firstAttribute="centerX" secondItem="htk-9h-sBB" secondAttribute="centerX" id="Jaq-LP-BlP"/>
@@ -110,13 +125,14 @@
                         <constraint firstItem="6uC-05-6Gb" firstAttribute="centerX" secondItem="htk-9h-sBB" secondAttribute="centerX" id="PFl-7a-kOz"/>
                         <constraint firstItem="ajO-9e-Y4z" firstAttribute="leading" secondItem="htk-9h-sBB" secondAttribute="leading" id="R2F-ud-8Cr"/>
                         <constraint firstAttribute="trailing" secondItem="ajO-9e-Y4z" secondAttribute="trailing" id="WuA-l5-AF7"/>
+                        <constraint firstItem="fOP-DK-2oZ" firstAttribute="centerY" secondItem="nfG-ZD-XmG" secondAttribute="centerY" id="ZOH-Sx-1hW"/>
                         <constraint firstItem="Y1j-ux-rcF" firstAttribute="leading" secondItem="htk-9h-sBB" secondAttribute="leading" constant="8" id="bxp-vp-9z5"/>
-                        <constraint firstItem="nfG-ZD-XmG" firstAttribute="top" secondItem="htk-9h-sBB" secondAttribute="top" constant="8" id="cFW-AI-qxE"/>
                         <constraint firstItem="qCL-6U-v0x" firstAttribute="top" secondItem="Uve-wr-upy" secondAttribute="bottom" constant="8" id="ehO-I2-WA9"/>
                         <constraint firstItem="nfG-ZD-XmG" firstAttribute="centerX" secondItem="htk-9h-sBB" secondAttribute="centerX" id="gaJ-6q-O3M"/>
                         <constraint firstItem="h8S-1v-Gkg" firstAttribute="centerX" secondItem="htk-9h-sBB" secondAttribute="centerX" id="iKu-vX-D54"/>
                         <constraint firstItem="6uC-05-6Gb" firstAttribute="top" secondItem="nfG-ZD-XmG" secondAttribute="bottom" constant="8" id="ivF-YQ-kZg"/>
                         <constraint firstItem="Y1j-ux-rcF" firstAttribute="top" secondItem="6uC-05-6Gb" secondAttribute="bottom" constant="8" id="jz9-uU-R8s"/>
+                        <constraint firstItem="nfG-ZD-XmG" firstAttribute="top" secondItem="htk-9h-sBB" secondAttribute="top" constant="8" id="qeA-AP-ACO"/>
                         <constraint firstItem="Uve-wr-upy" firstAttribute="centerX" secondItem="htk-9h-sBB" secondAttribute="centerX" id="sLF-dC-zxh"/>
                         <constraint firstAttribute="trailing" secondItem="qCL-6U-v0x" secondAttribute="trailing" constant="8" id="suI-6Z-gqH"/>
                         <constraint firstItem="qCL-6U-v0x" firstAttribute="leading" secondItem="htk-9h-sBB" secondAttribute="leading" constant="8" id="xdM-8c-Ggf"/>
@@ -137,10 +153,12 @@
                 <outlet property="universalCardViewAccountLabel" destination="h8S-1v-Gkg" id="5Bt-Sp-enK"/>
                 <outlet property="universalCardViewBalanceAfterLabel" destination="pOc-Y7-nUA" id="QM0-sQ-z2h"/>
                 <outlet property="universalCardViewCollectionView" destination="qCL-6U-v0x" id="GTm-uM-URb"/>
+                <outlet property="universalCardViewDateLabel" destination="fOP-DK-2oZ" id="Spt-wP-IWO"/>
                 <outlet property="universalCardViewImageView" destination="ajO-9e-Y4z" id="rhA-vL-s70"/>
                 <outlet property="universalCardViewItemTypeLabel" destination="1cu-U1-HEz" id="SBE-bb-SDj"/>
                 <outlet property="universalCardViewNotesLabel" destination="Uve-wr-upy" id="hje-w0-wao"/>
                 <outlet property="universalCardViewProjectNameLabel" destination="6uC-05-6Gb" id="VY9-N4-Dvc"/>
+                <outlet property="universalCardViewStatusLabel" destination="ge2-Y1-WW1" id="d7i-UR-Hsn"/>
                 <outlet property="widthConstraint" destination="JhY-rI-8WE" id="vGD-Dm-q9r"/>
             </connections>
             <point key="canvasLocation" x="14" y="-113"/>

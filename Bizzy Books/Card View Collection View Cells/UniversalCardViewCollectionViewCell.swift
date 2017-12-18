@@ -8,6 +8,7 @@
 
 import UIKit
 import KTCenterFlowLayout
+import Firebase
 
 class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -22,11 +23,12 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
         }
         return cell
     }
-    
-    
+
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var universalCardViewItemTypeLabel: UILabel!
+    @IBOutlet weak var universalCardViewStatusLabel: UILabel!
+    @IBOutlet weak var universalCardViewDateLabel: UILabel!
     @IBOutlet weak var universalCardViewProjectNameLabel: UILabel!
     @IBOutlet weak var universalCardViewNotesLabel: UILabel!
     @IBOutlet weak var universalCardViewCollectionView: UICollectionView!
@@ -62,6 +64,29 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
             case 0:
                 imageView.image = UIImage(named: "business")
                 universalCardViewItemTypeLabel.text = "Business"
+                if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
+                    let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
+                    universalCardViewDateLabel.text = timeStampAsString
+                }
+                DispatchQueue.main.async {
+                    let projectsRefs = Database.database().reference().child("users").child(userUID).child("projects")
+                    if universalItem.projectItemKey == "0" {
+                        self.universalCardViewStatusLabel.text = ""
+                        self.universalCardViewCollectionView.reloadData()
+                    } else {
+                        projectsRefs.observe(.value) { (snapshot) in
+                            for item in snapshot.children {
+                                let firebaseProject = ProjectItem(snapshot: item as! DataSnapshot)
+                                if firebaseProject.key == universalItem.projectItemKey {
+                                    self.universalCardViewStatusLabel.text = firebaseProject.projectStatusName
+                                    self.universalCardViewStatusLabel.textColor = UIColor.BizzyColor.Yellow.ProjectStatus
+                                    self.universalCardViewCollectionView.reloadData()
+                                }
+                            }
+                        }
+                    }
+                    
+                }
                 universalCardViewProjectNameLabel.text = universalItem.projectItemName
                 universalCardViewNotesLabel.text = universalItem.notes
                 dataSource.items = [
@@ -73,6 +98,16 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                     LabelFlowItem(text: "for", color: .gray, action: nil),
                     LabelFlowItem(text: universalItem.taxReasonName, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil)
                 ]
+                switch universalItem.taxReasonId {
+                case 2:
+                    dataSource.items.append(LabelFlowItem(text: universalItem.workersCompName, color: UIColor.BizzyColor.Orange.WC, action: nil ))
+                case 5:
+                    dataSource.items.append(LabelFlowItem(text: universalItem.vehicleName, color: UIColor.BizzyColor.Orange.Vehicle, action: nil ))
+                case 6:
+                    dataSource.items.append(LabelFlowItem(text: universalItem.advertisingMeansName, color: UIColor.BizzyColor.Orange.AdMeans, action: nil ))
+                default:
+                    break
+                }
                 universalCardViewCollectionView.reloadData()
             case 1:
                 imageView.image = UIImage(named: "personal")
@@ -119,6 +154,17 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                 ]
             }
         }
+    }
+    
+    func convertTimestamp(serverTimestamp: Double) -> String {
+        let x = serverTimestamp / 1000
+        let date = NSDate(timeIntervalSince1970: x)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM dd, yyyy\nh:mma"
+        //formatter.dateStyle = .medium
+        //formatter.timeStyle = .short
+        
+        return formatter.string(from: date as Date)
     }
     
     /*

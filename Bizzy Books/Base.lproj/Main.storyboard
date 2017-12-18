@@ -1339,7 +1339,6 @@ If you can't think of a project with which to associate a business expense, use 
                             <textInputTraits key="textInputTraits"/>
                             <connections>
                                 <action selector="addProjectSelectCustomerTextFieldChanged:" destination="XGO-PW-Ssy" eventType="editingChanged" id="SMI-Xw-rhy"/>
-                                <action selector="addProjectSelectCustomerTextFieldTouchedDown:" destination="XGO-PW-Ssy" eventType="touchDown" id="76v-X2-HqN"/>
                             </connections>
                         </textField>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="search" translatesAutoresizingMaskIntoConstraints="NO" id="1AQ-iu-3Qd">
