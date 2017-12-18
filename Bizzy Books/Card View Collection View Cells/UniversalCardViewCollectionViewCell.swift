@@ -79,7 +79,6 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                                 let firebaseProject = ProjectItem(snapshot: item as! DataSnapshot)
                                 if firebaseProject.key == universalItem.projectItemKey {
                                     self.universalCardViewStatusLabel.text = firebaseProject.projectStatusName
-                                    self.universalCardViewStatusLabel.textColor = UIColor.BizzyColor.Yellow.ProjectStatus
                                     self.universalCardViewCollectionView.reloadData()
                                 }
                             }
@@ -108,6 +107,8 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                 default:
                     break
                 }
+                universalCardViewAccountLabel.text = universalItem.accountOneName
+                
                 universalCardViewCollectionView.reloadData()
             case 1:
                 imageView.image = UIImage(named: "personal")
