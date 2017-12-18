@@ -69,12 +69,13 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                     universalCardViewDateLabel.text = timeStampAsString
                 }
                 DispatchQueue.main.async {
-                    let projectsRefs = Database.database().reference().child("users").child(userUID).child("projects")
+                    //Get project status
+                    let projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
                     if universalItem.projectItemKey == "0" {
                         self.universalCardViewStatusLabel.text = ""
                         self.universalCardViewCollectionView.reloadData()
                     } else {
-                        projectsRefs.observe(.value) { (snapshot) in
+                        projectsRef.observe(.value) { (snapshot) in
                             for item in snapshot.children {
                                 let firebaseProject = ProjectItem(snapshot: item as! DataSnapshot)
                                 if firebaseProject.key == universalItem.projectItemKey {
@@ -84,7 +85,6 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                             }
                         }
                     }
-                    
                 }
                 universalCardViewProjectNameLabel.text = universalItem.projectItemName
                 universalCardViewNotesLabel.text = universalItem.notes
@@ -108,6 +108,15 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                     break
                 }
                 universalCardViewAccountLabel.text = universalItem.accountOneName
+                DispatchQueue.main.async {
+                    //Get balance after
+                    let obtainBalanceAfter = ObtainBalanceAfter()
+                    let timeStampDouble: Double
+                    if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
+                        timeStampDouble = timeStampAsDouble
+                        let balAfter = obtainBalanceAfter.balAfter(accountKey: universalItem.accountOneKey, particularUniversalTimeStamp: timeStampDouble)
+                    }
+                }
                 
                 universalCardViewCollectionView.reloadData()
             case 1:
