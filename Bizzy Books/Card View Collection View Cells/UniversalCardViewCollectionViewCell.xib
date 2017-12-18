@@ -20,7 +20,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="350" height="336"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nfG-ZD-XmG">
-                            <rect key="frame" x="137" y="8" width="76" height="30"/>
+                            <rect key="frame" x="135" y="8" width="80" height="30"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="storefront" translatesAutoresizingMaskIntoConstraints="NO" id="IoA-Vh-pgT">
                                     <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
@@ -28,8 +28,8 @@
                                         <constraint firstAttribute="width" constant="30" id="UfO-rZ-Uwn"/>
                                     </constraints>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Item" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1cu-U1-HEz">
-                                    <rect key="frame" x="38" y="3" width="38" height="24"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1cu-U1-HEz">
+                                    <rect key="frame" x="38" y="3" width="42" height="24"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
@@ -46,8 +46,8 @@
                                 <constraint firstItem="IoA-Vh-pgT" firstAttribute="leading" secondItem="nfG-ZD-XmG" secondAttribute="leading" id="Wvv-Yi-OHw"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6uC-05-6Gb">
-                            <rect key="frame" x="156.5" y="46" width="37.5" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6uC-05-6Gb">
+                            <rect key="frame" x="153" y="46" width="45" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -133,12 +133,14 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
+                <outlet property="imageView" destination="IoA-Vh-pgT" id="MFX-h0-XwL"/>
                 <outlet property="universalCardViewAccountLabel" destination="h8S-1v-Gkg" id="5Bt-Sp-enK"/>
                 <outlet property="universalCardViewBalanceAfterLabel" destination="pOc-Y7-nUA" id="QM0-sQ-z2h"/>
                 <outlet property="universalCardViewCollectionView" destination="qCL-6U-v0x" id="GTm-uM-URb"/>
                 <outlet property="universalCardViewImageView" destination="ajO-9e-Y4z" id="rhA-vL-s70"/>
+                <outlet property="universalCardViewItemTypeLabel" destination="1cu-U1-HEz" id="SBE-bb-SDj"/>
                 <outlet property="universalCardViewNotesLabel" destination="Uve-wr-upy" id="hje-w0-wao"/>
-                <outlet property="universalCardViewTypeLabel" destination="6uC-05-6Gb" id="OTc-6k-HMb"/>
+                <outlet property="universalCardViewProjectNameLabel" destination="6uC-05-6Gb" id="VY9-N4-Dvc"/>
                 <outlet property="widthConstraint" destination="JhY-rI-8WE" id="vGD-Dm-q9r"/>
             </connections>
             <point key="canvasLocation" x="14" y="-113"/>

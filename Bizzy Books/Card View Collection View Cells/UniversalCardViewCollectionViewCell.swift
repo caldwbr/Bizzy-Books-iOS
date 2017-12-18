@@ -25,7 +25,9 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
     
     
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var universalCardViewTypeLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var universalCardViewItemTypeLabel: UILabel!
+    @IBOutlet weak var universalCardViewProjectNameLabel: UILabel!
     @IBOutlet weak var universalCardViewNotesLabel: UILabel!
     @IBOutlet weak var universalCardViewCollectionView: UICollectionView!
     @IBOutlet weak var universalCardViewAccountLabel: UILabel!
@@ -47,7 +49,6 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
         
         universalCardViewCollectionView.register(UINib.init(nibName: "CardViewSentenceCell", bundle: nil), forCellWithReuseIdentifier: "CardViewSentenceCell")
         if let universalCardViewFlowLayout = universalCardViewCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            print("We are inside")
             universalCardViewFlowLayout.estimatedItemSize = CGSize(width: 80, height: 30)
         }
         universalCardViewCollectionView.dataSource = self
@@ -57,11 +58,11 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
     
     func configure(_ multiversalItemViewModel: MultiversalItem) {
         if let universalItem = multiversalItemViewModel as? UniversalItem {
-            let universalItemTypeString: String
             switch universalItem.universalItemType {
             case 0:
-                universalItemTypeString = "Business - " + universalItem.projectItemName
-                universalCardViewTypeLabel.text = universalItemTypeString
+                imageView.image = UIImage(named: "business")
+                universalCardViewItemTypeLabel.text = "Business"
+                universalCardViewProjectNameLabel.text = universalItem.projectItemName
                 universalCardViewNotesLabel.text = universalItem.notes
                 dataSource.items = [
                     LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),
@@ -74,32 +75,38 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                 ]
                 universalCardViewCollectionView.reloadData()
             case 1:
-                universalItemTypeString = "Personal"
-                universalCardViewTypeLabel.text = universalItemTypeString
+                imageView.image = UIImage(named: "personal")
+                universalCardViewItemTypeLabel.text = "Personal"
+                universalCardViewProjectNameLabel.text = ""
                 universalCardViewNotesLabel.text = universalItem.notes
             case 2:
-                universalItemTypeString = "Mixed - " + universalItem.projectItemName
-                universalCardViewTypeLabel.text = universalItemTypeString
+                imageView.image = UIImage(named: "mixed")
+                universalCardViewItemTypeLabel.text = "Mixed"
+                universalCardViewProjectNameLabel.text = universalItem.projectItemName
                 universalCardViewNotesLabel.text = universalItem.notes
             case 3:
-                universalItemTypeString = "Fuel"
-                universalCardViewTypeLabel.text = universalItemTypeString
+                imageView.image = UIImage(named: "fuel")
+                universalCardViewItemTypeLabel.text = "Fuel"
+                universalCardViewProjectNameLabel.text = ""
                 universalCardViewNotesLabel.text = universalItem.notes
             case 4:
-                universalItemTypeString = "Transfer"
-                universalCardViewTypeLabel.text = universalItemTypeString
+                imageView.image = UIImage(named: "transfer")
+                universalCardViewItemTypeLabel.text = "Transfer"
+                universalCardViewProjectNameLabel.text = ""
                 universalCardViewNotesLabel.text = universalItem.notes
             case 5:
-                universalItemTypeString = "Adjust"
-                universalCardViewTypeLabel.text = universalItemTypeString
+                imageView.image = UIImage(named: "adjustment")
+                universalCardViewItemTypeLabel.text = "Adjust"
+                universalCardViewProjectNameLabel.text = ""
                 universalCardViewNotesLabel.text = universalItem.notes
             case 6:
-                universalItemTypeString = "Project Media"
-                universalCardViewTypeLabel.text = universalItemTypeString
+                imageView.image = UIImage(named: "hammer")
+                universalCardViewItemTypeLabel.text = "Project Media"
+                universalCardViewProjectNameLabel.text = universalItem.projectItemName
                 universalCardViewNotesLabel.text = universalItem.notes
             default:
-                universalItemTypeString = "Business - " + universalItem.projectItemName
-                universalCardViewTypeLabel.text = universalItemTypeString
+                universalCardViewItemTypeLabel.text = "Business"
+                universalCardViewProjectNameLabel.text = universalItem.projectItemName
                 universalCardViewNotesLabel.text = universalItem.notes
                 dataSource.items = [
                     LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),
