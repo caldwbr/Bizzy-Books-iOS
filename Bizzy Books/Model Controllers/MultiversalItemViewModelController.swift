@@ -15,6 +15,8 @@ class MultiversalItemViewModelController {
     fileprivate var multiversalItemViewModels: [MultiversalItemViewModel?] = []
     fileprivate var entities: [EntityItem?] = []
     
+    
+    
     func retrieveMultiversalItems(_ completionBlock: @escaping (_ success: Bool, _ error: NSError?) -> ()) {
         
         self.entitiesRef = Database.database().reference().child("users").child(userUID).child("entities")

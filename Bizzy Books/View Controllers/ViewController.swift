@@ -24,17 +24,24 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
         var kFacebookAppID = "1583985615235483"
     var backgroundImage : UIImageView! //right here
     //var customAuthPickerViewController : FIRAuthPickerViewController!
+    var universalsRef: DatabaseReference!
     var entitiesRef: DatabaseReference!
+    var projectsRef: DatabaseReference!
+    var vehiclesRef: DatabaseReference!
+    var accountsRef: DatabaseReference!
     var youEntityRef: DatabaseReference!
     var addEntityKeyString: String = ""
     @IBOutlet weak var cardViewCollectionView: UICollectionView!
     var multiversalItems: [MultiversalItem] = [MultiversalItem]()
-    var entityItems: [EntityItem] = [EntityItem]()
-    fileprivate let multiversalItemViewModelController = MultiversalItemViewModelController()
+    //fileprivate let multiversalItemViewModelController = MultiversalItemViewModelController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        cardViewCollectionView.register(UINib.init(nibName: "UniversalCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "UniversalCardViewCollectionViewCell")
+        cardViewCollectionView.register(UINib.init(nibName: "ProjectCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ProjectCardViewCollectionViewCell")
         cardViewCollectionView.register(UINib.init(nibName: "EntityCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "EntityCardViewCollectionViewCell")
+        cardViewCollectionView.register(UINib.init(nibName: "AccountCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AccountCardViewCollectionViewCell")
+        cardViewCollectionView.register(UINib.init(nibName: "VehicleCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "VehicleCardViewCollectionViewCell")
         if let cardViewFlowLayout = cardViewCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             print("We are inside")
             cardViewFlowLayout.estimatedItemSize = CGSize(width: 350, height: 200)
@@ -64,18 +71,12 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
                 }
                 self.entitiesRef = Database.database().reference().child("users").child(userUID).child("entities")
                 self.youEntityRef = Database.database().reference().child("users").child(userUID).child("youEntity")
+                self.universalsRef = Database.database().reference().child("users").child(userUID).child("universals")
+                self.projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
+                self.accountsRef = Database.database().reference().child("users").child(userUID).child("accounts")
+                self.vehiclesRef = Database.database().reference().child("users").child(userUID).child("vehicles")
                 self.initializeIfFirstAppUse()
                 self.makeFirebaseUserPointTheDataSourceForCollectionViewByAppendingToMultiversalItemsArray()
-                /*//DispatchQueue.main.async {
-                    self.entitiesRef.observe(.value) { (snapshot) in
-                        for item in snapshot.children {
-                            let firebaseEntity = EntityItem(snapshot: item as! DataSnapshot)
-                            self.entityItems.append(firebaseEntity)
-                        }
-                    }
-                    print(String(describing: self.entityItems))
-                    self.cardViewCollectionView.reloadData()
-                //}*/
             } else {
                 // No user is signed in.
                 self.login()
@@ -124,12 +125,39 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
     func makeFirebaseUserPointTheDataSourceForCollectionViewByAppendingToMultiversalItemsArray() {
         //Starting with entities for testing
         DispatchQueue.main.async {
+            print("Inside DispatchQueue.main.async")
+            self.multiversalItems.removeAll()
+            self.universalsRef.observe(.value) { (snapshot) in
+                for item in snapshot.children {
+                    let firebaseUniversal = UniversalItem(snapshot: item as! DataSnapshot) as MultiversalItem
+                    self.multiversalItems.append(firebaseUniversal)
+                }
+            }
+            self.projectsRef.observe(.value) { (snapshot) in
+                for item in snapshot.children {
+                    let firebaseProject = ProjectItem(snapshot: item as! DataSnapshot) as MultiversalItem
+                    self.multiversalItems.append(firebaseProject)
+                }
+            }
             self.entitiesRef.observe(.value) { (snapshot) in
                 for item in snapshot.children {
                     let firebaseEntity = EntityItem(snapshot: item as! DataSnapshot) as MultiversalItem
                     self.multiversalItems.append(firebaseEntity)
                 }
-                self.cardViewCollectionView.reloadData()
+            }
+            
+            self.accountsRef.observe(.value) { (snapshot) in
+                for item in snapshot.children {
+                    let firebaseAccount = AccountItem(snapshot: item as! DataSnapshot) as MultiversalItem
+                    self.multiversalItems.append(firebaseAccount)
+                }
+            }
+            self.vehiclesRef.observe(.value) { (snapshot) in
+                for item in snapshot.children {
+                    let firebaseVehicle = VehicleItem(snapshot: item as! DataSnapshot) as MultiversalItem
+                    self.multiversalItems.append(firebaseVehicle)
+                }
+                self.cardViewCollectionView.reloadData() //Critical line - this makes or breaks the app :/
             }
         }
     }
@@ -156,7 +184,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1 //Change to 10 or 11 or whatever when other cards are built
+        return 1
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -165,8 +193,10 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let multiversalType = multiversalItems[indexPath.row].multiversalType
+        print("Inside collectionViewCellForItemAt")
         switch multiversalType {
         case 0:
+            print("Inside case 0")
             let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalCardViewCollectionViewCell", for: indexPath) as! UniversalCardViewCollectionViewCell
             cell.configure(multiversalItems[indexPath.row])
             return cell
@@ -203,12 +233,6 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
         
         if firstLaunch.isFirstLaunch {
             // do things // MOVE stuff from the always closure below into this one when you're ready for final deployment of app!
-        }
-        
-        let alwaysFirstLaunch = FirstLaunch.alwaysFirst()
-        
-        if alwaysFirstLaunch.isFirstLaunch {
-            // will always execute
             let addEntityKeyReference = entitiesRef.childByAutoId()
             addEntityKeyString = addEntityKeyReference.key
             let timeStampDictionaryForFirebase = [".sv": "timestamp"]
@@ -216,6 +240,13 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
             entitiesRef.child(addEntityKeyString).setValue(thisEntityItem.toAnyObject())
             youEntityRef.setValue(addEntityKeyString)
             popUpAnimateIn(popUpView: welcomeView)
+        }
+        
+        let alwaysFirstLaunch = FirstLaunch.alwaysFirst()
+        
+        if alwaysFirstLaunch.isFirstLaunch {
+            // will always execute
+            
         }
     }
  

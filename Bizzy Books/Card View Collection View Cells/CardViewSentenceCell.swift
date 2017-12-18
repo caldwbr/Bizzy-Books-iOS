@@ -12,10 +12,9 @@ class CardViewSentenceCell: UICollectionViewCell {
     
     @IBOutlet weak var label: UILabel!
     
-    var labelText: String = "" {
-        didSet {
-            label.text = labelText
-        }
+    func configure(labelFlowItem: LabelFlowItem) {
+        label.text = labelFlowItem.text
+        label.textColor = labelFlowItem.color
     }
     
 }

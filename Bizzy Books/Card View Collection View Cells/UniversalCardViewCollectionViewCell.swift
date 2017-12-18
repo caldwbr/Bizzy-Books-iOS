@@ -9,7 +9,20 @@
 import UIKit
 import KTCenterFlowLayout
 
-class UniversalCardViewCollectionViewCell: UICollectionViewCell {
+class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return dataSource.items.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = universalCardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "CardViewSentenceCell", for: indexPath) as! CardViewSentenceCell
+        if let theFlowItem = dataSource.items[indexPath.row] as? LabelFlowItem {
+            cell.configure(labelFlowItem: theFlowItem)
+        }
+        return cell
+    }
+    
     
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
     @IBOutlet weak var universalCardViewTypeLabel: UILabel!
@@ -19,6 +32,7 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var universalCardViewBalanceAfterLabel: UILabel!
     @IBOutlet weak var universalCardViewImageView: UIImageView!
     private let dataSource = CardViewLabelFlowCollectionViewDataSource()
+    let stringifyAnInt: StringifyAnInt = StringifyAnInt()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -31,7 +45,10 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell {
         }
         universalCardViewCollectionView.collectionViewLayout = KTCenterFlowLayout()
         
+        universalCardViewCollectionView.register(UINib.init(nibName: "CardViewSentenceCell", bundle: nil), forCellWithReuseIdentifier: "CardViewSentenceCell")
     }
+    
+    func register(_ nib: UINib?, forCellWithReuseIdentifier identifier: String){}
     
     func configure(_ multiversalItemViewModel: MultiversalItem) {
         if let universalItem = multiversalItemViewModel as? UniversalItem {
@@ -41,6 +58,16 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell {
                 universalItemTypeString = "Business - " + universalItem.projectItemName
                 universalCardViewTypeLabel.text = universalItemTypeString
                 universalCardViewNotesLabel.text = universalItem.notes
+                dataSource.items = [
+                    LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),
+                    LabelFlowItem(text: "paid", color: .gray, action: nil),
+                    LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.what), color: UIColor.BizzyColor.Green.What, action: nil),
+                    LabelFlowItem(text: "to", color: .gray, action: nil),
+                    LabelFlowItem(text: universalItem.whomName, color: UIColor.BizzyColor.Purple.Whom, action: nil),
+                    LabelFlowItem(text: "for", color: .gray, action: nil),
+                    LabelFlowItem(text: universalItem.taxReasonName, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil)
+                ]
+                universalCardViewCollectionView.reloadData()
             case 1:
                 universalItemTypeString = "Personal"
                 universalCardViewTypeLabel.text = universalItemTypeString
@@ -69,6 +96,15 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell {
                 universalItemTypeString = "Business - " + universalItem.projectItemName
                 universalCardViewTypeLabel.text = universalItemTypeString
                 universalCardViewNotesLabel.text = universalItem.notes
+                dataSource.items = [
+                    LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),
+                    LabelFlowItem(text: "paid", color: .gray, action: nil),
+                    LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.what), color: UIColor.BizzyColor.Green.What, action: nil),
+                    LabelFlowItem(text: "to", color: .gray, action: nil),
+                    LabelFlowItem(text: universalItem.whomName, color: UIColor.BizzyColor.Purple.Whom, action: nil),
+                    LabelFlowItem(text: "for", color: .gray, action: nil),
+                    LabelFlowItem(text: universalItem.taxReasonName, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil)
+                ]
             }
         }
     }

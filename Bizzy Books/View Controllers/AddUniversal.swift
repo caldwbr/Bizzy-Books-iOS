@@ -115,6 +115,13 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var projectStatusPlaceholderId = -1
     var atmFee = false
     var feeAmount = 0
+    var addAccountNamePlaceholder = ""
+    var addAccountStartingBalancePlaceholder = 0
+    var addAccountPhoneNumberPlaceholder = ""
+    var addAccountEmailPlaceholder = ""
+    var addAccountStreetPlaceholder = ""
+    var addAccountCityPlaceholder = ""
+    var addAccountStatePlaceholder = ""
     
     // 0 = Who, 1 = Whom, 2 = Project Customer
     var entitySenderCode = 0 {
@@ -421,7 +428,28 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             let addAccountKeyReference = accountsRef.childByAutoId()
             addAccountKeyString = addAccountKeyReference.key
             let timeStampDictionaryForFirebase = [".sv": "timestamp"]
-            let thisAccountItem = AccountItem(name: addAccountNameTextField.text!, accountTypeId: accountTypePlaceholderId, phoneNumber: addAccountPhoneNumberTextField.text!, email: addAccountEmailTextField.text!, street: addAccountStreetTextField.text!, city: addAccountCityTextField.text!, state: addAccountStateTextField.text!, startingBal: Int(addAccountStartingBalanceTextField.text!)!, creditDetailsAvailable: false, isLoan: false, loanType: 0, loanTypeSubcategory: 0, loanPercentOne: 0.0, loanPercentTwo: 0.0, loanPercentThree: 0.0, loanPercentFour: 0.0, loanIntFactorOne: 0, loanIntFactorTwo: 0, loanIntFactorThree: 0, loanIntFactorFour: 0, maxLimit: 0, maxCashAdvanceAllowance: 0, closeDay: 0, dueDay: 0, cycle: 0, minimumPaymentRequired: 0, lateFeeAsOneTimeInt: 0, lateFeeAsPercentageOfTotalBalance: 0.0, cycleDues: 0, duesCycle: 0, minimumPaymentToBeSmart: 0, interestRate: 0.0, interestKind: 0, timeStamp: timeStampDictionaryForFirebase, key: addAccountKeyString)
+            if let _ = addAccountNameTextField.text {
+                addAccountNamePlaceholder = addAccountNameTextField.text!
+            }
+            if let _ = Int(addAccountStartingBalanceTextField.text!) {
+                addAccountStartingBalancePlaceholder = Int(addAccountStartingBalanceTextField.text!)!
+            }
+            if let _ = addAccountPhoneNumberTextField.text {
+                addAccountPhoneNumberPlaceholder = addAccountPhoneNumberTextField.text!
+            }
+            if let _ = addAccountEmailTextField.text {
+                addAccountEmailPlaceholder = addAccountEmailTextField.text!
+            }
+            if let _ = addAccountStreetTextField.text {
+                addAccountStreetPlaceholder = addAccountStreetTextField.text!
+            }
+            if let _ = addAccountCityTextField.text {
+                addAccountCityPlaceholder = addAccountCityTextField.text!
+            }
+            if let _ = addAccountStateTextField.text {
+                addAccountStatePlaceholder = addAccountStateTextField.text!
+            }
+            let thisAccountItem = AccountItem(name: addAccountNamePlaceholder, accountTypeId: accountTypePlaceholderId, phoneNumber: addAccountPhoneNumberPlaceholder, email: addAccountEmailPlaceholder, street: addAccountStreetPlaceholder, city: addAccountCityPlaceholder, state: addAccountStatePlaceholder, startingBal: addAccountStartingBalancePlaceholder, creditDetailsAvailable: false, isLoan: false, loanType: 0, loanTypeSubcategory: 0, loanPercentOne: 0.0, loanPercentTwo: 0.0, loanPercentThree: 0.0, loanPercentFour: 0.0, loanIntFactorOne: 0, loanIntFactorTwo: 0, loanIntFactorThree: 0, loanIntFactorFour: 0, maxLimit: 0, maxCashAdvanceAllowance: 0, closeDay: 0, dueDay: 0, cycle: 0, minimumPaymentRequired: 0, lateFeeAsOneTimeInt: 0, lateFeeAsPercentageOfTotalBalance: 0.0, cycleDues: 0, duesCycle: 0, minimumPaymentToBeSmart: 0, interestRate: 0.0, interestKind: 0, timeStamp: timeStampDictionaryForFirebase, key: addAccountKeyString)
             accountsRef.child(addAccountKeyString).setValue(thisAccountItem.toAnyObject())
             popUpAnimateOut(popUpView: addAccountView)
             if accountSenderCode == 0 {

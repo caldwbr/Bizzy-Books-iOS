@@ -53,6 +53,7 @@
 		EB851E3C1D9578B2002D19F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB851E3A1D9578B2002D19F4 /* Main.storyboard */; };
 		EB851E3F1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EB851E3D1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld */; };
 		EB851E4C1D957932002D19F4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB851E4B1D957932002D19F4 /* GoogleService-Info.plist */; };
+		EBB407E31FE7101000E307C2 /* StringifyAnInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB407E21FE7101000E307C2 /* StringifyAnInt.swift */; };
 		EBB77BD61EFC36070084D014 /* LabelTextFieldFlowItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BD51EFC36070084D014 /* LabelTextFieldFlowItem.swift */; };
 		EBB77BD81EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BD71EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift */; };
 		EBB77BDA1EFC37170084D014 /* LabelTextFieldFlowCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BD91EFC37170084D014 /* LabelTextFieldFlowCells.swift */; };
@@ -116,6 +117,7 @@
 		EB851E3E1D9578B2002D19F4 /* Bizzy_Books.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Bizzy_Books.xcdatamodel; sourceTree = "<group>"; };
 		EB851E451D9578B2002D19F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB851E4B1D957932002D19F4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		EBB407E21FE7101000E307C2 /* StringifyAnInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringifyAnInt.swift; sourceTree = "<group>"; };
 		EBB77BD51EFC36070084D014 /* LabelTextFieldFlowItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTextFieldFlowItem.swift; sourceTree = "<group>"; };
 		EBB77BD71EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTextFieldFlowCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		EBB77BD91EFC37170084D014 /* LabelTextFieldFlowCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTextFieldFlowCells.swift; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 				EB1915C71FD85B370078AA64 /* IAPProcessor.swift */,
 				EB2441B31FE2E5E3004EDC56 /* MultiversalItem.swift */,
 				EB2441B51FE5C856004EDC56 /* MultiversalItemViewModel.swift */,
+				EBB407E21FE7101000E307C2 /* StringifyAnInt.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -579,6 +582,7 @@
 				EB5856A81FB6352D006C6212 /* AccountItem.swift in Sources */,
 				EB2441C31FE614CC004EDC56 /* AccountCardViewCollectionViewCell.swift in Sources */,
 				EB5856A61FB6311C006C6212 /* EntityItem.swift in Sources */,
+				EBB407E31FE7101000E307C2 /* StringifyAnInt.swift in Sources */,
 				EB007BB11FB7E7DB00014769 /* PersonalReasonItem.swift in Sources */,
 				EB1915C81FD85B370078AA64 /* IAPProcessor.swift in Sources */,
 				EBB77BD61EFC36070084D014 /* LabelTextFieldFlowItem.swift in Sources */,
