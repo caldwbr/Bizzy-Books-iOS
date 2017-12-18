@@ -46,6 +46,11 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
         universalCardViewCollectionView.collectionViewLayout = KTCenterFlowLayout()
         
         universalCardViewCollectionView.register(UINib.init(nibName: "CardViewSentenceCell", bundle: nil), forCellWithReuseIdentifier: "CardViewSentenceCell")
+        if let universalCardViewFlowLayout = universalCardViewCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            print("We are inside")
+            universalCardViewFlowLayout.estimatedItemSize = CGSize(width: 80, height: 30)
+        }
+        universalCardViewCollectionView.dataSource = self
     }
     
     func register(_ nib: UINib?, forCellWithReuseIdentifier identifier: String){}
