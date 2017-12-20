@@ -10,7 +10,7 @@ import Foundation
 import Firebase
 
 class ObtainBalanceAfter {
-    var tHeMiP = MIProcessor.sharedMIP
+    //var tHeMiP = MIProcessor.sharedMIP
     var mip = [MultiversalItem]()
     var mipA = [AccountItem]()
     var mipU = [UniversalItem]()
@@ -31,7 +31,7 @@ class ObtainBalanceAfter {
             if mA.key == accountKey {
                 let startingBalanceOne = mA.startingBal
                 self.runningBalanceOne = startingBalanceOne
-                self.trueYou = tHeMiP.trueYou
+                self.trueYou = MIProcessor.sharedMIP.trueYou
                 firebaseUniversalsFilteredByTimeRange = mipU.filter({ (universalItem) -> Bool in
                     if let testedTimeStamp: Double = universalItem.timeStamp as? Double {
                         if testedTimeStamp <= particularUniversalTimeStamp {
@@ -79,32 +79,38 @@ class ObtainBalanceAfter {
         return runningBalanceOne
     }
 
-    func balAfter(thisUniversal: UniversalItem) -> [Int] {
-        mip = tHeMiP.mIP
-        mipA = tHeMiP.mIPAccounts
-        mipU = tHeMiP.mIPUniversals
+    func balAfter(thisUniversal: UniversalItem, completion: @escaping () -> ()) -> [Int] {
+        mip = MIProcessor.sharedMIP.mIP
+        mipA = MIProcessor.sharedMIP.mIPAccounts
+        mipU = MIProcessor.sharedMIP.mIPUniversals
         self.accountOneKey = thisUniversal.accountOneKey
         self.accountTwoKey = thisUniversal.accountTwoKey
         self.particularUniversalTimeStamp = thisUniversal.timeStamp as! Double
-        
         switch thisUniversal.universalItemType {
         case 4: // This is the transfer case - the only case to use a secondary account
-            assumingAccountOne()
-            assumingAccountTwo()
+            assumingAccountOne {
+                self.runningBalances.append(self.runningBalanceOne)
+            }
+            assumingAccountTwo {
+                self.runningBalances.append(self.runningBalanceTwo)
+            }
+            completion()
         default:
-            assumingAccountOne()
+            assumingAccountOne {
+                self.runningBalances.append(self.runningBalanceOne)
+                self.runningBalances.append(self.runningBalanceTwo)
+            }
+            completion()
         }
-        runningBalances.append(runningBalanceOne)
-        runningBalances.append(runningBalanceTwo)
         return runningBalances
     }
     
-    func assumingAccountOne() {
+    func assumingAccountOne(completion: @escaping () -> ()) {
         for mA in mipA {
             if mA.key == self.accountOneKey {
                 let startingBalanceOne = mA.startingBal
                 self.runningBalanceOne = startingBalanceOne
-                self.trueYou = tHeMiP.trueYou
+                self.trueYou = MIProcessor.sharedMIP.trueYou
                 firebaseUniversalsFilteredByTimeRange = mipU.filter({ (universalItem) -> Bool in
                     if let testedTimeStamp: Double = universalItem.timeStamp as? Double {
                         if testedTimeStamp <= particularUniversalTimeStamp {
@@ -151,12 +157,12 @@ class ObtainBalanceAfter {
         }
     }
     
-    func assumingAccountTwo() {
+    func assumingAccountTwo(completion: @escaping () -> ()) {
         for mA in mipA {
             if mA.key == self.accountTwoKey {
                 let startingBalanceTwo = mA.startingBal
                 self.runningBalanceTwo = startingBalanceTwo
-                self.trueYou = tHeMiP.trueYou
+                self.trueYou = MIProcessor.sharedMIP.trueYou
                 firebaseUniversalsFilteredByTimeRange = mipU.filter({ (universalItem) -> Bool in
                     if let testedTimeStamp: Double = universalItem.timeStamp as? Double {
                         if testedTimeStamp <= particularUniversalTimeStamp {

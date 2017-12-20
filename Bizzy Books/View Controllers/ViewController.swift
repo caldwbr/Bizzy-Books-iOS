@@ -20,22 +20,16 @@ var userTokens = ""
 
 class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSource {
     
-    //var db = FIRDatabaseReference.init()
-        var kFacebookAppID = "1583985615235483"
+    var kFacebookAppID = "1583985615235483"
     var backgroundImage : UIImageView! //right here
-    //var customAuthPickerViewController : FIRAuthPickerViewController!
     var entitiesRef: DatabaseReference!
     var youEntityRef: DatabaseReference!
     var addEntityKeyString: String = ""
     @IBOutlet weak var cardViewCollectionView: UICollectionView!
-    //var multiversalItems: [MultiversalItem] = [MultiversalItem]()
-    var tHeMiP = MIProcessor.sharedMIP
-    var mip = [MultiversalItem]()
-    //fileprivate let multiversalItemViewModelController = MultiversalItemViewModelController()
+    var multiversalItems = [MultiversalItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        mip = tHeMiP.mIP
         cardViewCollectionView.register(UINib.init(nibName: "UniversalCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "UniversalCardViewCollectionViewCell")
         cardViewCollectionView.register(UINib.init(nibName: "ProjectCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ProjectCardViewCollectionViewCell")
         cardViewCollectionView.register(UINib.init(nibName: "EntityCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "EntityCardViewCollectionViewCell")
@@ -51,11 +45,14 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        checkLoggedIn()
+        //checkLoggedIn()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        tHeMiP.loadTheBalAfters() // Loads up current balance on all universal items. Hopefully this is happening AFTER other Firebase stuff
+        /*
+        MIProcessor.sharedMIP.loadTheBalAfters {
+            self.cardViewCollectionView.reloadData()
+        } // Loads up current balance on all universal items. Hopefully this is happening AFTER other Firebase stuff */
     }
 
     @IBOutlet var welcomeView: UIView!
@@ -89,8 +86,6 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
     }
     
     func login() {
-        
-        //FirebaseApp.configure()
         let authUI = FUIAuth.defaultAuthUI()
         let providers: [FUIAuthProvider] = [FUIGoogleAuth(), FUIFacebookAuth()]
         authUI?.providers = providers
@@ -99,7 +94,6 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
         let authViewController = BizzyAuthViewController(authUI: authUI!)
         let navc = UINavigationController(rootViewController: authViewController)
         self.present(navc, animated: true, completion: nil)
- 
     }
     
     @IBAction func logoutUser(_: UIBarButtonItem) {
@@ -128,9 +122,26 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
     
     func loadTheMIP() {
         //Starting with entities for testing
-        DispatchQueue.main.async {
-            self.tHeMiP.loadTheMip()
-            self.cardViewCollectionView.reloadData() //Critical line - this makes or breaks the app :/
+        MIProcessor.sharedMIP.loadTheMip {
+            MIProcessor.sharedMIP.loadTheBalAfters {
+                self.multiversalItems.removeAll()
+                for universalItem in MIProcessor.sharedMIP.mIPUniversals {
+                    self.multiversalItems.append(universalItem)
+                }
+                for projectItem in MIProcessor.sharedMIP.mIPProjects {
+                    self.multiversalItems.append(projectItem)
+                }
+                for entityItem in MIProcessor.sharedMIP.mIPEntities {
+                    self.multiversalItems.append(entityItem)
+                }
+                for accountItem in MIProcessor.sharedMIP.mIPAccounts {
+                    self.multiversalItems.append(accountItem)
+                }
+                for vehicleItem in MIProcessor.sharedMIP.mIPVehicles {
+                    self.multiversalItems.append(vehicleItem)
+                }
+                self.cardViewCollectionView.reloadData()//Critical line - this makes or breaks the app :/
+            }
         }
     }
     
@@ -160,35 +171,35 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return mip.count
+        return multiversalItems.count
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let multiversalType = mip[indexPath.row].multiversalType
+        let multiversalType = multiversalItems[indexPath.row].multiversalType
         switch multiversalType {
         case 0:
             let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalCardViewCollectionViewCell", for: indexPath) as! UniversalCardViewCollectionViewCell
-            cell.configure(mip[indexPath.row])
+            cell.configure(multiversalItems[indexPath.row])
             return cell
         case 1:
             let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "ProjectCardViewCollectionViewCell", for: indexPath) as! ProjectCardViewCollectionViewCell
-            cell.configure(mip[indexPath.row])
+            cell.configure(multiversalItems[indexPath.row])
             return cell
         case 2:
             let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "EntityCardViewCollectionViewCell", for: indexPath) as! EntityCardViewCollectionViewCell
-            cell.configure(mip[indexPath.row])
+            cell.configure(multiversalItems[indexPath.row])
             return cell
         case 3:
             let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "AccountCardViewCollectionViewCell", for: indexPath) as! AccountCardViewCollectionViewCell
-            cell.configure(mip[indexPath.row])
+            cell.configure(multiversalItems[indexPath.row])
             return cell
         case 4:
             let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "VehicleCardViewCollectionViewCell", for: indexPath) as! VehicleCardViewCollectionViewCell
-            cell.configure(mip[indexPath.row])
+            cell.configure(multiversalItems[indexPath.row])
             return cell
         default:
             let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalCardViewCollectionViewCell", for: indexPath) as! UniversalCardViewCollectionViewCell
-            cell.configure(mip[indexPath.row])
+            cell.configure(multiversalItems[indexPath.row])
             return cell
         }
     }
