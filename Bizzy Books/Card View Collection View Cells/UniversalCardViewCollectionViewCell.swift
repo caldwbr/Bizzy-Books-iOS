@@ -108,16 +108,12 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                     break
                 }
                 universalCardViewAccountLabel.text = universalItem.accountOneName
-                DispatchQueue.main.async {
-                    //Get balance after
-                    let obtainBalanceAfter = ObtainBalanceAfter()
-                    let timeStampDouble: Double
-                    if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
-                        timeStampDouble = timeStampAsDouble
-                        let balAfter = obtainBalanceAfter.balAfter(accountKey: universalItem.accountOneKey, particularUniversalTimeStamp: timeStampDouble)
-                    }
-                }
-                
+                //Get balance after
+                let balAfter = universalItem.balOneAfter
+                let stringer = StringifyAnInt()
+                let theStringBalance = stringer.stringify(theInt: balAfter)
+                self.universalCardViewBalanceAfterLabel.text = theStringBalance
+                self.universalCardViewCollectionView.reloadData()
                 universalCardViewCollectionView.reloadData()
             case 1:
                 imageView.image = UIImage(named: "personal")

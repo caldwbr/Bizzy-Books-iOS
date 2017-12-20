@@ -23,8 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         //FirebaseApp.configure()
-        Database.database().isPersistenceEnabled = true
-        IAPProcessor.shared.startListening()
+        
         return true
     }
     
@@ -138,12 +137,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     override init() {
-        
+        super.init()
         //        FirebaseApp.configure()
         
         if FirebaseApp.app() == nil {
             FirebaseApp.configure()
         }
+        Database.database().isPersistenceEnabled = true
+        IAPProcessor.shared.startListening()
     }
 }
 

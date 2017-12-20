@@ -10,55 +10,140 @@ import Foundation
 import Firebase
 
 class ObtainBalanceAfter {
+    var tHeMiP = MIProcessor.sharedMIP
+    var mip = [MultiversalItem]()
+    var mipA = [AccountItem]()
+    var mipU = [UniversalItem]()
+    var firebaseUniversals: [UniversalItem] = [UniversalItem]()
+    var firebaseUniversalsFilteredByTimeRange: [UniversalItem] = [UniversalItem]()
+    var firebaseUniversalsFilteredAlsoByAccountKey: [UniversalItem] = [UniversalItem]()
+    var trueYou: String = String()
+    var runningBalanceOne: Int = 0
+    var runningBalanceTwo: Int = 0
+    var runningBalances: [Int] = [Int]()
+    var accountsRef: DatabaseReference!
+    var accountOneKey: String = String()
+    var accountTwoKey: String = String()
+    var particularUniversalTimeStamp: Double = Double()
     
-    func balAfter (accountKey: String, particularUniversalTimeStamp: Double) -> (Int, Bool) {
-        var firebaseUniversals: [UniversalItem] = [UniversalItem]()
-        var firebaseUniversalsFilteredByTimeRange: [UniversalItem] = [UniversalItem]()
-        var firebaseUniversalsFilteredAlsoByAccountKey: [UniversalItem] = [UniversalItem]()
-        var failed = false
-        var trueYou: String = ""
-        let accountsRef = Database.database().reference().child("users").child(userUID).child("accounts")
-        accountsRef.observe(.value) { (snapshot) in
-            for item in snapshot.children {
-                let firebaseAccount = AccountItem(snapshot: item as! DataSnapshot)
-                if firebaseAccount.key == accountKey {
-                    let startingBalance = firebaseAccount.startingBal
-                    let universalsRef = Database.database().reference().child("users").child(userUID).child("universals")
-                    let youRef = Database.database().reference().child("users").child(userUID).child("youEntity")
-                    youRef.observe(.value) { (snapshot) in
-                        if let youKey = snapshot.value as? String {
-                            trueYou = youKey
-                        }
-                    }
-                    universalsRef.observe(.value) { (snapshot) in
-                        for item in snapshot.children {
-                            let firebaseUniversal = UniversalItem(snapshot: item as! DataSnapshot)
-                            firebaseUniversals.append(firebaseUniversal)
-                        }
-                    }
-                    firebaseUniversalsFilteredByTimeRange = firebaseUniversals.filter({ (universalItem) -> Bool in
-                        if let testedTimeStamp: Double = universalItem.timeStamp as? Double {
-                            if testedTimeStamp <= particularUniversalTimeStamp {
-                                return true
-                            } else {
-                                return false
-                            }
-                        } else {
-                            failed = true
-                            return false
-                        }
-                    })
-                    firebaseUniversalsFilteredAlsoByAccountKey = firebaseUniversalsFilteredByTimeRange.filter({ (universalItem) -> Bool in
-                        if (universalItem.accountOneKey == accountKey) || (universalItem.accountTwoKey == accountKey) {
+    func balAfter(accountKey: String, particularUniversalTimeStamp: Double) -> Int {
+        for mA in mipA {
+            if mA.key == accountKey {
+                let startingBalanceOne = mA.startingBal
+                self.runningBalanceOne = startingBalanceOne
+                self.trueYou = tHeMiP.trueYou
+                firebaseUniversalsFilteredByTimeRange = mipU.filter({ (universalItem) -> Bool in
+                    if let testedTimeStamp: Double = universalItem.timeStamp as? Double {
+                        if testedTimeStamp <= particularUniversalTimeStamp {
                             return true
                         } else {
                             return false
                         }
-                    })
-                    for filteredUniversalItem in firebaseUniversalsFilteredAlsoByAccountKey {
-                        switch filteredUniversalItem.universalItemType {
-                        case 0:
-                            
+                    } else {
+                        return false
+                    }
+                })
+                firebaseUniversalsFilteredAlsoByAccountKey = firebaseUniversalsFilteredByTimeRange.filter({ (universalItem) -> Bool in
+                    if (universalItem.accountOneKey == accountOneKey) || (universalItem.accountTwoKey == accountOneKey) {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+                for filteredUniversalItem in firebaseUniversalsFilteredAlsoByAccountKey {
+                    switch filteredUniversalItem.universalItemType {
+                    case 0, 1, 2:
+                        if filteredUniversalItem.whoKey == trueYou { // I.e., the general case
+                            runningBalanceOne = runningBalanceOne - filteredUniversalItem.what
+                        } else {
+                            runningBalanceOne = runningBalanceOne + filteredUniversalItem.what
+                        }
+                    case 3:
+                        runningBalanceOne = runningBalanceOne - filteredUniversalItem.what
+                    case 4:
+                        if filteredUniversalItem.accountOneKey == accountOneKey {
+                            runningBalanceOne = runningBalanceOne - filteredUniversalItem.what
+                        } else {
+                            runningBalanceOne = runningBalanceOne + filteredUniversalItem.what
+                        }
+                    default:
+                        if filteredUniversalItem.whoKey == trueYou { // I.e., the general case
+                            runningBalanceOne = runningBalanceOne - filteredUniversalItem.what
+                        } else {
+                            runningBalanceOne = runningBalanceOne + filteredUniversalItem.what
+                        }
+                    }
+                }
+            }
+        }
+        return runningBalanceOne
+    }
+
+    func balAfter(thisUniversal: UniversalItem) -> [Int] {
+        mip = tHeMiP.mIP
+        mipA = tHeMiP.mIPAccounts
+        mipU = tHeMiP.mIPUniversals
+        self.accountOneKey = thisUniversal.accountOneKey
+        self.accountTwoKey = thisUniversal.accountTwoKey
+        self.particularUniversalTimeStamp = thisUniversal.timeStamp as! Double
+        
+        switch thisUniversal.universalItemType {
+        case 4: // This is the transfer case - the only case to use a secondary account
+            assumingAccountOne()
+            assumingAccountTwo()
+        default:
+            assumingAccountOne()
+        }
+        runningBalances.append(runningBalanceOne)
+        runningBalances.append(runningBalanceTwo)
+        return runningBalances
+    }
+    
+    func assumingAccountOne() {
+        for mA in mipA {
+            if mA.key == self.accountOneKey {
+                let startingBalanceOne = mA.startingBal
+                self.runningBalanceOne = startingBalanceOne
+                self.trueYou = tHeMiP.trueYou
+                firebaseUniversalsFilteredByTimeRange = mipU.filter({ (universalItem) -> Bool in
+                    if let testedTimeStamp: Double = universalItem.timeStamp as? Double {
+                        if testedTimeStamp <= particularUniversalTimeStamp {
+                            return true
+                        } else {
+                            return false
+                        }
+                    } else {
+                        return false
+                    }
+                })
+                firebaseUniversalsFilteredAlsoByAccountKey = firebaseUniversalsFilteredByTimeRange.filter({ (universalItem) -> Bool in
+                    if (universalItem.accountOneKey == accountOneKey) || (universalItem.accountTwoKey == accountOneKey) {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+                for filteredUniversalItem in firebaseUniversalsFilteredAlsoByAccountKey {
+                    switch filteredUniversalItem.universalItemType {
+                    case 0, 1, 2:
+                        if filteredUniversalItem.whoKey == trueYou { // I.e., the general case
+                            runningBalanceOne = runningBalanceOne - filteredUniversalItem.what
+                        } else {
+                            runningBalanceOne = runningBalanceOne + filteredUniversalItem.what
+                        }
+                    case 3:
+                        runningBalanceOne = runningBalanceOne - filteredUniversalItem.what
+                    case 4:
+                        if filteredUniversalItem.accountOneKey == accountOneKey {
+                            runningBalanceOne = runningBalanceOne - filteredUniversalItem.what
+                        } else {
+                            runningBalanceOne = runningBalanceOne + filteredUniversalItem.what
+                        }
+                    default:
+                        if filteredUniversalItem.whoKey == trueYou { // I.e., the general case
+                            runningBalanceOne = runningBalanceOne - filteredUniversalItem.what
+                        } else {
+                            runningBalanceOne = runningBalanceOne + filteredUniversalItem.what
                         }
                     }
                 }
@@ -66,4 +151,55 @@ class ObtainBalanceAfter {
         }
     }
     
+    func assumingAccountTwo() {
+        for mA in mipA {
+            if mA.key == self.accountTwoKey {
+                let startingBalanceTwo = mA.startingBal
+                self.runningBalanceTwo = startingBalanceTwo
+                self.trueYou = tHeMiP.trueYou
+                firebaseUniversalsFilteredByTimeRange = mipU.filter({ (universalItem) -> Bool in
+                    if let testedTimeStamp: Double = universalItem.timeStamp as? Double {
+                        if testedTimeStamp <= particularUniversalTimeStamp {
+                            return true
+                        } else {
+                            return false
+                        }
+                    } else {
+                        return false
+                    }
+                })
+                firebaseUniversalsFilteredAlsoByAccountKey = firebaseUniversalsFilteredByTimeRange.filter({ (universalItem) -> Bool in
+                    if (universalItem.accountOneKey == accountOneKey) || (universalItem.accountTwoKey == accountOneKey) {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+                for filteredUniversalItem in firebaseUniversalsFilteredAlsoByAccountKey {
+                    switch filteredUniversalItem.universalItemType {
+                    case 0, 1, 2:
+                        if filteredUniversalItem.whoKey == trueYou { // I.e., the general case
+                            runningBalanceTwo = runningBalanceTwo - filteredUniversalItem.what
+                        } else {
+                            runningBalanceTwo = runningBalanceTwo + filteredUniversalItem.what
+                        }
+                    case 3:
+                        runningBalanceTwo = runningBalanceTwo - filteredUniversalItem.what
+                    case 4:
+                        if filteredUniversalItem.accountTwoKey == accountTwoKey {
+                            runningBalanceTwo = runningBalanceTwo - filteredUniversalItem.what
+                        } else {
+                            runningBalanceTwo = runningBalanceTwo + filteredUniversalItem.what
+                        }
+                    default:
+                        if filteredUniversalItem.whoKey == trueYou { // I.e., the general case
+                            runningBalanceTwo = runningBalanceTwo - filteredUniversalItem.what
+                        } else {
+                            runningBalanceTwo = runningBalanceTwo + filteredUniversalItem.what
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

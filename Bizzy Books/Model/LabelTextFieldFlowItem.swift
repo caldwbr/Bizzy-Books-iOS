@@ -66,13 +66,13 @@ struct LabelFlowItem : FlowItem {
 
 struct TextFieldFlowItem : FlowItem {
     var text : String
-    var amt : Int
     let placeholder : String
     let color : UIColor
     let keyboardType : UIKeyboardType
     let allowedCharsString : String
     let formatterStyle : NumberFormatter.Style
     let numberKind : Int
+    let identifier: Int
     
     var displaySize : CGSize {
         return CGSize(width: 120, height: 32)

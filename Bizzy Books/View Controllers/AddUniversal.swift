@@ -29,6 +29,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var negPossibleDigits = "0123456789-"
     let theFormatter = NumberFormatter()
     var bradsStore = IAPProcessor.shared
+    var thisIsTheAmt = TheAmtSingleton.shared
 
     var youRef: DatabaseReference!
     var universalsRef: DatabaseReference!
@@ -118,11 +119,13 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var feeAmount = 0
     var addAccountNamePlaceholder = ""
     var addAccountStartingBalancePlaceholder = 0
+    var theBalanceAfter = 0
     var addAccountPhoneNumberPlaceholder = ""
     var addAccountEmailPlaceholder = ""
     var addAccountStreetPlaceholder = ""
     var addAccountCityPlaceholder = ""
     var addAccountStatePlaceholder = ""
+    let stringifyAnInt = StringifyAnInt()
     
     // 0 = Who, 1 = Whom, 2 = Project Customer
     var entitySenderCode = 0 {
@@ -432,9 +435,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             if let _ = addAccountNameTextField.text {
                 addAccountNamePlaceholder = addAccountNameTextField.text!
             }
-            if let _ = Int(addAccountStartingBalanceTextField.text!) {
-                addAccountStartingBalancePlaceholder = Int(addAccountStartingBalanceTextField.text!)!
-            }
             if let _ = addAccountPhoneNumberTextField.text {
                 addAccountPhoneNumberPlaceholder = addAccountPhoneNumberTextField.text!
             }
@@ -450,7 +450,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             if let _ = addAccountStateTextField.text {
                 addAccountStatePlaceholder = addAccountStateTextField.text!
             }
-            let thisAccountItem = AccountItem(name: addAccountNamePlaceholder, accountTypeId: accountTypePlaceholderId, phoneNumber: addAccountPhoneNumberPlaceholder, email: addAccountEmailPlaceholder, street: addAccountStreetPlaceholder, city: addAccountCityPlaceholder, state: addAccountStatePlaceholder, startingBal: addAccountStartingBalancePlaceholder, creditDetailsAvailable: false, isLoan: false, loanType: 0, loanTypeSubcategory: 0, loanPercentOne: 0.0, loanPercentTwo: 0.0, loanPercentThree: 0.0, loanPercentFour: 0.0, loanIntFactorOne: 0, loanIntFactorTwo: 0, loanIntFactorThree: 0, loanIntFactorFour: 0, maxLimit: 0, maxCashAdvanceAllowance: 0, closeDay: 0, dueDay: 0, cycle: 0, minimumPaymentRequired: 0, lateFeeAsOneTimeInt: 0, lateFeeAsPercentageOfTotalBalance: 0.0, cycleDues: 0, duesCycle: 0, minimumPaymentToBeSmart: 0, interestRate: 0.0, interestKind: 0, timeStamp: timeStampDictionaryForFirebase, key: addAccountKeyString)
+            let thisAccountItem = AccountItem(name: addAccountNamePlaceholder, accountTypeId: accountTypePlaceholderId, phoneNumber: addAccountPhoneNumberPlaceholder, email: addAccountEmailPlaceholder, street: addAccountStreetPlaceholder, city: addAccountCityPlaceholder, state: addAccountStatePlaceholder, startingBal: thisIsTheAmt.theAmt, creditDetailsAvailable: false, isLoan: false, loanType: 0, loanTypeSubcategory: 0, loanPercentOne: 0.0, loanPercentTwo: 0.0, loanPercentThree: 0.0, loanPercentFour: 0.0, loanIntFactorOne: 0, loanIntFactorTwo: 0, loanIntFactorThree: 0, loanIntFactorFour: 0, maxLimit: 0, maxCashAdvanceAllowance: 0, closeDay: 0, dueDay: 0, cycle: 0, minimumPaymentRequired: 0, lateFeeAsOneTimeInt: 0, lateFeeAsPercentageOfTotalBalance: 0.0, cycleDues: 0, duesCycle: 0, minimumPaymentToBeSmart: 0, interestRate: 0.0, interestKind: 0, timeStamp: timeStampDictionaryForFirebase, key: addAccountKeyString)
             accountsRef.child(addAccountKeyString).setValue(thisAccountItem.toAnyObject())
             popUpAnimateOut(popUpView: addAccountView)
             if accountSenderCode == 0 {
@@ -462,7 +462,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             }
             addAccountNameTextField.text = ""
             addAccountStartingBalanceTextField.text = ""
-            addAccountStartingBalanceTextField.amt = 0
             addAccountStartingBalanceTextField.isNegative = false
             addAccountPhoneNumberTextField.text = ""
             addAccountEmailTextField.text = ""
@@ -525,13 +524,21 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             case 5:
                 yourAccountPlaceholderKeyString = tempKeyHolder
                 yourAccountPlaceholder = selectAccountTextField.text!
-                accountsRef.child(tempKeyHolder).observeSingleEvent(of: .value, with: { (snapshot) in
-                    let thisAccount = AccountItem(snapshot: snapshot)
-                    self.bizzyBooksBalanceAsInt = thisAccount.startingBal
-                    self.bizzyBooksBalanceAsDouble = self.findBizzyBooksBalanceAsDouble()
-                    self.bizzyBooksBalanceString = self.theFormatter.string(from: NSNumber(value: self.bizzyBooksBalanceAsDouble))!
-                    self.reloadSentence(selectedType: self.selectedType)
-                })
+                accountsRef.observe(.value) { (snapshot) in
+                    for item in snapshot.children {
+                        let theAccount = AccountItem(snapshot: item as! DataSnapshot)
+                        if theAccount.key == self.tempKeyHolder {
+                            self.bizzyBooksBalanceAsInt = theAccount.startingBal
+                            let obtainBalanceAfter = ObtainBalanceAfter()
+                            let currentTime: Double = Date().timeIntervalSince1970
+                            print(String(describing: currentTime))
+                            self.theBalanceAfter = obtainBalanceAfter.balAfter(accountKey: self.tempKeyHolder, particularUniversalTimeStamp: currentTime)
+                            self.bizzyBooksBalanceAsDouble = Double(self.theBalanceAfter)/100
+                            self.bizzyBooksBalanceString = self.theFormatter.string(from: NSNumber(value: self.bizzyBooksBalanceAsDouble))!
+                            self.reloadSentence(selectedType: self.selectedType)
+                        }
+                    }
+                }
             default:
                 yourAccountPlaceholderKeyString = tempKeyHolder
                 yourAccountPlaceholder = selectAccountTextField.text!
@@ -911,6 +918,9 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         self.selectSecondaryAccountTableView.keyboardDismissMode = .interactive
         self.addProjectSelectCustomerTableView.keyboardDismissMode = .interactive
         
+        thisIsTheAmt.theAmt = 0
+        thisIsTheAmt.howMany = 0
+        
         //Prevent empty cells in tableview
         selectVehicleTableView.tableFooterView = UIView(frame: .zero)
         selectProjectTableView.tableFooterView = UIView(frame: .zero)
@@ -1137,11 +1147,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         picker.dismiss(animated: true, completion: nil)
     }
     
-    func findBizzyBooksBalanceAsDouble () -> Double {
-        bizzyBooksBalanceAsDouble = Double(bizzyBooksBalanceAsInt)/100 //REALLY, deduct effect of all Universals which affected the account to find CURRENT balance. Also, will this break if there are no Universals? Need to write it to consider that also!
-        return bizzyBooksBalanceAsDouble
-    }
-    
     func clearAddEntityFields() {
         addEntityNameTextField.text = ""
         addEntityPhoneNumberTextField.text = ""
@@ -1154,12 +1159,9 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func updateSliderValues(percent: Int) {
-        if let theTextFieldYes = dataSource.theTextFieldYes as? AllowedCharsTextField {
-            theAmt = theTextFieldYes.amt
-        }
-        print(theAmt)
-        let prepareTheBusinessAmt = (Double(theAmt)/100) * (Double(percent)/100)
-        let prepareThePersonalAmt = (Double(theAmt)/100) * (1.0 - (Double(percent)/100))
+        print(thisIsTheAmt.theAmt)
+        let prepareTheBusinessAmt = (Double(thisIsTheAmt.theAmt)/100) * (Double(percent)/100)
+        let prepareThePersonalAmt = (Double(thisIsTheAmt.theAmt)/100) * (1.0 - (Double(percent)/100))
         setTextAndIconOnLabel(text: (theFormatter.string(from: NSNumber(value: prepareTheBusinessAmt)))!, icon: "business", label: amountBusinessLabel)
         setTextAndIconOnLabel(text: (theFormatter.string(from: NSNumber(value: prepareThePersonalAmt)))!, icon: "personal", label: amountPersonalLabel)
     }
@@ -1342,7 +1344,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         dataSource.items = [
             LabelFlowItem(text: whoPlaceholder, color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
             LabelFlowItem(text: "paid", color: .gray, action: nil),
-            TextFieldFlowItem(text: "", amt: 0, placeholder: "0", color: UIColor.BizzyColor.Green.What, keyboardType: .numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0),
+            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: thisIsTheAmt.theAmt), placeholder: "0", color: UIColor.BizzyColor.Green.What, keyboardType: .numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0, identifier: 0),
             LabelFlowItem(text: "to", color: .gray, action: nil),
             LabelFlowItem(text: whomPlaceholder, color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
             LabelFlowItem(text: "for", color: .gray, action: nil),
@@ -1372,7 +1374,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         dataSource.items = [
             LabelFlowItem(text: whoPlaceholder, color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
             LabelFlowItem(text: "paid", color: .gray, action: nil),
-            TextFieldFlowItem(text: "", amt: 0, placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0),
+            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: thisIsTheAmt.theAmt), placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0, identifier: 0),
             LabelFlowItem(text: "to", color: .gray, action: nil),
             LabelFlowItem(text: whomPlaceholder, color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
             LabelFlowItem(text: "for", color: .gray, action: nil),
@@ -1392,7 +1394,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         dataSource.items = [
             LabelFlowItem(text: whoPlaceholder, color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
             LabelFlowItem(text: "paid", color: .gray, action: nil),
-            TextFieldFlowItem(text: "", amt: 0, placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0),
+            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: thisIsTheAmt.theAmt), placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0, identifier: 0),
             LabelFlowItem(text: "to", color: .gray, action: nil),
             LabelFlowItem(text: whomPlaceholder, color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
             LabelFlowItem(text: "for", color: .gray, action: nil),
@@ -1431,11 +1433,11 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         dataSource.items = [
             LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: nil),
             LabelFlowItem(text: "paid", color: .gray, action: nil),
-            TextFieldFlowItem(text: "", amt: 0, placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0),
+            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: thisIsTheAmt.theAmt), placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0, identifier: 0),
             LabelFlowItem(text: "to", color: .gray, action: nil), 
             LabelFlowItem(text: whomPlaceholder, color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
             LabelFlowItem(text: "for", color: .gray, action: nil),
-            TextFieldFlowItem(text: "", amt: 0, placeholder: "how many", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.decimal, numberKind: 1),
+            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: thisIsTheAmt.howMany, theNumberStyle: .decimal, theGroupingSeparator: true), placeholder: "how many", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.decimal, numberKind: 1, identifier: 1),
             LabelFlowItem(text: "gallons of", color: .gray, action: nil),
             LabelFlowItem(text: fuelTypePlaceholder, color: UIColor.BizzyColor.Orange.WC, action: { self.pickerCode = 4; self.popUpAnimateIn(popUpView: self.genericPickerView) }),
             LabelFlowItem(text: "in your", color: .gray, action: nil),
@@ -1455,7 +1457,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         dataSource.items = [
             LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: nil),
             LabelFlowItem(text: "moved", color: .gray, action: nil),
-            TextFieldFlowItem(text: "", amt: 0, placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0),
+            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: thisIsTheAmt.theAmt), placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0, identifier: 0),
             LabelFlowItem(text: "from", color: .gray, action: nil),
             LabelFlowItem(text: yourPrimaryAccountPlaceholder, color: UIColor.BizzyColor.Green.Account, action: { self.primaryAccountTapped = true; self.popUpAnimateIn(popUpView: self.selectAccountView) }),
             LabelFlowItem(text: "to", color: .gray, action: nil),
@@ -1477,7 +1479,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             LabelFlowItem(text: "with a Bizzy Books balance of", color: .gray, action: nil),
             LabelFlowItem(text: bizzyBooksBalanceString, color: UIColor.BizzyColor.Green.Account, action: nil),
             LabelFlowItem(text: "should have a balance of", color: .gray, action: nil),
-            TextFieldFlowItem(text: "", amt: 0, placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numbersAndPunctuation, allowedCharsString: negPossibleDigits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0)
+            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: thisIsTheAmt.theAmt), placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numbersAndPunctuation, allowedCharsString: negPossibleDigits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0, identifier: 0)
         ]
         projectLabel.isHidden = true
         odometerTextField.isHidden = true
@@ -1758,26 +1760,30 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         var notes = ""
         var urlString = ""
         let timeStampDictionaryForFirebase = [".sv": "timestamp"]
+        var odometerAsInt = 0
         if let theNotes = notesTextField.text {
             notes = theNotes
         }
         if let theUrl = downloadURL {
             urlString = theUrl.absoluteString
         }
-        if let primaryTextField = dataSource.theTextFieldYes as? AllowedCharsTextField {
-            theAmt = primaryTextField.amt
-        }
         if selectedType == 3 {
-            if let secondaryTextField = dataSource.theSecondaryTextFieldYes as? AllowedCharsTextField {
-                howMany = secondaryTextField.amt
+            if odometerTextField.text != "" {
+                let odometerString = odometerTextField.text!
+                odometerAsInt = Int(odometerString)!
             }
         }
         switch self.selectedType {
         case 4: //Transfer
-            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: 0, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourPrimaryAccountPlaceholder, accountOneKey: yourPrimaryAccountPlaceholderKeyString, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, howMany: howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
+            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: odometerAsInt, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: thisIsTheAmt.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourPrimaryAccountPlaceholder, accountOneKey: yourPrimaryAccountPlaceholderKeyString, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, howMany: thisIsTheAmt.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
             universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
+        case 5: //Adjust
+            let difference = thisIsTheAmt.theAmt - bizzyBooksBalanceAsInt
+            let correctedStartingBalance = bizzyBooksBalanceAsInt + difference
+            let thisAccountRef = Database.database().reference().child("users").child(userUID).child("accounts")
+            thisAccountRef.child(yourAccountPlaceholderKeyString).updateChildValues(["startingBal": correctedStartingBalance])
         default:
-            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: 0, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, howMany: howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
+            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: odometerAsInt, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: thisIsTheAmt.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, howMany: thisIsTheAmt.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
             universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
         }
         self.navigationController?.popViewController(animated: true)

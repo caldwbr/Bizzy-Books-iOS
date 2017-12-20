@@ -11,10 +11,11 @@ import UIKit
 // 1
 class AllowedCharsTextField: UITextField, UITextFieldDelegate {
     
-    var amt: Int = 0
+    var thisIsTheAmt = TheAmtSingleton.shared
     let formatter = NumberFormatter()
     var numberKind = Int()
     var isNegative = false
+    var identifier = 0
     
     // 2
     @IBInspectable var allowedChars: String = ""
@@ -45,48 +46,82 @@ class AllowedCharsTextField: UITextField, UITextFieldDelegate {
         //let prospectiveTextAsCharSet = CharacterSet.init(charactersIn: prospectiveText)
         let stringyAsCharSet = CharacterSet.init(charactersIn: string)
         if stringyAsCharSet.isDisjoint(with: invertedAllowedCharsSet) {
-            if let digit = Int(string) {
-                
-                if amt > 10_000_000_00 {
-                    amt = 0
-                    self.text = ""
-                    return false
+            switch self.identifier {
+            case 1:
+                if let digit = Int(string) {
+                    if thisIsTheAmt.howMany > 10_000_000_00 {
+                        thisIsTheAmt.howMany = 0
+                        self.text = ""
+                        return false
+                    }
+                    if isNegative {
+                        thisIsTheAmt.howMany = thisIsTheAmt.howMany * 10 - digit
+                    } else {
+                        thisIsTheAmt.howMany = thisIsTheAmt.howMany * 10 + digit
+                    }
+                    self.text = updateAmount()
                 }
-                if isNegative {
-                    amt = amt * 10 - digit
-                } else {
-                    amt = amt * 10 + digit
+                if string == "" {
+                    thisIsTheAmt.howMany = thisIsTheAmt.howMany/10
+                    self.text = thisIsTheAmt.howMany == 0 ? "" : updateAmount()
                 }
-                self.text = updateAmount()
+                if string == "-" {
+                    isNegative = !isNegative // Flips it
+                    thisIsTheAmt.howMany = -thisIsTheAmt.howMany
+                    self.text = updateAmount()
+                }
+                return false //This was the line that, when set to true, was appending the digit-in-purgatory after field had already been rendered by "updateAmount()" IE $0.055
+            default:
+                if let digit = Int(string) {
+                    
+                    if thisIsTheAmt.theAmt > 10_000_000_00 {
+                        thisIsTheAmt.theAmt = 0
+                        self.text = ""
+                        return false
+                    }
+                    if isNegative {
+                        thisIsTheAmt.theAmt = thisIsTheAmt.theAmt * 10 - digit
+                    } else {
+                        thisIsTheAmt.theAmt = thisIsTheAmt.theAmt * 10 + digit
+                    }
+                    self.text = updateAmount()
+                }
+                if string == "" {
+                    thisIsTheAmt.theAmt = thisIsTheAmt.theAmt/10
+                    self.text = thisIsTheAmt.theAmt == 0 ? "" : updateAmount()
+                }
+                if string == "-" {
+                    isNegative = !isNegative // Flips it
+                    thisIsTheAmt.theAmt = -thisIsTheAmt.theAmt
+                    self.text = updateAmount()
+                }
+                return false //This was the line that, when set to true, was appending the digit-in-purgatory after field had already been rendered by "updateAmount()" IE $0.055
             }
-            if string == "" {
-                amt = amt/10
-                self.text = amt == 0 ? "" : updateAmount()
-            }
-            if string == "-" {
-                isNegative = !isNegative // Flips it
-                amt = -amt
-                self.text = updateAmount()
-            }
-            return false //This was the line that, when set to true, was appending the digit-in-purgatory after field had already been rendered by "updateAmount()" IE $0.055
+            
         }
         return false
     }
     
     func updateAmount() -> String? {
-        switch numberKind {
-        case 0:
-            let amount = Double(amt/100) + Double(amt%100)/100
-            return formatter.string(from: NSNumber(value: amount))
-        case 1:
-            let amount = Double(amt/1000) + Double(amt%1000)/1000
-            return formatter.string(from: NSNumber(value: amount))
-        case 2:
-            let amount = Double(amt)
+        switch self.identifier {
+        case 1: // Fuel up case
+            let amount = Double(thisIsTheAmt.howMany/1000) + Double(thisIsTheAmt.howMany%1000)/1000
             return formatter.string(from: NSNumber(value: amount))
         default:
-            let amount = Double(amt/100) + Double(amt%100)/100
-            return formatter.string(from: NSNumber(value: amount))
+            switch numberKind {
+            case 0:
+                let amount = Double(thisIsTheAmt.theAmt/100) + Double(thisIsTheAmt.theAmt%100)/100
+                return formatter.string(from: NSNumber(value: amount))
+            case 1:
+                let amount = Double(thisIsTheAmt.theAmt/1000) + Double(thisIsTheAmt.theAmt%1000)/1000
+                return formatter.string(from: NSNumber(value: amount))
+            case 2:
+                let amount = Double(thisIsTheAmt.theAmt)
+                return formatter.string(from: NSNumber(value: amount))
+            default:
+                let amount = Double(thisIsTheAmt.theAmt/100) + Double(thisIsTheAmt.theAmt%100)/100
+                return formatter.string(from: NSNumber(value: amount))
+            }
         }
     }
     

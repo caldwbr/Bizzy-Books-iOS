@@ -12,6 +12,8 @@ import Firebase
 struct UniversalItem: MultiversalItem {
     
     var multiversalType: Int = 0
+    var balOneAfter: Int = 0
+    var balTwoAfter: Int = 0
     let key: String //By "key" is meant "id"
     let universalItemType: Int //0 - Business, 1 - Personal, 2 - Mixed, 3 - Fuel, 4 - Transfer, 5 - Adjust, 6 - Documents
     let projectItemName: String
