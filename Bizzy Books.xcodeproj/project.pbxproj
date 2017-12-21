@@ -50,6 +50,10 @@
 		EBB407E71FE8A33F00E307C2 /* TheAmtSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB407E61FE8A33F00E307C2 /* TheAmtSingleton.swift */; };
 		EBB407E91FEA10A400E307C2 /* MIProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB407E81FEA10A400E307C2 /* MIProcessor.swift */; };
 		EBB407EB1FEB1B7700E307C2 /* ObtainProjectStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB407EA1FEB1B7700E307C2 /* ObtainProjectStatus.swift */; };
+		EBB407ED1FEB62B400E307C2 /* UniversalTransferCardViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB407EC1FEB62B400E307C2 /* UniversalTransferCardViewCollectionViewCell.swift */; };
+		EBB407EF1FEB62D000E307C2 /* UniversalTransferCardViewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EBB407EE1FEB62D000E307C2 /* UniversalTransferCardViewCollectionViewCell.xib */; };
+		EBB407F11FEB62FB00E307C2 /* UniversalProjectMediaCardViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB407F01FEB62FB00E307C2 /* UniversalProjectMediaCardViewCollectionViewCell.swift */; };
+		EBB407F31FEB631300E307C2 /* UniversalProjectMediaCardViewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EBB407F21FEB631300E307C2 /* UniversalProjectMediaCardViewCollectionViewCell.xib */; };
 		EBB77BD61EFC36070084D014 /* LabelTextFieldFlowItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BD51EFC36070084D014 /* LabelTextFieldFlowItem.swift */; };
 		EBB77BD81EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BD71EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift */; };
 		EBB77BDA1EFC37170084D014 /* LabelTextFieldFlowCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BD91EFC37170084D014 /* LabelTextFieldFlowCells.swift */; };
@@ -110,6 +114,10 @@
 		EBB407E61FE8A33F00E307C2 /* TheAmtSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheAmtSingleton.swift; sourceTree = "<group>"; };
 		EBB407E81FEA10A400E307C2 /* MIProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIProcessor.swift; sourceTree = "<group>"; };
 		EBB407EA1FEB1B7700E307C2 /* ObtainProjectStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObtainProjectStatus.swift; sourceTree = "<group>"; };
+		EBB407EC1FEB62B400E307C2 /* UniversalTransferCardViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalTransferCardViewCollectionViewCell.swift; sourceTree = "<group>"; };
+		EBB407EE1FEB62D000E307C2 /* UniversalTransferCardViewCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UniversalTransferCardViewCollectionViewCell.xib; sourceTree = "<group>"; };
+		EBB407F01FEB62FB00E307C2 /* UniversalProjectMediaCardViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalProjectMediaCardViewCollectionViewCell.swift; sourceTree = "<group>"; };
+		EBB407F21FEB631300E307C2 /* UniversalProjectMediaCardViewCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UniversalProjectMediaCardViewCollectionViewCell.xib; sourceTree = "<group>"; };
 		EBB77BD51EFC36070084D014 /* LabelTextFieldFlowItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTextFieldFlowItem.swift; sourceTree = "<group>"; };
 		EBB77BD71EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTextFieldFlowCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		EBB77BD91EFC37170084D014 /* LabelTextFieldFlowCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTextFieldFlowCells.swift; sourceTree = "<group>"; };
@@ -173,6 +181,10 @@
 				EB2441CA1FE62D88004EDC56 /* CardViewSentenceCell.xib */,
 				EB2441CC1FE63054004EDC56 /* CardViewSentenceCell.swift */,
 				EB2441CE1FE6345F004EDC56 /* CardViewLabelFlowCollectionViewDataSource.swift */,
+				EBB407EC1FEB62B400E307C2 /* UniversalTransferCardViewCollectionViewCell.swift */,
+				EBB407EE1FEB62D000E307C2 /* UniversalTransferCardViewCollectionViewCell.xib */,
+				EBB407F01FEB62FB00E307C2 /* UniversalProjectMediaCardViewCollectionViewCell.swift */,
+				EBB407F21FEB631300E307C2 /* UniversalProjectMediaCardViewCollectionViewCell.xib */,
 			);
 			path = "Card View Collection View Cells";
 			sourceTree = "<group>";
@@ -371,7 +383,9 @@
 				EB4734941DE25BD900F6928E /* Assets.xcassets in Resources */,
 				EB2441C51FE614F6004EDC56 /* AccountCardViewCollectionViewCell.xib in Resources */,
 				FA7B731F1EFC5976007A1AEA /* DropdownReusableView.xib in Resources */,
+				EBB407F31FEB631300E307C2 /* UniversalProjectMediaCardViewCollectionViewCell.xib in Resources */,
 				EB2441C91FE6152E004EDC56 /* VehicleCardViewCollectionViewCell.xib in Resources */,
+				EBB407EF1FEB62D000E307C2 /* UniversalTransferCardViewCollectionViewCell.xib in Resources */,
 				EB851E3C1D9578B2002D19F4 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -535,11 +549,13 @@
 				EB5856AA1FB635CA006C6212 /* UniversalItem.swift in Sources */,
 				EB2441B61FE5C856004EDC56 /* MultiversalItemViewModel.swift in Sources */,
 				EB4392C01EF6077700C568C3 /* BizzyAuthViewController.swift in Sources */,
+				EBB407F11FEB62FB00E307C2 /* UniversalProjectMediaCardViewCollectionViewCell.swift in Sources */,
 				EBB77BDA1EFC37170084D014 /* LabelTextFieldFlowCells.swift in Sources */,
 				EB2441B41FE2E5E3004EDC56 /* MultiversalItem.swift in Sources */,
 				EBB407EB1FEB1B7700E307C2 /* ObtainProjectStatus.swift in Sources */,
 				FA7B731D1EFC5785007A1AEA /* DropdownFlowCollectionViewCell.swift in Sources */,
 				EBB407E91FEA10A400E307C2 /* MIProcessor.swift in Sources */,
+				EBB407ED1FEB62B400E307C2 /* UniversalTransferCardViewCollectionViewCell.swift in Sources */,
 				EB5856AE1FB63612006C6212 /* ProjectItem.swift in Sources */,
 				EB190FC51F074EC700C80E07 /* CleanValue.swift in Sources */,
 				EB851E3F1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld in Sources */,

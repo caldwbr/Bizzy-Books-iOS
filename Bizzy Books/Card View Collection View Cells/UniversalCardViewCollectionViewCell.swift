@@ -57,18 +57,39 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
         universalCardViewCollectionView.dataSource = self
     }
     
-    func register(_ nib: UINib?, forCellWithReuseIdentifier identifier: String){}
+    func register(_ nib: UINib?, forCellWithReuseIdentifier identifier: String) {}
     
     func configure(_ multiversalItemViewModel: MultiversalItem) {
         if let universalItem = multiversalItemViewModel as? UniversalItem {
             switch universalItem.universalItemType {
-            case 0:
-                imageView.image = UIImage(named: "business")
-                universalCardViewItemTypeLabel.text = "Business"
+            case 1:
+                imageView.image = UIImage(named: "personal")
+                universalCardViewItemTypeLabel.text = "Personal"
+                universalCardViewProjectNameLabel.text = ""
                 if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
                     let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
                     universalCardViewDateLabel.text = timeStampAsString
                 }
+                universalCardViewNotesLabel.text = universalItem.notes
+                dataSource.items = [
+                    LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),
+                    LabelFlowItem(text: "paid", color: .gray, action: nil),
+                    LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.what), color: UIColor.BizzyColor.Green.What, action: nil),
+                    LabelFlowItem(text: "to", color: .gray, action: nil),
+                    LabelFlowItem(text: universalItem.whomName, color: UIColor.BizzyColor.Purple.Whom, action: nil),
+                    LabelFlowItem(text: "for", color: .gray, action: nil),
+                    LabelFlowItem(text: universalItem.personalReasonName, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil)
+                ]
+                updateAccountImage(universalItem: universalItem)
+            case 2:
+                imageView.image = UIImage(named: "mixed")
+                universalCardViewItemTypeLabel.text = "Mixed"
+                universalCardViewProjectNameLabel.text = universalItem.projectItemName
+                if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
+                    let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
+                    universalCardViewDateLabel.text = timeStampAsString
+                }
+                universalCardViewNotesLabel.text = universalItem.notes
                 DispatchQueue.main.async {
                     //Get project status
                     let projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
@@ -87,8 +108,82 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                         }
                     }
                 }
+                dataSource.items = [
+                    LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),
+                    LabelFlowItem(text: "paid", color: .gray, action: nil),
+                    LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.what), color: UIColor.BizzyColor.Green.What, action: nil),
+                    LabelFlowItem(text: "to", color: .gray, action: nil),
+                    LabelFlowItem(text: universalItem.whomName, color: UIColor.BizzyColor.Purple.Whom, action: nil),
+                    LabelFlowItem(text: "for", color: .gray, action: nil),
+                    LabelFlowItem(text: universalItem.personalReasonName, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil),
+                    LabelFlowItem(text: "and", color: .gray, action: nil),
+                    LabelFlowItem(text: universalItem.taxReasonName, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil)
+                ]
+                switch universalItem.taxReasonId {
+                case 2:
+                    dataSource.items.append(LabelFlowItem(text: universalItem.workersCompName, color: UIColor.BizzyColor.Orange.WC, action: nil ))
+                case 5:
+                    dataSource.items.append(LabelFlowItem(text: universalItem.vehicleName, color: UIColor.BizzyColor.Orange.Vehicle, action: nil ))
+                case 6:
+                    dataSource.items.append(LabelFlowItem(text: universalItem.advertisingMeansName, color: UIColor.BizzyColor.Orange.AdMeans, action: nil ))
+                default:
+                    break
+                }
+                universalCardViewAccountLabel.text = universalItem.accountOneName
+                universalCardViewBalAfterLabel.text = universalItem.balOneAfterString
+                updateAccountImage(universalItem: universalItem)
+            case 3:
+                imageView.image = UIImage(named: "fuel")
+                universalCardViewItemTypeLabel.text = "Fuel"
+                if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
+                    let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
+                    universalCardViewDateLabel.text = timeStampAsString
+                }
+                universalCardViewProjectNameLabel.text = ""
+                universalCardViewNotesLabel.text = universalItem.notes
+                dataSource.items = [
+                    LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),
+                    LabelFlowItem(text: "paid", color: .gray, action: nil),
+                    LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.what), color: UIColor.BizzyColor.Green.What, action: nil),
+                    LabelFlowItem(text: "to", color: .gray, action: nil),
+                    LabelFlowItem(text: universalItem.whomName, color: UIColor.BizzyColor.Purple.Whom, action: nil),
+                    LabelFlowItem(text: "for", color: .gray, action: nil),
+                    LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.howMany, theNumberStyle: .decimal, theGroupingSeparator: true), color: UIColor.BizzyColor.Green.What, action: nil),
+                    LabelFlowItem(text: "gallons of", color: .gray, action: nil),
+                    LabelFlowItem(text: universalItem.fuelTypeName, color: UIColor.BizzyColor.Orange.WC, action: nil),
+                    LabelFlowItem(text: "in your", color: .gray, action: nil),
+                    LabelFlowItem(text: universalItem.vehicleName, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil)
+                ]
+                universalCardViewAccountLabel.text = universalItem.accountOneName
+                universalCardViewBalAfterLabel.text = universalItem.balOneAfterString
+                updateAccountImage(universalItem: universalItem)
+            default: // I.e., case 0, the most frequent!
+                imageView.image = UIImage(named: "business")
+                universalCardViewItemTypeLabel.text = "Business"
+                if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
+                    let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
+                    universalCardViewDateLabel.text = timeStampAsString
+                }
                 universalCardViewProjectNameLabel.text = universalItem.projectItemName
                 universalCardViewNotesLabel.text = universalItem.notes
+                DispatchQueue.main.async {
+                    //Get project status
+                    let projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
+                    if universalItem.projectItemKey == "0" {
+                        self.universalCardViewStatusLabel.text = ""
+                        self.universalCardViewCollectionView.reloadData()
+                    } else {
+                        projectsRef.observe(.value) { (snapshot) in
+                            for item in snapshot.children {
+                                let firebaseProject = ProjectItem(snapshot: item as! DataSnapshot)
+                                if firebaseProject.key == universalItem.projectItemKey {
+                                    self.universalCardViewStatusLabel.text = firebaseProject.projectStatusName
+                                    self.universalCardViewCollectionView.reloadData()
+                                }
+                            }
+                        }
+                    }
+                }
                 dataSource.items = [
                     LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),
                     LabelFlowItem(text: "paid", color: .gray, action: nil),
@@ -110,61 +205,7 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                 }
                 universalCardViewAccountLabel.text = universalItem.accountOneName
                 universalCardViewBalAfterLabel.text = universalItem.balOneAfterString
-                switch universalItem.accountOneType {
-                case 0:
-                    universalCardViewAccountImageView.image = UIImage(named: "bank")
-                case 1:
-                    universalCardViewAccountImageView.image = UIImage(named: "credit")
-                case 2:
-                    universalCardViewAccountImageView.image = UIImage(named: "cash")
-                case 3:
-                    universalCardViewAccountImageView.image = UIImage(named: "storecredit")
-                default:
-                    universalCardViewAccountImageView.image = UIImage(named: "bank")
-                }
-            case 1:
-                imageView.image = UIImage(named: "personal")
-                universalCardViewItemTypeLabel.text = "Personal"
-                universalCardViewProjectNameLabel.text = ""
-                universalCardViewNotesLabel.text = universalItem.notes
-            case 2:
-                imageView.image = UIImage(named: "mixed")
-                universalCardViewItemTypeLabel.text = "Mixed"
-                universalCardViewProjectNameLabel.text = universalItem.projectItemName
-                universalCardViewNotesLabel.text = universalItem.notes
-            case 3:
-                imageView.image = UIImage(named: "fuel")
-                universalCardViewItemTypeLabel.text = "Fuel"
-                universalCardViewProjectNameLabel.text = ""
-                universalCardViewNotesLabel.text = universalItem.notes
-            case 4:
-                imageView.image = UIImage(named: "transfer")
-                universalCardViewItemTypeLabel.text = "Transfer"
-                universalCardViewProjectNameLabel.text = ""
-                universalCardViewNotesLabel.text = universalItem.notes
-            case 5:
-                imageView.image = UIImage(named: "adjustment")
-                universalCardViewItemTypeLabel.text = "Adjust"
-                universalCardViewProjectNameLabel.text = ""
-                universalCardViewNotesLabel.text = universalItem.notes
-            case 6:
-                imageView.image = UIImage(named: "hammer")
-                universalCardViewItemTypeLabel.text = "Project Media"
-                universalCardViewProjectNameLabel.text = universalItem.projectItemName
-                universalCardViewNotesLabel.text = universalItem.notes
-            default:
-                universalCardViewItemTypeLabel.text = "Business"
-                universalCardViewProjectNameLabel.text = universalItem.projectItemName
-                universalCardViewNotesLabel.text = universalItem.notes
-                dataSource.items = [
-                    LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),
-                    LabelFlowItem(text: "paid", color: .gray, action: nil),
-                    LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.what), color: UIColor.BizzyColor.Green.What, action: nil),
-                    LabelFlowItem(text: "to", color: .gray, action: nil),
-                    LabelFlowItem(text: universalItem.whomName, color: UIColor.BizzyColor.Purple.Whom, action: nil),
-                    LabelFlowItem(text: "for", color: .gray, action: nil),
-                    LabelFlowItem(text: universalItem.taxReasonName, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil)
-                ]
+                updateAccountImage(universalItem: universalItem)
             }
         }
     }
@@ -178,6 +219,21 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
         //formatter.timeStyle = .short
         
         return formatter.string(from: date as Date)
+    }
+    
+    func updateAccountImage(universalItem: UniversalItem) {
+        switch universalItem.accountOneType {
+        case 0:
+            universalCardViewAccountImageView.image = UIImage(named: "bank")
+        case 1:
+            universalCardViewAccountImageView.image = UIImage(named: "credit")
+        case 2:
+            universalCardViewAccountImageView.image = UIImage(named: "cash")
+        case 3:
+            universalCardViewAccountImageView.image = UIImage(named: "storecredit")
+        default:
+            universalCardViewAccountImageView.image = UIImage(named: "bank")
+        }
     }
     
     /*

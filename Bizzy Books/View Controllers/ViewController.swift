@@ -31,6 +31,8 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
     override func viewDidLoad() {
         super.viewDidLoad()
         cardViewCollectionView.register(UINib.init(nibName: "UniversalCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "UniversalCardViewCollectionViewCell")
+        cardViewCollectionView.register(UINib.init(nibName: "UniversalTransferCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "UniversalTransferCardViewCollectionViewCell")
+        cardViewCollectionView.register(UINib.init(nibName: "UniversalProjectMediaCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "UniversalProjectMediaCardViewCollectionViewCell")
         cardViewCollectionView.register(UINib.init(nibName: "ProjectCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ProjectCardViewCollectionViewCell")
         cardViewCollectionView.register(UINib.init(nibName: "EntityCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "EntityCardViewCollectionViewCell")
         cardViewCollectionView.register(UINib.init(nibName: "AccountCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AccountCardViewCollectionViewCell")
@@ -121,7 +123,6 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
                     self.multiversalItems.removeAll()
                     for i in 0..<MIProcessor.sharedMIP.mIPUniversals.count {
                         self.multiversalItems.append(MIProcessor.sharedMIP.mIPUniversals[i])
-                        print("Yikes " + String(describing: MIProcessor.sharedMIP.mIPUniversals[i].projectStatusString))
                     }
                     for projectItem in MIProcessor.sharedMIP.mIPProjects {
                         self.multiversalItems.append(projectItem)
@@ -171,12 +172,24 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let multiversalType = multiversalItems[indexPath.row].multiversalType
-        switch multiversalType {
+        let multiversalItem = multiversalItems[indexPath.row]
+        switch multiversalItem.multiversalType {
         case 0:
-            let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalCardViewCollectionViewCell", for: indexPath) as! UniversalCardViewCollectionViewCell
-            cell.configure(multiversalItems[indexPath.row])
-            return cell
+            let universal = multiversalItem as! UniversalItem
+            switch universal.universalItemType {
+            case 4:
+                let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalTransferCardViewCollectionViewCell", for: indexPath) as! UniversalTransferCardViewCollectionViewCell
+                cell.configure(multiversalItems[indexPath.row])
+                return cell
+            case 6:
+                let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalProjectMediaCardViewCollectionViewCell", for: indexPath) as! UniversalProjectMediaCardViewCollectionViewCell
+                cell.configure(multiversalItems[indexPath.row])
+                return cell
+            default: // I.e., cases 0, 1, 2, and 3 (most all cases!)
+                let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalCardViewCollectionViewCell", for: indexPath) as! UniversalCardViewCollectionViewCell
+                cell.configure(multiversalItems[indexPath.row])
+                return cell
+            }
         case 1:
             let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "ProjectCardViewCollectionViewCell", for: indexPath) as! ProjectCardViewCollectionViewCell
             cell.configure(multiversalItems[indexPath.row])
