@@ -86,8 +86,6 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                         }
                     }
                 }
-                //print("Would you look at this " + String(describing: universalItem.projectStatusString))
-                //universalCardViewStatusLabel.text = universalItem.projectStatusString
                 universalCardViewProjectNameLabel.text = universalItem.projectItemName
                 universalCardViewNotesLabel.text = universalItem.notes
                 dataSource.items = [
@@ -111,7 +109,6 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                 }
                 universalCardViewAccountLabel.text = universalItem.accountOneName
                 universalCardViewBalanceAfterLabel.text = universalItem.balOneAfterString
-                //universalCardViewCollectionView.reloadData()
             case 1:
                 imageView.image = UIImage(named: "personal")
                 universalCardViewItemTypeLabel.text = "Personal"

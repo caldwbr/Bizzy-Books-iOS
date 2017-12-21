@@ -118,26 +118,24 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
         DispatchQueue.main.async {
             MIProcessor.sharedMIP.loadTheMip {
                 MIProcessor.sharedMIP.loadTheBalAfters {
-                    MIProcessor.sharedMIP.loadTheStatuses {
-                        self.multiversalItems.removeAll()
-                        for i in 0..<MIProcessor.sharedMIP.mIPUniversals.count {
-                            self.multiversalItems.append(MIProcessor.sharedMIP.mIPUniversals[i])
-                            print("Yikes " + String(describing: MIProcessor.sharedMIP.mIPUniversals[i].projectStatusString))
-                        }
-                        for projectItem in MIProcessor.sharedMIP.mIPProjects {
-                            self.multiversalItems.append(projectItem)
-                        }
-                        for entityItem in MIProcessor.sharedMIP.mIPEntities {
-                            self.multiversalItems.append(entityItem)
-                        }
-                        for accountItem in MIProcessor.sharedMIP.mIPAccounts {
-                            self.multiversalItems.append(accountItem)
-                        }
-                        for vehicleItem in MIProcessor.sharedMIP.mIPVehicles {
-                            self.multiversalItems.append(vehicleItem)
-                        }
-                        self.cardViewCollectionView.reloadData()//Critical line - this makes or breaks the app :/
+                    self.multiversalItems.removeAll()
+                    for i in 0..<MIProcessor.sharedMIP.mIPUniversals.count {
+                        self.multiversalItems.append(MIProcessor.sharedMIP.mIPUniversals[i])
+                        print("Yikes " + String(describing: MIProcessor.sharedMIP.mIPUniversals[i].projectStatusString))
                     }
+                    for projectItem in MIProcessor.sharedMIP.mIPProjects {
+                        self.multiversalItems.append(projectItem)
+                    }
+                    for entityItem in MIProcessor.sharedMIP.mIPEntities {
+                        self.multiversalItems.append(entityItem)
+                    }
+                    for accountItem in MIProcessor.sharedMIP.mIPAccounts {
+                        self.multiversalItems.append(accountItem)
+                    }
+                    for vehicleItem in MIProcessor.sharedMIP.mIPVehicles {
+                        self.multiversalItems.append(vehicleItem)
+                    }
+                    self.cardViewCollectionView.reloadData()//Critical line - this makes or breaks the app :/
                 }
             }
         }
