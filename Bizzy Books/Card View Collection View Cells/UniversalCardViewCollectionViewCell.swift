@@ -111,6 +111,7 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                         }
                     }
                 }
+                //universalCardViewStatusLabel.text = universalItem.projectStatusString
                 let percBusiness = Int(Double(universalItem.what) * Double(universalItem.percentBusiness)/100)
                 let percPersonal = Int(Double(universalItem.what) * Double(100 - universalItem.percentBusiness)/100)
                 let stringifyAnInt = StringifyAnInt()

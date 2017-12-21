@@ -46,38 +46,23 @@ final class MIProcessor {
         mIPVehicles.removeAll()
         self.universalsRef.observe(.value) { (snapshot) in
             for item in snapshot.children {
-                let firebaseUniversal = UniversalItem(snapshot: item as! DataSnapshot)
-                self.mIPUniversals.append(firebaseUniversal)
-                //let firebaseUniversalM = firebaseUniversal as MultiversalItem
-                //self.mIP.append(firebaseUniversalM)
+                self.mIPUniversals.append(UniversalItem(snapshot: item as! DataSnapshot))
             }
             self.projectsRef.observe(.value) { (snapshot) in
                 for item in snapshot.children {
-                    let firebaseProject = ProjectItem(snapshot: item as! DataSnapshot)
-                    self.mIPProjects.append(firebaseProject)
-                    //let firebaseProjectM = firebaseProject as MultiversalItem
-                    //self.mIP.append(firebaseProjectM)
+                    self.mIPProjects.append(ProjectItem(snapshot: item as! DataSnapshot))
                 }
                 self.entitiesRef.observe(.value) { (snapshot) in
                     for item in snapshot.children {
-                        let firebaseEntity = EntityItem(snapshot: item as! DataSnapshot)
-                        self.mIPEntities.append(firebaseEntity)
-                        //let firebaseEntityM = firebaseEntity as MultiversalItem
-                        //self.mIP.append(firebaseEntityM)
+                        self.mIPEntities.append(EntityItem(snapshot: item as! DataSnapshot))
                     }
                     self.accountsRef.observe(.value) { (snapshot) in
                         for item in snapshot.children {
-                            let firebaseAccount = AccountItem(snapshot: item as! DataSnapshot)
-                            self.mIPAccounts.append(firebaseAccount)
-                            //let firebaseAccountM = firebaseAccount as MultiversalItem
-                            //self.mIP.append(firebaseAccountM)
+                            self.mIPAccounts.append(AccountItem(snapshot: item as! DataSnapshot))
                         }
                         self.vehiclesRef.observe(.value) { (snapshot) in
                             for item in snapshot.children {
-                                let firebaseVehicle = VehicleItem(snapshot: item as! DataSnapshot)
-                                self.mIPVehicles.append(firebaseVehicle)
-                                //let firebaseVehicleM = firebaseVehicle as MultiversalItem
-                                //self.mIP.append(firebaseVehicleM)
+                                self.mIPVehicles.append(VehicleItem(snapshot: item as! DataSnapshot))
                             }
                             let youRef = Database.database().reference().child("users").child(userUID).child("youEntity")
                             youRef.observe(.value) { (snapshot) in
@@ -115,7 +100,7 @@ final class MIProcessor {
             if (mIPUniversals[i].universalItemType == 0) || (mIPUniversals[i].universalItemType == 2) || (mIPUniversals[i].universalItemType == 6) {
                 obtainProjectStatus.obtainStatus(universalItem: mIPUniversals[i], completion: {
                     self.mIPUniversals[i].projectStatusString = self.obtainProjectStatus.projectStatusName
-                    print(String(describing: self.obtainProjectStatus.projectStatusName))
+                    print("ARGH! " + self.mIPUniversals[i].projectStatusString)
                     self.mIPUniversals[i].projectStatusId = self.obtainProjectStatus.projectStatusId
                     if (i + 1) == self.mIPUniversals.count {
                         completion()

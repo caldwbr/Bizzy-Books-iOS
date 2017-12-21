@@ -24,8 +24,8 @@ class ObtainProjectStatus {
                 for item in snapshot.children {
                     let firebaseProject = ProjectItem(snapshot: item as! DataSnapshot)
                     if firebaseProject.key == universalItem.projectItemKey {
-                        self.projectStatusId = firebaseProject.projectStatusId
-                        self.projectStatusName = firebaseProject.projectStatusName
+                        //universalItem.projectStatusId = firebaseProject.projectStatusId
+                        //universalItem.projectStatusString = firebaseProject.projectStatusName
                         completion()
                     }
                 }
