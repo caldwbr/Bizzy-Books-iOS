@@ -47,6 +47,8 @@ class UniversalTransferCardViewCollectionViewCell: UICollectionViewCell {
             let amtTransferred = stringifyAnInt.stringify(theInt: universalItem.what) + " moved"
             universalTransferAmountLabel.text = amtTransferred
             updateAccountImages(universalItem: universalItem)
+            universalTransferFromBankLabel.text = universalItem.accountOneName
+            universalTransferToBankLabel.text = universalItem.accountTwoName
             universalTransferFromBankBalAfterLabel.text = universalItem.balOneAfterString
             universalTransferToBankBalAfterLabel.text = universalItem.balTwoAfterString
         }

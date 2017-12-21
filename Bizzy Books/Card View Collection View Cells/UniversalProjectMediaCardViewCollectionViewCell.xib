@@ -21,7 +21,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="09K-sl-d9q">
                             <rect key="frame" x="99.5" y="8" width="151.5" height="30"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hammer" translatesAutoresizingMaskIntoConstraints="NO" id="oxa-XT-i7a">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="media" translatesAutoresizingMaskIntoConstraints="NO" id="oxa-XT-i7a">
                                     <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="30" id="Fk1-Y0-Owq"/>
@@ -127,6 +127,6 @@
         </view>
     </objects>
     <resources>
-        <image name="hammer" width="1088" height="1024"/>
+        <image name="media" width="640" height="492"/>
     </resources>
 </document>

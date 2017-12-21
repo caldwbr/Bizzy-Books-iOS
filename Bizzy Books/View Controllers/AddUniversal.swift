@@ -996,7 +996,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             DropdownFlowItem.Option(title: "Fuel", iconName: "fuel", action: { self.selectedType = 3; self.reloadSentence(selectedType: self.selectedType) }),
             DropdownFlowItem.Option(title: "Transfer", iconName: "transfer", action: { self.selectedType = 4; self.reloadSentence(selectedType: self.selectedType) }),
             DropdownFlowItem.Option(title: "Adjust", iconName: "adjustment", action: { self.selectedType = 5; self.reloadSentence(selectedType: self.selectedType) }),
-            DropdownFlowItem.Option(title: "Project Media", iconName: "hammer", action: { self.selectedType = 6; self.reloadSentence(selectedType: self.selectedType) })
+            DropdownFlowItem.Option(title: "Project Media", iconName: "media", action: { self.selectedType = 6; self.reloadSentence(selectedType: self.selectedType) })
             ])
         leftTopView.configure(item: typeItem)
         

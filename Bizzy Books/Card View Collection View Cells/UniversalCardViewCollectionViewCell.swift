@@ -66,6 +66,7 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                 imageView.image = UIImage(named: "personal")
                 universalCardViewItemTypeLabel.text = "Personal"
                 universalCardViewProjectNameLabel.text = ""
+                universalCardViewStatusLabel.text = ""
                 if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
                     let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
                     universalCardViewDateLabel.text = timeStampAsString
@@ -80,6 +81,8 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                     LabelFlowItem(text: "for", color: .gray, action: nil),
                     LabelFlowItem(text: universalItem.personalReasonName, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil)
                 ]
+                universalCardViewAccountLabel.text = universalItem.accountOneName
+                universalCardViewBalAfterLabel.text = universalItem.balOneAfterString
                 updateAccountImage(universalItem: universalItem)
             case 2:
                 imageView.image = UIImage(named: "mixed")
@@ -108,6 +111,11 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                         }
                     }
                 }
+                let percBusiness = Int(Double(universalItem.what) * Double(universalItem.percentBusiness)/100)
+                let percPersonal = Int(Double(universalItem.what) * Double(100 - universalItem.percentBusiness)/100)
+                let stringifyAnInt = StringifyAnInt()
+                let percBusinessString = stringifyAnInt.stringify(theInt: percBusiness)
+                let percPersonalString = stringifyAnInt.stringify(theInt: percPersonal)
                 dataSource.items = [
                     LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),
                     LabelFlowItem(text: "paid", color: .gray, action: nil),
@@ -115,9 +123,9 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                     LabelFlowItem(text: "to", color: .gray, action: nil),
                     LabelFlowItem(text: universalItem.whomName, color: UIColor.BizzyColor.Purple.Whom, action: nil),
                     LabelFlowItem(text: "for", color: .gray, action: nil),
-                    LabelFlowItem(text: universalItem.personalReasonName, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil),
+                    LabelFlowItem(text: (universalItem.personalReasonName + " (" + percPersonalString + ")"), color: UIColor.BizzyColor.Magenta.TaxReason, action: nil),
                     LabelFlowItem(text: "and", color: .gray, action: nil),
-                    LabelFlowItem(text: universalItem.taxReasonName, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil)
+                    LabelFlowItem(text: (universalItem.taxReasonName + " (" + percBusinessString + ")"), color: UIColor.BizzyColor.Magenta.TaxReason, action: nil)
                 ]
                 switch universalItem.taxReasonId {
                 case 2:
