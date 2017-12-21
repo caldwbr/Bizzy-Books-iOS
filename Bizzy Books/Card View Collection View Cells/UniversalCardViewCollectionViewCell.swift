@@ -86,6 +86,8 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                         }
                     }
                 }
+                //print("Would you look at this " + String(describing: universalItem.projectStatusString))
+                //universalCardViewStatusLabel.text = universalItem.projectStatusString
                 universalCardViewProjectNameLabel.text = universalItem.projectItemName
                 universalCardViewNotesLabel.text = universalItem.notes
                 dataSource.items = [
@@ -108,13 +110,8 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                     break
                 }
                 universalCardViewAccountLabel.text = universalItem.accountOneName
-                //Get balance after
-                let balAfter = universalItem.balOneAfter
-                let stringer = StringifyAnInt()
-                let theStringBalance = stringer.stringify(theInt: balAfter)
-                self.universalCardViewBalanceAfterLabel.text = theStringBalance
-                self.universalCardViewCollectionView.reloadData()
-                universalCardViewCollectionView.reloadData()
+                universalCardViewBalanceAfterLabel.text = universalItem.balOneAfterString
+                //universalCardViewCollectionView.reloadData()
             case 1:
                 imageView.image = UIImage(named: "personal")
                 universalCardViewItemTypeLabel.text = "Personal"

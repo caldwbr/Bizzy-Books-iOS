@@ -49,6 +49,7 @@
 		EBB407E51FE8120500E307C2 /* ObtainBalanceAfter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB407E41FE8120500E307C2 /* ObtainBalanceAfter.swift */; };
 		EBB407E71FE8A33F00E307C2 /* TheAmtSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB407E61FE8A33F00E307C2 /* TheAmtSingleton.swift */; };
 		EBB407E91FEA10A400E307C2 /* MIProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB407E81FEA10A400E307C2 /* MIProcessor.swift */; };
+		EBB407EB1FEB1B7700E307C2 /* ObtainProjectStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB407EA1FEB1B7700E307C2 /* ObtainProjectStatus.swift */; };
 		EBB77BD61EFC36070084D014 /* LabelTextFieldFlowItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BD51EFC36070084D014 /* LabelTextFieldFlowItem.swift */; };
 		EBB77BD81EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BD71EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift */; };
 		EBB77BDA1EFC37170084D014 /* LabelTextFieldFlowCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BD91EFC37170084D014 /* LabelTextFieldFlowCells.swift */; };
@@ -108,6 +109,7 @@
 		EBB407E41FE8120500E307C2 /* ObtainBalanceAfter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObtainBalanceAfter.swift; sourceTree = "<group>"; };
 		EBB407E61FE8A33F00E307C2 /* TheAmtSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheAmtSingleton.swift; sourceTree = "<group>"; };
 		EBB407E81FEA10A400E307C2 /* MIProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIProcessor.swift; sourceTree = "<group>"; };
+		EBB407EA1FEB1B7700E307C2 /* ObtainProjectStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObtainProjectStatus.swift; sourceTree = "<group>"; };
 		EBB77BD51EFC36070084D014 /* LabelTextFieldFlowItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTextFieldFlowItem.swift; sourceTree = "<group>"; };
 		EBB77BD71EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTextFieldFlowCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		EBB77BD91EFC37170084D014 /* LabelTextFieldFlowCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTextFieldFlowCells.swift; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 				EB2441B51FE5C856004EDC56 /* MultiversalItemViewModel.swift */,
 				EBB407E21FE7101000E307C2 /* StringifyAnInt.swift */,
 				EBB407E41FE8120500E307C2 /* ObtainBalanceAfter.swift */,
+				EBB407EA1FEB1B7700E307C2 /* ObtainProjectStatus.swift */,
 				EBB407E61FE8A33F00E307C2 /* TheAmtSingleton.swift */,
 			);
 			path = Model;
@@ -534,6 +537,7 @@
 				EB4392C01EF6077700C568C3 /* BizzyAuthViewController.swift in Sources */,
 				EBB77BDA1EFC37170084D014 /* LabelTextFieldFlowCells.swift in Sources */,
 				EB2441B41FE2E5E3004EDC56 /* MultiversalItem.swift in Sources */,
+				EBB407EB1FEB1B7700E307C2 /* ObtainProjectStatus.swift in Sources */,
 				FA7B731D1EFC5785007A1AEA /* DropdownFlowCollectionViewCell.swift in Sources */,
 				EBB407E91FEA10A400E307C2 /* MIProcessor.swift in Sources */,
 				EB5856AE1FB63612006C6212 /* ProjectItem.swift in Sources */,

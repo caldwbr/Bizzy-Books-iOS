@@ -13,7 +13,11 @@ struct UniversalItem: MultiversalItem {
     
     var multiversalType: Int = 0
     var balOneAfter: Int = 0
+    var balOneAfterString: String = "$0.00"
     var balTwoAfter: Int = 0
+    var balTwoAfterString: String = "$0.00"
+    var projectStatusId: Int = -1
+    var projectStatusString: String = ""
     let key: String //By "key" is meant "id"
     let universalItemType: Int //0 - Business, 1 - Personal, 2 - Mixed, 3 - Fuel, 4 - Transfer, 5 - Adjust, 6 - Documents
     let projectItemName: String

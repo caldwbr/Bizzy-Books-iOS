@@ -27,6 +27,7 @@ final class MIProcessor {
     var vehiclesRef: DatabaseReference!
     var accountsRef: DatabaseReference!
     var obtainBalanceAfter = ObtainBalanceAfter()
+    var obtainProjectStatus = ObtainProjectStatus()
     var balOneAfter: Int = 0
     var balTwoAfter: Int = 0
     var balsAfter: [Int?] = [Int?]()
@@ -95,11 +96,33 @@ final class MIProcessor {
     func loadTheBalAfters(completion: @escaping () -> ()) {
         for i in 0..<mIPUniversals.count {
             obtainBalanceAfter.balAfter(thisUniversal: mIPUniversals[i], completion: {
-                self.mIPUniversals[i].balOneAfter = self.obtainBalanceAfter.runningBalanceOne
-                self.mIPUniversals[i].balTwoAfter = self.obtainBalanceAfter.runningBalanceTwo
+                let stringer = StringifyAnInt()
+                let balOneAfter = self.obtainBalanceAfter.runningBalanceOne
+                self.mIPUniversals[i].balOneAfter = balOneAfter
+                self.mIPUniversals[i].balOneAfterString = stringer.stringify(theInt: balOneAfter)
+                let balTwoAfter = self.obtainBalanceAfter.runningBalanceTwo
+                self.mIPUniversals[i].balTwoAfter = balTwoAfter
+                self.mIPUniversals[i].balTwoAfterString = stringer.stringify(theInt: balTwoAfter)
+                if (i + 1) == self.mIPUniversals.count {
+                    completion()
+                }
             })
         }
-        completion()
+    }
+    
+    func loadTheStatuses(completion: @escaping () -> ()) {
+        for i in 0..<mIPUniversals.count {
+            if (mIPUniversals[i].universalItemType == 0) || (mIPUniversals[i].universalItemType == 2) || (mIPUniversals[i].universalItemType == 6) {
+                obtainProjectStatus.obtainStatus(universalItem: mIPUniversals[i], completion: {
+                    self.mIPUniversals[i].projectStatusString = self.obtainProjectStatus.projectStatusName
+                    print(String(describing: self.obtainProjectStatus.projectStatusName))
+                    self.mIPUniversals[i].projectStatusId = self.obtainProjectStatus.projectStatusId
+                    if (i + 1) == self.mIPUniversals.count {
+                        completion()
+                    }
+                })
+            }
+        }
     }
     
 }
