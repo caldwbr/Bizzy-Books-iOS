@@ -33,7 +33,8 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
     @IBOutlet weak var universalCardViewNotesLabel: UILabel!
     @IBOutlet weak var universalCardViewCollectionView: UICollectionView!
     @IBOutlet weak var universalCardViewAccountLabel: UILabel!
-    @IBOutlet weak var universalCardViewBalanceAfterLabel: UILabel!
+    @IBOutlet weak var universalCardViewBalAfterLabel: UILabel!
+    @IBOutlet weak var universalCardViewAccountImageView: UIImageView!
     @IBOutlet weak var universalCardViewImageView: UIImageView!
     private let dataSource = CardViewLabelFlowCollectionViewDataSource()
     let stringifyAnInt: StringifyAnInt = StringifyAnInt()
@@ -108,7 +109,19 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                     break
                 }
                 universalCardViewAccountLabel.text = universalItem.accountOneName
-                universalCardViewBalanceAfterLabel.text = universalItem.balOneAfterString
+                universalCardViewBalAfterLabel.text = universalItem.balOneAfterString
+                switch universalItem.accountOneType {
+                case 0:
+                    universalCardViewAccountImageView.image = UIImage(named: "bank")
+                case 1:
+                    universalCardViewAccountImageView.image = UIImage(named: "credit")
+                case 2:
+                    universalCardViewAccountImageView.image = UIImage(named: "cash")
+                case 3:
+                    universalCardViewAccountImageView.image = UIImage(named: "storecredit")
+                default:
+                    universalCardViewAccountImageView.image = UIImage(named: "bank")
+                }
             case 1:
                 imageView.image = UIImage(named: "personal")
                 universalCardViewItemTypeLabel.text = "Personal"

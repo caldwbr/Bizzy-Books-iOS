@@ -62,6 +62,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var filteredFirebaseAccounts: [AccountItem] = []
     
     var tempKeyHolder: String = ""
+    var tempTypeHolderId: Int = 0
     
     private var universalArray = [0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1] //Notes and pic url will be ON THEIR OWN! Not really.
     private var chosenEntity = 0 //Customer by default
@@ -103,6 +104,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var yourPrimaryAccountPlaceholderKeyString = ""
     var yourSecondaryAccountPlaceholder = "secondary account ▾"
     var yourSecondaryAccountPlaceholderKeyString = ""
+    var secondaryAccountTypePlaceholder = "Bank account"
+    var secondaryAccountTypePlaceholderId = 0
     var workersCompPlaceholder = "Worker's comp ▾ ?"
     var workersCompPlaceholderId = -1
     var advertisingMeansPlaceholder = "(advertising means ▾ )"
@@ -516,10 +519,12 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             case 0, 1, 2, 3:
                 yourAccountPlaceholderKeyString = tempKeyHolder
                 yourAccountPlaceholder = selectAccountTextField.text!
+                accountTypePlaceholderId = tempTypeHolderId
                 self.accountLabel.text = yourAccountPlaceholder
             case 4:
                 yourPrimaryAccountPlaceholderKeyString = tempKeyHolder
                 yourPrimaryAccountPlaceholder = selectAccountTextField.text!
+                accountTypePlaceholderId = tempTypeHolderId
                 self.reloadSentence(selectedType: self.selectedType)
             case 5:
                 yourAccountPlaceholderKeyString = tempKeyHolder
@@ -547,6 +552,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             selectAccountClearing()
             popUpAnimateOut(popUpView: selectAccountView)
             tempKeyHolder = ""
+            tempTypeHolderId = 0
             if primaryAccountTapped == true {
                 primaryAccountTapped = false
             }
@@ -557,6 +563,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         selectAccountTextField.text = ""
         filteredFirebaseAccounts.removeAll()
         tempKeyHolder = ""
+        tempTypeHolderId = 0
         if selectAccountTableView != nil {
             selectAccountTableView.reloadData()
             selectAccountTableView.isHidden = true
@@ -581,6 +588,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if !tempKeyHolder.isEmpty && !selectSecondaryAccountTextField.text!.isEmpty{
             yourSecondaryAccountPlaceholderKeyString = tempKeyHolder
             yourSecondaryAccountPlaceholder = selectSecondaryAccountTextField.text!
+            secondaryAccountTypePlaceholderId = tempTypeHolderId
             self.reloadSentence(selectedType: selectedType)
             selectSecondaryAccountClearing()
             popUpAnimateOut(popUpView: selectSecondaryAccountView)
@@ -591,6 +599,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         selectSecondaryAccountTextField.text = ""
         filteredFirebaseAccounts.removeAll()
         tempKeyHolder = ""
+        tempTypeHolderId = 0
         if selectSecondaryAccountTableView != nil {
             selectSecondaryAccountTableView.reloadData()
             selectSecondaryAccountTableView.isHidden = true
@@ -720,6 +729,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     @IBAction func selectAccountTextFieldChanged(_ sender: UITextField) {
         tempKeyHolder = ""
+        tempTypeHolderId = 0
         if let searchText = sender.text {
             if !searchText.isEmpty {
                 selectAccountTableView.isHidden = false
@@ -748,6 +758,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     @IBAction func selectSecondaryAccountTextFieldChanged(_ sender: UITextField) {
         tempKeyHolder = ""
+        tempTypeHolderId = 0
         if let searchText = sender.text {
             if !searchText.isEmpty {
                 selectSecondaryAccountTableView.isHidden = false
@@ -1775,7 +1786,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         }
         switch self.selectedType {
         case 4: //Transfer
-            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: odometerAsInt, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: thisIsTheAmt.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourPrimaryAccountPlaceholder, accountOneKey: yourPrimaryAccountPlaceholderKeyString, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, howMany: thisIsTheAmt.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
+            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: odometerAsInt, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: thisIsTheAmt.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourPrimaryAccountPlaceholder, accountOneKey: yourPrimaryAccountPlaceholderKeyString, accountOneType: accountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: thisIsTheAmt.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
             universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
         case 5: //Adjust
             let difference = thisIsTheAmt.theAmt - bizzyBooksBalanceAsInt
@@ -1783,7 +1794,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             let thisAccountRef = Database.database().reference().child("users").child(userUID).child("accounts")
             thisAccountRef.child(yourAccountPlaceholderKeyString).updateChildValues(["startingBal": correctedStartingBalance])
         default:
-            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: odometerAsInt, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: thisIsTheAmt.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, howMany: thisIsTheAmt.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
+            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: odometerAsInt, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: thisIsTheAmt.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountOneType: accountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: thisIsTheAmt.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
             universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
         }
         self.navigationController?.popViewController(animated: true)
@@ -1939,12 +1950,14 @@ extension AddUniversal: UITableViewDataSource, UITableViewDelegate {
             self.selectAccountTableView.isHidden = true
             self.selectAccountTextField.text = account.name
             self.tempKeyHolder = account.key
+            self.tempTypeHolderId = account.accountTypeId
             self.filteredFirebaseAccounts.removeAll() //This critical line empties the array so when secondary account is clicked, it doesn't pre-fill with all the data from last time!! And so with all the other cases.
         case self.selectSecondaryAccountTableView:
             let secondaryAccount = filteredFirebaseAccounts[indexPath.row]
             self.selectSecondaryAccountTableView.isHidden = true
             self.selectSecondaryAccountTextField.text = secondaryAccount.name
             self.tempKeyHolder = secondaryAccount.key
+            self.tempTypeHolderId = secondaryAccount.accountTypeId
             self.filteredFirebaseAccounts.removeAll()
         case self.addProjectSelectCustomerTableView:
             let customer = filteredFirebaseEntities[indexPath.row]
