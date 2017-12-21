@@ -16,7 +16,8 @@ struct ProjectItem: MultiversalItem {
     let name: String
     let customerName: String
     let customerKey: String
-    let howDidTheyHearOfYou: Int
+    let howDidTheyHearOfYouString: String
+    let howDidTheyHearOfYouId: Int
     let projectTags: String
     let projectAddressStreet: String
     let projectAddressCity: String
@@ -28,12 +29,13 @@ struct ProjectItem: MultiversalItem {
     let timeStamp: Any
     let ref: DatabaseReference?
     
-    init(name: String, customerName: String, customerKey: String, howDidTheyHearOfYou: Int, projectTags: String, projectAddressStreet: String, projectAddressCity: String, projectAddressState: String, projectNotes: String, projectStatusName: String, projectStatusId: Int, timeStamp: Any, key: String = "") {
+    init(name: String, customerName: String, customerKey: String, howDidTheyHearOfYouString: String, howDidTheyHearOfYouId: Int, projectTags: String, projectAddressStreet: String, projectAddressCity: String, projectAddressState: String, projectNotes: String, projectStatusName: String, projectStatusId: Int, timeStamp: Any, key: String = "") {
         self.key = key
         self.name = name
         self.customerName = customerName
         self.customerKey = customerKey
-        self.howDidTheyHearOfYou = howDidTheyHearOfYou
+        self.howDidTheyHearOfYouString = howDidTheyHearOfYouString
+        self.howDidTheyHearOfYouId = howDidTheyHearOfYouId
         self.projectTags = projectTags
         self.projectAddressStreet = projectAddressStreet
         self.projectAddressCity = projectAddressCity
@@ -51,7 +53,8 @@ struct ProjectItem: MultiversalItem {
         name = snapshotValue["name"] as? String ?? ""
         customerName = snapshotValue["customerName"] as? String ?? ""
         customerKey = snapshotValue["customerKey"] as? String ?? ""
-        howDidTheyHearOfYou = snapshotValue["howDidTheyHearOfYou"] as? Int ?? 0
+        howDidTheyHearOfYouString = snapshotValue["howDidTheyHearOfYouString"] as? String ?? ""
+        howDidTheyHearOfYouId = snapshotValue["howDidTheyHearOfYouId"] as? Int ?? 0
         projectTags = snapshotValue["projectTags"] as? String ?? ""
         projectAddressStreet = snapshotValue["projectAddressStreet"] as? String ?? ""
         projectAddressCity = snapshotValue["projectAddressCity"] as? String ?? ""
@@ -68,7 +71,8 @@ struct ProjectItem: MultiversalItem {
             "name": name,
             "customerName": customerName,
             "customerKey": customerKey,
-            "howDidTheyHearOfYou": howDidTheyHearOfYou,
+            "howDidTheyHearOfYouString": howDidTheyHearOfYouString,
+            "howDidTheyHearOfYouId": howDidTheyHearOfYouId,
             "projectTags": projectTags,
             "projectAddressStreet": projectAddressStreet,
             "projectAddressCity": projectAddressCity,

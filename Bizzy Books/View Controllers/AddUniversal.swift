@@ -269,7 +269,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 projectStatusPlaceholder = "Job lead"
             }
             let timeStampDictionaryForFirebase = [".sv": "timestamp"]
-            let thisProjectItem = ProjectItem(name: addProjectNameTextField.text!, customerName: addProjectSearchCustomerTextField.text!, customerKey: tempKeyHolder, howDidTheyHearOfYou: chosenHowDidTheyHearOfYou, projectTags: addProjectTagsTextField.text!, projectAddressStreet: addProjectStreetTextField.text!, projectAddressCity: addProjectCityTextField.text!, projectAddressState: addProjectStateTextField.text!, projectNotes: addProjectNotesTextField.text!, projectStatusName: projectStatusPlaceholder, projectStatusId: projectStatusPlaceholderId, timeStamp: timeStampDictionaryForFirebase)
+            let thisProjectItem = ProjectItem(name: addProjectNameTextField.text!, customerName: addProjectSearchCustomerTextField.text!, customerKey: tempKeyHolder, howDidTheyHearOfYouString: howDidTheyHearOfYouPlaceholder, howDidTheyHearOfYouId: chosenHowDidTheyHearOfYou, projectTags: addProjectTagsTextField.text!, projectAddressStreet: addProjectStreetTextField.text!, projectAddressCity: addProjectCityTextField.text!, projectAddressState: addProjectStateTextField.text!, projectNotes: addProjectNotesTextField.text!, projectStatusName: projectStatusPlaceholder, projectStatusId: projectStatusPlaceholderId, timeStamp: timeStampDictionaryForFirebase)
             projectsRef.child(addProjectKeyString).setValue(thisProjectItem.toAnyObject())
             popUpAnimateOut(popUpView: addProjectView)
             self.projectPlaceholderKeyString = addProjectKeyString
@@ -1642,6 +1642,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 chosenEntity = row
             case 6: //How did they hear of you
                 chosenHowDidTheyHearOfYou = row
+                howDidTheyHearOfYouPlaceholder = howDidTheyHearOfYouPickerData[row]
             case 7: //Project media type
                 projectMediaTypePlaceholder = projectMediaTypePickerData[row]
                 projectMediaTypePlaceholderId = row

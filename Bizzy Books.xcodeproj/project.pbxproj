@@ -54,6 +54,9 @@
 		EBB407EF1FEB62D000E307C2 /* UniversalTransferCardViewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EBB407EE1FEB62D000E307C2 /* UniversalTransferCardViewCollectionViewCell.xib */; };
 		EBB407F11FEB62FB00E307C2 /* UniversalProjectMediaCardViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB407F01FEB62FB00E307C2 /* UniversalProjectMediaCardViewCollectionViewCell.swift */; };
 		EBB407F31FEB631300E307C2 /* UniversalProjectMediaCardViewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EBB407F21FEB631300E307C2 /* UniversalProjectMediaCardViewCollectionViewCell.xib */; };
+		EBB407F51FEC402B00E307C2 /* CardViewSentenceTwoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB407F41FEC402B00E307C2 /* CardViewSentenceTwoCell.swift */; };
+		EBB407F71FEC403900E307C2 /* CardViewSentenceTwoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EBB407F61FEC403900E307C2 /* CardViewSentenceTwoCell.xib */; };
+		EBB407F91FEC478E00E307C2 /* CardViewLabelFlowCollectionViewDataSourceTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB407F81FEC478E00E307C2 /* CardViewLabelFlowCollectionViewDataSourceTwo.swift */; };
 		EBB77BD61EFC36070084D014 /* LabelTextFieldFlowItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BD51EFC36070084D014 /* LabelTextFieldFlowItem.swift */; };
 		EBB77BD81EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BD71EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift */; };
 		EBB77BDA1EFC37170084D014 /* LabelTextFieldFlowCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BD91EFC37170084D014 /* LabelTextFieldFlowCells.swift */; };
@@ -118,6 +121,9 @@
 		EBB407EE1FEB62D000E307C2 /* UniversalTransferCardViewCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UniversalTransferCardViewCollectionViewCell.xib; sourceTree = "<group>"; };
 		EBB407F01FEB62FB00E307C2 /* UniversalProjectMediaCardViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalProjectMediaCardViewCollectionViewCell.swift; sourceTree = "<group>"; };
 		EBB407F21FEB631300E307C2 /* UniversalProjectMediaCardViewCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UniversalProjectMediaCardViewCollectionViewCell.xib; sourceTree = "<group>"; };
+		EBB407F41FEC402B00E307C2 /* CardViewSentenceTwoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewSentenceTwoCell.swift; sourceTree = "<group>"; };
+		EBB407F61FEC403900E307C2 /* CardViewSentenceTwoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardViewSentenceTwoCell.xib; sourceTree = "<group>"; };
+		EBB407F81FEC478E00E307C2 /* CardViewLabelFlowCollectionViewDataSourceTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewLabelFlowCollectionViewDataSourceTwo.swift; sourceTree = "<group>"; };
 		EBB77BD51EFC36070084D014 /* LabelTextFieldFlowItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTextFieldFlowItem.swift; sourceTree = "<group>"; };
 		EBB77BD71EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTextFieldFlowCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		EBB77BD91EFC37170084D014 /* LabelTextFieldFlowCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTextFieldFlowCells.swift; sourceTree = "<group>"; };
@@ -181,10 +187,13 @@
 				EB2441CA1FE62D88004EDC56 /* CardViewSentenceCell.xib */,
 				EB2441CC1FE63054004EDC56 /* CardViewSentenceCell.swift */,
 				EB2441CE1FE6345F004EDC56 /* CardViewLabelFlowCollectionViewDataSource.swift */,
+				EBB407F81FEC478E00E307C2 /* CardViewLabelFlowCollectionViewDataSourceTwo.swift */,
 				EBB407EC1FEB62B400E307C2 /* UniversalTransferCardViewCollectionViewCell.swift */,
 				EBB407EE1FEB62D000E307C2 /* UniversalTransferCardViewCollectionViewCell.xib */,
 				EBB407F01FEB62FB00E307C2 /* UniversalProjectMediaCardViewCollectionViewCell.swift */,
 				EBB407F21FEB631300E307C2 /* UniversalProjectMediaCardViewCollectionViewCell.xib */,
+				EBB407F41FEC402B00E307C2 /* CardViewSentenceTwoCell.swift */,
+				EBB407F61FEC403900E307C2 /* CardViewSentenceTwoCell.xib */,
 			);
 			path = "Card View Collection View Cells";
 			sourceTree = "<group>";
@@ -376,6 +385,7 @@
 			files = (
 				EB2441CB1FE62D88004EDC56 /* CardViewSentenceCell.xib in Resources */,
 				EB2441B01FE20C44004EDC56 /* EntityCardViewCollectionViewCell.xib in Resources */,
+				EBB407F71FEC403900E307C2 /* CardViewSentenceTwoCell.xib in Resources */,
 				EB2441C11FE614B5004EDC56 /* ProjectCardViewCollectionViewCell.xib in Resources */,
 				EB0B96671FD8744700E8829C /* LaunchScreen.storyboard in Resources */,
 				EB2441BD1FE6143C004EDC56 /* UniversalCardViewCollectionViewCell.xib in Resources */,
@@ -557,6 +567,7 @@
 				EBB407E91FEA10A400E307C2 /* MIProcessor.swift in Sources */,
 				EBB407ED1FEB62B400E307C2 /* UniversalTransferCardViewCollectionViewCell.swift in Sources */,
 				EB5856AE1FB63612006C6212 /* ProjectItem.swift in Sources */,
+				EBB407F91FEC478E00E307C2 /* CardViewLabelFlowCollectionViewDataSourceTwo.swift in Sources */,
 				EB190FC51F074EC700C80E07 /* CleanValue.swift in Sources */,
 				EB851E3F1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld in Sources */,
 				EB05238E1FD0BAAF00C13E8C /* AllowedCharsTextField.swift in Sources */,
@@ -568,6 +579,7 @@
 				EB2441B21FE20C81004EDC56 /* EntityCardViewCollectionViewCell.swift in Sources */,
 				FA7B73211EFC5983007A1AEA /* DropdownReusableView.swift in Sources */,
 				EBB77BDE1EFE2D4D0084D014 /* UIColor+Hex.swift in Sources */,
+				EBB407F51FEC402B00E307C2 /* CardViewSentenceTwoCell.swift in Sources */,
 				EB851E371D9578B2002D19F4 /* AppDelegate.swift in Sources */,
 				EB190FC71F0B3CC500C80E07 /* ContactsLogicManager.swift in Sources */,
 				EB5856A81FB6352D006C6212 /* AccountItem.swift in Sources */,
