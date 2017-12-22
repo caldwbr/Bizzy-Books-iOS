@@ -20,19 +20,21 @@ class ObtainBalanceAfter {
     var trueYou: String = String()
     var runningBalanceOne: Int = 0
     var runningBalanceTwo: Int = 0
+    var startingBalanceOne: Int = 0
     var runningBalances: [Int] = [Int]()
     var accountsRef: DatabaseReference!
     var accountOneKey: String = String()
     var accountTwoKey: String = String()
     var particularUniversalTimeStamp: Double = Double()
     
-    func balAfter(accountKey: String, particularUniversalTimeStamp: Double) -> Int {
-        for mA in mipA {
+    func balAfter(accountKey: String, particularUniversalTimeStamp: Double, completion: @escaping () -> ()) {
+        for mA in MIProcessor.sharedMIP.mIPAccounts {
             if mA.key == accountKey {
-                let startingBalanceOne = mA.startingBal
+                startingBalanceOne = mA.startingBal
+                print("What of this?!? " + String(describing: startingBalanceOne))
                 self.runningBalanceOne = startingBalanceOne
                 self.trueYou = MIProcessor.sharedMIP.trueYou
-                firebaseUniversalsFilteredByTimeRange = mipU.filter({ (universalItem) -> Bool in
+                firebaseUniversalsFilteredByTimeRange = MIProcessor.sharedMIP.mIPUniversals.filter({ (universalItem) -> Bool in
                     if let testedTimeStamp: Double = universalItem.timeStamp as? Double {
                         if testedTimeStamp <= particularUniversalTimeStamp {
                             return true
@@ -44,7 +46,7 @@ class ObtainBalanceAfter {
                     }
                 })
                 firebaseUniversalsFilteredAlsoByAccountKey = firebaseUniversalsFilteredByTimeRange.filter({ (universalItem) -> Bool in
-                    if (universalItem.accountOneKey == accountOneKey) || (universalItem.accountTwoKey == accountOneKey) {
+                    if (universalItem.accountOneKey == accountKey) || (universalItem.accountTwoKey == accountKey) {
                         return true
                     } else {
                         return false
@@ -61,7 +63,7 @@ class ObtainBalanceAfter {
                     case 3:
                         runningBalanceOne = runningBalanceOne - filteredUniversalItem.what
                     case 4:
-                        if filteredUniversalItem.accountOneKey == accountOneKey {
+                        if filteredUniversalItem.accountOneKey == accountKey {
                             runningBalanceOne = runningBalanceOne - filteredUniversalItem.what
                         } else {
                             runningBalanceOne = runningBalanceOne + filteredUniversalItem.what
@@ -76,7 +78,7 @@ class ObtainBalanceAfter {
                 }
             }
         }
-        return runningBalanceOne
+        completion()
     }
 
     func balAfter(thisUniversal: UniversalItem, completion: @escaping () -> ()) -> [Int] {

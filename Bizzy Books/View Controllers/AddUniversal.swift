@@ -100,6 +100,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var bizzyBooksBalanceAsInt = 0
     var bizzyBooksBalanceAsDouble = 0.0
     var bizzyBooksBalanceString = "$0.00"
+    var theStartingBalance = 0
     var yourPrimaryAccountPlaceholder = "account ▾"
     var yourPrimaryAccountPlaceholderKeyString = ""
     var yourSecondaryAccountPlaceholder = "secondary account ▾"
@@ -521,11 +522,13 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 yourAccountPlaceholder = selectAccountTextField.text!
                 accountTypePlaceholderId = tempTypeHolderId
                 self.accountLabel.text = yourAccountPlaceholder
+                selectAccountClearing()
             case 4:
                 yourPrimaryAccountPlaceholderKeyString = tempKeyHolder
                 yourPrimaryAccountPlaceholder = selectAccountTextField.text!
                 accountTypePlaceholderId = tempTypeHolderId
                 self.reloadSentence(selectedType: self.selectedType)
+                selectAccountClearing()
             case 5:
                 yourAccountPlaceholderKeyString = tempKeyHolder
                 yourAccountPlaceholder = selectAccountTextField.text!
@@ -536,11 +539,15 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                             self.bizzyBooksBalanceAsInt = theAccount.startingBal
                             let obtainBalanceAfter = ObtainBalanceAfter()
                             let currentTime: Double = Date().timeIntervalSince1970
-                            print(String(describing: currentTime))
-                            self.theBalanceAfter = obtainBalanceAfter.balAfter(accountKey: self.tempKeyHolder, particularUniversalTimeStamp: currentTime)
-                            self.bizzyBooksBalanceAsDouble = Double(self.theBalanceAfter)/100
-                            self.bizzyBooksBalanceString = self.theFormatter.string(from: NSNumber(value: self.bizzyBooksBalanceAsDouble))!
-                            self.reloadSentence(selectedType: self.selectedType)
+                            let currentTimeMillis: Double = currentTime * 1000
+                            obtainBalanceAfter.balAfter(accountKey: self.tempKeyHolder, particularUniversalTimeStamp: currentTimeMillis, completion: {
+                                self.theBalanceAfter = obtainBalanceAfter.runningBalanceOne
+                                self.theStartingBalance = obtainBalanceAfter.startingBalanceOne
+                                self.bizzyBooksBalanceAsDouble = Double(self.theBalanceAfter)/100
+                                self.bizzyBooksBalanceString = self.theFormatter.string(from: NSNumber(value: self.bizzyBooksBalanceAsDouble))!
+                                self.reloadSentence(selectedType: self.selectedType)
+                                self.selectAccountClearing()
+                            })
                         }
                     }
                 }
@@ -549,9 +556,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 yourAccountPlaceholder = selectAccountTextField.text!
                 self.accountLabel.text = yourAccountPlaceholder
             }
-            selectAccountClearing()
             popUpAnimateOut(popUpView: selectAccountView)
-            tempKeyHolder = ""
             tempTypeHolderId = 0
             if primaryAccountTapped == true {
                 primaryAccountTapped = false
@@ -1798,8 +1803,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: odometerAsInt, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: thisIsTheAmt.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourPrimaryAccountPlaceholder, accountOneKey: yourPrimaryAccountPlaceholderKeyString, accountOneType: accountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: thisIsTheAmt.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
             universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
         case 5: //Adjust
-            let difference = thisIsTheAmt.theAmt - bizzyBooksBalanceAsInt
-            let correctedStartingBalance = bizzyBooksBalanceAsInt + difference
+            let difference = bizzyBooksBalanceAsInt - thisIsTheAmt.theAmt
+            let correctedStartingBalance = theStartingBalance - difference
             let thisAccountRef = Database.database().reference().child("users").child(userUID).child("accounts")
             thisAccountRef.child(yourAccountPlaceholderKeyString).updateChildValues(["startingBal": correctedStartingBalance])
         default:
