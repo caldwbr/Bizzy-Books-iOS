@@ -1704,6 +1704,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             } else if whatTaxReasonPlaceholderId == 6 {
                 guard advertisingMeansPlaceholderId != -1 else { return }
             }
+            if whatTaxReasonPlaceholderId == 0 {
+                guard whoPlaceholderKeyString != trueYouKeyString else { return } //User can't pay themselves for a job
+                guard whomPlaceholderKeyString == trueYouKeyString else { return } //User must receive money to be paid
+            }
             guard yourAccountPlaceholderKeyString != "" else { return }
         case 1:
             guard whoPlaceholderKeyString != "" else { return }
@@ -1715,7 +1719,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             guard projectPlaceholderKeyString != "" else { return }
             guard whoPlaceholderKeyString != "" else { return }
             guard whomPlaceholderKeyString != "" else { return }
-            guard ((whoPlaceholderKeyString == trueYouKeyString) || (whomPlaceholderKeyString == trueYouKeyString)) else { return } //Checks that the user is somehow involved in the transaction, else they needn't enter it!
+            guard whoPlaceholderKeyString == trueYouKeyString else { return } //Make sure user is making the labor payment!
             guard whatPersonalReasonPlaceholderId != -1 else { return }
             guard whatTaxReasonPlaceholderId != -1 else { return }
             if whatTaxReasonPlaceholderId == 2 {
@@ -1725,6 +1729,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             } else if whatTaxReasonPlaceholderId == 6 {
                 guard advertisingMeansPlaceholderId != -1 else { return }
             }
+            guard whatTaxReasonPlaceholderId != 0 else { return } //There's no chance of getting income on mixed item
             guard yourAccountPlaceholderKeyString != "" else { return }
         case 3:
             guard odometerTextField.text != "" else { return }
