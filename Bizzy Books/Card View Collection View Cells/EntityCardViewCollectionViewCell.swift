@@ -22,7 +22,8 @@ class EntityCardViewCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var entityCardViewSSNLabel: UILabel!
     @IBOutlet weak var entityCardViewEINLabel: UILabel!
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
- 
+    @IBOutlet weak var entityCardViewPhoneEmailGeoView: UIView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -36,13 +37,33 @@ class EntityCardViewCollectionViewCell: UICollectionViewCell {
     
     func configure(_ multiversalItemViewModel: MultiversalItem) {
         if let myMulti = multiversalItemViewModel as? EntityItem {
+            entityCardViewPhoneNumberView.isHidden = false
+            entityCardViewEmailView.isHidden = false
+            entityCardViewAddressView.isHidden = false
+            if myMulti.phoneNumber == "" {
+                entityCardViewPhoneNumberView.isHidden = true
+            }
+            if myMulti.email == "" {
+                entityCardViewEmailView.isHidden = true
+            }
+            if myMulti.street == "" {
+                entityCardViewAddressView.isHidden = true
+            }
             entityCardViewNameLabel.text = myMulti.name
             entityCardViewPhoneNumberLabel.text = myMulti.phoneNumber
             entityCardViewEmailLabel.text = myMulti.email
             entityCardViewStreetLabel.text = myMulti.street
-            entityCardViewCityStateLabel.text = String(myMulti.city + ", " + myMulti.state)
+            if (myMulti.city == "") || (myMulti.state == "") {
+                entityCardViewCityStateLabel.text = ""
+            } else {
+                entityCardViewCityStateLabel.text = String(myMulti.city + ", " + myMulti.state)
+            }
             entityCardViewSSNLabel.text = myMulti.ssn
             entityCardViewEINLabel.text = myMulti.ein
+            entityCardViewPhoneEmailGeoView.isHidden = false
+            if (myMulti.phoneNumber == "") && (myMulti.email == "") && (myMulti.street == "") {
+                entityCardViewPhoneEmailGeoView.isHidden = true
+            }
         }
         
     }

@@ -31,6 +31,9 @@ class ProjectCardViewCollectionViewCell: UICollectionViewCell, UICollectionViewD
         }
     }
 
+
+    @IBOutlet weak var topCollectionViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomCollectionViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
     @IBOutlet weak var projectCardViewCollectionView: UICollectionView!
     @IBOutlet weak var projectCardViewCollectionViewTwo: UICollectionView!
@@ -104,6 +107,8 @@ class ProjectCardViewCollectionViewCell: UICollectionViewCell, UICollectionViewD
                 LabelFlowItem(text: "\n\n", color: .gray, action: nil)
             ]
             projectCardViewCollectionView.reloadData()
+            topCollectionViewHeightConstraint.constant = projectCardViewCollectionView.collectionViewLayout.collectionViewContentSize.height
+            projectCardViewCollectionView.layoutIfNeeded()
             var runningGross = 0
             var runningExpensesLaborTotal = 0
             var runningExpensesLaborHasWC = 0
@@ -197,6 +202,10 @@ class ProjectCardViewCollectionViewCell: UICollectionViewCell, UICollectionViewD
                 (LabelFlowItem(text: "margin", color: .gray, action: nil))
             ]
             projectCardViewCollectionViewTwo.reloadData()
+            bottomCollectionViewHeightConstraint.constant = projectCardViewCollectionViewTwo.collectionViewLayout.collectionViewContentSize.height
+            projectCardViewCollectionViewTwo.layoutIfNeeded()
+            projectCardViewCollectionView.layoutIfNeeded()
+            
         }
     }
 

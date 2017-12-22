@@ -296,7 +296,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             let addVehicleKeyReference = vehiclesRef.childByAutoId()
             addVehicleKeyString = addVehicleKeyReference.key
             let timeStampDictionaryForFirebase = [".sv": "timestamp"]
-            let thisVehicleItem = VehicleItem(year: addVehicleYearTextField.text!, make: addVehicleMakeTextField.text!, model: addVehicleModelTextField.text!, color: addVehicleColorTextField.text!, fuel: addVehicleFuelPickerView.selectedRow(inComponent: 0), placedInCommissionDate: addVehiclePlacedInCommissionTextField.text!, licensePlateNumber: addVehicleLicensePlateNumberTextField.text!, vehicleIdentificationNumber: addVehicleVehicleIdentificationNumberTextField.text!, timeStamp: timeStampDictionaryForFirebase)
+            let thisVehicleItem = VehicleItem(year: addVehicleYearTextField.text!, make: addVehicleMakeTextField.text!, model: addVehicleModelTextField.text!, color: addVehicleColorTextField.text!, fuelId: addVehicleFuelPickerView.selectedRow(inComponent: 0), fuelString: fuelTypePickerData[addVehicleFuelPickerView.selectedRow(inComponent: 0)], placedInCommissionDate: addVehiclePlacedInCommissionTextField.text!, licensePlateNumber: addVehicleLicensePlateNumberTextField.text!, vehicleIdentificationNumber: addVehicleVehicleIdentificationNumberTextField.text!, timeStamp: timeStampDictionaryForFirebase)
             vehiclesRef.child(addVehicleKeyString).setValue(thisVehicleItem.toAnyObject())
             popUpAnimateOut(popUpView: addVehicleView)
             vehiclePlaceholderKeyString = addVehicleKeyString
@@ -1787,7 +1787,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if selectedType == 3 {
             if odometerTextField.text != "" {
                 let odometerString = odometerTextField.text!
-                odometerAsInt = Int(odometerString)!
+                let cleanedOdo = odometerString.replacingOccurrences(of: ",", with: "")
+                odometerAsInt = Int(cleanedOdo)!
             }
         }
         switch self.selectedType {

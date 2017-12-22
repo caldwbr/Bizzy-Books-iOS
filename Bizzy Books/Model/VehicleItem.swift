@@ -17,20 +17,22 @@ struct VehicleItem: MultiversalItem {
     let make: String
     let model: String
     let color: String
-    let fuel: Int
+    let fuelId: Int
+    let fuelString: String
     let placedInCommissionDate: String
     let licensePlateNumber: String
     let vehicleIdentificationNumber: String
     let timeStamp: Any
     let ref: DatabaseReference?
     
-    init(year: String, make: String, model: String, color: String, fuel: Int, placedInCommissionDate: String, licensePlateNumber: String, vehicleIdentificationNumber: String, timeStamp: Any, key: String = "") {
+    init(year: String, make: String, model: String, color: String, fuelId: Int, fuelString: String, placedInCommissionDate: String, licensePlateNumber: String, vehicleIdentificationNumber: String, timeStamp: Any, key: String = "") {
         self.key = key
         self.year = year
         self.make = make
         self.model = model
         self.color = color
-        self.fuel = fuel
+        self.fuelId = fuelId
+        self.fuelString = fuelString
         self.placedInCommissionDate = placedInCommissionDate
         self.licensePlateNumber = licensePlateNumber
         self.vehicleIdentificationNumber = vehicleIdentificationNumber
@@ -45,7 +47,8 @@ struct VehicleItem: MultiversalItem {
         make = snapshotValue["make"] as? String ?? ""
         model = snapshotValue["model"] as? String ?? ""
         color = snapshotValue["color"] as? String ?? ""
-        fuel = snapshotValue["fuel"] as? Int ?? 0
+        fuelId = snapshotValue["fuelId"] as? Int ?? 0
+        fuelString = snapshotValue["fuelString"] as? String ?? ""
         placedInCommissionDate = snapshotValue["placedInCommissionDate"] as? String ?? ""
         licensePlateNumber = snapshotValue["licensePlateNumber"] as? String ?? ""
         vehicleIdentificationNumber = snapshotValue["vehicleIdentificationNumber"] as? String ?? ""
@@ -59,7 +62,8 @@ struct VehicleItem: MultiversalItem {
             "make": make,
             "model": model,
             "color": color,
-            "fuel": fuel,
+            "fuelId": fuelId,
+            "fuelString": fuelString,
             "placedInCommissionDate": placedInCommissionDate,
             "licensePlateNumber": licensePlateNumber,
             "vehicleIdentificationNumber": vehicleIdentificationNumber,

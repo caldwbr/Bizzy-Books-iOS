@@ -150,18 +150,19 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                 }
                 universalCardViewProjectNameLabel.text = ""
                 universalCardViewNotesLabel.text = universalItem.notes
+                var ppG = Int((Double(universalItem.what)/Double(universalItem.howMany)) * 1000)
                 dataSource.items = [
-                    LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),
-                    LabelFlowItem(text: "paid", color: .gray, action: nil),
-                    LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.what), color: UIColor.BizzyColor.Green.What, action: nil),
-                    LabelFlowItem(text: "to", color: .gray, action: nil),
-                    LabelFlowItem(text: universalItem.whomName, color: UIColor.BizzyColor.Purple.Whom, action: nil),
-                    LabelFlowItem(text: "for", color: .gray, action: nil),
+                    LabelFlowItem(text: "At", color: .gray, action: nil),
+                    LabelFlowItem(text: String(universalItem.odometerReading), color: UIColor.BizzyColor.Blue.Who, action: nil),
+                    LabelFlowItem(text: "miles, you put", color: .gray, action: nil),
                     LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.howMany, theNumberStyle: .decimal, theGroupingSeparator: true), color: UIColor.BizzyColor.Green.What, action: nil),
                     LabelFlowItem(text: "gallons of", color: .gray, action: nil),
                     LabelFlowItem(text: universalItem.fuelTypeName, color: UIColor.BizzyColor.Orange.WC, action: nil),
-                    LabelFlowItem(text: "in your", color: .gray, action: nil),
-                    LabelFlowItem(text: universalItem.vehicleName, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil)
+                    LabelFlowItem(text: "fuel in your", color: .gray, action: nil),
+                    LabelFlowItem(text: universalItem.vehicleName, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil),
+                    LabelFlowItem(text: "for", color: .gray, action: nil),
+                    LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.what), color: UIColor.BizzyColor.Blue.Project, action: nil),
+                    LabelFlowItem(text: ("(" + stringifyAnInt.stringify(theInt: ppG) + "/gal)"), color: UIColor.BizzyColor.Green.Account, action: nil)
                 ]
                 universalCardViewAccountLabel.text = universalItem.accountOneName
                 universalCardViewBalAfterLabel.text = universalItem.balOneAfterString

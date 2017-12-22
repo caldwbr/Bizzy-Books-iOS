@@ -233,6 +233,7 @@
                 <outlet property="entityCardViewEmailView" destination="NIg-xI-JZL" id="j7z-6G-0f7"/>
                 <outlet property="entityCardViewLineBreakView" destination="Ywl-j8-1tj" id="4UY-o8-TKn"/>
                 <outlet property="entityCardViewNameLabel" destination="AiQ-AW-dRV" id="Xoe-y9-9HC"/>
+                <outlet property="entityCardViewPhoneEmailGeoView" destination="YfY-Kz-ggg" id="kxx-qh-d4z"/>
                 <outlet property="entityCardViewPhoneNumberLabel" destination="dt2-gg-eMM" id="ATk-Io-zZS"/>
                 <outlet property="entityCardViewPhoneNumberView" destination="JDZ-rj-4lc" id="Uo8-JG-LZP"/>
                 <outlet property="entityCardViewSSNLabel" destination="vR1-EO-NxK" id="8a0-WT-0n5"/>

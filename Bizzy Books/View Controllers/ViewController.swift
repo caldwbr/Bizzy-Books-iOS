@@ -212,6 +212,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
             return cell
         }
     }
+
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
