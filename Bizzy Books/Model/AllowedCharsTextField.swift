@@ -47,6 +47,54 @@ class AllowedCharsTextField: UITextField, UITextFieldDelegate {
         let stringyAsCharSet = CharacterSet.init(charactersIn: string)
         if stringyAsCharSet.isDisjoint(with: invertedAllowedCharsSet) {
             switch self.identifier {
+            case 3:
+                if let digit = Int(string) {
+                    if thisIsTheAmt.theStartingBal > 10_000_000_00 {
+                        thisIsTheAmt.theStartingBal = 0
+                        self.text = ""
+                        return false
+                    }
+                    if isNegative {
+                        thisIsTheAmt.theStartingBal = thisIsTheAmt.theStartingBal * 10 - digit
+                    } else {
+                        thisIsTheAmt.theStartingBal = thisIsTheAmt.theStartingBal * 10 + digit
+                    }
+                    self.text = updateAmount()
+                }
+                if string == "" {
+                    thisIsTheAmt.theStartingBal = thisIsTheAmt.theStartingBal/10
+                    self.text = thisIsTheAmt.theStartingBal == 0 ? "" : updateAmount()
+                }
+                if string == "-" {
+                    isNegative = !isNegative // Flips it
+                    thisIsTheAmt.theStartingBal = -thisIsTheAmt.theStartingBal
+                    self.text = updateAmount()
+                }
+                return false //This was the line that, when set to true, was appending the digit-in-purgatory after field had already been rendered by "updateAmount()" IE $0.055
+            case 2:
+                if let digit = Int(string) {
+                    if thisIsTheAmt.theOdo > 10_000_000_00 {
+                        thisIsTheAmt.theOdo = 0
+                        self.text = ""
+                        return false
+                    }
+                    if isNegative {
+                        thisIsTheAmt.theOdo = thisIsTheAmt.theOdo * 10 - digit
+                    } else {
+                        thisIsTheAmt.theOdo = thisIsTheAmt.theOdo * 10 + digit
+                    }
+                    self.text = updateAmount()
+                }
+                if string == "" {
+                    thisIsTheAmt.theOdo = thisIsTheAmt.theOdo/10
+                    self.text = thisIsTheAmt.theOdo == 0 ? "" : updateAmount()
+                }
+                if string == "-" {
+                    isNegative = !isNegative // Flips it
+                    thisIsTheAmt.theOdo = -thisIsTheAmt.theOdo
+                    self.text = updateAmount()
+                }
+                return false //This was the line that, when set to true, was appending the digit-in-purgatory after field had already been rendered by "updateAmount()" IE $0.055
             case 1:
                 if let digit = Int(string) {
                     if thisIsTheAmt.howMany > 10_000_000_00 {
@@ -104,6 +152,12 @@ class AllowedCharsTextField: UITextField, UITextFieldDelegate {
     
     func updateAmount() -> String? {
         switch self.identifier {
+        case 3:
+            let amount = Double(thisIsTheAmt.theStartingBal/100) + Double(thisIsTheAmt.theStartingBal%100)/100
+            return formatter.string(from: NSNumber(value: amount))
+        case 2:
+            let amount = Double(thisIsTheAmt.theOdo)
+            return formatter.string(from: NSNumber(value: amount))
         case 1: // Fuel up case
             let amount = Double(thisIsTheAmt.howMany/1000) + Double(thisIsTheAmt.howMany%1000)/1000
             return formatter.string(from: NSNumber(value: amount))

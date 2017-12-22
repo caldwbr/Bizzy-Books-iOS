@@ -1012,12 +1012,14 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         odometerTextField.text = ""
         odometerTextField.placeholder = "Odometer"
         odometerTextField.allowedChars = "0123456789"
+        odometerTextField.identifier = 2
         addAccountStartingBalanceTextField.formatter.numberStyle = NumberFormatter.Style.currency
         addAccountStartingBalanceTextField.numberKind = 0
         addAccountStartingBalanceTextField.keyboardType = .numbersAndPunctuation
         addAccountStartingBalanceTextField.text = ""
         addAccountStartingBalanceTextField.placeholder = "Starting (Current) Balance"
         addAccountStartingBalanceTextField.allowedChars = "-0123456789"
+        addAccountStartingBalanceTextField.identifier = 3
         
         //Placing the use tax view inside the bottom bar
         var currentItems = self.toolbarItems ?? []

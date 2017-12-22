@@ -20,5 +20,7 @@ final class TheAmtSingleton {
     
     var theAmt: Int = Int()
     var howMany: Int = Int()
+    var theOdo: Int = Int()
+    var theStartingBal: Int = Int()
     
 }
