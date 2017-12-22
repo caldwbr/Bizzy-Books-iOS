@@ -536,7 +536,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                     for item in snapshot.children {
                         let theAccount = AccountItem(snapshot: item as! DataSnapshot)
                         if theAccount.key == self.tempKeyHolder {
-                            self.bizzyBooksBalanceAsInt = theAccount.startingBal
                             let obtainBalanceAfter = ObtainBalanceAfter()
                             let currentTime: Double = Date().timeIntervalSince1970
                             let currentTimeMillis: Double = currentTime * 1000
@@ -1803,8 +1802,13 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: odometerAsInt, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: thisIsTheAmt.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourPrimaryAccountPlaceholder, accountOneKey: yourPrimaryAccountPlaceholderKeyString, accountOneType: accountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: thisIsTheAmt.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
             universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
         case 5: //Adjust
-            let difference = bizzyBooksBalanceAsInt - thisIsTheAmt.theAmt
+            let difference = theBalanceAfter - thisIsTheAmt.theAmt
+            print("difference " + String(describing: difference))
+            print("theBalanceAfter " + String(describing: theBalanceAfter))
+            print("thisIsTheAmt " + String(describing: thisIsTheAmt.theAmt))
+            print("theStartingBalance " + String(describing: theStartingBalance))
             let correctedStartingBalance = theStartingBalance - difference
+            print("correctedStartingBalance " + String(describing: correctedStartingBalance))
             let thisAccountRef = Database.database().reference().child("users").child(userUID).child("accounts")
             thisAccountRef.child(yourAccountPlaceholderKeyString).updateChildValues(["startingBal": correctedStartingBalance])
         default:
