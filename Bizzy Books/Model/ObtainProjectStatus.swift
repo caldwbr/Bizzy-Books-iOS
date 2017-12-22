@@ -12,22 +12,18 @@ import Firebase
 class ObtainProjectStatus {
     
     //Get project status
-    let projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
     var projectStatusName = ""
     var projectStatusId = -1
     
-    func obtainStatus(universalItem: UniversalItem, completion: @escaping () -> ()) {
+    func obtainStatus(universalItem: inout UniversalItem, completion: @escaping () -> ()) {
         if universalItem.projectItemKey == "0" {
             completion()
         } else {
-            projectsRef.observe(.value) { (snapshot) in
-                for item in snapshot.children {
-                    let firebaseProject = ProjectItem(snapshot: item as! DataSnapshot)
-                    if firebaseProject.key == universalItem.projectItemKey {
-                        //universalItem.projectStatusId = firebaseProject.projectStatusId
-                        //universalItem.projectStatusString = firebaseProject.projectStatusName
-                        completion()
-                    }
+            for projectItem in MIProcessor.sharedMIP.mIPProjects {
+                if projectItem.key == universalItem.projectItemKey {
+                    universalItem.projectStatusId = projectItem.projectStatusId
+                    universalItem.projectStatusString = projectItem.projectStatusName
+                    completion()
                 }
             }
         }

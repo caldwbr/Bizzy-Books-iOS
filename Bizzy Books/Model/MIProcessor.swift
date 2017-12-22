@@ -47,22 +47,27 @@ final class MIProcessor {
         self.universalsRef.observeSingleEvent(of: .value, with: { (snapshot) in
             for item in snapshot.children {
                 self.mIPUniversals.append(UniversalItem(snapshot: item as! DataSnapshot))
+                self.mIP.append(UniversalItem(snapshot: item as! DataSnapshot))
             }
             self.projectsRef.observeSingleEvent(of: .value, with: { (snapshot) in
                 for item in snapshot.children {
                     self.mIPProjects.append(ProjectItem(snapshot: item as! DataSnapshot))
+                    self.mIP.append(ProjectItem(snapshot: item as! DataSnapshot))
                 }
                 self.entitiesRef.observeSingleEvent(of: .value, with: { (snapshot) in
                     for item in snapshot.children {
                         self.mIPEntities.append(EntityItem(snapshot: item as! DataSnapshot))
+                        self.mIP.append(EntityItem(snapshot: item as! DataSnapshot))
                     }
                     self.accountsRef.observeSingleEvent(of: .value, with: { (snapshot) in
                         for item in snapshot.children {
                             self.mIPAccounts.append(AccountItem(snapshot: item as! DataSnapshot))
+                            self.mIP.append(AccountItem(snapshot: item as! DataSnapshot))
                         }
                         self.vehiclesRef.observeSingleEvent(of: .value, with: { (snapshot) in
                             for item in snapshot.children {
                                 self.mIPVehicles.append(VehicleItem(snapshot: item as! DataSnapshot))
+                                self.mIP.append(VehicleItem(snapshot: item as! DataSnapshot))
                             }
                             let youRef = Database.database().reference().child("users").child(userUID).child("youEntity")
                             youRef.observeSingleEvent(of: .value, with: { (snapshot) in

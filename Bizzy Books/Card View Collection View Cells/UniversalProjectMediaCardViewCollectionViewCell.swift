@@ -32,8 +32,8 @@ class UniversalProjectMediaCardViewCollectionViewCell: UICollectionViewCell {
     
     func register(_ nib: UINib?, forCellWithReuseIdentifier identifier: String) {}
     
-    func configure(_ multiversalItemViewModel: MultiversalItem) {
-        if let universalItem = multiversalItemViewModel as? UniversalItem {
+    func configure(i: Int) {
+        if let universalItem = MIProcessor.sharedMIP.mIP[i] as? UniversalItem {
             if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
                 let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
                 universalProjMediaDateLabel.text = timeStampAsString

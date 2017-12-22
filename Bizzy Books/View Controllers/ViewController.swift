@@ -26,7 +26,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
     var youEntityRef: DatabaseReference!
     var addEntityKeyString: String = ""
     @IBOutlet weak var cardViewCollectionView: UICollectionView!
-    var multiversalItems = [MultiversalItem]()
+    //var multiversalItems = [MultiversalItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,6 +120,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
         DispatchQueue.main.async {
             MIProcessor.sharedMIP.loadTheMip {
                 MIProcessor.sharedMIP.loadTheBalAfters {
+                    /*
                     self.multiversalItems.removeAll()
                     for i in 0..<MIProcessor.sharedMIP.mIPUniversals.count {
                         self.multiversalItems.append(MIProcessor.sharedMIP.mIPUniversals[i])
@@ -136,6 +137,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
                     for vehicleItem in MIProcessor.sharedMIP.mIPVehicles {
                         self.multiversalItems.append(vehicleItem)
                     }
+ */
                     self.cardViewCollectionView.reloadData()//Critical line - this makes or breaks the app :/
                 }
             }
@@ -168,48 +170,47 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return multiversalItems.count
+        return MIProcessor.sharedMIP.mIP.count
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let multiversalItem = multiversalItems[indexPath.row]
-        print("Hey 2 " + String(describing: multiversalItems))
-        switch multiversalItem.multiversalType {
+        let i = indexPath.row
+        switch MIProcessor.sharedMIP.mIP[i].multiversalType {
         case 0:
-            let universal = multiversalItem as! UniversalItem
+            let universal = MIProcessor.sharedMIP.mIP[i] as! UniversalItem
             switch universal.universalItemType {
             case 4:
                 let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalTransferCardViewCollectionViewCell", for: indexPath) as! UniversalTransferCardViewCollectionViewCell
-                cell.configure(multiversalItems[indexPath.row])
+                cell.configure(i: i)
                 return cell
             case 6:
                 let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalProjectMediaCardViewCollectionViewCell", for: indexPath) as! UniversalProjectMediaCardViewCollectionViewCell
-                cell.configure(multiversalItems[indexPath.row])
+                cell.configure(i: i)
                 return cell
             default: // I.e., cases 0, 1, 2, and 3 (most all cases!)
                 let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalCardViewCollectionViewCell", for: indexPath) as! UniversalCardViewCollectionViewCell
-                cell.configure(multiversalItems[indexPath.row])
+                cell.configure(i: i)
                 return cell
             }
         case 1:
             let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "ProjectCardViewCollectionViewCell", for: indexPath) as! ProjectCardViewCollectionViewCell
-            cell.configure(multiversalItems[indexPath.row])
+            cell.configure(i: i)
             return cell
         case 2:
             let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "EntityCardViewCollectionViewCell", for: indexPath) as! EntityCardViewCollectionViewCell
-            cell.configure(multiversalItems[indexPath.row])
+            cell.configure(i: i)
             return cell
         case 3:
             let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "AccountCardViewCollectionViewCell", for: indexPath) as! AccountCardViewCollectionViewCell
-            cell.configure(multiversalItems[indexPath.row])
+            cell.configure(i: i)
             return cell
         case 4:
             let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "VehicleCardViewCollectionViewCell", for: indexPath) as! VehicleCardViewCollectionViewCell
-            cell.configure(multiversalItems[indexPath.row])
+            cell.configure(i: i)
             return cell
         default:
             let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalCardViewCollectionViewCell", for: indexPath) as! UniversalCardViewCollectionViewCell
-            cell.configure(multiversalItems[indexPath.row])
+            cell.configure(i: i)
             return cell
         }
     }

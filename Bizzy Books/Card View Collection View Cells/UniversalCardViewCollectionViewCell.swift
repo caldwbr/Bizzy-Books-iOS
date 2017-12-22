@@ -59,8 +59,8 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
     
     func register(_ nib: UINib?, forCellWithReuseIdentifier identifier: String) {}
     
-    func configure(_ multiversalItemViewModel: MultiversalItem) {
-        if let universalItem = multiversalItemViewModel as? UniversalItem {
+    func configure(i: Int) {
+        if let universalItem = MIProcessor.sharedMIP.mIP[i] as? UniversalItem {
             switch universalItem.universalItemType {
             case 1:
                 imageView.image = UIImage(named: "personal")

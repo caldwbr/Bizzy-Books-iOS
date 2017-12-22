@@ -35,8 +35,8 @@ class EntityCardViewCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configure(_ multiversalItemViewModel: MultiversalItem) {
-        if let myMulti = multiversalItemViewModel as? EntityItem {
+    func configure(i: Int) {
+        if let myMulti = MIProcessor.sharedMIP.mIP[i] as? EntityItem {
             entityCardViewPhoneNumberView.isHidden = false
             entityCardViewEmailView.isHidden = false
             entityCardViewAddressView.isHidden = false

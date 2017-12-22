@@ -35,8 +35,8 @@ class AccountCardViewCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configure(_ multiversalItemViewModel: MultiversalItem) {
-        if let accountItem = multiversalItemViewModel as? AccountItem {
+    func configure(i: Int) {
+        if let accountItem = MIProcessor.sharedMIP.mIP[i] as? AccountItem {
             accountNameLabel.text = accountItem.name
             switch accountItem.accountTypeId {
             case 0:

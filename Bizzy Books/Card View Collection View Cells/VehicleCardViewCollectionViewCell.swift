@@ -35,8 +35,8 @@ class VehicleCardViewCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configure(_ multiversalItemViewModel: MultiversalItem) {
-        if let vehicleItem = multiversalItemViewModel as? VehicleItem {
+    func configure(i: Int) {
+        if let vehicleItem = MIProcessor.sharedMIP.mIP[i] as? VehicleItem {
             trifectaView.isHidden = false
             licensePlateView.isHidden = false
             vinView.isHidden = false

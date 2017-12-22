@@ -71,8 +71,8 @@ class ProjectCardViewCollectionViewCell: UICollectionViewCell, UICollectionViewD
         projectCardViewCollectionViewTwo.dataSource = self
     }
     
-    func configure(_ multiversalItemViewModel: MultiversalItem) {
-        if let projectItem = multiversalItemViewModel as? ProjectItem {
+    func configure(i: Int) {
+        if let projectItem = MIProcessor.sharedMIP.mIP[i] as? ProjectItem {
             if let timeStampAsDouble: Double = projectItem.timeStamp as? Double {
                 let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
                 projectCardViewDateLabel.text = timeStampAsString
