@@ -15,19 +15,15 @@ class ObtainProjectStatus {
     var projectStatusName = ""
     var projectStatusId = -1
     
-    func obtainStatus(universalItem: inout UniversalItem, completion: @escaping () -> ()) {
-        if universalItem.projectItemKey == "0" {
-            completion()
+    func obtainStatus(i: Int) {
+        if MIProcessor.sharedMIP.mIPUniversals[i].projectItemKey == "0" {
         } else {
             for projectItem in MIProcessor.sharedMIP.mIPProjects {
-                if projectItem.key == universalItem.projectItemKey {
-                    universalItem.projectStatusId = projectItem.projectStatusId
-                    universalItem.projectStatusString = projectItem.projectStatusName
-                    completion()
+                if projectItem.key == MIProcessor.sharedMIP.mIPUniversals[i].projectItemKey {
+                    MIProcessor.sharedMIP.mIPUniversals[i].projectStatusId = projectItem.projectStatusId
+                    MIProcessor.sharedMIP.mIPUniversals[i].projectStatusString = projectItem.projectStatusName
                 }
             }
         }
     }
-    
-    
 }

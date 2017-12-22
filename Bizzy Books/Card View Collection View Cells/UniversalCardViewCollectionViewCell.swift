@@ -63,6 +63,7 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
         if let universalItem = MIProcessor.sharedMIP.mIP[i] as? UniversalItem {
             switch universalItem.universalItemType {
             case 1:
+                universalCardViewStatusLabel.isHidden = true
                 imageView.image = UIImage(named: "personal")
                 universalCardViewItemTypeLabel.text = "Personal"
                 universalCardViewProjectNameLabel.text = ""
@@ -85,6 +86,7 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                 universalCardViewBalAfterLabel.text = universalItem.balOneAfterString
                 updateAccountImage(universalItem: universalItem)
             case 2:
+                universalCardViewStatusLabel.isHidden = false
                 imageView.image = UIImage(named: "mixed")
                 universalCardViewItemTypeLabel.text = "Mixed"
                 universalCardViewProjectNameLabel.text = universalItem.projectItemName
@@ -93,25 +95,9 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                     universalCardViewDateLabel.text = timeStampAsString
                 }
                 universalCardViewNotesLabel.text = universalItem.notes
-                DispatchQueue.main.async {
-                    //Get project status
-                    let projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
-                    if universalItem.projectItemKey == "0" {
-                        self.universalCardViewStatusLabel.text = ""
-                        self.universalCardViewCollectionView.reloadData()
-                    } else {
-                        projectsRef.observe(.value) { (snapshot) in
-                            for item in snapshot.children {
-                                let firebaseProject = ProjectItem(snapshot: item as! DataSnapshot)
-                                if firebaseProject.key == universalItem.projectItemKey {
-                                    self.universalCardViewStatusLabel.text = firebaseProject.projectStatusName
-                                    self.universalCardViewCollectionView.reloadData()
-                                }
-                            }
-                        }
-                    }
-                }
-                //universalCardViewStatusLabel.text = universalItem.projectStatusString
+                let obtainProjectStatus = ObtainProjectStatus()
+                obtainProjectStatus.obtainStatus(i: i)
+                universalCardViewStatusLabel.text = MIProcessor.sharedMIP.mIPUniversals[i].projectStatusString
                 let percBusiness = Int(Double(universalItem.what) * Double(universalItem.percentBusiness)/100)
                 let percPersonal = Int(Double(universalItem.what) * Double(100 - universalItem.percentBusiness)/100)
                 let stringifyAnInt = StringifyAnInt()
@@ -142,6 +128,7 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                 universalCardViewBalAfterLabel.text = universalItem.balOneAfterString
                 updateAccountImage(universalItem: universalItem)
             case 3:
+                universalCardViewStatusLabel.isHidden = true
                 imageView.image = UIImage(named: "fuel")
                 universalCardViewItemTypeLabel.text = "Fuel"
                 if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
@@ -168,6 +155,7 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                 universalCardViewBalAfterLabel.text = universalItem.balOneAfterString
                 updateAccountImage(universalItem: universalItem)
             default: // I.e., case 0, the most frequent!
+                universalCardViewStatusLabel.isHidden = false
                 imageView.image = UIImage(named: "business")
                 universalCardViewItemTypeLabel.text = "Business"
                 if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
@@ -176,24 +164,9 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                 }
                 universalCardViewProjectNameLabel.text = universalItem.projectItemName
                 universalCardViewNotesLabel.text = universalItem.notes
-                DispatchQueue.main.async {
-                    //Get project status
-                    let projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
-                    if universalItem.projectItemKey == "0" {
-                        self.universalCardViewStatusLabel.text = ""
-                        self.universalCardViewCollectionView.reloadData()
-                    } else {
-                        projectsRef.observe(.value) { (snapshot) in
-                            for item in snapshot.children {
-                                let firebaseProject = ProjectItem(snapshot: item as! DataSnapshot)
-                                if firebaseProject.key == universalItem.projectItemKey {
-                                    self.universalCardViewStatusLabel.text = firebaseProject.projectStatusName
-                                    self.universalCardViewCollectionView.reloadData()
-                                }
-                            }
-                        }
-                    }
-                }
+                let obtainProjectStatus = ObtainProjectStatus()
+                obtainProjectStatus.obtainStatus(i: i)
+                universalCardViewStatusLabel.text = MIProcessor.sharedMIP.mIPUniversals[i].projectStatusString
                 dataSource.items = [
                     LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),
                     LabelFlowItem(text: "paid", color: .gray, action: nil),
@@ -225,9 +198,6 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
         let date = NSDate(timeIntervalSince1970: x)
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM dd, yyyy\nh:mma"
-        //formatter.dateStyle = .medium
-        //formatter.timeStyle = .short
-        
         return formatter.string(from: date as Date)
     }
     
@@ -245,168 +215,6 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
             universalCardViewAccountImageView.image = UIImage(named: "bank")
         }
     }
-    
-    /*
-    func businessCase() {
-        dataSource.items = [
-            LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),
-            LabelFlowItem(text: "paid", color: .gray, action: nil),
-            LabelFlowItem(text: universalItem.what, color: UIColor.BizzyColor.Green.What, action: nil),
-            LabelFlowItem(text: "to", color: .gray, action: nil),
-            LabelFlowItem(text: universalItem.whomName, color: UIColor.BizzyColor.Purple.Whom, action: nil),
-            LabelFlowItem(text: "for", color: .gray, action: nil),
-            LabelFlowItem(text: universalItem.taxReasonId, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil)
-        ]
-        switch universalArray[6] {
-        case 2:
-            dataSource.items.append(LabelFlowItem(text: workersCompPlaceholder, color: UIColor.BizzyColor.Orange.WC, action: { self.popUpAnimateIn(popUpView: self.genericPickerView); self.pickerCode = 1 }))
-        case 5:
-            dataSource.items.append(LabelFlowItem(text: vehiclePlaceholder, color: UIColor.BizzyColor.Orange.Vehicle, action: { self.popUpAnimateIn(popUpView: self.selectVehicleView) }))
-        case 6:
-            dataSource.items.append(LabelFlowItem(text: advertisingMeansPlaceholder, color: UIColor.BizzyColor.Orange.AdMeans, action: { self.pickerCode = 2; self.popUpAnimateIn(popUpView: self.genericPickerView) }))
-        default:
-            break
-        }
-        projectLabel.isHidden = false
-        odometerTextField.isHidden = true
-        percentBusinessView.isHidden = true
-        bottomStackView.layoutIfNeeded()
-        accountLabel.isHidden = false
-        reloadCollectionView()
-        useTaxSwitchContainer.isHidden = false
-    }
-    
-    func personalCase() {
-        universalArray[0] = 1
-        dataSource.items = [
-            LabelFlowItem(text: whoPlaceholder, color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
-            LabelFlowItem(text: "paid", color: .gray, action: nil),
-            TextFieldFlowItem(text: "", amt: 0, placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0),
-            LabelFlowItem(text: "to", color: .gray, action: nil),
-            LabelFlowItem(text: whomPlaceholder, color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
-            LabelFlowItem(text: "for", color: .gray, action: nil),
-            LabelFlowItem(text: whatPersonalReasonPlaceholder, color: UIColor.BizzyColor.Magenta.PersonalReason, action: { self.pickerCode = 3; self.popUpAnimateIn(popUpView: self.genericPickerView) })
-        ]
-        projectLabel.isHidden = true
-        odometerTextField.isHidden = true
-        percentBusinessView.isHidden = true
-        bottomStackView.layoutIfNeeded()
-        accountLabel.isHidden = false
-        reloadCollectionView()
-        useTaxSwitchContainer.isHidden = false
-    }
-    
-    func mixedCase() {
-        universalArray[0] = 2
-        dataSource.items = [
-            LabelFlowItem(text: whoPlaceholder, color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
-            LabelFlowItem(text: "paid", color: .gray, action: nil),
-            TextFieldFlowItem(text: "", amt: 0, placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0),
-            LabelFlowItem(text: "to", color: .gray, action: nil),
-            LabelFlowItem(text: whomPlaceholder, color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
-            LabelFlowItem(text: "for", color: .gray, action: nil),
-            LabelFlowItem(text: whatPersonalReasonPlaceholder, color: UIColor.BizzyColor.Magenta.PersonalReason, action: { self.pickerCode = 3;  self.popUpAnimateIn(popUpView: self.genericPickerView) }),
-            LabelFlowItem(text: "and", color: .gray, action: nil),
-            LabelFlowItem(text: whatTaxReasonPlaceholder, color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.pickerCode = 0; self.popUpAnimateIn(popUpView: self.genericPickerView) })
-        ]
-        switch universalArray[6] {
-        case 2:
-            dataSource.items.append(LabelFlowItem(text: workersCompPlaceholder, color: UIColor.BizzyColor.Orange.WC, action: { self.popUpAnimateIn(popUpView: self.genericPickerView); self.pickerCode = 1 }))
-        case 5:
-            dataSource.items.append(LabelFlowItem(text: taxVehiclePlaceholder, color: UIColor.BizzyColor.Orange.Vehicle, action: { self.popUpAnimateIn(popUpView: self.selectVehicleView) }))
-        case 6:
-            dataSource.items.append(LabelFlowItem(text: advertisingMeansPlaceholder, color: UIColor.BizzyColor.Orange.AdMeans, action: { self.pickerCode = 2; self.popUpAnimateIn(popUpView: self.genericPickerView) }))
-        default:
-            break
-        }
-        projectLabel.isHidden = false
-        odometerTextField.isHidden = true
-        percentBusinessView.isHidden = false
-        bottomStackView.layoutIfNeeded()
-        accountLabel.isHidden = false
-        reloadCollectionView()
-        useTaxSwitchContainer.isHidden = false
-        let theTextFieldYes = dataSource.theTextFieldYes
-        theTextFieldYes.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControlEvents.allEditingEvents)
-    }
-    
-    func fuelCase() {
-        universalArray[0] = 3
-        dataSource.items = [
-            LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: nil),
-            LabelFlowItem(text: "paid", color: .gray, action: nil),
-            TextFieldFlowItem(text: "", amt: 0, placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0),
-            LabelFlowItem(text: "to", color: .gray, action: nil),
-            LabelFlowItem(text: whomPlaceholder, color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
-            LabelFlowItem(text: "for", color: .gray, action: nil),
-            TextFieldFlowItem(text: "", amt: 0, placeholder: "how many", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.decimal, numberKind: 1),
-            LabelFlowItem(text: "gallons of", color: .gray, action: nil),
-            LabelFlowItem(text: fuelTypePlaceholder, color: UIColor.BizzyColor.Orange.WC, action: { self.pickerCode = 4; self.popUpAnimateIn(popUpView: self.genericPickerView) }),
-            LabelFlowItem(text: "in your", color: .gray, action: nil),
-            LabelFlowItem(text: vehiclePlaceholder, color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.popUpAnimateIn(popUpView: self.selectVehicleView) })
-        ]
-        projectLabel.isHidden = true
-        odometerTextField.isHidden = false
-        percentBusinessView.isHidden = true
-        bottomStackView.layoutIfNeeded()
-        accountLabel.isHidden = false
-        reloadCollectionView()
-        useTaxSwitchContainer.isHidden = true
-    }
-    
-    func transferCase() {
-        universalArray[0] = 4
-        dataSource.items = [
-            LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: nil),
-            LabelFlowItem(text: "moved", color: .gray, action: nil),
-            TextFieldFlowItem(text: "", amt: 0, placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0),
-            LabelFlowItem(text: "from", color: .gray, action: nil),
-            LabelFlowItem(text: yourPrimaryAccountPlaceholder, color: UIColor.BizzyColor.Green.Account, action: { self.primaryAccountTapped = true; self.popUpAnimateIn(popUpView: self.selectAccountView) }),
-            LabelFlowItem(text: "to", color: .gray, action: nil),
-            LabelFlowItem(text: yourSecondaryAccountPlaceholder, color: UIColor.BizzyColor.Green.Account, action: { self.popUpAnimateIn(popUpView: self.selectSecondaryAccountView) })
-        ]
-        projectLabel.isHidden = true
-        odometerTextField.isHidden = true
-        percentBusinessView.isHidden = true
-        bottomStackView.layoutIfNeeded()
-        accountLabel.isHidden = true
-        reloadCollectionView()
-        useTaxSwitchContainer.isHidden = true
-    }
-    
-    func adjustCase() {
-        universalArray[0] = 5
-        dataSource.items = [
-            LabelFlowItem(text: yourAccountPlaceholder, color: UIColor.BizzyColor.Green.Account, action: { self.popUpAnimateIn(popUpView: self.selectAccountView) }),
-            LabelFlowItem(text: "with a Bizzy Books balance of", color: .gray, action: nil),
-            LabelFlowItem(text: bizzyBooksBalanceString, color: UIColor.BizzyColor.Green.Account, action: nil),
-            LabelFlowItem(text: "should have a balance of", color: .gray, action: nil),
-            TextFieldFlowItem(text: "", amt: 0, placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numbersAndPunctuation, allowedCharsString: negPossibleDigits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0)
-        ]
-        projectLabel.isHidden = true
-        odometerTextField.isHidden = true
-        percentBusinessView.isHidden = true
-        bottomStackView.layoutIfNeeded()
-        accountLabel.isHidden = true
-        reloadCollectionView()
-        useTaxSwitchContainer.isHidden = true
-    }
-    
-    func projectMediaCase() {
-        universalArray[0] = 6
-        dataSource.items = [
-            LabelFlowItem(text: projectMediaTypePlaceholder, color: UIColor.BizzyColor.Blue.Project, action: { self.pickerCode = 7; self.popUpAnimateIn(popUpView: self.genericPickerView) })
-        ]
-        projectLabel.isHidden = false
-        odometerTextField.isHidden = true
-        percentBusinessView.isHidden = true
-        bottomStackView.layoutIfNeeded()
-        accountLabel.isHidden = true
-        reloadCollectionView()
-        useTaxSwitchContainer.isHidden = true
-    }
- 
- */
     
     func reloadCardCollectionView() {
         universalCardViewCollectionView.delegate = dataSource

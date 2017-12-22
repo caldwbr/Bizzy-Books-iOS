@@ -120,24 +120,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
         DispatchQueue.main.async {
             MIProcessor.sharedMIP.loadTheMip {
                 MIProcessor.sharedMIP.loadTheBalAfters {
-                    /*
-                    self.multiversalItems.removeAll()
-                    for i in 0..<MIProcessor.sharedMIP.mIPUniversals.count {
-                        self.multiversalItems.append(MIProcessor.sharedMIP.mIPUniversals[i])
-                    }
-                    for projectItem in MIProcessor.sharedMIP.mIPProjects {
-                        self.multiversalItems.append(projectItem)
-                    }
-                    for entityItem in MIProcessor.sharedMIP.mIPEntities {
-                        self.multiversalItems.append(entityItem)
-                    }
-                    for accountItem in MIProcessor.sharedMIP.mIPAccounts {
-                        self.multiversalItems.append(accountItem)
-                    }
-                    for vehicleItem in MIProcessor.sharedMIP.mIPVehicles {
-                        self.multiversalItems.append(vehicleItem)
-                    }
- */
+                    MIProcessor.sharedMIP.loadTheStatuses()
                     self.cardViewCollectionView.reloadData()//Critical line - this makes or breaks the app :/
                 }
             }

@@ -100,17 +100,10 @@ final class MIProcessor {
         }
     }
     
-    func loadTheStatuses(completion: @escaping () -> ()) {
+    func loadTheStatuses() {
         for i in 0..<mIPUniversals.count {
             if (mIPUniversals[i].universalItemType == 0) || (mIPUniversals[i].universalItemType == 2) || (mIPUniversals[i].universalItemType == 6) {
-                obtainProjectStatus.obtainStatus(universalItem: mIPUniversals[i], completion: {
-                    self.mIPUniversals[i].projectStatusString = self.obtainProjectStatus.projectStatusName
-                    print("ARGH! " + self.mIPUniversals[i].projectStatusString)
-                    self.mIPUniversals[i].projectStatusId = self.obtainProjectStatus.projectStatusId
-                    if (i + 1) == self.mIPUniversals.count {
-                        completion()
-                    }
-                })
+                obtainProjectStatus.obtainStatus(i: i)
             }
         }
     }
