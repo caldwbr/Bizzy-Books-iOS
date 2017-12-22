@@ -173,6 +173,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let multiversalItem = multiversalItems[indexPath.row]
+        print("Hey 2 " + String(describing: multiversalItems))
         switch multiversalItem.multiversalType {
         case 0:
             let universal = multiversalItem as! UniversalItem

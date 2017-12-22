@@ -44,38 +44,38 @@ final class MIProcessor {
         mIPEntities.removeAll()
         mIPAccounts.removeAll()
         mIPVehicles.removeAll()
-        self.universalsRef.observe(.value) { (snapshot) in
+        self.universalsRef.observeSingleEvent(of: .value, with: { (snapshot) in
             for item in snapshot.children {
                 self.mIPUniversals.append(UniversalItem(snapshot: item as! DataSnapshot))
             }
-            self.projectsRef.observe(.value) { (snapshot) in
+            self.projectsRef.observeSingleEvent(of: .value, with: { (snapshot) in
                 for item in snapshot.children {
                     self.mIPProjects.append(ProjectItem(snapshot: item as! DataSnapshot))
                 }
-                self.entitiesRef.observe(.value) { (snapshot) in
+                self.entitiesRef.observeSingleEvent(of: .value, with: { (snapshot) in
                     for item in snapshot.children {
                         self.mIPEntities.append(EntityItem(snapshot: item as! DataSnapshot))
                     }
-                    self.accountsRef.observe(.value) { (snapshot) in
+                    self.accountsRef.observeSingleEvent(of: .value, with: { (snapshot) in
                         for item in snapshot.children {
                             self.mIPAccounts.append(AccountItem(snapshot: item as! DataSnapshot))
                         }
-                        self.vehiclesRef.observe(.value) { (snapshot) in
+                        self.vehiclesRef.observeSingleEvent(of: .value, with: { (snapshot) in
                             for item in snapshot.children {
                                 self.mIPVehicles.append(VehicleItem(snapshot: item as! DataSnapshot))
                             }
                             let youRef = Database.database().reference().child("users").child(userUID).child("youEntity")
-                            youRef.observe(.value) { (snapshot) in
+                            youRef.observeSingleEvent(of: .value, with: { (snapshot) in
                                 if let youKey = snapshot.value as? String {
                                     self.trueYou = youKey
+                                    completion()
                                 }
-                                completion()
-                            }
-                        }
-                    }
-                }
-            }
-        }
+                            })
+                        })
+                    })
+                })
+            })
+        })
     }
     
     func loadTheBalAfters(completion: @escaping () -> ()) {
