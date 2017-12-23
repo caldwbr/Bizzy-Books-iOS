@@ -12,11 +12,11 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="EntityCardViewCollectionViewCell" customModule="Bizzy_Books" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="350" height="336"/>
+            <rect key="frame" x="0.0" y="0.0" width="350" height="301"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MnE-63-QWX" customClass="CardView" customModule="Bizzy_Books" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="350" height="336"/>
+                    <rect key="frame" x="0.0" y="0.0" width="350" height="301"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3pU-F6-dJ7">
                             <rect key="frame" x="131" y="8" width="88" height="30"/>
@@ -248,7 +248,7 @@
                 <outlet property="entityCardViewStreetLabel" destination="HOb-rA-Dlb" id="FLb-yj-3tQ"/>
                 <outlet property="widthConstraint" destination="WcA-Lt-nh6" id="EKR-7X-5hm"/>
             </connections>
-            <point key="canvasLocation" x="25" y="-110.5"/>
+            <point key="canvasLocation" x="25" y="-128.5"/>
         </view>
     </objects>
     <resources>

@@ -39,6 +39,10 @@ class StringifyAnInt {
                 let amount = Double(theInt)
                 return formatter.string(from: NSNumber(value: amount))!
             }
+        case .none:
+            formatter.usesGroupingSeparator = theGroupingSeparator
+            formatter.numberStyle = .none
+            return formatter.string(from: NSNumber(value: theInt))!
         default:
             formatter.usesGroupingSeparator = true
             formatter.numberStyle = .currency

@@ -106,9 +106,6 @@ class ProjectCardViewCollectionViewCell: UICollectionViewCell, UICollectionViewD
                 LabelFlowItem(text: preparedAddress, color: UIColor.BizzyColor.Magenta.PersonalReason, action: nil),
                 LabelFlowItem(text: "\n\n", color: .gray, action: nil)
             ]
-            projectCardViewCollectionView.reloadData()
-            topCollectionViewHeightConstraint.constant = projectCardViewCollectionView.collectionViewLayout.collectionViewContentSize.height
-            projectCardViewCollectionView.layoutIfNeeded()
             var runningGross = 0
             var runningExpensesLaborTotal = 0
             var runningExpensesLaborHasWC = 0
@@ -201,11 +198,12 @@ class ProjectCardViewCollectionViewCell: UICollectionViewCell, UICollectionViewD
                 (LabelFlowItem(text: (margin + "%"), color: UIColor.BizzyColor.Magenta.PersonalReason, action: nil)),
                 (LabelFlowItem(text: "margin", color: .gray, action: nil))
             ]
-            projectCardViewCollectionViewTwo.reloadData()
-            bottomCollectionViewHeightConstraint.constant = projectCardViewCollectionViewTwo.collectionViewLayout.collectionViewContentSize.height
-            projectCardViewCollectionViewTwo.layoutIfNeeded()
+            projectCardViewCollectionView.reloadData()
             projectCardViewCollectionView.layoutIfNeeded()
-            
+            topCollectionViewHeightConstraint.constant = projectCardViewCollectionView.collectionViewLayout.collectionViewContentSize.height
+            projectCardViewCollectionViewTwo.reloadData()
+            projectCardViewCollectionViewTwo.layoutIfNeeded()
+            bottomCollectionViewHeightConstraint.constant = projectCardViewCollectionViewTwo.collectionViewLayout.collectionViewContentSize.height
         }
     }
 

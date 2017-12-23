@@ -58,23 +58,23 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Job Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xIr-jY-9wR">
-                            <rect key="frame" x="136" y="46" width="78" height="20"/>
+                            <rect key="frame" x="136" y="46" width="78" height="10"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4CP-2m-ICi">
-                            <rect key="frame" x="8" y="74" width="334" height="1"/>
+                            <rect key="frame" x="8" y="64" width="334" height="1"/>
                             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="fh5-Oh-efe"/>
                             </constraints>
                         </view>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="251" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="GyE-Ba-eIt">
-                            <rect key="frame" x="16" y="91" width="318" height="100"/>
+                            <rect key="frame" x="16" y="81" width="318" height="110"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="100" id="0GP-tE-TJU"/>
+                                <constraint firstAttribute="height" constant="110" id="0GP-tE-TJU"/>
                             </constraints>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="NVH-3F-3sr">
                                 <size key="itemSize" width="50" height="50"/>

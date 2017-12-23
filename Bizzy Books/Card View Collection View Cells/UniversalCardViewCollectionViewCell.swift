@@ -104,6 +104,9 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                 let percBusinessString = stringifyAnInt.stringify(theInt: percBusiness)
                 let percPersonalString = stringifyAnInt.stringify(theInt: percPersonal)
                 dataSource.items = [
+                    LabelFlowItem(text: "At", color: .gray, action: nil),
+                    LabelFlowItem(text: (stringifyAnInt.stringify(theInt: universalItem.percentBusiness, theNumberStyle: .none , theGroupingSeparator: false) + "%"), color: UIColor.BizzyColor.Yellow.ProjectStatus, action: nil),
+                    LabelFlowItem(text: "business,", color: .gray, action: nil),
                     LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),
                     LabelFlowItem(text: "paid", color: .gray, action: nil),
                     LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.what), color: UIColor.BizzyColor.Green.What, action: nil),
