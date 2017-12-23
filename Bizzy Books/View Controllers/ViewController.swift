@@ -204,6 +204,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
     
     @objc func handleLongPress(gesture : UILongPressGestureRecognizer!) {
         
+        //Without this line, it fires into the ADDuniversal multiple times !!
         if gesture.state != .began {
             return
         }

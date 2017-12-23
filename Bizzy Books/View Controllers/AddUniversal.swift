@@ -975,15 +975,15 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         
         //Set up pickers' data
         taxReasonPickerData = ["Income", "Supplies", "Labor", "Meals", "Office", "Vehicle", "Advertising", "Pro Help", "Machine Rental", "Property Rental", "Tax+License", "Insurance (WC+GL)", "Travel", "Employee Benefit", "Depreciation", "Depletion", "Utilities", "Commissions", "Wages", "Mortgate Interest", "Other Interest", "Pension", "Repairs"]
-        wcPickerData = ["(sub has wc)", "(incurred wc)", "(wc n/a)"]
-        advertisingMeansPickerData = ["(unknown)", "(referral)", "(website)", "(yp)", "(social media)", "(soliciting)", "(google adwords)", "(company shirts)", "(sign)", "(vehicle wrap)", "(billboard)", "(tv)", "(radio)", "(other)"]
+        wcPickerData = ["(Sub Has WC)", "(Incurred WC)", "(WC N/A)"]
+        advertisingMeansPickerData = ["(Unknown)", "(Referral)", "(Website)", "(YP)", "(Social Media)", "(Soliciting)", "(Google Adwords)", "(Company Shirts)", "(Sign)", "(Vehicle Wrap)", "(Billboard)", "(TV)", "(Radio)", "(Other)"]
         howDidTheyHearOfYouPickerData = advertisingMeansPickerData
         personalReasonPickerData = ["Food", "Fun", "Pet", "Utilities", "Phone", "Office", "Giving", "Insurance", "House", "Yard", "Medical", "Travel", "Clothes", "Other"]
         fuelTypePickerData = ["87 Gas", "89 Gas", "91 Gas", "Diesel"]
         entityPickerData = ["Customer", "Vendor", "Sub", "Employee", "Store", "Government", "Other"] // You is at position 7 but not available to user
-        projectMediaTypePickerData = ["Before", "During", "After", "Drawing", "Calculations", "Material list", "Estimate", "Contract", "Labor warranty", "Material warranty", "Safety", "Other"]
-        projectStatusPickerData = ["Job lead", "Bid", "Contract", "Paid", "Lost", "Other"]
-        addAccountAccountTypePickerData = ["Bank account", "Credit account", "Cash account", "Store refund account"]
+        projectMediaTypePickerData = ["Before", "During", "After", "Drawing", "Calculations", "Material List", "Estimate", "Contract", "Labor Warranty", "Material Warranty", "Safety", "Other"]
+        projectStatusPickerData = ["Job Lead", "Bid", "Contract", "Paid", "Lost", "Other"]
+        addAccountAccountTypePickerData = ["Bank Account", "Credit Account", "Cash Account", "Store Refund Account"]
         
         //Clip corners of all popups for better aesthetics
         selectProjectView.layer.cornerRadius = 5
