@@ -18,7 +18,7 @@ import FBSDKLoginKit
 var userUID = ""
 var userTokens = ""
 
-class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSource {
+class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate {
     
     var kFacebookAppID = "1583985615235483"
     var backgroundImage : UIImageView! //right here
@@ -42,6 +42,11 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
             cardViewFlowLayout.estimatedItemSize = CGSize(width: 350, height: 200)
         }
         cardViewCollectionView.dataSource = self
+        let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress))
+        lpgr.minimumPressDuration = 0.5
+        lpgr.delaysTouchesBegan = true
+        lpgr.delegate = self
+        self.cardViewCollectionView.addGestureRecognizer(lpgr)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -196,7 +201,24 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
             return cell
         }
     }
-
+    
+    @objc func handleLongPress(gesture : UILongPressGestureRecognizer!) {
+        
+        if gesture.state != .began {
+            return
+        }
+        
+        let p = gesture.location(in: self.cardViewCollectionView)
+        
+        if let indexPath = self.cardViewCollectionView.indexPathForItem(at: p) {
+            // get the cell at indexPath (the one you long pressed)
+            //let cell = self.cardViewCollectionView.cellForItem(at: indexPath)
+            performSegue(withIdentifier: "createUniversal", sender: self)
+            // do stuff with the cell
+        } else {
+            print("couldn't find index path")
+        }
+    }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
