@@ -26,12 +26,13 @@ class ObtainBalanceAfter {
     var accountOneKey: String = String()
     var accountTwoKey: String = String()
     var particularUniversalTimeStamp: Double = Double()
+    var stringifyAnInt = StringifyAnInt()
     
+    //THIS FUNCTION is just for when you are adjusting current bank balance, as there is no Universal to reference!
     func balAfter(accountKey: String, particularUniversalTimeStamp: Double, completion: @escaping () -> ()) {
-        for mA in MIProcessor.sharedMIP.mIPAccounts {
-            if mA.key == accountKey {
-                startingBalanceOne = mA.startingBal
-                print("What of this?!? " + String(describing: startingBalanceOne))
+        for i in 0..<MIProcessor.sharedMIP.mIPAccounts.count {
+            if MIProcessor.sharedMIP.mIPAccounts[i].key == accountKey {
+                startingBalanceOne = MIProcessor.sharedMIP.mIPAccounts[i].startingBal
                 self.runningBalanceOne = startingBalanceOne
                 self.trueYou = MIProcessor.sharedMIP.trueYou
                 firebaseUniversalsFilteredByTimeRange = MIProcessor.sharedMIP.mIPUniversals.filter({ (universalItem) -> Bool in
@@ -81,39 +82,39 @@ class ObtainBalanceAfter {
         completion()
     }
 
-    func balAfter(thisUniversal: UniversalItem, completion: @escaping () -> ()) -> [Int] {
-        mip = MIProcessor.sharedMIP.mIP
-        mipA = MIProcessor.sharedMIP.mIPAccounts
-        mipU = MIProcessor.sharedMIP.mIPUniversals
-        self.accountOneKey = thisUniversal.accountOneKey
-        self.accountTwoKey = thisUniversal.accountTwoKey
-        self.particularUniversalTimeStamp = thisUniversal.timeStamp as! Double
-        switch thisUniversal.universalItemType {
-        case 4: // This is the transfer case - the only case to use a secondary account
-            assumingAccountOne {
-                self.runningBalances.append(self.runningBalanceOne)
+    func balsAfter() {
+        for i in 0..<MIProcessor.sharedMIP.mIPUniversals.count {
+            self.accountOneKey = MIProcessor.sharedMIP.mIPUniversals[i].accountOneKey
+            self.accountTwoKey = MIProcessor.sharedMIP.mIPUniversals[i].accountTwoKey
+            self.particularUniversalTimeStamp = MIProcessor.sharedMIP.mIPUniversals[i].timeStamp as! Double
+            switch MIProcessor.sharedMIP.mIPUniversals[i].universalItemType {
+            case 4: // This is the transfer case - the only case to use a secondary account
+                assumingAccountOne {
+                    MIProcessor.sharedMIP.mIPUniversals[i].balOneAfter = self.runningBalanceOne
+                    MIProcessor.sharedMIP.mIPUniversals[i].balOneAfterString = self.stringifyAnInt.stringify(theInt: self.runningBalanceOne)
+                }
+                assumingAccountTwo {
+                    MIProcessor.sharedMIP.mIPUniversals[i].balTwoAfter = self.runningBalanceTwo
+                    MIProcessor.sharedMIP.mIPUniversals[i].balTwoAfterString = self.stringifyAnInt.stringify(theInt: self.runningBalanceTwo)
+                }
+            default:
+                assumingAccountOne {
+                    MIProcessor.sharedMIP.mIPUniversals[i].balOneAfter = self.runningBalanceOne
+                    MIProcessor.sharedMIP.mIPUniversals[i].balOneAfterString = self.stringifyAnInt.stringify(theInt: self.runningBalanceOne)
+                    MIProcessor.sharedMIP.mIPUniversals[i].balTwoAfter = self.runningBalanceTwo
+                    MIProcessor.sharedMIP.mIPUniversals[i].balTwoAfterString = self.stringifyAnInt.stringify(theInt: self.runningBalanceTwo)
+                }
             }
-            assumingAccountTwo {
-                self.runningBalances.append(self.runningBalanceTwo)
-            }
-            completion()
-        default:
-            assumingAccountOne {
-                self.runningBalances.append(self.runningBalanceOne)
-                self.runningBalances.append(self.runningBalanceTwo)
-            }
-            completion()
         }
-        return runningBalances
     }
     
     func assumingAccountOne(completion: @escaping () -> ()) {
-        for mA in mipA {
-            if mA.key == self.accountOneKey {
-                let startingBalanceOne = mA.startingBal
+        for i in 0..<MIProcessor.sharedMIP.mIPAccounts.count {
+            if MIProcessor.sharedMIP.mIPAccounts[i].key == self.accountOneKey {
+                let startingBalanceOne = MIProcessor.sharedMIP.mIPAccounts[i].startingBal
                 self.runningBalanceOne = startingBalanceOne
                 self.trueYou = MIProcessor.sharedMIP.trueYou
-                firebaseUniversalsFilteredByTimeRange = mipU.filter({ (universalItem) -> Bool in
+                firebaseUniversalsFilteredByTimeRange = MIProcessor.sharedMIP.mIPUniversals.filter({ (universalItem) -> Bool in
                     if let testedTimeStamp: Double = universalItem.timeStamp as? Double {
                         if testedTimeStamp <= particularUniversalTimeStamp {
                             return true
@@ -155,17 +156,20 @@ class ObtainBalanceAfter {
                         }
                     }
                 }
+                completion()
+            } else {
+                completion()
             }
         }
     }
     
     func assumingAccountTwo(completion: @escaping () -> ()) {
-        for mA in mipA {
-            if mA.key == self.accountTwoKey {
-                let startingBalanceTwo = mA.startingBal
+        for i in 0..<MIProcessor.sharedMIP.mIPAccounts.count {
+            if MIProcessor.sharedMIP.mIPAccounts[i].key == self.accountTwoKey {
+                let startingBalanceTwo = MIProcessor.sharedMIP.mIPAccounts[i].startingBal
                 self.runningBalanceTwo = startingBalanceTwo
                 self.trueYou = MIProcessor.sharedMIP.trueYou
-                firebaseUniversalsFilteredByTimeRange = mipU.filter({ (universalItem) -> Bool in
+                firebaseUniversalsFilteredByTimeRange = MIProcessor.sharedMIP.mIPUniversals.filter({ (universalItem) -> Bool in
                     if let testedTimeStamp: Double = universalItem.timeStamp as? Double {
                         if testedTimeStamp <= particularUniversalTimeStamp {
                             return true
@@ -207,6 +211,9 @@ class ObtainBalanceAfter {
                         }
                     }
                 }
+                completion()
+            } else {
+                completion()
             }
         }
     }

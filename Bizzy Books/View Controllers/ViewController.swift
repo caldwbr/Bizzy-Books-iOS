@@ -119,10 +119,10 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
         //Starting with entities for testing
         DispatchQueue.main.async {
             MIProcessor.sharedMIP.loadTheMip {
-                MIProcessor.sharedMIP.loadTheBalAfters {
-                    MIProcessor.sharedMIP.loadTheStatuses()
-                    self.cardViewCollectionView.reloadData()//Critical line - this makes or breaks the app :/
-                }
+                MIProcessor.sharedMIP.obtainTheBalancesAfter()
+                MIProcessor.sharedMIP.loadTheStatuses()
+                MIProcessor.sharedMIP.updateTheMIP()
+                self.cardViewCollectionView.reloadData()//Critical line - this makes or breaks the app :/
             }
         }
     }

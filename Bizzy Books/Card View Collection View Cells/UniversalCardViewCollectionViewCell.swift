@@ -95,8 +95,6 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                     universalCardViewDateLabel.text = timeStampAsString
                 }
                 universalCardViewNotesLabel.text = universalItem.notes
-                let obtainProjectStatus = ObtainProjectStatus()
-                obtainProjectStatus.obtainStatus(i: i)
                 universalCardViewStatusLabel.text = MIProcessor.sharedMIP.mIPUniversals[i].projectStatusString
                 let percBusiness = Int(Double(universalItem.what) * Double(universalItem.percentBusiness)/100)
                 let percPersonal = Int(Double(universalItem.what) * Double(100 - universalItem.percentBusiness)/100)
@@ -164,8 +162,6 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                 }
                 universalCardViewProjectNameLabel.text = universalItem.projectItemName
                 universalCardViewNotesLabel.text = universalItem.notes
-                let obtainProjectStatus = ObtainProjectStatus()
-                obtainProjectStatus.obtainStatus(i: i)
                 universalCardViewStatusLabel.text = MIProcessor.sharedMIP.mIPUniversals[i].projectStatusString
                 dataSource.items = [
                     LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),

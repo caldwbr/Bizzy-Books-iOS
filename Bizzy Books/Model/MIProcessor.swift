@@ -38,7 +38,6 @@ final class MIProcessor {
         self.entitiesRef = Database.database().reference().child("users").child(userUID).child("entities")
         self.accountsRef = Database.database().reference().child("users").child(userUID).child("accounts")
         self.vehiclesRef = Database.database().reference().child("users").child(userUID).child("vehicles")
-        mIP.removeAll()
         mIPUniversals.removeAll()
         mIPProjects.removeAll()
         mIPEntities.removeAll()
@@ -47,27 +46,22 @@ final class MIProcessor {
         self.universalsRef.observeSingleEvent(of: .value, with: { (snapshot) in
             for item in snapshot.children {
                 self.mIPUniversals.append(UniversalItem(snapshot: item as! DataSnapshot))
-                self.mIP.append(UniversalItem(snapshot: item as! DataSnapshot))
             }
             self.projectsRef.observeSingleEvent(of: .value, with: { (snapshot) in
                 for item in snapshot.children {
                     self.mIPProjects.append(ProjectItem(snapshot: item as! DataSnapshot))
-                    self.mIP.append(ProjectItem(snapshot: item as! DataSnapshot))
                 }
                 self.entitiesRef.observeSingleEvent(of: .value, with: { (snapshot) in
                     for item in snapshot.children {
                         self.mIPEntities.append(EntityItem(snapshot: item as! DataSnapshot))
-                        self.mIP.append(EntityItem(snapshot: item as! DataSnapshot))
                     }
                     self.accountsRef.observeSingleEvent(of: .value, with: { (snapshot) in
                         for item in snapshot.children {
                             self.mIPAccounts.append(AccountItem(snapshot: item as! DataSnapshot))
-                            self.mIP.append(AccountItem(snapshot: item as! DataSnapshot))
                         }
                         self.vehiclesRef.observeSingleEvent(of: .value, with: { (snapshot) in
                             for item in snapshot.children {
                                 self.mIPVehicles.append(VehicleItem(snapshot: item as! DataSnapshot))
-                                self.mIP.append(VehicleItem(snapshot: item as! DataSnapshot))
                             }
                             let youRef = Database.database().reference().child("users").child(userUID).child("youEntity")
                             youRef.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -83,28 +77,35 @@ final class MIProcessor {
         })
     }
     
-    func loadTheBalAfters(completion: @escaping () -> ()) {
-        for i in 0..<mIPUniversals.count {
-            obtainBalanceAfter.balAfter(thisUniversal: mIPUniversals[i], completion: {
-                let stringer = StringifyAnInt()
-                let balOneAfter = self.obtainBalanceAfter.runningBalanceOne
-                self.mIPUniversals[i].balOneAfter = balOneAfter
-                self.mIPUniversals[i].balOneAfterString = stringer.stringify(theInt: balOneAfter)
-                let balTwoAfter = self.obtainBalanceAfter.runningBalanceTwo
-                self.mIPUniversals[i].balTwoAfter = balTwoAfter
-                self.mIPUniversals[i].balTwoAfterString = stringer.stringify(theInt: balTwoAfter)
-                if (i + 1) == self.mIPUniversals.count {
-                    completion()
-                }
-            })
-        }
-    }
-    
     func loadTheStatuses() {
         for i in 0..<mIPUniversals.count {
             if (mIPUniversals[i].universalItemType == 0) || (mIPUniversals[i].universalItemType == 2) || (mIPUniversals[i].universalItemType == 6) {
                 obtainProjectStatus.obtainStatus(i: i)
             }
+        }
+    }
+    
+    func obtainTheBalancesAfter() {
+        let obtainBalanceAfter = ObtainBalanceAfter()
+        obtainBalanceAfter.balsAfter()
+    }
+    
+    func updateTheMIP() {
+        mIP.removeAll()
+        for i in 0..<mIPUniversals.count {
+            mIP.append(mIPUniversals[i])
+        }
+        for i in 0..<mIPProjects.count {
+            mIP.append(mIPProjects[i])
+        }
+        for i in 0..<mIPEntities.count {
+            mIP.append(mIPEntities[i])
+        }
+        for i in 0..<mIPAccounts.count {
+            mIP.append(mIPAccounts[i])
+        }
+        for i in 0..<mIPVehicles.count {
+            mIP.append(mIPVehicles[i])
         }
     }
     
