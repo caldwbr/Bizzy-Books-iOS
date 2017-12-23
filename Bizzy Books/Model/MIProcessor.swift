@@ -93,19 +93,24 @@ final class MIProcessor {
     func updateTheMIP() {
         mIP.removeAll()
         for i in 0..<mIPUniversals.count {
-            mIP.append(mIPUniversals[i])
+            let j = mIPUniversals.count - i - 1
+            mIP.append(mIPUniversals[j])
         }
         for i in 0..<mIPProjects.count {
-            mIP.append(mIPProjects[i])
+            let j = mIPProjects.count - i - 1
+            mIP.append(mIPProjects[j])
         }
         for i in 0..<mIPEntities.count {
-            mIP.append(mIPEntities[i])
+            let j = mIPEntities.count - i - 1
+            mIP.append(mIPEntities[j])
         }
         for i in 0..<mIPAccounts.count {
-            mIP.append(mIPAccounts[i])
+            let j = mIPAccounts.count - i - 1
+            mIP.append(mIPAccounts[j])
         }
         for i in 0..<mIPVehicles.count {
-            mIP.append(mIPVehicles[i])
+            let j = mIPVehicles.count - i - 1
+            mIP.append(mIPVehicles[j])
         }
     }
     
