@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -195,10 +194,17 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pf8-ZE-uwA">
+                            <rect key="frame" x="319" y="17.5" width="23" height="12"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="T92-Yv-R5U" firstAttribute="top" secondItem="vR1-EO-NxK" secondAttribute="bottom" constant="8" id="1fz-yg-shc"/>
+                        <constraint firstAttribute="trailing" secondItem="pf8-ZE-uwA" secondAttribute="trailing" constant="8" id="5hm-hY-ZYU"/>
                         <constraint firstItem="3pU-F6-dJ7" firstAttribute="centerX" secondItem="MnE-63-QWX" secondAttribute="centerX" id="5nN-xI-o0W"/>
                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="T92-Yv-R5U" secondAttribute="bottom" constant="8" id="8gn-pz-iPy"/>
                         <constraint firstAttribute="trailing" secondItem="Ywl-j8-1tj" secondAttribute="trailing" constant="8" id="P6z-5G-F9j"/>
@@ -209,6 +215,7 @@
                         <constraint firstItem="3pU-F6-dJ7" firstAttribute="top" secondItem="MnE-63-QWX" secondAttribute="top" constant="8" id="dK4-n2-YDv"/>
                         <constraint firstItem="Ywl-j8-1tj" firstAttribute="leading" secondItem="MnE-63-QWX" secondAttribute="leading" constant="8" id="foR-XO-RCh"/>
                         <constraint firstItem="YfY-Kz-ggg" firstAttribute="top" secondItem="Ywl-j8-1tj" secondAttribute="bottom" constant="8" id="lrO-Pz-0nX"/>
+                        <constraint firstItem="pf8-ZE-uwA" firstAttribute="centerY" secondItem="3pU-F6-dJ7" secondAttribute="centerY" id="mj9-eX-1eH"/>
                         <constraint firstItem="T92-Yv-R5U" firstAttribute="centerX" secondItem="MnE-63-QWX" secondAttribute="centerX" id="tJc-OO-rtS"/>
                         <constraint firstItem="vR1-EO-NxK" firstAttribute="centerX" secondItem="MnE-63-QWX" secondAttribute="centerX" id="tMu-UQ-FDw"/>
                         <constraint firstItem="AiQ-AW-dRV" firstAttribute="top" secondItem="3pU-F6-dJ7" secondAttribute="bottom" constant="8" id="xSz-Na-rjB"/>
@@ -228,6 +235,7 @@
             <connections>
                 <outlet property="entityCardViewAddressView" destination="yAR-IZ-xQF" id="nkX-X8-pxK"/>
                 <outlet property="entityCardViewCityStateLabel" destination="e3C-dD-I7z" id="gcI-dq-05t"/>
+                <outlet property="entityCardViewDateLabel" destination="pf8-ZE-uwA" id="c18-eo-9VZ"/>
                 <outlet property="entityCardViewEINLabel" destination="T92-Yv-R5U" id="3J3-yv-XB0"/>
                 <outlet property="entityCardViewEmailLabel" destination="mLm-7O-NMO" id="kSW-zl-kaB"/>
                 <outlet property="entityCardViewEmailView" destination="NIg-xI-JZL" id="j7z-6G-0f7"/>

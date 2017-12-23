@@ -42,12 +42,11 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
             cardViewFlowLayout.estimatedItemSize = CGSize(width: 350, height: 200)
         }
         cardViewCollectionView.dataSource = self
-        checkLoggedIn()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //checkLoggedIn()
+        checkLoggedIn()
     }
 
     @IBOutlet var welcomeView: UIView!

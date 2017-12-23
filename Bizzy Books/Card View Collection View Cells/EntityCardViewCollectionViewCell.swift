@@ -11,6 +11,7 @@ import UIKit
 class EntityCardViewCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var entityCardViewNameLabel: UILabel!
+    @IBOutlet weak var entityCardViewDateLabel: UILabel!
     @IBOutlet weak var entityCardViewLineBreakView: UIView!
     @IBOutlet weak var entityCardViewPhoneNumberView: UIView!
     @IBOutlet weak var entityCardViewPhoneNumberLabel: UILabel!
@@ -36,36 +37,47 @@ class EntityCardViewCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(i: Int) {
-        if let myMulti = MIProcessor.sharedMIP.mIP[i] as? EntityItem {
+        if let entityItem = MIProcessor.sharedMIP.mIP[i] as? EntityItem {
+            if let timeStampAsDouble: Double = entityItem.timeStamp as? Double {
+                let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
+                entityCardViewDateLabel.text = timeStampAsString
+            }
             entityCardViewPhoneNumberView.isHidden = false
             entityCardViewEmailView.isHidden = false
             entityCardViewAddressView.isHidden = false
-            if myMulti.phoneNumber == "" {
+            if entityItem.phoneNumber == "" {
                 entityCardViewPhoneNumberView.isHidden = true
             }
-            if myMulti.email == "" {
+            if entityItem.email == "" {
                 entityCardViewEmailView.isHidden = true
             }
-            if myMulti.street == "" {
+            if entityItem.street == "" {
                 entityCardViewAddressView.isHidden = true
             }
-            entityCardViewNameLabel.text = myMulti.name
-            entityCardViewPhoneNumberLabel.text = myMulti.phoneNumber
-            entityCardViewEmailLabel.text = myMulti.email
-            entityCardViewStreetLabel.text = myMulti.street
-            if (myMulti.city == "") || (myMulti.state == "") {
+            entityCardViewNameLabel.text = entityItem.name
+            entityCardViewPhoneNumberLabel.text = entityItem.phoneNumber
+            entityCardViewEmailLabel.text = entityItem.email
+            entityCardViewStreetLabel.text = entityItem.street
+            if (entityItem.city == "") || (entityItem.state == "") {
                 entityCardViewCityStateLabel.text = ""
             } else {
-                entityCardViewCityStateLabel.text = String(myMulti.city + ", " + myMulti.state)
+                entityCardViewCityStateLabel.text = String(entityItem.city + ", " + entityItem.state)
             }
-            entityCardViewSSNLabel.text = myMulti.ssn
-            entityCardViewEINLabel.text = myMulti.ein
+            entityCardViewSSNLabel.text = entityItem.ssn
+            entityCardViewEINLabel.text = entityItem.ein
             entityCardViewPhoneEmailGeoView.isHidden = false
-            if (myMulti.phoneNumber == "") && (myMulti.email == "") && (myMulti.street == "") {
+            if (entityItem.phoneNumber == "") && (entityItem.email == "") && (entityItem.street == "") {
                 entityCardViewPhoneEmailGeoView.isHidden = true
             }
         }
-        
+    }
+    
+    func convertTimestamp(serverTimestamp: Double) -> String {
+        let x = serverTimestamp / 1000
+        let date = NSDate(timeIntervalSince1970: x)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM dd, yyyy\nh:mma"
+        return formatter.string(from: date as Date)
     }
     
 }

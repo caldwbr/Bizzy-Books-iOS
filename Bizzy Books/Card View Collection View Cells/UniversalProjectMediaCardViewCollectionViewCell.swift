@@ -64,9 +64,6 @@ class UniversalProjectMediaCardViewCollectionViewCell: UICollectionViewCell {
         let date = NSDate(timeIntervalSince1970: x)
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM dd, yyyy\nh:mma"
-        //formatter.dateStyle = .medium
-        //formatter.timeStyle = .short
-        
         return formatter.string(from: date as Date)
     }
     

@@ -49,7 +49,6 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
             widthConstraint.constant = screenWidth - (2 * 12)
         }
         universalCardViewCollectionView.collectionViewLayout = KTCenterFlowLayout()
-        
         universalCardViewCollectionView.register(UINib.init(nibName: "CardViewSentenceCell", bundle: nil), forCellWithReuseIdentifier: "CardViewSentenceCell")
         if let universalCardViewFlowLayout = universalCardViewCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             universalCardViewFlowLayout.estimatedItemSize = CGSize(width: 80, height: 30)
@@ -61,6 +60,7 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
     
     func configure(i: Int) {
         if let universalItem = MIProcessor.sharedMIP.mIP[i] as? UniversalItem {
+            print("Bradlay " + String(describing: universalItem))
             switch universalItem.universalItemType {
             case 1:
                 universalCardViewStatusLabel.isHidden = true
@@ -82,6 +82,8 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                     LabelFlowItem(text: "for", color: .gray, action: nil),
                     LabelFlowItem(text: universalItem.personalReasonName, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil)
                 ]
+                universalCardViewCollectionView.reloadData()
+                universalCardViewCollectionView.layoutIfNeeded()
                 universalCardViewAccountLabel.text = universalItem.accountOneName
                 universalCardViewBalAfterLabel.text = universalItem.balOneAfterString
                 updateAccountImage(universalItem: universalItem)
@@ -122,6 +124,8 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                 default:
                     break
                 }
+                universalCardViewCollectionView.reloadData()
+                universalCardViewCollectionView.layoutIfNeeded()
                 universalCardViewAccountLabel.text = universalItem.accountOneName
                 universalCardViewBalAfterLabel.text = universalItem.balOneAfterString
                 updateAccountImage(universalItem: universalItem)
@@ -149,6 +153,8 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                     LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.what), color: UIColor.BizzyColor.Blue.Project, action: nil),
                     LabelFlowItem(text: ("(" + stringifyAnInt.stringify(theInt: ppG) + "/gal)"), color: UIColor.BizzyColor.Green.Account, action: nil)
                 ]
+                universalCardViewCollectionView.reloadData()
+                universalCardViewCollectionView.layoutIfNeeded()
                 universalCardViewAccountLabel.text = universalItem.accountOneName
                 universalCardViewBalAfterLabel.text = universalItem.balOneAfterString
                 updateAccountImage(universalItem: universalItem)
@@ -182,6 +188,8 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
                 default:
                     break
                 }
+                universalCardViewCollectionView.reloadData()
+                universalCardViewCollectionView.layoutIfNeeded()
                 universalCardViewAccountLabel.text = universalItem.accountOneName
                 universalCardViewBalAfterLabel.text = universalItem.balOneAfterString
                 updateAccountImage(universalItem: universalItem)
@@ -216,6 +224,26 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
         universalCardViewCollectionView.delegate = dataSource
         universalCardViewCollectionView.dataSource = dataSource
         universalCardViewCollectionView.reloadData()
+    }
+    
+    //Try to clear out the idiot fields before reuse!
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        //hide or reset anything you want hereafter, for example
+        clearFields()
+    }
+    
+    func clearFields() {
+        universalCardViewStatusLabel.text = ""
+        imageView.image = nil
+        universalCardViewItemTypeLabel.text = ""
+        universalCardViewProjectNameLabel.text = ""
+        universalCardViewDateLabel.text = ""
+        universalCardViewNotesLabel.text = ""
+        dataSource.items.removeAll()
+        universalCardViewAccountImageView.image = nil
+        universalCardViewAccountLabel.text = ""
+        universalCardViewBalAfterLabel.text = ""
     }
 
 }
