@@ -60,7 +60,6 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
     
     func configure(i: Int) {
         if let universalItem = MIProcessor.sharedMIP.mIP[i] as? UniversalItem {
-            print("Bradlay " + String(describing: universalItem))
             switch universalItem.universalItemType {
             case 1:
                 universalCardViewStatusLabel.isHidden = true

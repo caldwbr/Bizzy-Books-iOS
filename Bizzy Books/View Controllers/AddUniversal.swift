@@ -629,6 +629,102 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     //"Touch up inside" doesn't work with textfields, so we use "touch down"!! LOL!!
     
+    @IBAction func contactNameFieldTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.contactSuggestionsTableView.isHidden == false {
+                    self.contactSuggestionsTableView.isHidden = true
+                } else {
+                    self.contactSuggestionsTableView.isHidden = false
+                }
+            }
+        }
+    }
+    
+    @IBAction func selectWhoTextFieldTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.selectWhoTableView.isHidden == false {
+                    self.selectWhoTableView.isHidden = true
+                } else {
+                    self.selectWhoTableView.isHidden = false
+                }
+            }
+        }
+    }
+
+    @IBAction func selectWhomTextFieldTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.selectWhomTableView.isHidden == false {
+                    self.selectWhomTableView.isHidden = true
+                } else {
+                    self.selectWhomTableView.isHidden = false
+                }
+            }
+        }
+    }
+
+    @IBAction func selectProjectTextFieldTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.selectProjectTableView.isHidden == false {
+                    self.selectProjectTableView.isHidden = true
+                } else {
+                    self.selectProjectTableView.isHidden = false
+                }
+            }
+        }
+    }
+
+    @IBAction func selectVehicleTextFieldTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.selectVehicleTableView.isHidden == false {
+                    self.selectVehicleTableView.isHidden = true
+                } else {
+                    self.selectVehicleTableView.isHidden = false
+                }
+            }
+        }
+    }
+
+    @IBAction func selectAccountTextFieldTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.selectAccountTableView.isHidden == false {
+                    self.selectAccountTableView.isHidden = true
+                } else {
+                    self.selectAccountTableView.isHidden = false
+                }
+            }
+        }
+    }
+
+    @IBAction func selectSecondaryAccountTextFieldTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.selectSecondaryAccountTableView.isHidden == false {
+                    self.selectSecondaryAccountTableView.isHidden = true
+                } else {
+                    self.selectSecondaryAccountTableView.isHidden = false
+                }
+            }
+        }
+    }
+    
+    @IBAction func addProjectSelectCustomerTextFieldTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.addProjectSelectCustomerTableView.isHidden == false {
+                    self.addProjectSelectCustomerTableView.isHidden = true
+                } else {
+                    self.addProjectSelectCustomerTableView.isHidden = false
+                }
+            }
+        }
+    }
+    
     //Suggested contacts for entity
     @IBAction func contactNameTextFieldChanged(_ sender: UITextField) {
         if let searchText = sender.text {

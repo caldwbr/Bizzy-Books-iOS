@@ -660,6 +660,7 @@
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
                                         <action selector="selectProjectTextFieldChanged:" destination="XGO-PW-Ssy" eventType="editingChanged" id="UPB-ZF-3qd"/>
+                                        <action selector="selectProjectTextFieldTouchedDown:" destination="XGO-PW-Ssy" eventType="touchDown" id="D8p-o5-aRz"/>
                                     </connections>
                                 </textField>
                                 <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="LLD-uL-NM7">
@@ -758,6 +759,7 @@
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
                                         <action selector="selectWhoTextFieldChanged:" destination="XGO-PW-Ssy" eventType="editingChanged" id="snY-Fy-plh"/>
+                                        <action selector="selectWhoTextFieldTouchedDown:" destination="XGO-PW-Ssy" eventType="touchDown" id="KxP-Qf-KUv"/>
                                     </connections>
                                 </textField>
                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wkE-sm-RUW">
@@ -889,6 +891,7 @@ If you can't think of a project with which to associate a business expense, use 
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
+                                <action selector="contactNameFieldTouchedDown:" destination="XGO-PW-Ssy" eventType="touchDown" id="NwK-1h-Lxt"/>
                                 <action selector="contactNameTextFieldChanged:" destination="XGO-PW-Ssy" eventType="editingChanged" id="TX1-9H-mW7"/>
                             </connections>
                         </textField>
@@ -1338,6 +1341,7 @@ If you can't think of a project with which to associate a business expense, use 
                             <textInputTraits key="textInputTraits"/>
                             <connections>
                                 <action selector="addProjectSelectCustomerTextFieldChanged:" destination="XGO-PW-Ssy" eventType="editingChanged" id="SMI-Xw-rhy"/>
+                                <action selector="addProjectSelectCustomerTextFieldTouchedDown:" destination="XGO-PW-Ssy" eventType="touchDown" id="TUA-cE-G09"/>
                             </connections>
                         </textField>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="search" translatesAutoresizingMaskIntoConstraints="NO" id="1AQ-iu-3Qd">
@@ -1717,6 +1721,7 @@ If you can't think of a project with which to associate a business expense, use 
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
                                         <action selector="selectWhomTextFieldChanged:" destination="XGO-PW-Ssy" eventType="editingChanged" id="0uL-c3-sh8"/>
+                                        <action selector="selectWhomTextFieldTouchedDown:" destination="XGO-PW-Ssy" eventType="touchDown" id="l5s-dg-4wL"/>
                                     </connections>
                                 </textField>
                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="34c-hE-xvK">
@@ -1807,6 +1812,7 @@ If you can't think of a project with which to associate a business expense, use 
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
                                         <action selector="selectVehicleTextFieldChanged:" destination="XGO-PW-Ssy" eventType="editingChanged" id="yIs-Q5-3OP"/>
+                                        <action selector="selectVehicleTextFieldTouchedDown:" destination="XGO-PW-Ssy" eventType="touchDown" id="mAW-Nq-6iN"/>
                                     </connections>
                                 </textField>
                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y8O-GI-3a5">
@@ -1892,6 +1898,7 @@ If you can't think of a project with which to associate a business expense, use 
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
                                         <action selector="selectAccountTextFieldChanged:" destination="XGO-PW-Ssy" eventType="editingChanged" id="3mk-M5-xUp"/>
+                                        <action selector="selectAccountTextFieldTouchedDown:" destination="XGO-PW-Ssy" eventType="touchDown" id="ugZ-vB-9gQ"/>
                                     </connections>
                                 </textField>
                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fRO-Wp-8YE">
@@ -1982,6 +1989,7 @@ If you can't think of a project with which to associate a business expense, use 
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
                                         <action selector="selectSecondaryAccountTextFieldChanged:" destination="XGO-PW-Ssy" eventType="editingChanged" id="teZ-EC-k4q"/>
+                                        <action selector="selectSecondaryAccountTextFieldTouchedDown:" destination="XGO-PW-Ssy" eventType="touchDown" id="A3r-sb-A4Y"/>
                                     </connections>
                                 </textField>
                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v6i-tF-hGo">
