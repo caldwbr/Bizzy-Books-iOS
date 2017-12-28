@@ -1835,7 +1835,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             guard yourAccountPlaceholderKeyString != "" else { return }
         case 3:
             guard odometerTextField.text != "" else { return }
+            guard TheAmtSingleton.shared.theOdo != 0 else { return } // Odometer would never be zero
             guard whoPlaceholderKeyString != "" else { return }
+            guard TheAmtSingleton.shared.theAmt != 0 else { return } // Fix bug at John's house - user can't pay nothing for fuel
+            guard TheAmtSingleton.shared.howMany != 0 else { return } // Can't be 0 gallons of fuel
             guard whomPlaceholderKeyString != "" else { return }
             guard whomPlaceholderKeyString != trueYouKeyString else { return } //Checks that user doesn't try to pay themselves for their fuel!
             guard fuelTypePlaceholderId != -1 else { return }
