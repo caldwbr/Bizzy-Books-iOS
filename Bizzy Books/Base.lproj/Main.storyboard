@@ -1317,16 +1317,13 @@ If you can't think of a project with which to associate a business expense, use 
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Project" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T96-4a-SR4">
-                            <rect key="frame" x="105.5" y="20" width="125" height="30"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="30" id="n9G-gk-9Gw"/>
-                            </constraints>
+                            <rect key="frame" x="105.5" y="20" width="125" height="29"/>
                             <fontDescription key="fontDescription" type="system" pointSize="25"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XbT-Kz-NG6">
-                            <rect key="frame" x="16" y="58" width="304" height="30"/>
+                            <rect key="frame" x="16" y="57" width="304" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="xSH-GK-pxH"/>
                             </constraints>
@@ -1335,7 +1332,7 @@ If you can't think of a project with which to associate a business expense, use 
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Customer" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7bC-Uv-M5y">
-                            <rect key="frame" x="54" y="104" width="195" height="30"/>
+                            <rect key="frame" x="54" y="103" width="195" height="30"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -1345,21 +1342,21 @@ If you can't think of a project with which to associate a business expense, use 
                             </connections>
                         </textField>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="search" translatesAutoresizingMaskIntoConstraints="NO" id="1AQ-iu-3Qd">
-                            <rect key="frame" x="16" y="104" width="30" height="30"/>
+                            <rect key="frame" x="16" y="103" width="30" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="BbW-0Z-zxA"/>
                                 <constraint firstAttribute="width" constant="30" id="Vhz-s0-JEK"/>
                             </constraints>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RE3-dU-iA1">
-                            <rect key="frame" x="257" y="104" width="63" height="30"/>
+                            <rect key="frame" x="257" y="103" width="63" height="30"/>
                             <state key="normal" title="Add New"/>
                             <connections>
                                 <action selector="addProjectAddCustomerPressed:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="Iys-UG-Kd9"/>
                             </connections>
                         </button>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Tags (comma separated)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wRL-Nk-qhW">
-                            <rect key="frame" x="16" y="314" width="304" height="30"/>
+                            <rect key="frame" x="16" y="313" width="304" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="NR5-SR-SwJ"/>
                             </constraints>
@@ -1368,7 +1365,7 @@ If you can't think of a project with which to associate a business expense, use 
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Notes" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QG4-KB-X2F">
-                            <rect key="frame" x="16" y="352" width="304" height="30"/>
+                            <rect key="frame" x="16" y="351" width="304" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="e2Z-Ip-Zz6"/>
                             </constraints>
@@ -1377,7 +1374,7 @@ If you can't think of a project with which to associate a business expense, use 
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Street" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wSs-4F-ns0">
-                            <rect key="frame" x="16" y="390" width="304" height="30"/>
+                            <rect key="frame" x="16" y="389" width="304" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="fI1-Vr-DSf"/>
                             </constraints>
@@ -1386,7 +1383,7 @@ If you can't think of a project with which to associate a business expense, use 
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="City" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="h3E-YY-SkP">
-                            <rect key="frame" x="16" y="428" width="150" height="30"/>
+                            <rect key="frame" x="16" y="427" width="150" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="150" id="5vh-YL-lXs"/>
                                 <constraint firstAttribute="height" constant="30" id="HNk-E4-c50"/>
@@ -1396,7 +1393,7 @@ If you can't think of a project with which to associate a business expense, use 
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="State" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="e0D-EI-iY9">
-                            <rect key="frame" x="182" y="428" width="138" height="30"/>
+                            <rect key="frame" x="182" y="427" width="138" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="YTu-qE-Oq3"/>
                                 <constraint firstAttribute="width" relation="lessThanOrEqual" priority="250" constant="150" id="dcx-HO-klf"/>
@@ -1406,7 +1403,7 @@ If you can't think of a project with which to associate a business expense, use 
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="95h-6D-ycQ">
-                            <rect key="frame" x="16" y="474" width="48" height="30"/>
+                            <rect key="frame" x="16" y="473" width="48" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="Kh0-2R-1Fg"/>
                             </constraints>
@@ -1416,7 +1413,7 @@ If you can't think of a project with which to associate a business expense, use 
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yqx-aJ-eWI">
-                            <rect key="frame" x="286" y="474" width="34" height="30"/>
+                            <rect key="frame" x="286" y="473" width="34" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="sYz-EC-oEy"/>
                             </constraints>
@@ -1425,38 +1422,40 @@ If you can't think of a project with which to associate a business expense, use 
                                 <action selector="addProjectSavePressed:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="Ly8-bB-qeQ"/>
                             </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="How did they hear of you?" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ol0-J5-ozK">
-                            <rect key="frame" x="16" y="234" width="101" height="60"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How did they hear of you?" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ol0-J5-ozK">
+                            <rect key="frame" x="16" y="233" width="110" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="60" id="CZK-kS-0Mr"/>
+                                <constraint firstAttribute="width" constant="110" id="O7i-wc-kTs"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <pickerView contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a79-zN-uj4">
-                            <rect key="frame" x="135" y="234" width="185" height="60"/>
+                        <pickerView contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="a79-zN-uj4">
+                            <rect key="frame" x="142" y="233" width="178" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="60" id="acB-lG-cZr"/>
                             </constraints>
                         </pickerView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Project status?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FTY-eA-FLG">
-                            <rect key="frame" x="16" y="154" width="114" height="60"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project status?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FTY-eA-FLG">
+                            <rect key="frame" x="16" y="153" width="110" height="60"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="60" id="6hf-rD-Yz4"/>
+                                <constraint firstAttribute="height" constant="60" id="Bf1-O4-r8W"/>
+                                <constraint firstAttribute="width" constant="110" id="Db7-Vp-QXL"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <pickerView tag="1" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Bm-Ni-Bvz">
-                            <rect key="frame" x="142" y="154" width="178" height="60"/>
+                        <pickerView tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Bm-Ni-Bvz">
+                            <rect key="frame" x="142" y="153" width="178" height="60"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="60" id="NAa-rn-S1J"/>
+                                <constraint firstAttribute="height" constant="60" id="pGV-Y5-sbj"/>
                             </constraints>
                         </pickerView>
                         <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8W4-Zb-6F6">
-                            <rect key="frame" x="54" y="134" width="266" height="369"/>
+                            <rect key="frame" x="54" y="133" width="266" height="370"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <prototypes>
                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddProjectSelectCustomerCell" textLabel="IMp-fV-LQb" style="IBUITableViewCellStyleDefault" id="6Hg-hz-HXq">
