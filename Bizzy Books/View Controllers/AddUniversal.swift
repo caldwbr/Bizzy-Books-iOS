@@ -52,11 +52,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var currentlyUploading = false
     
     var firebaseUniversals: [UniversalItem] = []
-    var firebaseEntities: [EntityItem] = []
-    var firebaseProjects: [ProjectItem] = []
-    var firebaseVehicles: [VehicleItem] = []
-    var firebaseAccounts: [AccountItem] = []
-    var filteredFirebaseEntities = [EntityItem]()
+    var filteredFirebaseEntities: [EntityItem] = []
     var filteredFirebaseProjects: [ProjectItem] = []
     var filteredFirebaseVehicles: [VehicleItem] = []
     var filteredFirebaseAccounts: [AccountItem] = []
@@ -213,18 +209,39 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if overheadSwitch.isOn {
             projectPlaceholderKeyString = "0" // Zero for overhead! lol
             projectPlaceholder = "Overhead"
+            if selectedType == 6 {
+                reloadSentence(selectedType: selectedType)
+                //if dataSource.items.count > 1 { dataSource.items.remove(at: 1) }
+            }
+            selectProjectClearing()
+            self.projectLabel.text = self.projectPlaceholder
+            popUpAnimateOut(popUpView: selectProjectView)
+            tempKeyHolder = ""
         } else {
             if !tempKeyHolder.isEmpty && !projectTextField.text!.isEmpty {
                 projectPlaceholderKeyString = tempKeyHolder
                 projectPlaceholder = projectTextField.text!
+                projectsRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                    for item in snapshot.children {
+                        let firebaseProject = ProjectItem(snapshot: item as! DataSnapshot)
+                        if firebaseProject.key == self.projectPlaceholderKeyString {
+                            self.projectStatusPlaceholder = firebaseProject.projectStatusName
+                            self.projectStatusPlaceholderId = firebaseProject.projectStatusId
+                            if self.selectedType == 6 {
+                                self.reloadSentence(selectedType: self.selectedType)
+                            }
+                            self.selectProjectClearing()
+                            self.projectLabel.text = self.projectPlaceholder
+                            self.popUpAnimateOut(popUpView: self.selectProjectView)
+                            self.tempKeyHolder = ""
+                        }
+                    }
+                })
             } else {
                 return
             }
         }
-        selectProjectClearing()
-        self.projectLabel.text = self.projectPlaceholder
-        popUpAnimateOut(popUpView: selectProjectView)
-        tempKeyHolder = ""
+        
     }
     
     @IBAction func projectDismissTapped(_ sender: UIButton) {
@@ -754,7 +771,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             if !searchText.isEmpty {
                 selectWhoTableView.isHidden = false
                 self.filteredFirebaseEntities.removeAll()
-                let thisFilteredFirebaseEntities = firebaseEntities.filter({$0.name.localizedCaseInsensitiveContains(searchText)})
+                let thisFilteredFirebaseEntities = MIProcessor.sharedMIP.mIPEntities.filter({$0.name.localizedCaseInsensitiveContains(searchText)})
                 for entity in thisFilteredFirebaseEntities {
                     self.filteredFirebaseEntities.append(entity)
                 }
@@ -771,7 +788,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if let searchText = sender.text {
             if !searchText.isEmpty {
                 selectWhomTableView.isHidden = false
-                filteredFirebaseEntities = firebaseEntities.filter({ (entityItem) -> Bool in
+                filteredFirebaseEntities = MIProcessor.sharedMIP.mIPEntities.filter({ (entityItem) -> Bool in
                     if entityItem.name.localizedCaseInsensitiveContains(searchText) {
                         return true
                     } else {
@@ -791,7 +808,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if let searchText = sender.text {
             if !searchText.isEmpty {
                 selectProjectTableView.isHidden = false
-                filteredFirebaseProjects = firebaseProjects.filter({ (projectItem) -> Bool in
+                filteredFirebaseProjects = MIProcessor.sharedMIP.mIPProjects.filter({ (projectItem) -> Bool in
                     if projectItem.name.localizedCaseInsensitiveContains(searchText) {
                         return true
                     } else {
@@ -812,7 +829,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if let searchText = sender.text {
             if !searchText.isEmpty {
                 selectVehicleTableView.isHidden = false
-                filteredFirebaseVehicles = firebaseVehicles.filter({ (vehicleItem) -> Bool in
+                filteredFirebaseVehicles = MIProcessor.sharedMIP.mIPVehicles.filter({ (vehicleItem) -> Bool in
                     if vehicleItem.year.localizedCaseInsensitiveContains(searchText) || vehicleItem.make.localizedCaseInsensitiveContains(searchText) || vehicleItem.model.localizedCaseInsensitiveContains(searchText) {
                         return true
                     } else {
@@ -833,7 +850,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if let searchText = sender.text {
             if !searchText.isEmpty {
                 selectAccountTableView.isHidden = false
-                filteredFirebaseAccounts = firebaseAccounts.filter({ (accountItem) -> Bool in
+                filteredFirebaseAccounts = MIProcessor.sharedMIP.mIPAccounts.filter({ (accountItem) -> Bool in
                     if accountItem.name.localizedCaseInsensitiveContains(searchText) {
                         if primaryAccountTapped == true {
                             if accountItem.key != yourSecondaryAccountPlaceholderKeyString {
@@ -862,7 +879,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if let searchText = sender.text {
             if !searchText.isEmpty {
                 selectSecondaryAccountTableView.isHidden = false
-                filteredFirebaseAccounts = firebaseAccounts.filter({ (accountItem) -> Bool in
+                filteredFirebaseAccounts = MIProcessor.sharedMIP.mIPAccounts.filter({ (accountItem) -> Bool in
                     if accountItem.name.localizedCaseInsensitiveContains(searchText) {
                         if accountItem.key != yourPrimaryAccountPlaceholderKeyString {
                             return true
@@ -886,7 +903,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         if let searchText = sender.text {
             if !searchText.isEmpty {
                 addProjectSelectCustomerTableView.isHidden = false
-                filteredFirebaseEntities = firebaseEntities.filter({ (entityItem) -> Bool in
+                filteredFirebaseEntities = MIProcessor.sharedMIP.mIPEntities.filter({ (entityItem) -> Bool in
                     if entityItem.name.localizedCaseInsensitiveContains(searchText) {
                         return true
                     } else {
@@ -1302,37 +1319,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         currentlySubscribedRef = Database.database().reference().child("users").child(userUID).child("currentlySubscribed")
         specialAccessRef = Database.database().reference().child("users").child(userUID).child("specialAccess")
         userCurrentImageIdCountRef = Database.database().reference().child("users").child(userUID).child("userCurrentImageIdCount")
-        entitiesRef.observe(.value) { (snapshot) in
-            for item in snapshot.children {
-                let firebaseEntity = EntityItem(snapshot: item as! DataSnapshot)
-                self.firebaseEntities.append(firebaseEntity)
-            }
-            self.selectWhoTableView.reloadData()
-            self.selectWhomTableView.reloadData()
-        }
-        projectsRef.observe(.value) { (snapshot) in
-            for item in snapshot.children {
-                let firebaseProject = ProjectItem(snapshot: item as! DataSnapshot)
-                self.firebaseProjects.append(firebaseProject)
-            }
-            self.selectProjectTableView.reloadData()
-        }
-        vehiclesRef.observe(.value) { (snapshot) in
-            for item in snapshot.children {
-                let firebaseVehicle = VehicleItem(snapshot: item as! DataSnapshot)
-                self.firebaseVehicles.append(firebaseVehicle)
-            }
-            self.selectVehicleTableView.reloadData()
-        }
-        accountsRef.observe(.value) { (snapshot) in
-            for item in snapshot.children {
-                let firebaseAccount = AccountItem(snapshot: item as! DataSnapshot)
-                self.firebaseAccounts.append(firebaseAccount)
-            }
-            self.selectAccountTableView.reloadData()
-            self.selectSecondaryAccountTableView.reloadData()
-        }
-        currentlySubscribedRef.observe(.value) { (snapshot) in
+        currentlySubscribedRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let subscribed = snapshot.value as? Bool {
                 print("S: " + String(subscribed))
                 if subscribed {
@@ -1341,8 +1328,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                     self.isUserCurrentlySubscribed = false
                 }
             }
-        }
-        specialAccessRef.observe(.value) { (snapshot) in
+        })
+        specialAccessRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let special = snapshot.value as? Bool {
                 print("Special: " + String(special))
                 if special {
@@ -1353,22 +1340,22 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             } else {
                 self.specialAccessRef.setValue(false)
             }
-        }
-        userCurrentImageIdCountRef.observe(.value) { (snapshot) in
+        })
+        userCurrentImageIdCountRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let count = snapshot.value as? String {
                 if let countAsInt = Int(count) {
                     self.userCurrentImageIdCount = countAsInt
                 }
             }
-        }
-        youRef.observe(.value) { (snapshot) in
+        })
+        youRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let youKey = snapshot.value as? String {
                 self.whoPlaceholder = "You"
                 self.whoPlaceholderKeyString = youKey
                 self.trueYouKeyString = youKey
                 self.reloadSentence(selectedType: self.selectedType)
             }
-        }
+        })
         //masterRef.setValue(["username": "Brad Caldwell"]) //This erases all siblings!!!!!! Including any childrenbyautoid!!!
         //masterRef.childByAutoId().setValue([3, 4, -88, 45, true])
     }
@@ -1606,9 +1593,11 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     func projectMediaCase() {
         universalArray[0] = 6
         dataSource.items = [
-            LabelFlowItem(text: projectMediaTypePlaceholder, color: UIColor.BizzyColor.Blue.Project, action: { self.pickerCode = 7; self.popUpAnimateIn(popUpView: self.genericPickerView) }),
-            LabelFlowItem(text: projectStatusPlaceholder, color: UIColor.BizzyColor.Yellow.ProjectStatus, action: { self.pickerCode = 10; self.popUpAnimateIn(popUpView: self.genericPickerView) })
+            LabelFlowItem(text: projectMediaTypePlaceholder, color: UIColor.BizzyColor.Blue.Project, action: { self.pickerCode = 7; self.popUpAnimateIn(popUpView: self.genericPickerView) })
         ]
+        if projectPlaceholderKeyString != "0" {
+            dataSource.items.append(LabelFlowItem(text: projectStatusPlaceholder, color: UIColor.BizzyColor.Yellow.ProjectStatus, action: { self.pickerCode = 10; self.popUpAnimateIn(popUpView: self.genericPickerView) }))
+        }
         projectLabel.isHidden = false
         odometerTextField.isHidden = true
         percentBusinessView.isHidden = true
@@ -1850,7 +1839,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         case 5:
             guard yourAccountPlaceholderKeyString != "" else { return }
         case 6:
-            guard projectMediaTypePlaceholderId != -1 else { return }
+            guard projectPlaceholderKeyString != "" else { return }
+            if projectMediaTypePlaceholderId != -1 {
+                guard projectStatusPlaceholderId != -1 else { return } // Ensure a project status unless it's overhead
+            }
         default:
             guard projectPlaceholderKeyString != "" else { return }
             guard whoPlaceholderKeyString != "" else { return }
@@ -1894,6 +1886,17 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 let odometerString = odometerTextField.text!
                 let cleanedOdo = odometerString.replacingOccurrences(of: ",", with: "")
                 odometerAsInt = Int(cleanedOdo)!
+            }
+        }
+        if selectedType == 6 {
+            if projectPlaceholderKeyString != "0" {
+                for mip in MIProcessor.sharedMIP.mIPProjects {
+                    if mip.key == projectPlaceholderKeyString {
+                        if projectStatusPlaceholderId != mip.projectStatusId {
+                            projectsRef.child(mip.key).updateChildValues(["projectStatusId": projectStatusPlaceholderId, "projectStatusName": projectStatusPlaceholder])
+                        }
+                    }
+                }
             }
         }
         switch self.selectedType {
