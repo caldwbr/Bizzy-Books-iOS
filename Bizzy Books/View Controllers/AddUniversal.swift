@@ -52,6 +52,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var currentlyUploading = false
     
     var firebaseUniversals: [UniversalItem] = []
+    var thisUniversals: [UniversalItem] = []
     var filteredFirebaseEntities: [EntityItem] = []
     var filteredFirebaseProjects: [ProjectItem] = []
     var filteredFirebaseVehicles: [VehicleItem] = []
@@ -1046,8 +1047,19 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         self.selectSecondaryAccountTableView.keyboardDismissMode = .interactive
         self.addProjectSelectCustomerTableView.keyboardDismissMode = .interactive
         
-        thisIsTheAmt.theAmt = 0
-        thisIsTheAmt.howMany = 0
+        let typeItem = DropdownFlowItem(options: [
+            DropdownFlowItem.Option(title: "Business", iconName: "business", action: { self.selectedType = 0; self.reloadSentence(selectedType: self.selectedType) }),
+            DropdownFlowItem.Option(title: "Personal", iconName: "personal", action: { self.selectedType = 1; self.reloadSentence(selectedType: self.selectedType) }),
+            DropdownFlowItem.Option(title: "Mixed", iconName: "mixed", action: { self.selectedType = 2; self.reloadSentence(selectedType: self.selectedType) }),
+            DropdownFlowItem.Option(title: "Fuel", iconName: "fuel", action: { self.selectedType = 3; self.reloadSentence(selectedType: self.selectedType) }),
+            DropdownFlowItem.Option(title: "Transfer", iconName: "transfer", action: { self.selectedType = 4; self.reloadSentence(selectedType: self.selectedType) }),
+            DropdownFlowItem.Option(title: "Adjust", iconName: "adjustment", action: { self.selectedType = 5; self.reloadSentence(selectedType: self.selectedType) }),
+            DropdownFlowItem.Option(title: "Project Media", iconName: "media", action: { self.selectedType = 6; self.reloadSentence(selectedType: self.selectedType) })
+            ])
+        leftTopView.configure(item: typeItem)
+        
+        reloadSentence(selectedType: selectedType)
+        
         
         //Prevent empty cells in tableview
         selectVehicleTableView.tableFooterView = UIView(frame: .zero)
@@ -1056,15 +1068,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         selectWhomTableView.tableFooterView = UIView(frame: .zero)
         selectAccountTableView.tableFooterView = UIView(frame: .zero)
         selectSecondaryAccountTableView.tableFooterView = UIView(frame: .zero)
-        
-        locationManager.requestWhenInUseAuthorization()
-        
-        // If location services is enabled get the users location
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest // You can change the locaiton accuary here.
-            locationManager.startUpdatingLocation()
-        }
         
         theFormatter.usesGroupingSeparator = true
         theFormatter.numberStyle = .currency
@@ -1105,19 +1108,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         selectVehicleView.layer.cornerRadius = 5
         selectAccountView.layer.cornerRadius = 5
         selectSecondaryAccountView.layer.cornerRadius = 5
-        
-        let typeItem = DropdownFlowItem(options: [
-            DropdownFlowItem.Option(title: "Business", iconName: "business", action: { self.selectedType = 0; self.reloadSentence(selectedType: self.selectedType) }),
-            DropdownFlowItem.Option(title: "Personal", iconName: "personal", action: { self.selectedType = 1; self.reloadSentence(selectedType: self.selectedType) }),
-            DropdownFlowItem.Option(title: "Mixed", iconName: "mixed", action: { self.selectedType = 2; self.reloadSentence(selectedType: self.selectedType) }),
-            DropdownFlowItem.Option(title: "Fuel", iconName: "fuel", action: { self.selectedType = 3; self.reloadSentence(selectedType: self.selectedType) }),
-            DropdownFlowItem.Option(title: "Transfer", iconName: "transfer", action: { self.selectedType = 4; self.reloadSentence(selectedType: self.selectedType) }),
-            DropdownFlowItem.Option(title: "Adjust", iconName: "adjustment", action: { self.selectedType = 5; self.reloadSentence(selectedType: self.selectedType) }),
-            DropdownFlowItem.Option(title: "Project Media", iconName: "media", action: { self.selectedType = 6; self.reloadSentence(selectedType: self.selectedType) })
-            ])
-        leftTopView.configure(item: typeItem)
-        
-        reloadSentence(selectedType: selectedType)
         
         //collectionView.collectionViewLayout = LeftAlignedCollectionViewFlowLayout()
         collectionView.collectionViewLayout = KTCenterFlowLayout()
@@ -1162,11 +1152,34 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         let iconPersonal = "personal"
         setTextAndIconOnLabel(text: amountText, icon: iconBusiness, label: amountBusinessLabel)
         setTextAndIconOnLabel(text: amountText, icon: iconPersonal, label: amountPersonalLabel)
+        
+        switch TheAmtSingleton.shared.theMIPNumber {
+        case -1: //This is the real default, ie the one that will usually happen
+            thisIsTheAmt.theAmt = 0
+            thisIsTheAmt.howMany = 0
+            locationManager.requestWhenInUseAuthorization()
+            if CLLocationManager.locationServicesEnabled() {
+                locationManager.delegate = self
+                locationManager.desiredAccuracy = kCLLocationAccuracyBest
+                locationManager.startUpdatingLocation()
+            }
+        default: //Default is the editing case where user will pass a number through for Universal to be edited
+            let thisUniversal = MIProcessor.sharedMIP.mIP[TheAmtSingleton.shared.theMIPNumber] as! UniversalItem
+            thisUniversals.append(thisUniversal)
+            leftTopView.setTheProgrammaticallySelectedRow(i: thisUniversal.universalItemType)
+            loadAddUniversalForEditing()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         checkPermissionForPhotos()
+    }
+    
+    func loadAddUniversalForEditing() {
+        selectedType = thisUniversals[0].universalItemType
+        
+        reloadSentence(selectedType: selectedType)
     }
 
     func checkPermissionForPhotos() {

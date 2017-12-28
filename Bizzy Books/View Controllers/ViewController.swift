@@ -100,6 +100,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
     }
     
     @IBAction func addUniversalClicked(_: UIBarButtonItem) {
+        TheAmtSingleton.shared.theMIPNumber = -1
         performSegue(withIdentifier: "createUniversal", sender: self)
     }
     
@@ -214,8 +215,10 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
         if let indexPath = self.cardViewCollectionView.indexPathForItem(at: p) {
             // get the cell at indexPath (the one you long pressed)
             //let cell = self.cardViewCollectionView.cellForItem(at: indexPath)
-            performSegue(withIdentifier: "createUniversal", sender: self)
-            // do stuff with the cell
+            if MIProcessor.sharedMIP.mIP[indexPath.row].multiversalType == 0 {
+                TheAmtSingleton.shared.theMIPNumber = indexPath.row
+                performSegue(withIdentifier: "createUniversal", sender: self)
+            }
         } else {
             print("couldn't find index path")
         }

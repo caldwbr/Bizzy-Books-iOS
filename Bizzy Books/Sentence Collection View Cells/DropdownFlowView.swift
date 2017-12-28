@@ -65,5 +65,10 @@ class DropdownFlowView: UIView, FlowItemConfigurable, MKDropdownMenuDataSource, 
         
         return UIView()
     }
+    
+    func setTheProgrammaticallySelectedRow(i: Int) {
+        selectedRow = i
+        dropDownMenu.reloadAllComponents()
+    }
 }
 
