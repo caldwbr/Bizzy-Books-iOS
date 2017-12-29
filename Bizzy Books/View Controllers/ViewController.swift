@@ -37,11 +37,10 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
         cardViewCollectionView.register(UINib.init(nibName: "EntityCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "EntityCardViewCollectionViewCell")
         cardViewCollectionView.register(UINib.init(nibName: "AccountCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AccountCardViewCollectionViewCell")
         cardViewCollectionView.register(UINib.init(nibName: "VehicleCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "VehicleCardViewCollectionViewCell")
-        if let cardViewFlowLayout = cardViewCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            print("We are inside")
-            cardViewFlowLayout.estimatedItemSize = CGSize(width: 350, height: 200)
-        }
         cardViewCollectionView.dataSource = self
+        if let cardViewFlowLayout = cardViewCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            cardViewFlowLayout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize
+        }
         let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress))
         lpgr.minimumPressDuration = 0.5
         lpgr.delaysTouchesBegan = true

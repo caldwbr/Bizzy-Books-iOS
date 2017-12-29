@@ -1826,7 +1826,7 @@ If you can't think of a project with which to associate a business expense, use 
                             <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N4N-CE-Rcf">
-                            <rect key="frame" x="264" y="268" width="53" height="30"/>
+                            <rect key="frame" x="263" y="268" width="53" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <state key="normal" title="Accept"/>
                             <connections>

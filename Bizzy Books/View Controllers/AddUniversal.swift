@@ -29,7 +29,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var negPossibleDigits = "0123456789-"
     let theFormatter = NumberFormatter()
     var bradsStore = IAPProcessor.shared
-    var thisIsTheAmt = TheAmtSingleton.shared
 
     var youRef: DatabaseReference!
     var universalsRef: DatabaseReference!
@@ -60,8 +59,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     var tempKeyHolder: String = ""
     var tempTypeHolderId: Int = 0
-    
-    private var universalArray = [0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1] //Notes and pic url will be ON THEIR OWN! Not really.
+
     private var chosenEntity = 0 //Customer by default
     private var chosenHowDidTheyHearOfYou = 0 //Unknown by default
     private let dataSource = LabelTextFieldFlowCollectionViewDataSource() //The collection view (ie., "sentence")
@@ -472,7 +470,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             if let _ = addAccountStateTextField.text {
                 addAccountStatePlaceholder = addAccountStateTextField.text!
             }
-            let thisAccountItem = AccountItem(name: addAccountNamePlaceholder, accountTypeId: accountTypePlaceholderId, phoneNumber: addAccountPhoneNumberPlaceholder, email: addAccountEmailPlaceholder, street: addAccountStreetPlaceholder, city: addAccountCityPlaceholder, state: addAccountStatePlaceholder, startingBal: thisIsTheAmt.theAmt, creditDetailsAvailable: false, isLoan: false, loanType: 0, loanTypeSubcategory: 0, loanPercentOne: 0.0, loanPercentTwo: 0.0, loanPercentThree: 0.0, loanPercentFour: 0.0, loanIntFactorOne: 0, loanIntFactorTwo: 0, loanIntFactorThree: 0, loanIntFactorFour: 0, maxLimit: 0, maxCashAdvanceAllowance: 0, closeDay: 0, dueDay: 0, cycle: 0, minimumPaymentRequired: 0, lateFeeAsOneTimeInt: 0, lateFeeAsPercentageOfTotalBalance: 0.0, cycleDues: 0, duesCycle: 0, minimumPaymentToBeSmart: 0, interestRate: 0.0, interestKind: 0, timeStamp: timeStampDictionaryForFirebase, key: addAccountKeyString)
+            let thisAccountItem = AccountItem(name: addAccountNamePlaceholder, accountTypeId: accountTypePlaceholderId, phoneNumber: addAccountPhoneNumberPlaceholder, email: addAccountEmailPlaceholder, street: addAccountStreetPlaceholder, city: addAccountCityPlaceholder, state: addAccountStatePlaceholder, startingBal: TheAmtSingleton.shared.theAmt, creditDetailsAvailable: false, isLoan: false, loanType: 0, loanTypeSubcategory: 0, loanPercentOne: 0.0, loanPercentTwo: 0.0, loanPercentThree: 0.0, loanPercentFour: 0.0, loanIntFactorOne: 0, loanIntFactorTwo: 0, loanIntFactorThree: 0, loanIntFactorFour: 0, maxLimit: 0, maxCashAdvanceAllowance: 0, closeDay: 0, dueDay: 0, cycle: 0, minimumPaymentRequired: 0, lateFeeAsOneTimeInt: 0, lateFeeAsPercentageOfTotalBalance: 0.0, cycleDues: 0, duesCycle: 0, minimumPaymentToBeSmart: 0, interestRate: 0.0, interestKind: 0, timeStamp: timeStampDictionaryForFirebase, key: addAccountKeyString)
             accountsRef.child(addAccountKeyString).setValue(thisAccountItem.toAnyObject())
             popUpAnimateOut(popUpView: addAccountView)
             if accountSenderCode == 0 {
@@ -1155,8 +1153,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         
         switch TheAmtSingleton.shared.theMIPNumber {
         case -1: //This is the real default, ie the one that will usually happen
-            thisIsTheAmt.theAmt = 0
-            thisIsTheAmt.howMany = 0
             locationManager.requestWhenInUseAuthorization()
             if CLLocationManager.locationServicesEnabled() {
                 locationManager.delegate = self
@@ -1178,8 +1174,74 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     func loadAddUniversalForEditing() {
         selectedType = thisUniversals[0].universalItemType
-        
+        switch selectedType {
+        case 1:
+            print("Y")
+        case 2:
+            print("Y")
+        case 3:
+            print("Y")
+        case 4: //Transfer - the only case using "primaryAccount..."
+            print("Y")
+        case 6:
+            print("Y")
+        default: //I.e., case 0
+            projectPlaceholder = thisUniversals[0].projectItemName
+            projectPlaceholderKeyString = thisUniversals[0].projectItemKey
+            projectLabel.text = projectPlaceholder
+            notesTextField.text = thisUniversals[0].notes
+            whoPlaceholder = thisUniversals[0].whoName
+            whoPlaceholderKeyString = thisUniversals[0].whoKey
+            TheAmtSingleton.shared.theAmt = thisUniversals[0].what
+            whomPlaceholder = thisUniversals[0].whomName
+            whomPlaceholderKeyString = thisUniversals[0].whomKey
+            whatTaxReasonPlaceholder = thisUniversals[0].taxReasonName
+            whatTaxReasonPlaceholderId = thisUniversals[0].taxReasonId
+            switch whatTaxReasonPlaceholderId {
+            case 2: //Labor
+                workersCompPlaceholder = thisUniversals[0].workersCompName
+                workersCompPlaceholderId = thisUniversals[0].workersCompId
+            case 5:
+                vehiclePlaceholder = thisUniversals[0].vehicleName
+                vehiclePlaceholderKeyString = thisUniversals[0].vehicleKey
+            case 6:
+                advertisingMeansPlaceholder = thisUniversals[0].advertisingMeansName
+                advertisingMeansPlaceholderId = thisUniversals[0].advertisingMeansId
+            default:
+                break
+            }
+            yourAccountPlaceholder = thisUniversals[0].accountOneName
+            yourAccountPlaceholderKeyString = thisUniversals[0].accountOneKey
+            accountLabel.text = yourAccountPlaceholder
+            if thisUniversals[0].picUrl != "" {
+                downloadURL = URL(string: thisUniversals[0].picUrl)!
+                if downloadURL != nil {
+                    downloadImage(url: downloadURL!)
+                }
+            }
+            if thisUniversals[0].useTax {
+                useTaxSwitch.isOn = true
+            }
+        }
         reloadSentence(selectedType: selectedType)
+    }
+    
+    func getDataFromUrl(url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            completion(data, response, error)
+            }.resume()
+    }
+    
+    func downloadImage(url: URL) {
+        print("Download Started")
+        getDataFromUrl(url: url) { data, response, error in
+            guard let data = data, error == nil else { return }
+            print(response?.suggestedFilename ?? url.lastPathComponent)
+            print("Download Finished")
+            DispatchQueue.main.async() {
+                self.imageView.image = UIImage(data: data)
+            }
+        }
     }
 
     func checkPermissionForPhotos() {
@@ -1302,9 +1364,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func updateSliderValues(percent: Int) {
-        print(thisIsTheAmt.theAmt)
-        let prepareTheBusinessAmt = (Double(thisIsTheAmt.theAmt)/100) * (Double(percent)/100)
-        let prepareThePersonalAmt = (Double(thisIsTheAmt.theAmt)/100) * (1.0 - (Double(percent)/100))
+        let prepareTheBusinessAmt = (Double(TheAmtSingleton.shared.theAmt)/100) * (Double(percent)/100)
+        let prepareThePersonalAmt = (Double(TheAmtSingleton.shared.theAmt)/100) * (1.0 - (Double(percent)/100))
         setTextAndIconOnLabel(text: (theFormatter.string(from: NSNumber(value: prepareTheBusinessAmt)))!, icon: "business", label: amountBusinessLabel)
         setTextAndIconOnLabel(text: (theFormatter.string(from: NSNumber(value: prepareThePersonalAmt)))!, icon: "personal", label: amountPersonalLabel)
     }
@@ -1453,17 +1514,16 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func businessCase() {
-        universalArray[0] = 0
         dataSource.items = [
             LabelFlowItem(text: whoPlaceholder, color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
             LabelFlowItem(text: "paid", color: .gray, action: nil),
-            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: thisIsTheAmt.theAmt), placeholder: "0", color: UIColor.BizzyColor.Green.What, keyboardType: .numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0, identifier: 0),
+            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: TheAmtSingleton.shared.theAmt), placeholder: "0", color: UIColor.BizzyColor.Green.What, keyboardType: .numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0, identifier: 0),
             LabelFlowItem(text: "to", color: .gray, action: nil),
             LabelFlowItem(text: whomPlaceholder, color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
             LabelFlowItem(text: "for", color: .gray, action: nil),
             LabelFlowItem(text: whatTaxReasonPlaceholder, color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.pickerCode = 0; self.popUpAnimateIn(popUpView: self.genericPickerView) })
         ]
-        switch universalArray[6] {
+        switch whatTaxReasonPlaceholderId {
         case 2:
             dataSource.items.append(LabelFlowItem(text: workersCompPlaceholder, color: UIColor.BizzyColor.Orange.WC, action: { self.popUpAnimateIn(popUpView: self.genericPickerView); self.pickerCode = 1 }))
         case 5:
@@ -1483,11 +1543,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func personalCase() {
-        universalArray[0] = 1
         dataSource.items = [
             LabelFlowItem(text: whoPlaceholder, color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
             LabelFlowItem(text: "paid", color: .gray, action: nil),
-            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: thisIsTheAmt.theAmt), placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0, identifier: 0),
+            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: TheAmtSingleton.shared.theAmt), placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0, identifier: 0),
             LabelFlowItem(text: "to", color: .gray, action: nil),
             LabelFlowItem(text: whomPlaceholder, color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
             LabelFlowItem(text: "for", color: .gray, action: nil),
@@ -1503,11 +1562,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func mixedCase() {
-        universalArray[0] = 2
         dataSource.items = [
             LabelFlowItem(text: whoPlaceholder, color: UIColor.BizzyColor.Blue.Who, action: { self.popUpAnimateIn(popUpView: self.selectWhoView) }),
             LabelFlowItem(text: "paid", color: .gray, action: nil),
-            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: thisIsTheAmt.theAmt), placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0, identifier: 0),
+            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: TheAmtSingleton.shared.theAmt), placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0, identifier: 0),
             LabelFlowItem(text: "to", color: .gray, action: nil),
             LabelFlowItem(text: whomPlaceholder, color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
             LabelFlowItem(text: "for", color: .gray, action: nil),
@@ -1515,7 +1573,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             LabelFlowItem(text: "and", color: .gray, action: nil),
             LabelFlowItem(text: whatTaxReasonPlaceholder, color: UIColor.BizzyColor.Magenta.TaxReason, action: { self.pickerCode = 0; self.popUpAnimateIn(popUpView: self.genericPickerView) })
         ]
-        switch universalArray[6] {
+        switch whatTaxReasonPlaceholderId {
         case 2:
             dataSource.items.append(LabelFlowItem(text: workersCompPlaceholder, color: UIColor.BizzyColor.Orange.WC, action: { self.popUpAnimateIn(popUpView: self.genericPickerView); self.pickerCode = 1 }))
         case 5:
@@ -1542,15 +1600,14 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func fuelCase() {
-        universalArray[0] = 3
         dataSource.items = [
             LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: nil),
             LabelFlowItem(text: "paid", color: .gray, action: nil),
-            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: thisIsTheAmt.theAmt), placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0, identifier: 0),
+            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: TheAmtSingleton.shared.theAmt), placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0, identifier: 0),
             LabelFlowItem(text: "to", color: .gray, action: nil), 
             LabelFlowItem(text: whomPlaceholder, color: UIColor.BizzyColor.Purple.Whom, action: { self.popUpAnimateIn(popUpView: self.selectWhomView) }),
             LabelFlowItem(text: "for", color: .gray, action: nil),
-            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: thisIsTheAmt.howMany, theNumberStyle: .decimal, theGroupingSeparator: true), placeholder: "how many", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.decimal, numberKind: 1, identifier: 1),
+            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: TheAmtSingleton.shared.howMany, theNumberStyle: .decimal, theGroupingSeparator: true), placeholder: "how many", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.decimal, numberKind: 1, identifier: 1),
             LabelFlowItem(text: "gallons of", color: .gray, action: nil),
             LabelFlowItem(text: fuelTypePlaceholder, color: UIColor.BizzyColor.Orange.WC, action: { self.pickerCode = 4; self.popUpAnimateIn(popUpView: self.genericPickerView) }),
             LabelFlowItem(text: "in your", color: .gray, action: nil),
@@ -1566,11 +1623,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func transferCase() {
-        universalArray[0] = 4
         dataSource.items = [
             LabelFlowItem(text: "You", color: UIColor.BizzyColor.Blue.Who, action: nil),
             LabelFlowItem(text: "moved", color: .gray, action: nil),
-            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: thisIsTheAmt.theAmt), placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0, identifier: 0),
+            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: TheAmtSingleton.shared.theAmt), placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numberPad, allowedCharsString: digits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0, identifier: 0),
             LabelFlowItem(text: "from", color: .gray, action: nil),
             LabelFlowItem(text: yourPrimaryAccountPlaceholder, color: UIColor.BizzyColor.Green.Account, action: { self.primaryAccountTapped = true; self.popUpAnimateIn(popUpView: self.selectAccountView) }),
             LabelFlowItem(text: "to", color: .gray, action: nil),
@@ -1586,13 +1642,12 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func adjustCase() {
-        universalArray[0] = 5
         dataSource.items = [
             LabelFlowItem(text: yourAccountPlaceholder, color: UIColor.BizzyColor.Green.Account, action: { self.popUpAnimateIn(popUpView: self.selectAccountView) }),
             LabelFlowItem(text: "with a Bizzy Books balance of", color: .gray, action: nil),
             LabelFlowItem(text: bizzyBooksBalanceString, color: UIColor.BizzyColor.Green.Account, action: nil),
             LabelFlowItem(text: "should have a balance of", color: .gray, action: nil),
-            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: thisIsTheAmt.theAmt), placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numbersAndPunctuation, allowedCharsString: negPossibleDigits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0, identifier: 0)
+            TextFieldFlowItem(text: stringifyAnInt.stringify(theInt: TheAmtSingleton.shared.theAmt), placeholder: "what amount", color: UIColor.BizzyColor.Green.What, keyboardType: UIKeyboardType.numbersAndPunctuation, allowedCharsString: negPossibleDigits, formatterStyle: NumberFormatter.Style.currency, numberKind: 0, identifier: 0)
         ]
         projectLabel.isHidden = true
         odometerTextField.isHidden = true
@@ -1604,7 +1659,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func projectMediaCase() {
-        universalArray[0] = 6
         dataSource.items = [
             LabelFlowItem(text: projectMediaTypePlaceholder, color: UIColor.BizzyColor.Blue.Project, action: { self.pickerCode = 7; self.popUpAnimateIn(popUpView: self.genericPickerView) })
         ]
@@ -1707,38 +1761,19 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         switch pickerView.tag {
         case 0:
             switch pickerCode {
-            case 0: //What tax reason
-                universalArray[6] = row
-                whatTaxReasonPlaceholder = taxReasonPickerData[row]
-                whatTaxReasonPlaceholderId = row
-                switch selectedType {
-                case 0: //Business Type
-                    if self.dataSource.items.indices.contains(8) { //This just gets rid of veh, adMeans, or wc item if present before reloading.
-                        self.dataSource.items.remove(at: 8) }
-                case 2: //Mixed Type
-                    if self.dataSource.items.indices.contains(10) { //This just gets rid of veh, adMeans, or wc item if present before reloading.
-                        self.dataSource.items.remove(at: 10) }
-                default:
-                    break
-                }
-                popUpAnimateOut(popUpView: pickerView)
             case 1: //Worker's comp
-                universalArray[8] = row
                 workersCompPlaceholder = wcPickerData[row]
                 workersCompPlaceholderId = row
                 popUpAnimateOut(popUpView: pickerView)
             case 2: //What kind of advertising did you purchase
-                universalArray[9] = row
                 advertisingMeansPlaceholder = advertisingMeansPickerData[row]
                 advertisingMeansPlaceholderId = row
                 popUpAnimateOut(popUpView: pickerView)
             case 3: //What personal reason
-                universalArray[10] = row
                 whatPersonalReasonPlaceholder = personalReasonPickerData[row]
                 whatPersonalReasonPlaceholderId = row
                 popUpAnimateOut(popUpView: pickerView)
             case 4: //Fuel type
-                universalArray[15] = row
                 fuelTypePlaceholder = fuelTypePickerData[row]
                 fuelTypePlaceholderId = row
                 popUpAnimateOut(popUpView: pickerView)
@@ -1760,9 +1795,19 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 projectStatusPlaceholder = projectStatusPickerData[row]
                 projectStatusPlaceholderId = row
                 popUpAnimateOut(popUpView: pickerView)
-            default: //What tax reason
-                universalArray[6] = row
-                self.whatTaxReasonPlaceholder = taxReasonPickerData[row]
+            default: //What tax reason IE case 0
+                whatTaxReasonPlaceholderId = row
+                whatTaxReasonPlaceholder = taxReasonPickerData[row]
+                switch selectedType {
+                case 0: //Business Type
+                    if self.dataSource.items.indices.contains(8) { //This just gets rid of veh, adMeans, or wc item if present before reloading.
+                        self.dataSource.items.remove(at: 8) }
+                case 2: //Mixed Type
+                    if self.dataSource.items.indices.contains(10) { //This just gets rid of veh, adMeans, or wc item if present before reloading.
+                        self.dataSource.items.remove(at: 10) }
+                default:
+                    break
+                }
                 popUpAnimateOut(popUpView: pickerView)
             }
         default: // I.e., tag = 1, which is only true for Add Project which has two picker views. Incidentally, pickercode will be 6 here because that's what the first-created picker view in add project happened to be, which will trigger BOTH pickers
@@ -1914,20 +1959,15 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         }
         switch self.selectedType {
         case 4: //Transfer
-            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: odometerAsInt, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: thisIsTheAmt.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourPrimaryAccountPlaceholder, accountOneKey: yourPrimaryAccountPlaceholderKeyString, accountOneType: accountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: thisIsTheAmt.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
+            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: odometerAsInt, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: TheAmtSingleton.shared.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourPrimaryAccountPlaceholder, accountOneKey: yourPrimaryAccountPlaceholderKeyString, accountOneType: accountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: TheAmtSingleton.shared.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
             universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
         case 5: //Adjust
-            let difference = theBalanceAfter - thisIsTheAmt.theAmt
-            print("difference " + String(describing: difference))
-            print("theBalanceAfter " + String(describing: theBalanceAfter))
-            print("thisIsTheAmt " + String(describing: thisIsTheAmt.theAmt))
-            print("theStartingBalance " + String(describing: theStartingBalance))
+            let difference = theBalanceAfter - TheAmtSingleton.shared.theAmt
             let correctedStartingBalance = theStartingBalance - difference
-            print("correctedStartingBalance " + String(describing: correctedStartingBalance))
             let thisAccountRef = Database.database().reference().child("users").child(userUID).child("accounts")
             thisAccountRef.child(yourAccountPlaceholderKeyString).updateChildValues(["startingBal": correctedStartingBalance])
         default:
-            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: odometerAsInt, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: thisIsTheAmt.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountOneType: accountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: thisIsTheAmt.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
+            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: odometerAsInt, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: TheAmtSingleton.shared.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountOneType: accountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: TheAmtSingleton.shared.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
             universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
         }
         self.navigationController?.popViewController(animated: true)
