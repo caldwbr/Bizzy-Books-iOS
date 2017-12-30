@@ -37,6 +37,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var vehiclesRef: DatabaseReference!
     var accountsRef: DatabaseReference!
     var currentlySubscribedRef: DatabaseReference!
+    var currentSubscriptionRef: DatabaseReference!
     var specialAccessRef: DatabaseReference!
     var userCurrentImageIdCountRef: DatabaseReference!
     
@@ -999,10 +1000,13 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             if isTrue {
                 print("Purchase made " + theString!)
                 self.currentlySubscribedRef.setValue(true)
+                self.isUserCurrentlySubscribed = true
             } else {
                 print("Something happened " + String(describing: err))
                 self.currentlySubscribedRef.setValue(false)
+                self.isUserCurrentlySubscribed = false
             }
+            
         }
         self.popUpAnimateOut(popUpView: self.subscriptionPopUpView)
     }
@@ -1512,9 +1516,11 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         vehiclesRef = Database.database().reference().child("users").child(userUID).child("vehicles")
         accountsRef = Database.database().reference().child("users").child(userUID).child("accounts")
         currentlySubscribedRef = Database.database().reference().child("users").child(userUID).child("currentlySubscribed")
+        currentSubscriptionRef = Database.database().reference().child("users").child(userUID).child("subscriptionExpirationDate")
         specialAccessRef = Database.database().reference().child("users").child(userUID).child("specialAccess")
         userCurrentImageIdCountRef = Database.database().reference().child("users").child(userUID).child("userCurrentImageIdCount")
-        currentlySubscribedRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        // This is only valid if we have updated this flag recently
+        /*currentlySubscribedRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let subscribed = snapshot.value as? Bool {
                 print("S: " + String(subscribed))
                 if subscribed {
@@ -1523,7 +1529,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                     self.isUserCurrentlySubscribed = false
                 }
             }
-        })
+        })*/
         specialAccessRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let special = snapshot.value as? Bool {
                 print("Special: " + String(special))
@@ -1536,6 +1542,30 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 self.specialAccessRef.setValue(false)
             }
         })
+        
+        currentSubscriptionRef.observeSingleEvent(of: .value) { (snapshot) in
+            if let timeInterval = snapshot.value as? TimeInterval {
+                let date = Date(timeIntervalSince1970: timeInterval)
+                if Date().compare(date) == .orderedAscending {
+                    // Subscription is valid
+                    self.isUserCurrentlySubscribed = true
+                    return
+                }
+            }
+            
+            // We need to refresh the subscription state from AppStore
+            self.bradsStore.restorePurchases { (isTrue, theString, err) in
+                if isTrue {
+                    // Subscription is valid
+                    self.isUserCurrentlySubscribed = true
+                } else {
+                    // Subscription is invalid
+                    self.isUserCurrentlySubscribed = false
+                }
+            }
+        }
+        
+        
         userCurrentImageIdCountRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let count = snapshot.value as? String {
                 if let countAsInt = Int(count) {

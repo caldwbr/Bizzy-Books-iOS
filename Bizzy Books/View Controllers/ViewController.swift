@@ -38,9 +38,10 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         cardViewCollectionView.register(UINib.init(nibName: "AccountCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AccountCardViewCollectionViewCell")
         cardViewCollectionView.register(UINib.init(nibName: "VehicleCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "VehicleCardViewCollectionViewCell")
         cardViewCollectionView.dataSource = self
-        if let cardViewFlowLayout = cardViewCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+        cardViewCollectionView.delegate = self
+        /*if let cardViewFlowLayout = cardViewCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             cardViewFlowLayout.estimatedItemSize = CGSize(width: 350, height: 500)
-        }
+        }*/
         let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress))
         lpgr.minimumPressDuration = 0.5
         lpgr.delaysTouchesBegan = true
@@ -269,15 +270,34 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     }
 }
 
-/*
+
 //Brian Voong inspiration... see if we can get vertical sizing of collectionview cells ie cardviews
-extension UICollectionViewFlowLayout {
+extension ViewController :UICollectionViewDelegateFlowLayout {
     
-    @objc open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let i = indexPath.item
+        if let universalItem = MIProcessor.sharedMIP.mIP[i] as? UniversalItem {
+            /*
+             1. get the height of the dynamic sentence
+             2. get the height of image based on the card width and the aspect ratio of the image (which should be saved in the Firebase)
+             3. get the height of the rest of the components (static parts)
+             4. add all those componets up and you get the total height
+             
+             EXAMPLE:
+             let approximateWidthOfBioTextView = view.frame.width - 12 - 50 - 12 - 2
+             let size = CGSize(width: approximateWidthOfBioTextView, height: 1000)
+             let attributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 15)]
+             
+             let estimatedFrame = NSString(string: user.bioText).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+             
+             return CGSize(width: view.frame.width, height: estimatedFrame.height + 66)
+             */
+        }
         return CGSize(width: 350, height: 500)
     }
     
-}*/
+    
+}
 
 extension UIViewController {
     func hideKeyboardWhenTappedAround() {

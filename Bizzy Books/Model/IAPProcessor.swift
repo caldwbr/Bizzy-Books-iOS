@@ -116,6 +116,7 @@ extension IAPProcessor : SKPaymentTransactionObserver {
             processReceipt()
         }
     }
+    
 }
 
 //For subscriptions which is what I'm doing
@@ -126,8 +127,14 @@ extension IAPProcessor {
             expirationDateFromProd(completion: { (date, sandbox, error) in
                 if let error = error {
                     self.completionBlock?(false, "The purchase failed.", error)
-                } else if let date = date, Date().compare(date) == .orderedAscending {
-                    self.completionBlock?(true, self.productIdentifier, nil)
+                } else if let date = date {
+                    
+                    let currentSubscriptionRef = Database.database().reference().child("users").child(userUID).child("subscriptionExpirationDate")
+                    currentSubscriptionRef.setValue(date.timeIntervalSince1970)
+                    
+                    if Date().compare(date) == .orderedAscending {
+                        self.completionBlock?(true, self.productIdentifier, nil)
+                    }
                 }
             })
         } else {
