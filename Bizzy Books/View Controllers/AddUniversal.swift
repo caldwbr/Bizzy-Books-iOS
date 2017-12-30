@@ -37,6 +37,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var vehiclesRef: DatabaseReference!
     var accountsRef: DatabaseReference!
     var currentlySubscribedRef: DatabaseReference!
+    var currentlySubscribedShortenedRef: DatabaseReference!
     var currentSubscriptionRef: DatabaseReference!
     var specialAccessRef: DatabaseReference!
     var userCurrentImageIdCountRef: DatabaseReference!
@@ -128,6 +129,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var addAccountCityPlaceholder = ""
     var addAccountStatePlaceholder = ""
     let stringifyAnInt = StringifyAnInt()
+    var imageViewHeight: CGFloat = 1
+    var imageViewHeightInt: Int = 1
     
     // 0 = Who, 1 = Whom, 2 = Project Customer
     var entitySenderCode = 0 {
@@ -1061,6 +1064,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         self.selectSecondaryAccountTableView.keyboardDismissMode = .interactive
         self.addProjectSelectCustomerTableView.keyboardDismissMode = .interactive
         
+        TheAmtSingleton.shared.theAmt = 0
+        TheAmtSingleton.shared.howMany = 0
+        TheAmtSingleton.shared.theOdo = 0
+        
         let typeItem = DropdownFlowItem(options: [
             DropdownFlowItem.Option(title: "Business", iconName: "business", action: { self.selectedType = 0; self.reloadSentence(selectedType: self.selectedType) }),
             DropdownFlowItem.Option(title: "Personal", iconName: "personal", action: { self.selectedType = 1; self.reloadSentence(selectedType: self.selectedType) }),
@@ -1405,7 +1412,9 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             let screenSize = UIScreen.main.bounds
             let screenWidth = screenSize.width
             let imageViewWidth = screenWidth
-            let imageViewHeight = imageViewWidth * aspectRatio
+            let imageWidthCard: CGFloat = 350
+            imageViewHeight = imageViewWidth * aspectRatio
+            imageViewHeightInt = Int(imageWidthCard * aspectRatio)
             imageViewHeightConstraint.constant = imageViewHeight
             imageView.image = image
             thereIsAnImage = true
@@ -1543,27 +1552,42 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             }
         })
         
-        currentSubscriptionRef.observeSingleEvent(of: .value) { (snapshot) in
+        currentSubscriptionRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            print("W O A H ")
             if let timeInterval = snapshot.value as? TimeInterval {
+                print("W O A H 2")
                 let date = Date(timeIntervalSince1970: timeInterval)
                 if Date().compare(date) == .orderedAscending {
                     // Subscription is valid
+                    print("W O A H 3")
                     self.isUserCurrentlySubscribed = true
+                    self.currentlySubscribedRef.setValue(true)
                     return
+                } else {
+                    print("W O A H 4")
+                    self.isUserCurrentlySubscribed = false
+                    self.currentlySubscribedRef.setValue(false)
                 }
             }
             
             // We need to refresh the subscription state from AppStore
             self.bradsStore.restorePurchases { (isTrue, theString, err) in
+                if err != nil {
+                    print(" H e y l o " + String(describing: err))
+                }
                 if isTrue {
                     // Subscription is valid
                     self.isUserCurrentlySubscribed = true
+                    self.currentlySubscribedRef.setValue(true)
+                    print(" H E Y L O 2 ")
                 } else {
                     // Subscription is invalid
                     self.isUserCurrentlySubscribed = false
+                    self.currentlySubscribedRef.setValue(false)
+                    print(" H E Y L O 3 ")
                 }
             }
-        }
+        })
         
         
         userCurrentImageIdCountRef.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -1614,6 +1638,9 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBAction func deleteViewDeletePressed(_ sender: UIButton) {
         universalsRef.child(addUniversalKeyString).removeValue()
         popUpAnimateOut(popUpView: deleteView)
+        TheAmtSingleton.shared.theAmt = 0
+        TheAmtSingleton.shared.howMany = 0
+        TheAmtSingleton.shared.theOdo = 0
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -2131,7 +2158,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             self.addUniversalKeyString = addUniversalKeyReference.key
             switch self.selectedType {
             case 4: //Transfer
-                let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: TheAmtSingleton.shared.theOdo, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: TheAmtSingleton.shared.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourPrimaryAccountPlaceholder, accountOneKey: yourPrimaryAccountPlaceholderKeyString, accountOneType: primaryAccountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: TheAmtSingleton.shared.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
+                let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: TheAmtSingleton.shared.theOdo, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: TheAmtSingleton.shared.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourPrimaryAccountPlaceholder, accountOneKey: yourPrimaryAccountPlaceholderKeyString, accountOneType: primaryAccountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: TheAmtSingleton.shared.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, picHeightInt: imageViewHeightInt, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
                 universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
             case 5: //Adjust
                 let difference = theBalanceAfter - TheAmtSingleton.shared.theAmt
@@ -2139,13 +2166,16 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 let thisAccountRef = Database.database().reference().child("users").child(userUID).child("accounts")
                 thisAccountRef.child(yourAccountPlaceholderKeyString).updateChildValues(["startingBal": correctedStartingBalance])
             default:
-                let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: TheAmtSingleton.shared.theOdo, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: TheAmtSingleton.shared.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountOneType: accountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: TheAmtSingleton.shared.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
+                let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: TheAmtSingleton.shared.theOdo, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: TheAmtSingleton.shared.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountOneType: accountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: TheAmtSingleton.shared.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, picHeightInt: imageViewHeightInt, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
                 universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
             }
         default: //The UpdateUniversal case, where MIPnumber represents item number in array
             print("Do nothing")
             
         }
+        TheAmtSingleton.shared.theAmt = 0
+        TheAmtSingleton.shared.howMany = 0
+        TheAmtSingleton.shared.theOdo = 0
         self.navigationController?.popViewController(animated: true)
     }
     

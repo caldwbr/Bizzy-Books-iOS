@@ -170,22 +170,6 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let i = indexPath.row
         switch MIProcessor.sharedMIP.mIP[i].multiversalType {
-        case 0:
-            let universal = MIProcessor.sharedMIP.mIP[i] as! UniversalItem
-            switch universal.universalItemType {
-            case 4:
-                let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalTransferCardViewCollectionViewCell", for: indexPath) as! UniversalTransferCardViewCollectionViewCell
-                cell.configure(i: i)
-                return cell
-            case 6:
-                let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalProjectMediaCardViewCollectionViewCell", for: indexPath) as! UniversalProjectMediaCardViewCollectionViewCell
-                cell.configure(i: i)
-                return cell
-            default: // I.e., cases 0, 1, 2, and 3 (most all cases!)
-                let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalCardViewCollectionViewCell", for: indexPath) as! UniversalCardViewCollectionViewCell
-                cell.configure(i: i)
-                return cell
-            }
         case 1:
             let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "ProjectCardViewCollectionViewCell", for: indexPath) as! ProjectCardViewCollectionViewCell
             cell.configure(i: i)
@@ -203,9 +187,21 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             cell.configure(i: i)
             return cell
         default:
-            let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalCardViewCollectionViewCell", for: indexPath) as! UniversalCardViewCollectionViewCell
-            cell.configure(i: i)
-            return cell
+            let universal = MIProcessor.sharedMIP.mIP[i] as! UniversalItem
+            switch universal.universalItemType {
+            case 4:
+                let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalTransferCardViewCollectionViewCell", for: indexPath) as! UniversalTransferCardViewCollectionViewCell
+                cell.configure(i: i)
+                return cell
+            case 6:
+                let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalProjectMediaCardViewCollectionViewCell", for: indexPath) as! UniversalProjectMediaCardViewCollectionViewCell
+                cell.configure(i: i)
+                return cell
+            default: // I.e., cases 0, 1, 2, and 3 (most all cases!)
+                let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalCardViewCollectionViewCell", for: indexPath) as! UniversalCardViewCollectionViewCell
+                cell.configure(i: i)
+                return cell
+            }
         }
     }
     
@@ -276,6 +272,36 @@ extension ViewController :UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let i = indexPath.item
+        var baseHeight: CGFloat = 200
+        var sentenceOneHeight: CGFloat = 0
+        var sentenceTwoHeight: CGFloat = 0
+        var imageHeight: CGFloat = 1
+        switch MIProcessor.sharedMIP.mIP[i].multiversalType {
+        case 1: // Project
+            print("blah")
+        case 2: // Entity
+            print("blah")
+        case 3: // Account
+            print("blah")
+        case 4: // Vehicle
+            print("blah")
+        default: // Universal - Ie case 0 the most frequent
+            if let universalItem = MIProcessor.sharedMIP.mIP[i] as? UniversalItem {
+                switch universalItem.universalItemType {
+                case 4:
+                    print("blah")
+                case 6:
+                    print("blah")
+                default:
+                    baseHeight = 140
+                    sentenceOneHeight = 60
+                    imageHeight = CGFloat(universalItem.picHeightInt)
+                }
+            }
+        }
+        let totalHeight = baseHeight + sentenceOneHeight + sentenceTwoHeight + imageHeight
+        return CGSize(width: 350, height: totalHeight)
+        /*
         if let universalItem = MIProcessor.sharedMIP.mIP[i] as? UniversalItem {
             /*
              1. get the height of the dynamic sentence
@@ -293,7 +319,7 @@ extension ViewController :UICollectionViewDelegateFlowLayout {
              return CGSize(width: view.frame.width, height: estimatedFrame.height + 66)
              */
         }
-        return CGSize(width: 350, height: 500)
+        */
     }
     
     

@@ -509,7 +509,7 @@
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="OrO-O5-yBn"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="sGi-6A-HST"/>
-                        <barButtonItem systemItem="save" id="fgZ-1P-Dyd">
+                        <barButtonItem title="Save" id="fgZ-1P-Dyd">
                             <connections>
                                 <action selector="saveButtonPressed:" destination="XGO-PW-Ssy" id="35n-dL-Ll0"/>
                             </connections>
