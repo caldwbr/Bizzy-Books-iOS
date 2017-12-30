@@ -18,7 +18,7 @@ import FBSDKLoginKit
 var userUID = ""
 var userTokens = ""
 
-class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate {
+class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDelegate, UICollectionViewDataSource {
     
     var kFacebookAppID = "1583985615235483"
     var backgroundImage : UIImageView! //right here
@@ -39,7 +39,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
         cardViewCollectionView.register(UINib.init(nibName: "VehicleCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "VehicleCardViewCollectionViewCell")
         cardViewCollectionView.dataSource = self
         if let cardViewFlowLayout = cardViewCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            cardViewFlowLayout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize
+            cardViewFlowLayout.estimatedItemSize = CGSize(width: 350, height: 500)
         }
         let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress))
         lpgr.minimumPressDuration = 0.5
@@ -152,6 +152,12 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
         }
     }
     
+    /*
+    @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 350, height: 500)
+    }
+ */
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -262,6 +268,16 @@ class ViewController: UIViewController, FUIAuthDelegate, UICollectionViewDataSou
         }
     }
 }
+
+/*
+//Brian Voong inspiration... see if we can get vertical sizing of collectionview cells ie cardviews
+extension UICollectionViewFlowLayout {
+    
+    @objc open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 350, height: 500)
+    }
+    
+}*/
 
 extension UIViewController {
     func hideKeyboardWhenTappedAround() {
