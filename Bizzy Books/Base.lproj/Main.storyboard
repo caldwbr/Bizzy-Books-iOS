@@ -561,6 +561,7 @@
                         <outlet property="bottomStackView" destination="f7q-Rf-pcz" id="z80-Kl-QIc"/>
                         <outlet property="collectionView" destination="Q6p-MC-P7I" id="a4L-M3-jgX"/>
                         <outlet property="contactSuggestionsTableView" destination="a1a-y7-axC" id="UjR-Cu-ad1"/>
+                        <outlet property="deleteView" destination="qoG-Xj-cGX" id="fRE-um-yeh"/>
                         <outlet property="entityPickerView" destination="pXU-En-3wR" id="g5J-9X-0yJ"/>
                         <outlet property="genericPickerView" destination="BOy-dT-biU" id="K0F-Ke-PtP"/>
                         <outlet property="howDidTheyHearOfYouPickerView" destination="a79-zN-uj4" id="5Gj-ND-cfb"/>
@@ -573,12 +574,14 @@
                         <outlet property="overheadQuestionImageView" destination="19Q-zw-8HO" id="0Fj-p5-MzZ"/>
                         <outlet property="overheadSwitch" destination="15C-65-OWW" id="d7Y-a6-LXT"/>
                         <outlet property="percentBusinessLabel" destination="PHu-xI-fnj" id="JUB-NF-sSA"/>
+                        <outlet property="percentBusinessTheSlider" destination="a9H-GD-gue" id="uCr-r2-m82"/>
                         <outlet property="percentBusinessView" destination="nuR-79-mdb" id="73p-7z-Nyf"/>
                         <outlet property="projectLabel" destination="sBx-Cc-ZnK" id="K5N-mx-dFE"/>
                         <outlet property="projectSearchView" destination="pIt-RG-Xtc" id="tui-y0-Rgv"/>
                         <outlet property="projectStatusPickerView" destination="7Bm-Ni-Bvz" id="MAz-rJ-gC7"/>
                         <outlet property="projectTextField" destination="n4a-Sa-ODn" id="We5-jv-dlk"/>
                         <outlet property="rightTopView" destination="66P-m8-CxQ" id="fsd-7k-cfe"/>
+                        <outlet property="saveButton" destination="fgZ-1P-Dyd" id="ZWB-Q0-B0n"/>
                         <outlet property="scrollView" destination="Vae-KG-5ou" id="vy8-eg-iwo"/>
                         <outlet property="selectAccountTableView" destination="haD-dw-4zX" id="UWg-Cu-YeX"/>
                         <outlet property="selectAccountTextField" destination="COT-Cm-ZE5" id="ncn-ci-GL6"/>
@@ -830,6 +833,60 @@
                         <constraint firstItem="MeT-jz-cRB" firstAttribute="leading" secondItem="wWf-j8-CbE" secondAttribute="leading" constant="16" id="cwa-36-iTW"/>
                         <constraint firstAttribute="trailing" secondItem="hlG-Sz-eqO" secondAttribute="trailing" constant="16" id="sIC-9c-6T8"/>
                         <constraint firstAttribute="bottom" secondItem="MeT-jz-cRB" secondAttribute="bottom" constant="16" id="xMu-hR-UKi"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" id="qoG-Xj-cGX">
+                    <rect key="frame" x="0.0" y="0.0" width="333" height="190"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delete" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h0L-uT-1O5">
+                            <rect key="frame" x="131" y="20" width="70" height="20"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Permanently delete this selected item?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gme-5b-Mmp">
+                            <rect key="frame" x="18" y="60" width="296" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="60" id="E7d-Io-goO"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Jd-dP-p2i">
+                            <rect key="frame" x="16" y="140" width="48" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="ZNQ-Sr-sSM"/>
+                            </constraints>
+                            <state key="normal" title="Cancel"/>
+                            <connections>
+                                <action selector="deleteViewCancelPressed:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="5JG-gE-BgA"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5cz-jk-Ulx">
+                            <rect key="frame" x="272" y="140" width="45" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="f8s-Xt-PEe"/>
+                            </constraints>
+                            <state key="normal" title="Delete"/>
+                            <connections>
+                                <action selector="deleteViewDeletePressed:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="8gN-ty-Wxk"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="9Jd-dP-p2i" firstAttribute="top" secondItem="gme-5b-Mmp" secondAttribute="bottom" constant="20" id="09z-sZ-ZUs"/>
+                        <constraint firstItem="h0L-uT-1O5" firstAttribute="centerX" secondItem="qoG-Xj-cGX" secondAttribute="centerX" id="6fc-Js-T3d"/>
+                        <constraint firstItem="5cz-jk-Ulx" firstAttribute="top" secondItem="gme-5b-Mmp" secondAttribute="bottom" constant="20" id="KuU-QN-diY"/>
+                        <constraint firstAttribute="bottom" secondItem="5cz-jk-Ulx" secondAttribute="bottom" constant="20" id="Kyl-HF-RfJ"/>
+                        <constraint firstItem="gme-5b-Mmp" firstAttribute="centerX" secondItem="qoG-Xj-cGX" secondAttribute="centerX" id="P41-br-OYf"/>
+                        <constraint firstItem="gme-5b-Mmp" firstAttribute="top" secondItem="h0L-uT-1O5" secondAttribute="bottom" constant="20" id="Pnj-OS-byZ"/>
+                        <constraint firstItem="9Jd-dP-p2i" firstAttribute="leading" secondItem="qoG-Xj-cGX" secondAttribute="leading" constant="16" id="Wbd-In-6CU"/>
+                        <constraint firstItem="h0L-uT-1O5" firstAttribute="top" secondItem="qoG-Xj-cGX" secondAttribute="top" constant="20" id="X7T-Mh-Fbq"/>
+                        <constraint firstAttribute="trailing" secondItem="5cz-jk-Ulx" secondAttribute="trailing" constant="16" id="ZFs-Wi-piG"/>
+                        <constraint firstAttribute="bottom" secondItem="9Jd-dP-p2i" secondAttribute="bottom" constant="20" id="dmQ-zB-51X"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" id="a1G-5I-zJm">

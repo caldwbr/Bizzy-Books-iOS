@@ -98,6 +98,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var theStartingBalance = 0
     var yourPrimaryAccountPlaceholder = "account ▾"
     var yourPrimaryAccountPlaceholderKeyString = ""
+    var primaryAccountTypePlaceholder = "Bank account"
+    var primaryAccountTypePlaceholderId = 0
     var yourSecondaryAccountPlaceholder = "secondary account ▾"
     var yourSecondaryAccountPlaceholderKeyString = ""
     var secondaryAccountTypePlaceholder = "Bank account"
@@ -160,6 +162,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var projectLabel: UILabel!
     @IBOutlet weak var accountLabel: UILabel!
     @IBOutlet weak var percentBusinessLabel: UILabel!
+    @IBOutlet weak var percentBusinessTheSlider: UISlider!
     @IBAction func percentBusinessSlider(_ sender: UISlider) {
         let percent = sender.value.rounded().cleanValue
         thePercent = Int(percent)!
@@ -474,11 +477,20 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             accountsRef.child(addAccountKeyString).setValue(thisAccountItem.toAnyObject())
             popUpAnimateOut(popUpView: addAccountView)
             if accountSenderCode == 0 {
-                yourAccountPlaceholderKeyString = addAccountKeyString
-                yourAccountPlaceholder = thisAccountItem.name
+                switch self.selectedType {
+                case 4:
+                    yourPrimaryAccountPlaceholderKeyString = addAccountKeyString
+                    yourPrimaryAccountPlaceholder = thisAccountItem.name
+                    primaryAccountTypePlaceholderId = thisAccountItem.accountTypeId
+                default:
+                    yourAccountPlaceholderKeyString = addAccountKeyString
+                    yourAccountPlaceholder = thisAccountItem.name
+                    accountTypePlaceholderId = thisAccountItem.accountTypeId
+                }
             } else if accountSenderCode == 1 {
                 yourSecondaryAccountPlaceholderKeyString = addAccountKeyString
                 yourSecondaryAccountPlaceholder = thisAccountItem.name
+                secondaryAccountTypePlaceholderId = thisAccountItem.accountTypeId
             }
             addAccountNameTextField.text = ""
             addAccountStartingBalanceTextField.text = ""
@@ -1173,18 +1185,126 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func loadAddUniversalForEditing() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Delete", style: .plain, target: self, action: #selector(deleteTapped))
+        saveButton.title = "Update"
+        addUniversalKeyString = thisUniversals[0].key
         selectedType = thisUniversals[0].universalItemType
         switch selectedType {
         case 1:
-            print("Y")
+            notesTextField.text = thisUniversals[0].notes
+            whoPlaceholder = thisUniversals[0].whoName
+            whoPlaceholderKeyString = thisUniversals[0].whoKey
+            TheAmtSingleton.shared.theAmt = thisUniversals[0].what
+            whomPlaceholder = thisUniversals[0].whomName
+            whomPlaceholderKeyString = thisUniversals[0].whomKey
+            whatPersonalReasonPlaceholder = thisUniversals[0].personalReasonName
+            whatPersonalReasonPlaceholderId = thisUniversals[0].personalReasonId
+            yourAccountPlaceholder = thisUniversals[0].accountOneName
+            yourAccountPlaceholderKeyString = thisUniversals[0].accountOneKey
+            accountTypePlaceholderId = thisUniversals[0].accountOneType
+            accountLabel.text = yourAccountPlaceholder
+            if thisUniversals[0].picUrl != "" {
+                downloadURL = URL(string: thisUniversals[0].picUrl)!
+                if downloadURL != nil {
+                    downloadImage(url: downloadURL!)
+                }
+            }
+            if thisUniversals[0].useTax {
+                useTaxSwitch.isOn = true
+            }
         case 2:
-            print("Y")
+            projectPlaceholder = thisUniversals[0].projectItemName
+            projectPlaceholderKeyString = thisUniversals[0].projectItemKey
+            projectLabel.text = projectPlaceholder
+            notesTextField.text = thisUniversals[0].notes
+            whoPlaceholder = thisUniversals[0].whoName
+            whoPlaceholderKeyString = thisUniversals[0].whoKey
+            TheAmtSingleton.shared.theAmt = thisUniversals[0].what
+            whomPlaceholder = thisUniversals[0].whomName
+            whomPlaceholderKeyString = thisUniversals[0].whomKey
+            whatPersonalReasonPlaceholder = thisUniversals[0].personalReasonName
+            whatPersonalReasonPlaceholderId = thisUniversals[0].personalReasonId
+            whatTaxReasonPlaceholder = thisUniversals[0].taxReasonName
+            whatTaxReasonPlaceholderId = thisUniversals[0].taxReasonId
+            switch whatTaxReasonPlaceholderId {
+            case 2: //Labor
+                workersCompPlaceholder = thisUniversals[0].workersCompName
+                workersCompPlaceholderId = thisUniversals[0].workersCompId
+            case 5:
+                vehiclePlaceholder = thisUniversals[0].vehicleName
+                vehiclePlaceholderKeyString = thisUniversals[0].vehicleKey
+            case 6:
+                advertisingMeansPlaceholder = thisUniversals[0].advertisingMeansName
+                advertisingMeansPlaceholderId = thisUniversals[0].advertisingMeansId
+            default:
+                break
+            }
+            percentBusinessLabel.text = String(thisUniversals[0].percentBusiness) + "%"
+            updateSliderValues(percent: thisUniversals[0].percentBusiness)
+            percentBusinessTheSlider.value = Float(thisUniversals[0].percentBusiness)
+            yourAccountPlaceholder = thisUniversals[0].accountOneName
+            yourAccountPlaceholderKeyString = thisUniversals[0].accountOneKey
+            accountTypePlaceholderId = thisUniversals[0].accountOneType
+            accountLabel.text = yourAccountPlaceholder
+            if thisUniversals[0].picUrl != "" {
+                downloadURL = URL(string: thisUniversals[0].picUrl)!
+                if downloadURL != nil {
+                    downloadImage(url: downloadURL!)
+                }
+            }
+            if thisUniversals[0].useTax {
+                useTaxSwitch.isOn = true
+            }
         case 3:
-            print("Y")
+            TheAmtSingleton.shared.theOdo = thisUniversals[0].odometerReading
+            notesTextField.text = thisUniversals[0].notes
+            TheAmtSingleton.shared.theAmt = thisUniversals[0].what
+            whomPlaceholder = thisUniversals[0].whomName
+            whomPlaceholderKeyString = thisUniversals[0].whomKey
+            TheAmtSingleton.shared.howMany = thisUniversals[0].howMany
+            fuelTypePlaceholder = thisUniversals[0].fuelTypeName
+            fuelTypePlaceholderId = thisUniversals[0].fuelTypeId
+            vehiclePlaceholder = thisUniversals[0].vehicleName
+            vehiclePlaceholderKeyString = thisUniversals[0].vehicleKey
+            yourAccountPlaceholder = thisUniversals[0].accountOneName
+            yourAccountPlaceholderKeyString = thisUniversals[0].accountOneKey
+            accountTypePlaceholderId = thisUniversals[0].accountOneType
+            accountLabel.text = yourAccountPlaceholder
+            if thisUniversals[0].picUrl != "" {
+                downloadURL = URL(string: thisUniversals[0].picUrl)!
+                if downloadURL != nil {
+                    downloadImage(url: downloadURL!)
+                }
+            }
         case 4: //Transfer - the only case using "primaryAccount..."
-            print("Y")
+            notesTextField.text = thisUniversals[0].notes
+            TheAmtSingleton.shared.theAmt = thisUniversals[0].what
+            yourPrimaryAccountPlaceholder = thisUniversals[0].accountOneName
+            yourPrimaryAccountPlaceholderKeyString = thisUniversals[0].accountOneKey
+            primaryAccountTypePlaceholderId = thisUniversals[0].accountOneType
+            yourSecondaryAccountPlaceholder = thisUniversals[0].accountTwoName
+            yourSecondaryAccountPlaceholderKeyString = thisUniversals[0].accountTwoKey
+            secondaryAccountTypePlaceholderId = thisUniversals[0].accountTwoType
+            if thisUniversals[0].picUrl != "" {
+                downloadURL = URL(string: thisUniversals[0].picUrl)!
+                if downloadURL != nil {
+                    downloadImage(url: downloadURL!)
+                }
+            }
         case 6:
-            print("Y")
+            projectPlaceholder = thisUniversals[0].projectItemName
+            projectPlaceholderKeyString = thisUniversals[0].projectItemKey
+            projectLabel.text = projectPlaceholder
+            projectMediaTypePlaceholder = thisUniversals[0].projectPicTypeName
+            projectMediaTypePlaceholderId = thisUniversals[0].projectPicTypeId
+            projectStatusPlaceholder = thisUniversals[0].projectStatusString
+            projectStatusPlaceholderId = thisUniversals[0].projectStatusId
+            if thisUniversals[0].picUrl != "" {
+                downloadURL = URL(string: thisUniversals[0].picUrl)!
+                if downloadURL != nil {
+                    downloadImage(url: downloadURL!)
+                }
+            }
         default: //I.e., case 0
             projectPlaceholder = thisUniversals[0].projectItemName
             projectPlaceholderKeyString = thisUniversals[0].projectItemKey
@@ -1212,6 +1332,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             }
             yourAccountPlaceholder = thisUniversals[0].accountOneName
             yourAccountPlaceholderKeyString = thisUniversals[0].accountOneKey
+            accountTypePlaceholderId = thisUniversals[0].accountOneType
             accountLabel.text = yourAccountPlaceholder
             if thisUniversals[0].picUrl != "" {
                 downloadURL = URL(string: thisUniversals[0].picUrl)!
@@ -1450,6 +1571,21 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         popUpAnimateOut(popUpView: useTaxMoreInfoView)
     }
     @IBOutlet var useTaxMoreInfoView: UIView!
+    
+    @IBOutlet var deleteView: UIView!
+    @objc func deleteTapped() {
+        popUpAnimateIn(popUpView: deleteView)
+    }
+    
+    @IBAction func deleteViewCancelPressed(_ sender: Any) {
+        popUpAnimateOut(popUpView: deleteView)
+    }
+    
+    @IBAction func deleteViewDeletePressed(_ sender: UIButton) {
+        universalsRef.child(addUniversalKeyString).removeValue()
+        popUpAnimateOut(popUpView: deleteView)
+        self.navigationController?.popViewController(animated: true)
+    }
     
     @objc func handleProjectLabelTap(projectLabelGestureRecognizer: UITapGestureRecognizer){
         popUpAnimateIn(popUpView: selectProjectView)
@@ -1833,6 +1969,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
 
     }
     
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         returnIfAnyPertinentItemsForgotten()
     }
@@ -1927,24 +2064,25 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func saveUniversal() {
-        let addUniversalKeyReference = universalsRef.childByAutoId()
-        self.addUniversalKeyString = addUniversalKeyReference.key
         var notes = ""
         var urlString = ""
         let timeStampDictionaryForFirebase = [".sv": "timestamp"]
-        var odometerAsInt = 0
+        //var odometerAsInt = 0
         if let theNotes = notesTextField.text {
             notes = theNotes
         }
         if let theUrl = downloadURL {
             urlString = theUrl.absoluteString
         }
-        if selectedType == 3 {
+        if (selectedType == 3) || (selectedType == 4) {
+            /*
             if odometerTextField.text != "" {
                 let odometerString = odometerTextField.text!
                 let cleanedOdo = odometerString.replacingOccurrences(of: ",", with: "")
                 odometerAsInt = Int(cleanedOdo)!
-            }
+            }*/
+            whoPlaceholder = "You"
+            whoPlaceholderKeyString = trueYouKeyString
         }
         if selectedType == 6 {
             if projectPlaceholderKeyString != "0" {
@@ -1957,18 +2095,26 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 }
             }
         }
-        switch self.selectedType {
-        case 4: //Transfer
-            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: odometerAsInt, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: TheAmtSingleton.shared.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourPrimaryAccountPlaceholder, accountOneKey: yourPrimaryAccountPlaceholderKeyString, accountOneType: accountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: TheAmtSingleton.shared.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
-            universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
-        case 5: //Adjust
-            let difference = theBalanceAfter - TheAmtSingleton.shared.theAmt
-            let correctedStartingBalance = theStartingBalance - difference
-            let thisAccountRef = Database.database().reference().child("users").child(userUID).child("accounts")
-            thisAccountRef.child(yourAccountPlaceholderKeyString).updateChildValues(["startingBal": correctedStartingBalance])
-        default:
-            let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: odometerAsInt, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: TheAmtSingleton.shared.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountOneType: accountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: TheAmtSingleton.shared.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
-            universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
+        switch TheAmtSingleton.shared.theMIPNumber {
+        case -1: //The AddUniversal case
+            let addUniversalKeyReference = universalsRef.childByAutoId()
+            self.addUniversalKeyString = addUniversalKeyReference.key
+            switch self.selectedType {
+            case 4: //Transfer
+                let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: TheAmtSingleton.shared.theOdo, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: TheAmtSingleton.shared.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourPrimaryAccountPlaceholder, accountOneKey: yourPrimaryAccountPlaceholderKeyString, accountOneType: primaryAccountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: TheAmtSingleton.shared.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
+                universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
+            case 5: //Adjust
+                let difference = theBalanceAfter - TheAmtSingleton.shared.theAmt
+                let correctedStartingBalance = theStartingBalance - difference
+                let thisAccountRef = Database.database().reference().child("users").child(userUID).child("accounts")
+                thisAccountRef.child(yourAccountPlaceholderKeyString).updateChildValues(["startingBal": correctedStartingBalance])
+            default:
+                let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: TheAmtSingleton.shared.theOdo, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: TheAmtSingleton.shared.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountOneType: accountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: TheAmtSingleton.shared.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
+                universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
+            }
+        default: //The UpdateUniversal case, where MIPnumber represents item number in array
+            print("Do nothing")
+            
         }
         self.navigationController?.popViewController(animated: true)
     }

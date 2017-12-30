@@ -73,7 +73,7 @@ class AllowedCharsTextField: UITextField, UITextFieldDelegate {
                 return false //This was the line that, when set to true, was appending the digit-in-purgatory after field had already been rendered by "updateAmount()" IE $0.055
             case 2:
                 if let digit = Int(string) {
-                    if thisIsTheAmt.theOdo > 10_000_000_00 {
+                    if thisIsTheAmt.theOdo > 1_000_000_000 {
                         thisIsTheAmt.theOdo = 0
                         self.text = ""
                         return false
