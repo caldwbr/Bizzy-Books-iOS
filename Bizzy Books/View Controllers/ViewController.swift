@@ -14,6 +14,7 @@ import FirebaseGoogleAuthUI
 import FirebaseFacebookAuthUI
 import FBSDKCoreKit
 import FBSDKLoginKit
+import Contacts
 
 var userUID = ""
 var userTokens = ""
@@ -58,6 +59,9 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     var youEntityRef: DatabaseReference!
     var firstTimeRef: DatabaseReference!
     var addEntityKeyString: String = ""
+    var filteredBizzyEntities: [EntityItem] = [EntityItem]()
+    var filteredIPhoneEntities = [CNContact]()
+    var selectecdIPhoneEntity: CNContact?
     @IBOutlet weak var cardViewCollectionView: UICollectionView!
     //var multiversalItems = [MultiversalItem]()
     var shouldEnterLoop = true
@@ -182,6 +186,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             }
         }
     }
+    @IBOutlet weak var vcvisualEffectsView: UIVisualEffectView!
     
     func popUpAnimateIn(popUpView: UIView) {
         self.view.addSubview(popUpView)
@@ -190,6 +195,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         popUpView.alpha = 0
         
         UIView.animate(withDuration: 0.4) {
+            self.vcvisualEffectsView.isHidden = false
             popUpView.alpha = 1
             popUpView.transform = CGAffineTransform.identity
         }
@@ -200,6 +206,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             popUpView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
             popUpView.alpha = 0
         }) { (success:Bool) in
+            self.vcvisualEffectsView.isHidden = true
             popUpView.removeFromSuperview()
         }
     }
@@ -255,6 +262,74 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             }
         }
     }
+    
+    @IBAction func editProjectAddEntityNameTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.editProjectAddEntityTableView.isHidden == false {
+                    self.editProjectAddEntityTableView.isHidden = true
+                } else {
+                    self.editProjectAddEntityTableView.isHidden = false
+                }
+            }
+        }
+    }
+    
+    @IBAction func editProjectAddEntityNameChanged(_ sender: UITextField) {
+        customerNamePlaceholder = ""
+        if let searchText = sender.text {
+            if !searchText.isEmpty {
+                editProjectTableView.isHidden = false
+                self.filteredBizzyEntities.removeAll()
+                let thisFilteredBizzyEntities = MIProcessor.sharedMIP.mIPEntities.filter({$0.name.localizedCaseInsensitiveContains(searchText)})
+                for entity in thisFilteredBizzyEntities {
+                    self.filteredBizzyEntities.append(entity)
+                }
+                self.editProjectTableView.reloadData()
+            } else {
+                filteredBizzyEntities.removeAll()
+                editProjectTableView.reloadData()
+                editProjectTableView.isHidden = true
+            }
+        }
+    }
+    
+    @IBAction func editProjectCustomerNameTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.editProjectTableView.isHidden == false {
+                    self.editProjectTableView.isHidden = true
+                } else {
+                    self.editProjectTableView.isHidden = false
+                }
+            }
+        }
+    }
+    
+    @IBAction func editProjectCustomerNameChanged(_ sender: UITextField) {
+        entityNamePlaceholder = ""
+        if let searchText = sender.text {
+            if !searchText.isEmpty {
+                ContactsLogicManager.shared.fetchContactsMatching(name: searchText, completion: { (contacts) in
+                    if let theContacts = contacts {
+                        self.filteredIPhoneEntities = theContacts
+                        self.editProjectAddEntityTableView.isHidden = false
+                        self.editProjectAddEntityTableView.reloadData()
+                        
+                    }
+                    else {
+                        // Contact fetch failed
+                        // Denied permission
+                    }
+                })
+            } else {
+                filteredIPhoneEntities.removeAll()
+                editProjectAddEntityTableView.reloadData()
+                editProjectAddEntityTableView.isHidden = true
+            }
+        }
+    }
+    
     @IBOutlet var editProjectAddEntityView: UIView!
     @IBOutlet weak var editProjectAddEntityNameTextField: UITextField!
     @IBOutlet weak var editProjectAddEntityTableView: UITableView!
@@ -267,7 +342,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     @IBOutlet weak var editProjectAddEntitySSNTextField: UITextField!
     @IBOutlet weak var editProjectAddEntityEINTextField: UITextField!
     @IBAction func editProjectAddEntityCancelPressed(_ sender: UIButton) {
-        popUpAnimateOut(popUpView: editProjectAddEntityView)
+        editProjectAddEntityView.removeFromSuperview()
     }
     @IBAction func editProjectAddEntityClearFieldsPressed(_ sender: UIButton) {
         editProjectAddEntityNameTextField.text = ""
@@ -288,7 +363,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         customerNamePlaceholder = entityNamePlaceholder
         customerNamePlaceholderKeyString = entityNamePlaceholderKeyString
         editProjectCustomerNameTextField.text = customerNamePlaceholder
-        popUpAnimateOut(popUpView: editProjectAddEntityView)
+        editProjectAddEntityView.removeFromSuperview()
     }
     var entityNamePlaceholder = ""
     var entityNamePlaceholderKeyString = ""
@@ -417,9 +492,34 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     }
 }
 
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch tableView {
+        case editProjectTableView:
+            return filteredBizzyEntities.count
+        default: // I.e., editProjectAddEntityTableView
+            return filteredIPhoneEntities.count
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell: UITableViewCell?
+        switch tableView {
+        case editProjectTableView:
+            let filteredName = filteredBizzyEntities[indexPath.row].name
+            cell = tableView.dequeueReusableCell(withIdentifier: "EditProjectCell", for: indexPath)
+            cell?.textLabel!.text = filteredName
+        default: // I.e., editProjectAddEntityTableView
+            let filteredName = filteredIPhoneEntities[indexPath.row].givenName + " " + filteredIPhoneEntities[indexPath.row].familyName
+            cell = tableView.dequeueReusableCell(withIdentifier: "EditProjectAddEntityCell", for: indexPath)
+            cell?.textLabel!.text = filteredName
+        }
+        return cell!
+    }
+}
 
 //Brian Voong inspiration... see if we can get vertical sizing of collectionview cells ie cardviews
-extension ViewController :UICollectionViewDelegateFlowLayout {
+extension ViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let i = indexPath.item
