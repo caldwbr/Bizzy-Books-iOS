@@ -153,7 +153,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                 self.youEntityRef = Database.database().reference().child("users").child(userUID).child("youEntity")
                 self.firstTimeRef = Database.database().reference().child("users").child(userUID).child("firstTime")
                 self.initializeIfFirstAppUse()
-                self.masterRef.observe(.childChanged , with: { (snapshot) in
+                self.masterRef.observe(.childChanged , with: { (snapshot) in // GENIUS!!!!! This line loads MIP only when an item gets added/changed/deleted (and exactly WHEN an item gets added/changed/deleted) in Firebase database IN REALTIME!!!!
                     self.loadTheMIP()
                 })
                 if MIProcessor.sharedMIP.mIP.count == 0 {
