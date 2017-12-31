@@ -24,9 +24,11 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     var backgroundImage : UIImageView! //right here
     var entitiesRef: DatabaseReference!
     var youEntityRef: DatabaseReference!
+    var firstTimeRef: DatabaseReference!
     var addEntityKeyString: String = ""
     @IBOutlet weak var cardViewCollectionView: UICollectionView!
     //var multiversalItems = [MultiversalItem]()
+    var shouldEnterLoop = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,8 +77,14 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                 }
                 self.entitiesRef = Database.database().reference().child("users").child(userUID).child("entities")
                 self.youEntityRef = Database.database().reference().child("users").child(userUID).child("youEntity")
+                self.firstTimeRef = Database.database().reference().child("users").child(userUID).child("firstTime")
                 self.initializeIfFirstAppUse()
-                self.loadTheMIP()
+                if MIProcessor.sharedMIP.mIP.count == 0 {
+                    if self.shouldEnterLoop {
+                        self.shouldEnterLoop = false
+                        self.loadTheMIP()
+                    }
+                }
             } else {
                 // No user is signed in.
                 self.login()
@@ -168,7 +176,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let i = indexPath.row
+        let i = indexPath.item
         switch MIProcessor.sharedMIP.mIP[i].multiversalType {
         case 1:
             let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "ProjectCardViewCollectionViewCell", for: indexPath) as! ProjectCardViewCollectionViewCell
@@ -217,8 +225,8 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         if let indexPath = self.cardViewCollectionView.indexPathForItem(at: p) {
             // get the cell at indexPath (the one you long pressed)
             //let cell = self.cardViewCollectionView.cellForItem(at: indexPath)
-            if MIProcessor.sharedMIP.mIP[indexPath.row].multiversalType == 0 {
-                TheAmtSingleton.shared.theMIPNumber = indexPath.row
+            if MIProcessor.sharedMIP.mIP[indexPath.item].multiversalType == 0 {
+                TheAmtSingleton.shared.theMIPNumber = indexPath.item
                 performSegue(withIdentifier: "createUniversal", sender: self)
             }
         } else {
@@ -236,13 +244,20 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         
         if firstLaunch.isFirstLaunch {
             // do things // MOVE stuff from the always closure below into this one when you're ready for final deployment of app!
-            let addEntityKeyReference = entitiesRef.childByAutoId()
-            addEntityKeyString = addEntityKeyReference.key
-            let timeStampDictionaryForFirebase = [".sv": "timestamp"]
-            let thisEntityItem = EntityItem(type: 9, name: "You", phoneNumber: "", email: "", street: "", city: "", state: "", ssn: "", ein: "", timeStamp: timeStampDictionaryForFirebase, key: addEntityKeyString)
-            entitiesRef.child(addEntityKeyString).setValue(thisEntityItem.toAnyObject())
-            youEntityRef.setValue(addEntityKeyString)
-            popUpAnimateIn(popUpView: welcomeView)
+            firstTimeRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                if let isReallyFirstTime = snapshot.value as? Bool {
+                    if isReallyFirstTime {
+                        let addEntityKeyReference = self.entitiesRef.childByAutoId()
+                        self.addEntityKeyString = addEntityKeyReference.key
+                        let timeStampDictionaryForFirebase = [".sv": "timestamp"]
+                        let thisEntityItem = EntityItem(type: 9, name: "You", phoneNumber: "", email: "", street: "", city: "", state: "", ssn: "", ein: "", timeStamp: timeStampDictionaryForFirebase, key: self.addEntityKeyString)
+                        self.entitiesRef.child(self.addEntityKeyString).setValue(thisEntityItem.toAnyObject())
+                        self.youEntityRef.setValue(self.addEntityKeyString)
+                        self.firstTimeRef.setValue(false)
+                        self.popUpAnimateIn(popUpView: self.welcomeView)
+                    }
+                }
+            })
         }
         
         let alwaysFirstLaunch = FirstLaunch.alwaysFirst()
@@ -377,7 +392,7 @@ extension ViewController :UICollectionViewDelegateFlowLayout {
              3. get the height of the rest of the components (static parts)
              4. add all those componets up and you get the total height
              
-             EXAMPLE: 
+             EXAMPLE:
              let approximateWidthOfBioTextView = view.frame.width - 12 - 50 - 12 - 2
              let size = CGSize(width: approximateWidthOfBioTextView, height: 1000)
              let attributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 15)]
