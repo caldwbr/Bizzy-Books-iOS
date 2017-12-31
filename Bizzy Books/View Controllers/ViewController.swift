@@ -18,8 +18,40 @@ import FBSDKLoginKit
 var userUID = ""
 var userTokens = ""
 
-class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDelegate, UICollectionViewDataSource {
+class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDelegate, UICollectionViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
     
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        switch pickerView {
+        case editProjectProjectStatusPickerView:
+            return projectStatusPickerData.count
+        case editProjectAddEntityRelationPickerView:
+            return relationPickerData.count
+        default: // I.e., howDidTheyHearOfYouPickerView
+            return howDidTheyHearOfYouPickerData.count
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        switch pickerView {
+        case editProjectProjectStatusPickerView:
+            return projectStatusPickerData[row]
+        case editProjectAddEntityRelationPickerView:
+            return relationPickerData[row]
+        default:
+            return howDidTheyHearOfYouPickerData[row]
+        }
+    }
+    
+    let timeStampDictionaryForFirebase = [".sv": "timestamp"]
+    var projectsRef: DatabaseReference!
+    var accountsRef: DatabaseReference!
+    var vehiclesRef: DatabaseReference!
+    var projectStatusPickerData: [String] = [String]()
+    var howDidTheyHearOfYouPickerData: [String] = [String]()
+    var relationPickerData: [String] = [String]()
     var kFacebookAppID = "1583985615235483"
     var backgroundImage : UIImageView! //right here
     var entitiesRef: DatabaseReference!
@@ -41,6 +73,15 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         cardViewCollectionView.register(UINib.init(nibName: "VehicleCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "VehicleCardViewCollectionViewCell")
         cardViewCollectionView.dataSource = self
         cardViewCollectionView.delegate = self
+        editProjectProjectStatusPickerView.delegate = self
+        editProjectProjectStatusPickerView.dataSource = self
+        editProjectHowDidTheyHearOfYouPickerView.delegate = self
+        editProjectHowDidTheyHearOfYouPickerView.dataSource = self
+        editProjectAddEntityRelationPickerView.delegate = self
+        editProjectAddEntityRelationPickerView.dataSource = self
+        projectStatusPickerData = ["Job Lead", "Bid", "Contract", "Paid", "Lost", "Other"]
+        howDidTheyHearOfYouPickerData = ["(Unknown)", "(Referral)", "(Website)", "(YP)", "(Social Media)", "(Soliciting)", "(Google Adwords)", "(Company Shirts)", "(Sign)", "(Vehicle Wrap)", "(Billboard)", "(TV)", "(Radio)", "(Other)"]
+        relationPickerData = ["Customer", "Vendor", "Sub", "Employee", "Store", "Government", "Other"]
         /*if let cardViewFlowLayout = cardViewCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             cardViewFlowLayout.estimatedItemSize = CGSize(width: 350, height: 500)
         }*/
@@ -75,7 +116,10 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                         self.profilePic.image = UIImage(named: "bizzybooksbee")
                     }
                 }
+                self.projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
                 self.entitiesRef = Database.database().reference().child("users").child(userUID).child("entities")
+                self.accountsRef = Database.database().reference().child("users").child(userUID).child("accounts")
+                self.vehiclesRef = Database.database().reference().child("users").child(userUID).child("vehicles")
                 self.youEntityRef = Database.database().reference().child("users").child(userUID).child("youEntity")
                 self.firstTimeRef = Database.database().reference().child("users").child(userUID).child("firstTime")
                 self.initializeIfFirstAppUse()
@@ -111,7 +155,6 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         TheAmtSingleton.shared.theMIPNumber = -1
         performSegue(withIdentifier: "createUniversal", sender: self)
     }
-    
     
     func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
         if error != nil {
@@ -212,6 +255,79 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             }
         }
     }
+    @IBOutlet var editProjectAddEntityView: UIView!
+    @IBOutlet weak var editProjectAddEntityNameTextField: UITextField!
+    @IBOutlet weak var editProjectAddEntityTableView: UITableView!
+    @IBOutlet weak var editProjectAddEntityRelationPickerView: UIPickerView!
+    @IBOutlet weak var editProjectAddEntityPhoneNumberTextField: UITextField!
+    @IBOutlet weak var editProjectAddEntityEmailTextField: UITextField!
+    @IBOutlet weak var editProjectAddEntityStreetTextField: UITextField!
+    @IBOutlet weak var editProjectAddEntityCityTextField: UITextField!
+    @IBOutlet weak var editProjectAddEntityStateTextField: UITextField!
+    @IBOutlet weak var editProjectAddEntitySSNTextField: UITextField!
+    @IBOutlet weak var editProjectAddEntityEINTextField: UITextField!
+    @IBAction func editProjectAddEntityCancelPressed(_ sender: UIButton) {
+        popUpAnimateOut(popUpView: editProjectAddEntityView)
+    }
+    @IBAction func editProjectAddEntityClearFieldsPressed(_ sender: UIButton) {
+        editProjectAddEntityNameTextField.text = ""
+        editProjectAddEntityPhoneNumberTextField.text = ""
+        editProjectAddEntityEmailTextField.text = ""
+        editProjectAddEntityStreetTextField.text = ""
+        editProjectAddEntityCityTextField.text = ""
+        editProjectAddEntityStateTextField.text = ""
+        editProjectAddEntitySSNTextField.text = ""
+        editProjectAddEntityEINTextField.text = ""
+    }
+    @IBAction func editProjectAddEntitySavePressed(_ sender: UIButton) {
+        guard editProjectAddEntityNameTextField.text != "" else { return }
+        let thisEntityKeyRef = entitiesRef.childByAutoId()
+        entityNamePlaceholderKeyString = thisEntityKeyRef.key
+        let thisEntity = EntityItem(type: editProjectAddEntityRelationPickerView.selectedRow(inComponent: 0), name: entityNamePlaceholder, phoneNumber: phoneNumberPlaceholder, email: emailPlaceholder, street: streetPlaceholder, city: cityPlaceholder, state: statePlaceholder, ssn: ssnPlaceholder, ein: einPlaceholder, timeStamp: timeStampDictionaryForFirebase, key: entityNamePlaceholderKeyString)
+        entitiesRef.child(entityNamePlaceholderKeyString).setValue(thisEntity.toAnyObject())
+        customerNamePlaceholder = entityNamePlaceholder
+        customerNamePlaceholderKeyString = entityNamePlaceholderKeyString
+        editProjectCustomerNameTextField.text = customerNamePlaceholder
+        popUpAnimateOut(popUpView: editProjectAddEntityView)
+    }
+    var entityNamePlaceholder = ""
+    var entityNamePlaceholderKeyString = ""
+    var phoneNumberPlaceholder = ""
+    var emailPlaceholder = ""
+    var ssnPlaceholder = ""
+    var einPlaceholder = ""
+    
+    @IBOutlet var editProjectView: UIView!
+    @IBOutlet weak var editProjectNameTextField: UITextField!
+    @IBOutlet weak var editProjectCustomerNameTextField: UITextField!
+    @IBAction func editProjectAddCustomerPressed(_ sender: UIButton) {
+        popUpAnimateIn(popUpView: editProjectAddEntityView)
+    }
+    @IBOutlet weak var editProjectTableView: UITableView!
+    @IBOutlet weak var editProjectProjectStatusPickerView: UIPickerView!
+    @IBOutlet weak var editProjectHowDidTheyHearOfYouPickerView: UIPickerView!
+    @IBOutlet weak var editProjectTagsTextField: UITextField!
+    @IBOutlet weak var editProjectNotesTextField: UITextField!
+    @IBOutlet weak var editProjectStreetTextField: UITextField!
+    @IBOutlet weak var editProjectCityTextField: UITextField!
+    @IBOutlet weak var editProjectStateTextField: UITextField!
+    @IBAction func editProjectCancelPressed(_ sender: UIButton) {
+        popUpAnimateOut(popUpView: editProjectView)
+    }
+    @IBAction func editProjectUpdatePressed(_ sender: UIButton) {
+        projectsRef.child(projectKeyPlaceholder).updateChildValues(["name": projectNamePlaceholder, "customerName": customerNamePlaceholder, "customerKey": customerNamePlaceholderKeyString, "howDidTheyHearOfYouString": howDidTheyHearOfYouPickerData[howDidTheyHearOfYouId], "howDidTheyHearOfYouId": howDidTheyHearOfYouId, "projectTags": tagsPlaceholder, "projectNotes": notesPlaceholder, "projectAddressStreet": streetPlaceholder, "projectAddressCity": cityPlaceholder, "projectAddressState": statePlaceholder])
+    }
+    var projectNamePlaceholder: String = ""
+    var customerNamePlaceholder: String = ""
+    var customerNamePlaceholderKeyString: String = ""
+    var projectStatusId: Int = 0
+    var howDidTheyHearOfYouId: Int = 0
+    var tagsPlaceholder: String = ""
+    var notesPlaceholder: String = ""
+    var streetPlaceholder: String = ""
+    var cityPlaceholder: String = ""
+    var statePlaceholder: String = ""
+    var projectKeyPlaceholder: String = ""
     
     @objc func handleLongPress(gesture : UILongPressGestureRecognizer!) {
         
@@ -223,10 +339,30 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         let p = gesture.location(in: self.cardViewCollectionView)
         
         if let indexPath = self.cardViewCollectionView.indexPathForItem(at: p) {
-            // get the cell at indexPath (the one you long pressed)
-            //let cell = self.cardViewCollectionView.cellForItem(at: indexPath)
-            if MIProcessor.sharedMIP.mIP[indexPath.item].multiversalType == 0 {
-                TheAmtSingleton.shared.theMIPNumber = indexPath.item
+            TheAmtSingleton.shared.theMIPNumber = indexPath.item
+            switch MIProcessor.sharedMIP.mIP[indexPath.item].multiversalType {
+            case 1: // Projects
+                popUpAnimateIn(popUpView: editProjectView)
+                if let thisProject = MIProcessor.sharedMIP.mIP[indexPath.item] as? ProjectItem {
+                    projectKeyPlaceholder = thisProject.key
+                    projectNamePlaceholder = thisProject.name
+                    editProjectNameTextField.text = projectNamePlaceholder
+                    customerNamePlaceholder = thisProject.customerName
+                    editProjectCustomerNameTextField.text = customerNamePlaceholder
+                    customerNamePlaceholderKeyString = thisProject.customerKey
+                    projectStatusId = thisProject.projectStatusId
+                    editProjectProjectStatusPickerView.selectRow(projectStatusId, inComponent: 0, animated: true)
+                    howDidTheyHearOfYouId = thisProject.howDidTheyHearOfYouId
+                    editProjectHowDidTheyHearOfYouPickerView.selectRow(howDidTheyHearOfYouId, inComponent: 0, animated: true)
+                    tagsPlaceholder = thisProject.projectTags
+                    editProjectTagsTextField.text = tagsPlaceholder
+                    notesPlaceholder = thisProject.projectNotes
+                    editProjectNotesTextField.text = notesPlaceholder
+                    streetPlaceholder = thisProject.projectAddressStreet
+                    cityPlaceholder = thisProject.projectAddressCity
+                    statePlaceholder = thisProject.projectAddressState
+                }
+            default: // Universals
                 performSegue(withIdentifier: "createUniversal", sender: self)
             }
         } else {
