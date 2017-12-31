@@ -13,7 +13,7 @@ struct EntityItem: MultiversalItem {
     
     var multiversalType: Int = 2
     let key: String //By "key" is meant "id"
-    let type: Int
+    let type: Int // I.e., relation ie customer, sub, employee, etc.
     let name: String
     let phoneNumber: String
     let email: String
