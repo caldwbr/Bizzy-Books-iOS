@@ -362,7 +362,13 @@ extension ViewController :UICollectionViewDelegateFlowLayout {
             }
         }
         let totalHeight = baseHeight + sentenceOneHeight + sentenceTwoHeight + phoneHeight + emailHeight + geoHeight + ssnHeight + einHeight + imageHeight
-        return CGSize(width: 350, height: totalHeight)
+        var theWidth: CGFloat = 0
+        if view.frame.width < 370 { //Protection for tiny iPhones
+            theWidth = view.frame.width - 20
+        } else { //Good for most iphones and safe for iPads
+            theWidth = 350
+        }
+        return CGSize(width: theWidth, height: totalHeight)
         /*
         if let universalItem = MIProcessor.sharedMIP.mIP[i] as? UniversalItem {
             /*
@@ -371,7 +377,7 @@ extension ViewController :UICollectionViewDelegateFlowLayout {
              3. get the height of the rest of the components (static parts)
              4. add all those componets up and you get the total height
              
-             EXAMPLE:
+             EXAMPLE: 
              let approximateWidthOfBioTextView = view.frame.width - 12 - 50 - 12 - 2
              let size = CGSize(width: approximateWidthOfBioTextView, height: 1000)
              let attributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 15)]
