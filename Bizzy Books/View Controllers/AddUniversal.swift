@@ -2277,29 +2277,6 @@ extension AddUniversal: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true) //Added this to stop chicanery of cells still being selected if you change your mind and go back a second time.
         switch tableView {
-        case self.contactSuggestionsTableView:
-            let contact = self.recommendedContacts[indexPath.row]
-            self.selectedContact = contact
-            self.contactSuggestionsTableView.isHidden = true
-            addEntityNameTextField.text = contact.givenName + " " + contact.familyName
-            if (contact.isKeyAvailable(CNContactEmailAddressesKey)) {
-                if let theEmail = contact.emailAddresses.first {
-                    addEntityEmailTextField.text = theEmail.value as String
-                }
-            }
-            if (contact.isKeyAvailable(CNContactPhoneNumbersKey)) {
-                if let thePhoneNumber = contact.phoneNumbers.first  {
-                    addEntityPhoneNumberTextField.text = thePhoneNumber.value.stringValue
-                }
-            }
-            if (contact.isKeyAvailable(CNContactPostalAddressesKey)) {
-                if let theAddress = contact.postalAddresses.first {
-                    addEntityStreetTextField.text = theAddress.value.street
-                    addEntityCityTextField.text = theAddress.value.city
-                    addEntityStateTextField.text = theAddress.value.state
-                }
-            }
-            self.recommendedContacts.removeAll() //Is this safe on this particular instance?? Seems to be.
         case self.selectWhoTableView:
             let who = filteredFirebaseEntities[indexPath.row]
             self.selectWhoTableView.isHidden = true
@@ -2368,7 +2345,7 @@ extension AddUniversal: UITableViewDataSource, UITableViewDelegate {
             }
             self.recommendedContacts.removeAll()
         }
-        
+        tableView.reloadData()
         
     }
     
