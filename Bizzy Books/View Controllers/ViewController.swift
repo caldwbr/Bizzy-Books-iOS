@@ -32,6 +32,8 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             return relationPickerData.count
         case editEntityRelationPickerView:
             return relationPickerData.count
+        case editVehicleFuelTypePickerView:
+            return fuelTypePickerData.count
         default: // I.e., howDidTheyHearOfYouPickerView
             return howDidTheyHearOfYouPickerData.count
         }
@@ -45,6 +47,8 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             return relationPickerData[row]
         case editEntityRelationPickerView:
             return relationPickerData[row]
+        case editVehicleFuelTypePickerView:
+            return fuelTypePickerData[row]
         default:
             return howDidTheyHearOfYouPickerData[row]
         }
@@ -58,6 +62,8 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             entityRelationId = row
         case editEntityRelationPickerView:
             entityRelationId = row
+        case editVehicleFuelTypePickerView:
+            fuelTypeId = row
         default: // I.e., howDidTheyHearOfYouPickerView
             howDidTheyHearOfYouId = row
         }
@@ -71,6 +77,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     var projectStatusPickerData: [String] = [String]()
     var howDidTheyHearOfYouPickerData: [String] = [String]()
     var relationPickerData: [String] = [String]()
+    var fuelTypePickerData: [String] = [String]()
     var kFacebookAppID = "1583985615235483"
     var backgroundImage : UIImageView! //right here
     var entitiesRef: DatabaseReference!
@@ -119,9 +126,12 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         editProjectAddEntityRelationPickerView.dataSource = self
         editEntityRelationPickerView.delegate = self
         editEntityRelationPickerView.dataSource = self
+        editVehicleFuelTypePickerView.delegate = self
+        editVehicleFuelTypePickerView.dataSource = self
         projectStatusPickerData = ["Job Lead", "Bid", "Contract", "Paid", "Lost", "Other"]
         howDidTheyHearOfYouPickerData = ["(Unknown)", "(Referral)", "(Website)", "(YP)", "(Social Media)", "(Soliciting)", "(Google Adwords)", "(Company Shirts)", "(Sign)", "(Vehicle Wrap)", "(Billboard)", "(TV)", "(Radio)", "(Other)"]
         relationPickerData = ["Customer", "Vendor", "Sub", "Employee", "Store", "Government", "Other"]
+        fuelTypePickerData = ["87 Gas", "89 Gas", "91 Gas", "Diesel"]
         /*if let cardViewFlowLayout = cardViewCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             cardViewFlowLayout.estimatedItemSize = CGSize(width: 350, height: 500)
         }*/
@@ -416,6 +426,58 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         }
     }
     
+    @IBOutlet var editVehicleView: UIView!
+    @IBOutlet weak var editVehicleColorTextField: UITextField!
+    @IBOutlet weak var editVehicleYearTextField: UITextField!
+    @IBOutlet weak var editVehicleMakeTextField: UITextField!
+    @IBOutlet weak var editVehicleModelTextField: UITextField!
+    @IBOutlet weak var editVehicleFuelTypePickerView: UIPickerView!
+    @IBOutlet weak var editVehicleLPNTextField: UITextField!
+    @IBOutlet weak var editVehicleVINTextField: UITextField!
+    @IBOutlet weak var editVehiclePICTextField: UITextField!
+    @IBAction func editVehicleCancelPressed(_ sender: UIButton) {
+        popUpAnimateOut(popUpView: editVehicleView)
+    }
+    @IBAction func editVehicleUpdatePressed(_ sender: UIButton) {
+        guard vehicleKeyPlaceholder != "" else { return }
+        guard editVehicleColorTextField.text != "" else { return }
+        guard editVehicleYearTextField.text != "" else { return }
+        guard editVehicleMakeTextField.text != "" else { return }
+        guard editVehicleModelTextField.text != "" else { return }
+        if let editVehicleColor = editVehicleColorTextField.text {
+            vehicleColorPlaceholder = editVehicleColor
+        }
+        if let editVehicleYear = editVehicleYearTextField.text {
+            vehicleYearPlaceholder = editVehicleYear
+        }
+        if let editVehicleMake = editVehicleMakeTextField.text {
+            vehicleMakePlaceholder = editVehicleMake
+        }
+        if let editVehicleModel = editVehicleModelTextField.text {
+            vehicleModelPlaceholder = editVehicleModel
+        }
+        if let editVehicleLPN = editVehicleLPNTextField.text {
+            vehicleLPNPlaceholder = editVehicleLPN
+        }
+        if let editVehicleVIN = editVehicleVINTextField.text {
+            vehicleVINPlaceholder = editVehicleVIN
+        }
+        if let editVehiclePIC = editVehiclePICTextField.text {
+            vehiclePICPlaceholder = editVehiclePIC
+        }
+        vehiclesRef.child(vehicleKeyPlaceholder).updateChildValues(["color": vehicleColorPlaceholder, "year": vehicleYearPlaceholder, "make": vehicleMakePlaceholder, "model": vehicleModelPlaceholder, "fuelId": fuelTypeId, "fuelString": fuelTypePickerData[fuelTypeId], "licensePlateNumber": vehicleLPNPlaceholder, "vehicleIdentificationNumber": vehicleVINPlaceholder, "placedInCommissionDate": vehiclePICPlaceholder])
+        popUpAnimateOut(popUpView: editVehicleView)
+    }
+    var vehicleKeyPlaceholder = ""
+    var vehicleColorPlaceholder = ""
+    var vehicleYearPlaceholder = ""
+    var vehicleMakePlaceholder = ""
+    var vehicleModelPlaceholder = ""
+    var vehicleLPNPlaceholder = ""
+    var vehicleVINPlaceholder = ""
+    var vehiclePICPlaceholder = ""
+    var fuelTypeId = 0
+    
     @IBOutlet var editEntityView: UIView!
     @IBOutlet weak var editEntityNameTextField: UITextField!
     @IBOutlet weak var editEntityTableView: UITableView!
@@ -657,6 +719,27 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                     editEntityEINTextField.text = einPlaceholder
                     entityRelationId = thisEntity.type
                     editEntityRelationPickerView.selectRow(entityRelationId, inComponent: 0, animated: true)
+                }
+            case 4: // Vehicles
+                popUpAnimateIn(popUpView: editVehicleView)
+                if let thisVehicle = MIProcessor.sharedMIP.mIP[indexPath.item] as? VehicleItem {
+                    vehicleKeyPlaceholder = thisVehicle.key
+                    vehicleColorPlaceholder = thisVehicle.color
+                    editVehicleColorTextField.text = vehicleColorPlaceholder
+                    vehicleYearPlaceholder = thisVehicle.year
+                    editVehicleYearTextField.text = vehicleYearPlaceholder
+                    vehicleMakePlaceholder = thisVehicle.make
+                    editVehicleMakeTextField.text = vehicleMakePlaceholder
+                    vehicleModelPlaceholder = thisVehicle.model
+                    editVehicleModelTextField.text = vehicleModelPlaceholder
+                    fuelTypeId = thisVehicle.fuelId
+                    editVehicleFuelTypePickerView.selectRow(fuelTypeId, inComponent: 0, animated: true)
+                    vehicleLPNPlaceholder = thisVehicle.licensePlateNumber
+                    editVehicleLPNTextField.text = vehicleLPNPlaceholder
+                    vehicleVINPlaceholder = thisVehicle.vehicleIdentificationNumber
+                    editVehicleVINTextField.text = vehicleVINPlaceholder
+                    vehiclePICPlaceholder = thisVehicle.placedInCommissionDate
+                    editVehiclePICTextField.text = vehiclePICPlaceholder
                 }
             default: // Universals
                 performSegue(withIdentifier: "createUniversal", sender: self)
