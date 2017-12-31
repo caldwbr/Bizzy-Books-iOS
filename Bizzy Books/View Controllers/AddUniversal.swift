@@ -1080,6 +1080,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             ])
         leftTopView.configure(item: typeItem)
         
+        if TheAmtSingleton.shared.theMIPNumber != -1 {
+            leftTopView.isUserInteractionEnabled = false
+        }
+        
         reloadSentence(selectedType: selectedType)
         
         
@@ -1218,6 +1222,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             if thisUniversals[0].picUrl != "" {
                 downloadURL = URL(string: thisUniversals[0].picUrl)!
                 if downloadURL != nil {
+                    picNumber = thisUniversals[0].picNumber
                     downloadImage(url: downloadURL!)
                 }
             }
@@ -1253,6 +1258,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             }
             percentBusinessLabel.text = String(thisUniversals[0].percentBusiness) + "%"
             updateSliderValues(percent: thisUniversals[0].percentBusiness)
+            self.thePercent = thisUniversals[0].percentBusiness
             percentBusinessTheSlider.value = Float(thisUniversals[0].percentBusiness)
             yourAccountPlaceholder = thisUniversals[0].accountOneName
             yourAccountPlaceholderKeyString = thisUniversals[0].accountOneKey
@@ -1261,6 +1267,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             if thisUniversals[0].picUrl != "" {
                 downloadURL = URL(string: thisUniversals[0].picUrl)!
                 if downloadURL != nil {
+                    picNumber = thisUniversals[0].picNumber
                     downloadImage(url: downloadURL!)
                 }
             }
@@ -1285,6 +1292,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             if thisUniversals[0].picUrl != "" {
                 downloadURL = URL(string: thisUniversals[0].picUrl)!
                 if downloadURL != nil {
+                    picNumber = thisUniversals[0].picNumber
                     downloadImage(url: downloadURL!)
                 }
             }
@@ -1300,6 +1308,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             if thisUniversals[0].picUrl != "" {
                 downloadURL = URL(string: thisUniversals[0].picUrl)!
                 if downloadURL != nil {
+                    picNumber = thisUniversals[0].picNumber
                     downloadImage(url: downloadURL!)
                 }
             }
@@ -1314,6 +1323,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             if thisUniversals[0].picUrl != "" {
                 downloadURL = URL(string: thisUniversals[0].picUrl)!
                 if downloadURL != nil {
+                    picNumber = thisUniversals[0].picNumber
                     downloadImage(url: downloadURL!)
                 }
             }
@@ -1349,6 +1359,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             if thisUniversals[0].picUrl != "" {
                 downloadURL = URL(string: thisUniversals[0].picUrl)!
                 if downloadURL != nil {
+                    picNumber = thisUniversals[0].picNumber
                     downloadImage(url: downloadURL!)
                 }
             }
@@ -1372,7 +1383,17 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             print(response?.suggestedFilename ?? url.lastPathComponent)
             print("Download Finished")
             DispatchQueue.main.async() {
-                self.imageView.image = UIImage(data: data)
+                if let image = UIImage(data: data) {
+                    let aspectRatio = image.size.height / image.size.width
+                    let screenSize = UIScreen.main.bounds
+                    let screenWidth = screenSize.width
+                    let imageViewWidth = screenWidth
+                    let imageWidthCard: CGFloat = 350
+                    self.imageViewHeight = imageViewWidth * aspectRatio
+                    self.imageViewHeightInt = Int(imageWidthCard * aspectRatio)
+                    self.imageViewHeightConstraint.constant = self.imageViewHeight
+                    self.imageView.image = image
+                }
             }
         }
     }
@@ -2169,14 +2190,15 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 }
             }
         }
+        if selectedType == 4 { //WAIT TILL NOW TO DO THIS SO AS NOT TO MESS WITH VIEWS
+            yourAccountPlaceholder = yourPrimaryAccountPlaceholder
+            yourAccountPlaceholderKeyString = yourPrimaryAccountPlaceholderKeyString
+        }
         switch TheAmtSingleton.shared.theMIPNumber {
         case -1: //The AddUniversal case
             let addUniversalKeyReference = universalsRef.childByAutoId()
             self.addUniversalKeyString = addUniversalKeyReference.key
             switch self.selectedType {
-            case 4: //Transfer
-                let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: TheAmtSingleton.shared.theOdo, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: TheAmtSingleton.shared.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourPrimaryAccountPlaceholder, accountOneKey: yourPrimaryAccountPlaceholderKeyString, accountOneType: primaryAccountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: TheAmtSingleton.shared.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, picHeightInt: imageViewHeightInt, picNumber: picNumber, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
-                universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
             case 5: //Adjust
                 let difference = theBalanceAfter - TheAmtSingleton.shared.theAmt
                 let correctedStartingBalance = theStartingBalance - difference
@@ -2187,8 +2209,15 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
             }
         default: //The UpdateUniversal case, where MIPnumber represents item number in array
-            print("Do nothing")
-            
+            if let theNotes = notesTextField.text {
+                notes = theNotes
+            }
+            if selectedType == 0 || selectedType == 1 || selectedType == 2 {
+                if useTaxSwitch.isOn {
+                    thereIsUseTax = true
+                }
+            }
+            universalsRef.child(addUniversalKeyString).updateChildValues(["projectItemName": projectPlaceholder, "projectItemKey": projectPlaceholderKeyString, "odometerReading": TheAmtSingleton.shared.theOdo, "howMany": TheAmtSingleton.shared.howMany, "notes": notes, "whoName": whoPlaceholder, "whoKey": whoPlaceholderKeyString, "fuelTypeName": fuelTypePlaceholder, "fuelTypeId": fuelTypePlaceholderId, "what": TheAmtSingleton.shared.theAmt, "whomName": whomPlaceholder, "whomKey": whomPlaceholderKeyString, "taxReasonName": whatTaxReasonPlaceholder, "taxReasonId": whatTaxReasonPlaceholderId, "vehicleName": vehiclePlaceholder, "vehicleKey": vehiclePlaceholderKeyString, "workersCompName": workersCompPlaceholder, "workersCompId": workersCompPlaceholderId, "advertisingMeansName": advertisingMeansPlaceholder, "advertisingMeansId": advertisingMeansPlaceholderId, "personalReasonName": whatPersonalReasonPlaceholder, "personalReasonId": whatPersonalReasonPlaceholderId, "percentBusiness": thePercent, "accountOneName": yourAccountPlaceholder, "accountOneKey": yourAccountPlaceholderKeyString, "accountOneType": accountTypePlaceholderId, "accountTwoName": yourSecondaryAccountPlaceholder, "accountTwoKey": yourSecondaryAccountPlaceholderKeyString, "accountTwoType": secondaryAccountTypePlaceholderId, "picNumber": picNumber, "picUrl": urlString, "picHeightInt": imageViewHeightInt, "useTax": thereIsUseTax, "projectPicTypeName": projectMediaTypePlaceholder, "projectPicTypeId": projectMediaTypePlaceholderId])
         }
         TheAmtSingleton.shared.theAmt = 0
         TheAmtSingleton.shared.howMany = 0
@@ -2369,8 +2398,4 @@ extension AddUniversal: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 40
     }
-    
-    
 }
-
-
