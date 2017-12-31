@@ -52,6 +52,7 @@ struct UniversalItem: MultiversalItem {
     let notes: String
     let picUrl: String
     let picHeightInt: Int
+    let picNumber: Int
     let projectPicTypeName: String
     let projectPicTypeId: Int
     let timeStamp: Any
@@ -61,7 +62,7 @@ struct UniversalItem: MultiversalItem {
     let feeAmount: Int // For future use
     let ref: DatabaseReference?
     
-    init(universalItemType: Int, projectItemName: String, projectItemKey: String, odometerReading: Int, whoName: String, whoKey: String, what: Int, whomName: String, whomKey: String, taxReasonName: String, taxReasonId: Int, vehicleName: String, vehicleKey: String, workersCompName: String, workersCompId: Int, advertisingMeansName: String, advertisingMeansId: Int, personalReasonName: String, personalReasonId: Int, percentBusiness: Int, accountOneName: String, accountOneKey: String, accountOneType: Int, accountTwoName: String, accountTwoKey: String, accountTwoType: Int, howMany: Int, fuelTypeName: String, fuelTypeId: Int, useTax: Bool, notes: String, picUrl: String, picHeightInt: Int, projectPicTypeName: String, projectPicTypeId: Int, timeStamp: Any, latitude: Double, longitude: Double, atmFee: Bool, feeAmount: Int, key: String = "") {
+    init(universalItemType: Int, projectItemName: String, projectItemKey: String, odometerReading: Int, whoName: String, whoKey: String, what: Int, whomName: String, whomKey: String, taxReasonName: String, taxReasonId: Int, vehicleName: String, vehicleKey: String, workersCompName: String, workersCompId: Int, advertisingMeansName: String, advertisingMeansId: Int, personalReasonName: String, personalReasonId: Int, percentBusiness: Int, accountOneName: String, accountOneKey: String, accountOneType: Int, accountTwoName: String, accountTwoKey: String, accountTwoType: Int, howMany: Int, fuelTypeName: String, fuelTypeId: Int, useTax: Bool, notes: String, picUrl: String, picHeightInt: Int, picNumber: Int, projectPicTypeName: String, projectPicTypeId: Int, timeStamp: Any, latitude: Double, longitude: Double, atmFee: Bool, feeAmount: Int, key: String = "") {
         self.key = key
         self.universalItemType = universalItemType
         self.projectItemName = projectItemName
@@ -96,6 +97,7 @@ struct UniversalItem: MultiversalItem {
         self.notes = notes
         self.picUrl = picUrl
         self.picHeightInt = picHeightInt
+        self.picNumber = picNumber
         self.projectPicTypeName = projectPicTypeName
         self.projectPicTypeId = projectPicTypeId
         self.timeStamp = timeStamp
@@ -142,6 +144,7 @@ struct UniversalItem: MultiversalItem {
         notes = snapshotValue["notes"] as? String ?? ""
         picUrl = snapshotValue["picUrl"] as? String ?? ""
         picHeightInt = snapshotValue["picHeightInt"] as? Int ?? 1
+        picNumber = snapshotValue["picNumber"] as? Int ?? 0
         projectPicTypeName = snapshotValue["projectPicTypeName"] as? String ?? ""
         projectPicTypeId = snapshotValue["projectPicTypeId"] as? Int ?? 0
         timeStamp = snapshotValue["timeStamp"] ?? 0
@@ -187,6 +190,7 @@ struct UniversalItem: MultiversalItem {
             "notes": notes,
             "picUrl": picUrl,
             "picHeightInt": picHeightInt,
+            "picNumber": picNumber,
             "projectPicTypeName": projectPicTypeName,
             "projectPicTypeId": projectPicTypeId,
             "timeStamp": timeStamp,
