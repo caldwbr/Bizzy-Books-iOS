@@ -278,7 +278,9 @@ extension ViewController :UICollectionViewDelegateFlowLayout {
         var imageHeight: CGFloat = 1
         switch MIProcessor.sharedMIP.mIP[i].multiversalType {
         case 1: // Project
-            print("blah")
+            baseHeight = 80
+            sentenceOneHeight = 140
+            sentenceTwoHeight = 180
         case 2: // Entity
             print("blah")
         case 3: // Account
@@ -293,7 +295,7 @@ extension ViewController :UICollectionViewDelegateFlowLayout {
                 case 6:
                     print("blah")
                 default:
-                    baseHeight = 140
+                    baseHeight = 160
                     sentenceOneHeight = 60
                     imageHeight = CGFloat(universalItem.picHeightInt)
                 }
