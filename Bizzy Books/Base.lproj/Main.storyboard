@@ -359,7 +359,7 @@
                             <rect key="frame" x="54" y="136" width="255" height="370"/>
                             <color key="backgroundColor" white="1" alpha="0.9766160103" colorSpace="calibratedWhite"/>
                             <prototypes>
-                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="JBs-aN-EI9" style="IBUITableViewCellStyleDefault" id="WOb-ga-zMC">
+                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EditProjectCell" textLabel="JBs-aN-EI9" style="IBUITableViewCellStyleDefault" id="WOb-ga-zMC">
                                     <rect key="frame" x="0.0" y="28" width="255" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WOb-ga-zMC" id="o1l-KN-ayK">
@@ -377,6 +377,10 @@
                                     </tableViewCellContentView>
                                 </tableViewCell>
                             </prototypes>
+                            <connections>
+                                <outlet property="dataSource" destination="BYZ-38-t0r" id="Fky-OT-anj"/>
+                                <outlet property="delegate" destination="BYZ-38-t0r" id="LDu-Il-4iK"/>
+                            </connections>
                         </tableView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -535,7 +539,7 @@
                             <rect key="frame" x="16" y="88" width="293" height="418"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <prototypes>
-                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="iTA-SY-BrK" style="IBUITableViewCellStyleDefault" id="xE0-aZ-EVv">
+                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EditProjectAddEntityCell" textLabel="iTA-SY-BrK" style="IBUITableViewCellStyleDefault" id="xE0-aZ-EVv">
                                     <rect key="frame" x="0.0" y="28" width="293" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xE0-aZ-EVv" id="fhj-ad-lre">
@@ -553,6 +557,10 @@
                                     </tableViewCellContentView>
                                 </tableViewCell>
                             </prototypes>
+                            <connections>
+                                <outlet property="dataSource" destination="BYZ-38-t0r" id="JTJ-4m-AFo"/>
+                                <outlet property="delegate" destination="BYZ-38-t0r" id="26s-1e-2eJ"/>
+                            </connections>
                         </tableView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -598,6 +606,11 @@
                         <constraint firstAttribute="trailing" secondItem="kcR-fJ-C3M" secondAttribute="trailing" constant="16" id="yUJ-1d-S6c"/>
                         <constraint firstItem="pJU-0V-VR9" firstAttribute="leading" secondItem="cVg-6c-DRi" secondAttribute="leading" constant="16" id="zde-TV-6Ng"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="subviews">
+                            <exclude reference="Syd-1d-EDb"/>
+                        </mask>
+                    </variation>
                 </view>
             </objects>
             <point key="canvasLocation" x="1056.8" y="197.9010494752624"/>

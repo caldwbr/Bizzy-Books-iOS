@@ -761,13 +761,18 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     //Suggested contacts for entity
     @IBAction func contactNameTextFieldChanged(_ sender: UITextField) {
         if let searchText = sender.text {
+            clearAddEntityFields() // PURE FREAKING GOLD!!!!! clears all fields out if user starts deleting already accepted entity - dont have to do some insane code checking for backspace pressed or anything!!!
+            addEntityNameTextField.text = searchText
             if !searchText.isEmpty {
                 ContactsLogicManager.shared.fetchContactsMatching(name: searchText, completion: { (contacts) in
                     if let theContacts = contacts {
                         self.recommendedContacts = theContacts
-                        self.contactSuggestionsTableView.isHidden = false
+                        if self.recommendedContacts.count > 0 {
+                            self.contactSuggestionsTableView.isHidden = false
+                        } else {
+                            self.contactSuggestionsTableView.isHidden = true // PURE GOLD - hides tableview if no match to current typing so that it's not in the way when you are just trying to add your own. THIS SHOULD NOT GO IN MOST TABLEVIEW ENTRY FIELDS AS MOST OF MY TABLEVIEWS require A MATCH.
+                        }
                         self.contactSuggestionsTableView.reloadData()
-                        
                     }
                     else {
                         // Contact fetch failed 
@@ -1051,6 +1056,18 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     func showRestoreAlert() {
         
+    }
+    
+    //PURE GOLD - THIS hides the tableview when user doesn't want to see it ie they tap outside of its bounds
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        contactSuggestionsTableView.isHidden = true
+        selectWhoTableView.isHidden = true
+        selectWhomTableView.isHidden = true
+        selectProjectTableView.isHidden = true
+        selectVehicleTableView.isHidden = true
+        selectAccountTableView.isHidden = true
+        selectSecondaryAccountView.isHidden = true
+        addProjectSelectCustomerTableView.isHidden = true
     }
 
     override func viewDidLoad() {
@@ -2051,19 +2068,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         }
     }
     
-    func fillEntityFields() {
-        if let firstName = selectedContact?.givenName, let lastName = selectedContact?.familyName {
-            addEntityNameTextField.text = firstName + " " + lastName
-        }
-        if let phoneNumber = selectedContact?.phoneNumbers[0] {
-            addEntityPhoneNumberTextField.text = String(describing: phoneNumber)
-        }
-        if let emailAddress = selectedContact?.emailAddresses[0] {
-            addEntityEmailTextField.text = String(describing: emailAddress)
-        }
-
-    }
-    
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         returnIfAnyPertinentItemsForgotten()
@@ -2267,45 +2271,45 @@ extension AddUniversal: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell:UITableViewCell?
         switch tableView {
-        case self.contactSuggestionsTableView:
+        case contactSuggestionsTableView:
             print("Hello...")
             cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath)
             let contact = recommendedContacts[indexPath.row]
             let name = contact.givenName + " " + contact.familyName
             cell!.textLabel!.text = name
-        case self.selectWhoTableView:
+        case selectWhoTableView:
             cell = tableView.dequeueReusableCell(withIdentifier: "SelectWhoCell", for: indexPath)
             let who = filteredFirebaseEntities[indexPath.row]
             let name = who.name
             cell!.textLabel!.text = name
             print("The name is ")
             print(name)
-        case self.selectWhomTableView:
+        case selectWhomTableView:
             cell = tableView.dequeueReusableCell(withIdentifier: "SelectWhomCell", for: indexPath)
             let whom = filteredFirebaseEntities[indexPath.row]
             let name = whom.name
             cell!.textLabel!.text = name
-        case self.selectProjectTableView:
+        case selectProjectTableView:
             cell = tableView.dequeueReusableCell(withIdentifier: "SelectProjectCell", for: indexPath)
             let project = filteredFirebaseProjects[indexPath.row]
             let name = project.name
             cell!.textLabel!.text = name
-        case self.selectVehicleTableView:
+        case selectVehicleTableView:
             cell = tableView.dequeueReusableCell(withIdentifier: "SelectVehicleCell", for: indexPath)
             let vehicle = filteredFirebaseVehicles[indexPath.row]
             let name = vehicle.year + " " + vehicle.make + " " + vehicle.model
             cell!.textLabel!.text = name
-        case self.selectAccountTableView:
+        case selectAccountTableView:
             cell = tableView.dequeueReusableCell(withIdentifier: "SelectAccountCell", for: indexPath)
             let account = filteredFirebaseAccounts[indexPath.row]
             let name = account.name
             cell!.textLabel!.text = name
-        case self.selectSecondaryAccountTableView:
+        case selectSecondaryAccountTableView:
             cell = tableView.dequeueReusableCell(withIdentifier: "SelectSecondaryAccountCell", for: indexPath)
             let secondaryAccount = filteredFirebaseAccounts[indexPath.row]
             let name = secondaryAccount.name
             cell!.textLabel!.text = name
-        case self.addProjectSelectCustomerTableView:
+        case addProjectSelectCustomerTableView:
             cell = tableView.dequeueReusableCell(withIdentifier: "AddProjectSelectCustomerCell", for: indexPath)
             let customer = filteredFirebaseEntities[indexPath.row]
             let name = customer.name

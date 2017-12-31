@@ -46,7 +46,19 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         }
     }
     
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        switch pickerView {
+        case editProjectProjectStatusPickerView:
+            projectStatusId = row
+        case editProjectAddEntityRelationPickerView:
+            entityRelationId = row
+        default: // I.e., howDidTheyHearOfYouPickerView
+            howDidTheyHearOfYouId = row
+        }
+    }
+    
     let timeStampDictionaryForFirebase = [".sv": "timestamp"]
+    var masterRef: DatabaseReference!
     var projectsRef: DatabaseReference!
     var accountsRef: DatabaseReference!
     var vehiclesRef: DatabaseReference!
@@ -61,13 +73,26 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     var addEntityKeyString: String = ""
     var filteredBizzyEntities: [EntityItem] = [EntityItem]()
     var filteredIPhoneEntities = [CNContact]()
-    var selectecdIPhoneEntity: CNContact?
+    var selectedIPhoneEntity: CNContact?
     @IBOutlet weak var cardViewCollectionView: UICollectionView!
     //var multiversalItems = [MultiversalItem]()
     var shouldEnterLoop = true
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        editProjectTableView.isHidden = true
+        editProjectAddEntityTableView.isHidden = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
+        self.editProjectTableView.keyboardDismissMode = .interactive
+        self.editProjectAddEntityTableView.keyboardDismissMode = .interactive
+        
+        //Prevent empty cells in tableview
+        editProjectTableView.tableFooterView = UIView(frame: .zero)
+        editProjectAddEntityTableView.tableFooterView = UIView(frame: .zero)
+        
         cardViewCollectionView.register(UINib.init(nibName: "UniversalCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "UniversalCardViewCollectionViewCell")
         cardViewCollectionView.register(UINib.init(nibName: "UniversalTransferCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "UniversalTransferCardViewCollectionViewCell")
         cardViewCollectionView.register(UINib.init(nibName: "UniversalProjectMediaCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "UniversalProjectMediaCardViewCollectionViewCell")
@@ -120,6 +145,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                         self.profilePic.image = UIImage(named: "bizzybooksbee")
                     }
                 }
+                self.masterRef = Database.database().reference().child("users").child(userUID)
                 self.projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
                 self.entitiesRef = Database.database().reference().child("users").child(userUID).child("entities")
                 self.accountsRef = Database.database().reference().child("users").child(userUID).child("accounts")
@@ -127,6 +153,9 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                 self.youEntityRef = Database.database().reference().child("users").child(userUID).child("youEntity")
                 self.firstTimeRef = Database.database().reference().child("users").child(userUID).child("firstTime")
                 self.initializeIfFirstAppUse()
+                self.masterRef.observe(.childChanged , with: { (snapshot) in
+                    self.loadTheMIP()
+                })
                 if MIProcessor.sharedMIP.mIP.count == 0 {
                     if self.shouldEnterLoop {
                         self.shouldEnterLoop = false
@@ -276,6 +305,47 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     }
     
     @IBAction func editProjectAddEntityNameChanged(_ sender: UITextField) {
+        entityNamePlaceholder = ""
+        if let searchText = sender.text {
+            editProjectAddEntityClearFields() // PURE FREAKING GOLD!!!!! clears all fields out if user starts deleting already accepted entity - dont have to do some insane code checking for backspace pressed or anything!!!
+            editProjectAddEntityNameTextField.text = searchText
+            if !searchText.isEmpty {
+                ContactsLogicManager.shared.fetchContactsMatching(name: searchText, completion: { (contacts) in
+                    if let theContacts = contacts {
+                        self.filteredIPhoneEntities = theContacts
+                        if self.filteredIPhoneEntities.count > 0 {
+                            self.editProjectAddEntityTableView.isHidden = false
+                        } else {
+                            self.editProjectAddEntityTableView.isHidden = true // PURE GOLD - hides tableview if no match to current typing so that it's not in the way when you are just trying to add your own. THIS SHOULD NOT GO IN MOST TABLEVIEW ENTRY FIELDS AS MOST OF MY TABLEVIEWS require A MATCH.
+                        }
+                        self.editProjectAddEntityTableView.reloadData()
+                    }
+                    else {
+                        // Contact fetch failed
+                        // Denied permission
+                    }
+                })
+            } else {
+                filteredIPhoneEntities.removeAll()
+                editProjectAddEntityTableView.reloadData()
+                editProjectAddEntityTableView.isHidden = true
+            }
+        }
+    }
+    
+    @IBAction func editProjectCustomerNameTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.editProjectTableView.isHidden == false {
+                    self.editProjectTableView.isHidden = true
+                } else {
+                    self.editProjectTableView.isHidden = false
+                }
+            }
+        }
+    }
+    
+    @IBAction func editProjectCustomerNameChanged(_ sender: UITextField) {
         customerNamePlaceholder = ""
         if let searchText = sender.text {
             if !searchText.isEmpty {
@@ -294,42 +364,6 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         }
     }
     
-    @IBAction func editProjectCustomerNameTouchedDown(_ sender: UITextField) {
-        if (sender.text) != nil {
-            if !(sender.text?.isEmpty)! {
-                if self.editProjectTableView.isHidden == false {
-                    self.editProjectTableView.isHidden = true
-                } else {
-                    self.editProjectTableView.isHidden = false
-                }
-            }
-        }
-    }
-    
-    @IBAction func editProjectCustomerNameChanged(_ sender: UITextField) {
-        entityNamePlaceholder = ""
-        if let searchText = sender.text {
-            if !searchText.isEmpty {
-                ContactsLogicManager.shared.fetchContactsMatching(name: searchText, completion: { (contacts) in
-                    if let theContacts = contacts {
-                        self.filteredIPhoneEntities = theContacts
-                        self.editProjectAddEntityTableView.isHidden = false
-                        self.editProjectAddEntityTableView.reloadData()
-                        
-                    }
-                    else {
-                        // Contact fetch failed
-                        // Denied permission
-                    }
-                })
-            } else {
-                filteredIPhoneEntities.removeAll()
-                editProjectAddEntityTableView.reloadData()
-                editProjectAddEntityTableView.isHidden = true
-            }
-        }
-    }
-    
     @IBOutlet var editProjectAddEntityView: UIView!
     @IBOutlet weak var editProjectAddEntityNameTextField: UITextField!
     @IBOutlet weak var editProjectAddEntityTableView: UITableView!
@@ -342,9 +376,13 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     @IBOutlet weak var editProjectAddEntitySSNTextField: UITextField!
     @IBOutlet weak var editProjectAddEntityEINTextField: UITextField!
     @IBAction func editProjectAddEntityCancelPressed(_ sender: UIButton) {
+        editProjectAddEntityClearFields()
         editProjectAddEntityView.removeFromSuperview()
     }
     @IBAction func editProjectAddEntityClearFieldsPressed(_ sender: UIButton) {
+        editProjectAddEntityClearFields()
+    }
+    func editProjectAddEntityClearFields() {
         editProjectAddEntityNameTextField.text = ""
         editProjectAddEntityPhoneNumberTextField.text = ""
         editProjectAddEntityEmailTextField.text = ""
@@ -358,7 +396,31 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         guard editProjectAddEntityNameTextField.text != "" else { return }
         let thisEntityKeyRef = entitiesRef.childByAutoId()
         entityNamePlaceholderKeyString = thisEntityKeyRef.key
-        let thisEntity = EntityItem(type: editProjectAddEntityRelationPickerView.selectedRow(inComponent: 0), name: entityNamePlaceholder, phoneNumber: phoneNumberPlaceholder, email: emailPlaceholder, street: streetPlaceholder, city: cityPlaceholder, state: statePlaceholder, ssn: ssnPlaceholder, ein: einPlaceholder, timeStamp: timeStampDictionaryForFirebase, key: entityNamePlaceholderKeyString)
+        if let ePAEName = editProjectAddEntityNameTextField.text {
+            entityNamePlaceholder = ePAEName
+        }
+        if let ePAEPhoneNumber = editProjectAddEntityPhoneNumberTextField.text {
+            phoneNumberPlaceholder = ePAEPhoneNumber
+        }
+        if let ePAEEmail = editProjectAddEntityEmailTextField.text {
+            emailPlaceholder = ePAEEmail
+        }
+        if let ePAEStreet = editProjectAddEntityStreetTextField.text {
+            streetPlaceholder = ePAEStreet
+        }
+        if let ePAECity = editProjectAddEntityCityTextField.text {
+            cityPlaceholder = ePAECity
+        }
+        if let ePAEState = editProjectAddEntityStateTextField.text {
+            statePlaceholder = ePAEState
+        }
+        if let ePAESSN = editProjectAddEntitySSNTextField.text {
+            ssnPlaceholder = ePAESSN
+        }
+        if let ePAEEIN = editProjectAddEntityEINTextField.text {
+            einPlaceholder = ePAEEIN
+        }
+        let thisEntity = EntityItem(type: entityRelationId, name: entityNamePlaceholder, phoneNumber: phoneNumberPlaceholder, email: emailPlaceholder, street: streetPlaceholder, city: cityPlaceholder, state: statePlaceholder, ssn: ssnPlaceholder, ein: einPlaceholder, timeStamp: timeStampDictionaryForFirebase, key: entityNamePlaceholderKeyString)
         entitiesRef.child(entityNamePlaceholderKeyString).setValue(thisEntity.toAnyObject())
         customerNamePlaceholder = entityNamePlaceholder
         customerNamePlaceholderKeyString = entityNamePlaceholderKeyString
@@ -367,6 +429,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     }
     var entityNamePlaceholder = ""
     var entityNamePlaceholderKeyString = ""
+    var entityRelationId = 0
     var phoneNumberPlaceholder = ""
     var emailPlaceholder = ""
     var ssnPlaceholder = ""
@@ -390,8 +453,31 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         popUpAnimateOut(popUpView: editProjectView)
     }
     @IBAction func editProjectUpdatePressed(_ sender: UIButton) {
+        guard editProjectNameTextField.text != "" else { return }
+        guard editProjectCustomerNameTextField.text != "" else { return }
+        guard customerNamePlaceholderKeyString != "" else { return }
+        if let editProjectName = editProjectNameTextField.text {
+            projectNamePlaceholder = editProjectName
+        }
+        if let editProjectTags = editProjectTagsTextField.text {
+            tagsPlaceholder = editProjectTags
+        }
+        if let editProjectNotes = editProjectNotesTextField.text {
+            notesPlaceholder = editProjectNotes
+        }
+        if let editProjectStreet = editProjectStreetTextField.text {
+            streetPlaceholder = editProjectStreet
+        }
+        if let editProjectCity = editProjectCityTextField.text {
+            cityPlaceholder = editProjectCity
+        }
+        if let editProjectState = editProjectStateTextField.text {
+            statePlaceholder = editProjectState
+        }
         projectsRef.child(projectKeyPlaceholder).updateChildValues(["name": projectNamePlaceholder, "customerName": customerNamePlaceholder, "customerKey": customerNamePlaceholderKeyString, "howDidTheyHearOfYouString": howDidTheyHearOfYouPickerData[howDidTheyHearOfYouId], "howDidTheyHearOfYouId": howDidTheyHearOfYouId, "projectTags": tagsPlaceholder, "projectNotes": notesPlaceholder, "projectAddressStreet": streetPlaceholder, "projectAddressCity": cityPlaceholder, "projectAddressState": statePlaceholder])
+        popUpAnimateOut(popUpView: editProjectView)
     }
+
     var projectNamePlaceholder: String = ""
     var customerNamePlaceholder: String = ""
     var customerNamePlaceholderKeyString: String = ""
@@ -508,13 +594,50 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         case editProjectTableView:
             let filteredName = filteredBizzyEntities[indexPath.row].name
             cell = tableView.dequeueReusableCell(withIdentifier: "EditProjectCell", for: indexPath)
-            cell?.textLabel!.text = filteredName
+            cell!.textLabel!.text = filteredName
         default: // I.e., editProjectAddEntityTableView
             let filteredName = filteredIPhoneEntities[indexPath.row].givenName + " " + filteredIPhoneEntities[indexPath.row].familyName
             cell = tableView.dequeueReusableCell(withIdentifier: "EditProjectAddEntityCell", for: indexPath)
-            cell?.textLabel!.text = filteredName
+            cell!.textLabel!.text = filteredName
         }
         return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true) //Added this to stop chicanery of cells still being selected if you change your mind and go back a second time. // PURE GOLD!
+        switch tableView {
+        case editProjectTableView:
+            customerNamePlaceholder = filteredBizzyEntities[indexPath.row].name
+            customerNamePlaceholderKeyString = filteredBizzyEntities[indexPath.row].key
+            editProjectCustomerNameTextField.text = customerNamePlaceholder
+            filteredBizzyEntities.removeAll()
+            editProjectTableView.isHidden = true // PURE GOLD!
+        default: // I.e., editProjectAddEntityTableView
+            let contact = self.filteredIPhoneEntities[indexPath.row]
+            self.selectedIPhoneEntity = contact
+            self.editProjectAddEntityTableView.isHidden = true
+            editProjectAddEntityNameTextField.text = contact.givenName + " " + contact.familyName
+            if (contact.isKeyAvailable(CNContactEmailAddressesKey)) {
+                if let theEmail = contact.emailAddresses.first {
+                    editProjectAddEntityEmailTextField.text = theEmail.value as String
+                }
+            }
+            if (contact.isKeyAvailable(CNContactPhoneNumbersKey)) {
+                if let thePhoneNumber = contact.phoneNumbers.first  {
+                    editProjectAddEntityPhoneNumberTextField.text = thePhoneNumber.value.stringValue
+                }
+            }
+            if (contact.isKeyAvailable(CNContactPostalAddressesKey)) {
+                if let theAddress = contact.postalAddresses.first {
+                    editProjectAddEntityStreetTextField.text = theAddress.value.street
+                    editProjectAddEntityCityTextField.text = theAddress.value.city
+                    editProjectAddEntityStateTextField.text = theAddress.value.state
+                }
+            }
+            self.filteredIPhoneEntities.removeAll()
+            editProjectAddEntityTableView.isHidden = true // PURE GOLD!
+        }
+        tableView.reloadData() // PURE GOLD!
     }
 }
 
