@@ -126,7 +126,7 @@ class ObtainBalanceAfter {
                     }
                 })
                 firebaseUniversalsFilteredAlsoByAccountKey = firebaseUniversalsFilteredByTimeRange.filter({ (universalItem) -> Bool in
-                    if (universalItem.accountOneKey == accountOneKey) || (universalItem.accountTwoKey == accountOneKey) {
+                    if (universalItem.accountOneKey == self.accountOneKey) || (universalItem.accountTwoKey == self.accountOneKey) {
                         return true
                     } else {
                         return false
@@ -181,7 +181,7 @@ class ObtainBalanceAfter {
                     }
                 })
                 firebaseUniversalsFilteredAlsoByAccountKey = firebaseUniversalsFilteredByTimeRange.filter({ (universalItem) -> Bool in
-                    if (universalItem.accountOneKey == accountOneKey) || (universalItem.accountTwoKey == accountOneKey) {
+                    if (universalItem.accountOneKey == self.accountTwoKey) || (universalItem.accountTwoKey == self.accountTwoKey) {
                         return true
                     } else {
                         return false
@@ -199,9 +199,9 @@ class ObtainBalanceAfter {
                         runningBalanceTwo = runningBalanceTwo - filteredUniversalItem.what
                     case 4:
                         if filteredUniversalItem.accountTwoKey == accountTwoKey {
-                            runningBalanceTwo = runningBalanceTwo - filteredUniversalItem.what
-                        } else {
                             runningBalanceTwo = runningBalanceTwo + filteredUniversalItem.what
+                        } else {
+                            runningBalanceTwo = runningBalanceTwo - filteredUniversalItem.what
                         }
                     default:
                         if filteredUniversalItem.whoKey == trueYou { // I.e., the general case

@@ -13,6 +13,7 @@ class UniversalProjectMediaCardViewCollectionViewCell: UICollectionViewCell {
     
     
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var universalProjMediaNotesLabel: UILabel!
     @IBOutlet weak var universalProjMediaStatusLabel: UILabel!
     @IBOutlet weak var universalProjMediaDateLabel: UILabel!
     @IBOutlet weak var universalProjMediaJobNameLabel: UILabel!
@@ -38,6 +39,7 @@ class UniversalProjectMediaCardViewCollectionViewCell: UICollectionViewCell {
                 let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
                 universalProjMediaDateLabel.text = timeStampAsString
             }
+            universalProjMediaNotesLabel.text = universalItem.notes
             universalProjMediaJobNameLabel.text = universalItem.projectItemName
             universalProjMediaPicTypeLabel.text = universalItem.projectPicTypeName
             DispatchQueue.main.async {

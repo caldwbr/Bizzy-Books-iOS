@@ -42,17 +42,20 @@ class EntityCardViewCollectionViewCell: UICollectionViewCell {
                 let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
                 entityCardViewDateLabel.text = timeStampAsString
             }
-            entityCardViewPhoneNumberView.isHidden = false
-            entityCardViewEmailView.isHidden = false
-            entityCardViewAddressView.isHidden = false
             if entityItem.phoneNumber == "" {
                 entityCardViewPhoneNumberView.isHidden = true
+            } else {
+                entityCardViewPhoneNumberView.isHidden = false
             }
             if entityItem.email == "" {
                 entityCardViewEmailView.isHidden = true
+            } else {
+                entityCardViewEmailView.isHidden = false
             }
             if entityItem.street == "" {
                 entityCardViewAddressView.isHidden = true
+            } else {
+                entityCardViewAddressView.isHidden = false
             }
             entityCardViewNameLabel.text = entityItem.name
             entityCardViewPhoneNumberLabel.text = entityItem.phoneNumber
@@ -65,9 +68,10 @@ class EntityCardViewCollectionViewCell: UICollectionViewCell {
             }
             entityCardViewSSNLabel.text = entityItem.ssn
             entityCardViewEINLabel.text = entityItem.ein
-            entityCardViewPhoneEmailGeoView.isHidden = false
             if (entityItem.phoneNumber == "") && (entityItem.email == "") && (entityItem.street == "") {
                 entityCardViewPhoneEmailGeoView.isHidden = true
+            } else {
+                entityCardViewPhoneEmailGeoView.isHidden = false
             }
         }
     }

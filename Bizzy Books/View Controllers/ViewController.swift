@@ -272,9 +272,14 @@ extension ViewController :UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let i = indexPath.item
-        var baseHeight: CGFloat = 200
+        var baseHeight: CGFloat = 150
         var sentenceOneHeight: CGFloat = 0
         var sentenceTwoHeight: CGFloat = 0
+        var phoneHeight: CGFloat = 0
+        var emailHeight: CGFloat = 0
+        var geoHeight: CGFloat = 0
+        var ssnHeight: CGFloat = 0
+        var einHeight: CGFloat = 0
         var imageHeight: CGFloat = 1
         switch MIProcessor.sharedMIP.mIP[i].multiversalType {
         case 1: // Project
@@ -282,18 +287,73 @@ extension ViewController :UICollectionViewDelegateFlowLayout {
             sentenceOneHeight = 140
             sentenceTwoHeight = 180
         case 2: // Entity
-            print("blah")
+            baseHeight = 140 //92
+            if let entityItem = MIProcessor.sharedMIP.mIP[i] as? EntityItem {
+                if entityItem.phoneNumber != "" {
+                    phoneHeight = 30
+                }
+                if entityItem.email != "" {
+                    emailHeight = 38
+                }
+                if entityItem.street != "" {
+                    if entityItem.city != "" {
+                        if entityItem.state != "" {
+                            geoHeight = 50
+                        }
+                    }
+                }
+                if entityItem.ssn != "" {
+                    ssnHeight = 29
+                }
+                if entityItem.ein != "" {
+                    einHeight = 29
+                }
+            }
         case 3: // Account
-            print("blah")
+            baseHeight = 140 //92
+            if let accountItem = MIProcessor.sharedMIP.mIP[i] as? AccountItem {
+                if accountItem.phoneNumber != "" {
+                    phoneHeight = 30
+                }
+                if accountItem.email != "" {
+                    emailHeight = 38
+                }
+                if accountItem.street != "" {
+                    if accountItem.city != "" {
+                        if accountItem.state != "" {
+                            geoHeight = 50
+                        }
+                    }
+                }
+            }
         case 4: // Vehicle
-            print("blah")
+            baseHeight = 140 //92
+            if let vehicleItem = MIProcessor.sharedMIP.mIP[i] as? VehicleItem {
+                if vehicleItem.licensePlateNumber != "" {
+                    phoneHeight = 25
+                }
+                if vehicleItem.vehicleIdentificationNumber != "" {
+                    emailHeight = 25
+                }
+                if vehicleItem.placedInCommissionDate != "" {
+                    geoHeight = 25
+                }
+            }
         default: // Universal - Ie case 0 the most frequent
             if let universalItem = MIProcessor.sharedMIP.mIP[i] as? UniversalItem {
                 switch universalItem.universalItemType {
-                case 4:
-                    print("blah")
-                case 6:
-                    print("blah")
+                case 4: //Transfer
+                    baseHeight = 218
+                    if universalItem.notes != "" {
+                        phoneHeight = 21
+                    }
+                    imageHeight = CGFloat(universalItem.picHeightInt)
+                case 6: //Project Media
+                    baseHeight = 113
+                    if universalItem.notes != "" {
+                        phoneHeight = 29
+                    }
+                    imageHeight = CGFloat(universalItem.picHeightInt)
                 default:
                     baseHeight = 160
                     sentenceOneHeight = 60
@@ -301,7 +361,7 @@ extension ViewController :UICollectionViewDelegateFlowLayout {
                 }
             }
         }
-        let totalHeight = baseHeight + sentenceOneHeight + sentenceTwoHeight + imageHeight
+        let totalHeight = baseHeight + sentenceOneHeight + sentenceTwoHeight + phoneHeight + emailHeight + geoHeight + ssnHeight + einHeight + imageHeight
         return CGSize(width: 350, height: totalHeight)
         /*
         if let universalItem = MIProcessor.sharedMIP.mIP[i] as? UniversalItem {
