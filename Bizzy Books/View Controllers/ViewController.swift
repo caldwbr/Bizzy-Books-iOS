@@ -558,7 +558,15 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         if let editVehiclePIC = editVehiclePICTextField.text {
             vehiclePICPlaceholder = editVehiclePIC
         }
-        vehiclesRef.child(vehicleKeyPlaceholder).updateChildValues(["color": vehicleColorPlaceholder, "year": vehicleYearPlaceholder, "make": vehicleMakePlaceholder, "model": vehicleModelPlaceholder, "fuelId": fuelTypeId, "fuelString": fuelTypePickerData[fuelTypeId], "licensePlateNumber": vehicleLPNPlaceholder, "vehicleIdentificationNumber": vehicleVINPlaceholder, "placedInCommissionDate": vehiclePICPlaceholder])
+        var vehicleMultipathDict: Dictionary<String, Any> = [String: Any]()
+        vehicleMultipathDict = ["vehicles/\(vehicleKeyPlaceholder)/color": vehicleColorPlaceholder, "vehicles/\(vehicleKeyPlaceholder)/year": vehicleYearPlaceholder, "vehicles/\(vehicleKeyPlaceholder)/make": vehicleMakePlaceholder, "vehicles/\(vehicleKeyPlaceholder)/model": vehicleModelPlaceholder, "vehicles/\(vehicleKeyPlaceholder)/fuelId": fuelTypeId, "vehicles/\(vehicleKeyPlaceholder)/fuelString": fuelTypePickerData[fuelTypeId], "vehicles/\(vehicleKeyPlaceholder)/licensePlateNumber": vehicleLPNPlaceholder, "vehicles/\(vehicleKeyPlaceholder)/vehicleIdentificationNumber": vehicleVINPlaceholder, "vehicles/\(vehicleKeyPlaceholder)/placedInCommissionDate": vehiclePICPlaceholder]
+        for univs in MIProcessor.sharedMIP.mIPUniversals {
+            if univs.vehicleKey == vehicleKeyPlaceholder {
+                let vehicleName = vehicleYearPlaceholder + " " + vehicleMakePlaceholder + " " + vehicleModelPlaceholder
+                vehicleMultipathDict["universals/\(univs.key)/vehicleName"] = vehicleName
+            }
+        }
+        masterRef.updateChildValues(vehicleMultipathDict)
         popUpAnimateOut(popUpView: editVehicleView)
     }
     var vehicleKeyPlaceholder = ""
