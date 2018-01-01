@@ -34,6 +34,7 @@ class UniversalProjectMediaCardViewCollectionViewCell: UICollectionViewCell {
     func register(_ nib: UINib?, forCellWithReuseIdentifier identifier: String) {}
     
     func configure(i: Int) {
+        universalProjMediaHugeImageView.image = nil
         if let universalItem = MIProcessor.sharedMIP.mIP[i] as? UniversalItem {
             if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
                 let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
@@ -57,6 +58,34 @@ class UniversalProjectMediaCardViewCollectionViewCell: UICollectionViewCell {
                         }
                     }
                 }
+            }
+            if universalItem.picUrl != "" {
+                let downloadURL = URL(string: universalItem.picUrl)!
+                downloadImage(url: downloadURL)
+            }
+        }
+    }
+    
+    func getDataFromUrl(url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            completion(data, response, error)
+            }.resume()
+    }
+    
+    @IBOutlet weak var universalProjMediaHugeImageViewHeightConstraint: NSLayoutConstraint!
+    
+    func downloadImage(url: URL) {
+        print("Download Started")
+        getDataFromUrl(url: url) { data, response, error in
+            guard let data = data, error == nil else { return }
+            print(response?.suggestedFilename ?? url.lastPathComponent)
+            print("Download Finished")
+            DispatchQueue.main.async() {
+                let image: UIImage = UIImage(data: data)!
+                let aspectRatio = image.size.height / image.size.width
+                let imageViewHeight = self.widthConstraint.constant * aspectRatio
+                self.universalProjMediaHugeImageViewHeightConstraint.constant = imageViewHeight
+                self.universalProjMediaHugeImageView.image = image
             }
         }
     }

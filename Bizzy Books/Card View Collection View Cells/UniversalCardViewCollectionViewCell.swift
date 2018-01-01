@@ -61,6 +61,8 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
     func configure(i: Int) {
         universalCardViewImageViewHeightConstraint.constant = 1
         imageView.image = nil
+        universalCardViewAccountImageView.image = nil
+        universalCardViewImageView.image = nil //HERE IT IS we were nilling the wrong imageview! (the tiny one) now we are nilling the big image view that was getting recycled and screwing everything up!!
         if let universalItem = MIProcessor.sharedMIP.mIP[i] as? UniversalItem {
             switch universalItem.universalItemType {
             case 1:
@@ -261,6 +263,7 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
             completion(data, response, error)
             }.resume()
     }
+    
     @IBOutlet weak var universalCardViewImageViewHeightConstraint: NSLayoutConstraint!
     
     func downloadImage(url: URL) {
