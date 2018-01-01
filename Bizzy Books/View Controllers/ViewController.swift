@@ -34,6 +34,8 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             return relationPickerData.count
         case editVehicleFuelTypePickerView:
             return fuelTypePickerData.count
+        case editAccountTypePickerView:
+            return accountTypePickerData.count
         default: // I.e., howDidTheyHearOfYouPickerView
             return howDidTheyHearOfYouPickerData.count
         }
@@ -49,6 +51,8 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             return relationPickerData[row]
         case editVehicleFuelTypePickerView:
             return fuelTypePickerData[row]
+        case editAccountTypePickerView:
+            return accountTypePickerData[row]
         default:
             return howDidTheyHearOfYouPickerData[row]
         }
@@ -64,6 +68,8 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             entityRelationId = row
         case editVehicleFuelTypePickerView:
             fuelTypeId = row
+        case editAccountTypePickerView:
+            accountTypeId = row
         default: // I.e., howDidTheyHearOfYouPickerView
             howDidTheyHearOfYouId = row
         }
@@ -78,6 +84,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     var howDidTheyHearOfYouPickerData: [String] = [String]()
     var relationPickerData: [String] = [String]()
     var fuelTypePickerData: [String] = [String]()
+    var accountTypePickerData: [String] = [String]()
     var kFacebookAppID = "1583985615235483"
     var backgroundImage : UIImageView! //right here
     var entitiesRef: DatabaseReference!
@@ -104,6 +111,15 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         self.editProjectAddEntityTableView.keyboardDismissMode = .interactive
         self.editEntityTableView.keyboardDismissMode = .interactive
         
+        TheAmtSingleton.shared.theStartingBal = 0
+        editAccountStartingBalanceTextField.formatter.numberStyle = NumberFormatter.Style.currency
+        editAccountStartingBalanceTextField.numberKind = 0
+        editAccountStartingBalanceTextField.keyboardType = .numbersAndPunctuation
+        editAccountStartingBalanceTextField.text = ""
+        editAccountStartingBalanceTextField.placeholder = "Starting (current) balance"
+        editAccountStartingBalanceTextField.allowedChars = "-0123456789"
+        editAccountStartingBalanceTextField.identifier = 3
+        
         //Prevent empty cells in tableview
         editProjectTableView.tableFooterView = UIView(frame: .zero)
         editProjectAddEntityTableView.tableFooterView = UIView(frame: .zero)
@@ -128,10 +144,13 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         editEntityRelationPickerView.dataSource = self
         editVehicleFuelTypePickerView.delegate = self
         editVehicleFuelTypePickerView.dataSource = self
+        editAccountTypePickerView.delegate = self
+        editAccountTypePickerView.dataSource = self
         projectStatusPickerData = ["Job Lead", "Bid", "Contract", "Paid", "Lost", "Other"]
         howDidTheyHearOfYouPickerData = ["(Unknown)", "(Referral)", "(Website)", "(YP)", "(Social Media)", "(Soliciting)", "(Google Adwords)", "(Company Shirts)", "(Sign)", "(Vehicle Wrap)", "(Billboard)", "(TV)", "(Radio)", "(Other)"]
         relationPickerData = ["Customer", "Vendor", "Sub", "Employee", "Store", "Government", "Other"]
         fuelTypePickerData = ["87 Gas", "89 Gas", "91 Gas", "Diesel"]
+        accountTypePickerData = ["Bank Account", "Credit Account", "Cash Account", "Store Refund Account"]
         /*if let cardViewFlowLayout = cardViewCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             cardViewFlowLayout.estimatedItemSize = CGSize(width: 350, height: 500)
         }*/
@@ -426,6 +445,49 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         }
     }
     
+    @IBOutlet var editAccountView: UIView!
+    @IBOutlet weak var editAccountNameTextField: UITextField!
+    @IBOutlet weak var editAccountStartingBalanceTextField: AllowedCharsTextField!
+    @IBOutlet weak var editAccountPhoneNumberTextField: UITextField!
+    @IBOutlet weak var editAccountEmailTextField: UITextField!
+    @IBOutlet weak var editAccountStreetTextField: UITextField!
+    @IBOutlet weak var editAccountCityTextField: UITextField!
+    @IBOutlet weak var editAccountStateTextField: UITextField!
+    @IBOutlet weak var editAccountTypePickerView: UIPickerView!
+    @IBAction func editAccountCancelPressed(_ sender: UIButton) {
+        popUpAnimateOut(popUpView: editAccountView)
+    }
+    @IBAction func editAccountUpdatePressed(_ sender: UIButton) {
+        guard editAccountNameTextField.text != "" else { return }
+        guard accountKeyPlaceholder != "" else { return }
+        guard editAccountStartingBalanceTextField.text != "" else { return }
+        if let editAccountName = editAccountNameTextField.text {
+            accountNamePlaceholder = editAccountName
+        }
+        accountStartingBalance = TheAmtSingleton.shared.theStartingBal
+        if let editAccountPhoneNumber = editAccountPhoneNumberTextField.text {
+            phoneNumberPlaceholder = editAccountPhoneNumber
+        }
+        if let editAccountEmail = editAccountEmailTextField.text {
+            emailPlaceholder = editAccountEmail
+        }
+        if let editAccountStreet = editAccountStreetTextField.text {
+            streetPlaceholder = editAccountStreet
+        }
+        if let editAccountCity = editAccountCityTextField.text {
+            cityPlaceholder = editAccountCity
+        }
+        if let editAccountState = editAccountStateTextField.text {
+            statePlaceholder = editAccountState
+        }
+        accountsRef.child(accountKeyPlaceholder).updateChildValues(["name": accountNamePlaceholder, "startingBal": accountStartingBalance, "phoneNumber": phoneNumberPlaceholder, "email": emailPlaceholder, "street": streetPlaceholder, "city": cityPlaceholder, "state": statePlaceholder, "accountTypeId": accountTypeId])
+        popUpAnimateOut(popUpView: editAccountView)
+    }
+    var accountKeyPlaceholder = ""
+    var accountNamePlaceholder = ""
+    var accountStartingBalance = 0
+    var accountTypeId = 0
+    
     @IBOutlet var editVehicleView: UIView!
     @IBOutlet weak var editVehicleColorTextField: UITextField!
     @IBOutlet weak var editVehicleYearTextField: UITextField!
@@ -719,6 +781,28 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                     editEntityEINTextField.text = einPlaceholder
                     entityRelationId = thisEntity.type
                     editEntityRelationPickerView.selectRow(entityRelationId, inComponent: 0, animated: true)
+                }
+            case 3: // Accounts
+                popUpAnimateIn(popUpView: editAccountView)
+                if let thisAccount = MIProcessor.sharedMIP.mIP[indexPath.item] as? AccountItem {
+                    accountKeyPlaceholder = thisAccount.key
+                    accountNamePlaceholder = thisAccount.name
+                    editAccountNameTextField.text = accountNamePlaceholder
+                    accountStartingBalance = thisAccount.startingBal
+                    TheAmtSingleton.shared.theStartingBal = accountStartingBalance
+                    editAccountStartingBalanceTextField.setText()
+                    accountTypeId = thisAccount.accountTypeId
+                    editAccountTypePickerView.selectRow(accountTypeId, inComponent: 0, animated: true)
+                    phoneNumberPlaceholder = thisAccount.phoneNumber
+                    editAccountPhoneNumberTextField.text = phoneNumberPlaceholder
+                    emailPlaceholder = thisAccount.email
+                    editAccountEmailTextField.text = emailPlaceholder
+                    streetPlaceholder = thisAccount.street
+                    editAccountStreetTextField.text = streetPlaceholder
+                    cityPlaceholder = thisAccount.city
+                    editAccountCityTextField.text = cityPlaceholder
+                    statePlaceholder = thisAccount.state
+                    editAccountStateTextField.text = statePlaceholder
                 }
             case 4: // Vehicles
                 popUpAnimateIn(popUpView: editVehicleView)

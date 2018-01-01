@@ -29,7 +29,11 @@ class AllowedCharsTextField: UITextField, UITextFieldDelegate {
         self.placeholder = updateAmount()
         formatter.usesGroupingSeparator = true
         formatter.locale = Locale.current
-
+    }
+    
+    func setText() {
+        let amount = Double(thisIsTheAmt.theStartingBal/100) + Double(thisIsTheAmt.theStartingBal%100)/100
+        self.text = formatter.string(from: NSNumber(value: amount))
     }
     
     // 5

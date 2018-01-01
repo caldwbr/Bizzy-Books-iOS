@@ -1085,6 +1085,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         TheAmtSingleton.shared.theAmt = 0
         TheAmtSingleton.shared.howMany = 0
         TheAmtSingleton.shared.theOdo = 0
+        TheAmtSingleton.shared.theStartingBal = 0
         
         let typeItem = DropdownFlowItem(options: [
             DropdownFlowItem.Option(title: "Business", iconName: "business", action: { self.selectedType = 0; self.reloadSentence(selectedType: self.selectedType) }),
@@ -1167,7 +1168,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         addAccountStartingBalanceTextField.numberKind = 0
         addAccountStartingBalanceTextField.keyboardType = .numbersAndPunctuation
         addAccountStartingBalanceTextField.text = ""
-        addAccountStartingBalanceTextField.placeholder = "Starting (Current) Balance"
+        addAccountStartingBalanceTextField.placeholder = "Starting (current) balance"
         addAccountStartingBalanceTextField.allowedChars = "-0123456789"
         addAccountStartingBalanceTextField.identifier = 3
         
