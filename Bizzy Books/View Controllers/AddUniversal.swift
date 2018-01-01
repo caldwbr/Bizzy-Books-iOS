@@ -1340,6 +1340,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             }
         case 3:
             TheAmtSingleton.shared.theOdo = thisUniversals[0].odometerReading
+            odometerTextField.setOdo()
             notesTextField.text = thisUniversals[0].notes
             TheAmtSingleton.shared.theAmt = thisUniversals[0].what
             whomPlaceholder = thisUniversals[0].whomName

@@ -31,6 +31,11 @@ class AllowedCharsTextField: UITextField, UITextFieldDelegate {
         formatter.locale = Locale.current
     }
     
+    func setOdo() {
+        let amount = Double(thisIsTheAmt.theOdo)
+        self.text = formatter.string(from: NSNumber(value: amount))
+    }
+    
     func setText() {
         let amount = Double(thisIsTheAmt.theStartingBal/100) + Double(thisIsTheAmt.theStartingBal%100)/100
         self.text = formatter.string(from: NSNumber(value: amount))

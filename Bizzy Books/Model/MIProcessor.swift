@@ -31,6 +31,7 @@ final class MIProcessor {
     var balOneAfter: Int = 0
     var balTwoAfter: Int = 0
     var balsAfter: [Int?] = [Int?]()
+    var masterSearchArray: [SearchItem] = [SearchItem]()
     
     func loadTheMip(completion: @escaping () -> ()) {
         self.universalsRef = Database.database().reference().child("users").child(userUID).child("universals")
@@ -92,6 +93,8 @@ final class MIProcessor {
     
     func updateTheMIP() {
         mIP.removeAll()
+        masterSearchArray.removeAll()
+        //HERE IS WHERE YOU WANT TO ADD IN THE GOODIES INTO THE MASTER SEARCH ARRAY ALL THE NEGATIVE INTS
         for i in 0..<mIPUniversals.count {
             let j = mIPUniversals.count - i - 1
             mIP.append(mIPUniversals[j])
@@ -99,18 +102,27 @@ final class MIProcessor {
         for i in 0..<mIPProjects.count {
             let j = mIPProjects.count - i - 1
             mIP.append(mIPProjects[j])
+            let searchItem = SearchItem(i: mIP.count, name: mIPProjects[j].name)
+            masterSearchArray.append(searchItem)
         }
         for i in 0..<mIPEntities.count {
             let j = mIPEntities.count - i - 1
             mIP.append(mIPEntities[j])
+            let searchItem = SearchItem(i: mIP.count, name: mIPEntities[j].name)
+            masterSearchArray.append(searchItem)
         }
         for i in 0..<mIPAccounts.count {
             let j = mIPAccounts.count - i - 1
             mIP.append(mIPAccounts[j])
+            let searchItem = SearchItem(i: mIP.count, name: mIPAccounts[j].name)
+            masterSearchArray.append(searchItem)
         }
         for i in 0..<mIPVehicles.count {
             let j = mIPVehicles.count - i - 1
             mIP.append(mIPVehicles[j])
+            let vehName = mIPVehicles[j].year + " " + mIPVehicles[j].make + " " + mIPVehicles[j].model
+            let searchItem = SearchItem(i: mIP.count, name: vehName)
+            masterSearchArray.append(searchItem)
         }
     }
     

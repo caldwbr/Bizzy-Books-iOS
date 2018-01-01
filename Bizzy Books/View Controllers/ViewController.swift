@@ -100,11 +100,13 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     var localAccounts: [AccountItem] = [AccountItem]() //There's no need for an array buy xcode is being a moron so this is the only way to trick it into allowing me to initialize the needed items up here!
     var localProjects: [ProjectItem] = [ProjectItem]()
     var localEntities: [EntityItem] = [EntityItem]()
+    var searchArray: [SearchItem] = [SearchItem]()
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         editProjectTableView.isHidden = true
         editProjectAddEntityTableView.isHidden = true
         editEntityTableView.isHidden = true
+        searchTableView.isHidden = true
     }
     
     override func viewDidLoad() {
@@ -113,6 +115,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         self.editProjectTableView.keyboardDismissMode = .interactive
         self.editProjectAddEntityTableView.keyboardDismissMode = .interactive
         self.editEntityTableView.keyboardDismissMode = .interactive
+        self.searchTableView.keyboardDismissMode = .interactive
         
         TheAmtSingleton.shared.theStartingBal = 0
         editAccountStartingBalanceTextField.formatter.numberStyle = NumberFormatter.Style.currency
@@ -127,6 +130,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         editProjectTableView.tableFooterView = UIView(frame: .zero)
         editProjectAddEntityTableView.tableFooterView = UIView(frame: .zero)
         editEntityTableView.tableFooterView = UIView(frame: .zero)
+        searchTableView.tableFooterView = UIView(frame: .zero)
         
         cardViewCollectionView.register(UINib.init(nibName: "UniversalCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "UniversalCardViewCollectionViewCell")
         cardViewCollectionView.register(UINib.init(nibName: "UniversalTransferCardViewCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "UniversalTransferCardViewCollectionViewCell")
@@ -241,6 +245,61 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     
     @IBAction func logoutUser(_: UIBarButtonItem) {
         try! Auth.auth().signOut()
+    }
+    
+    @IBOutlet weak var supplementalSearchView: UIView!
+    @IBOutlet weak var searchTextField: UITextField!
+    
+    @IBAction func searchTextFieldTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.searchTableView.isHidden == false {
+                    self.searchTableView.isHidden = true
+                } else {
+                    self.searchTableView.isHidden = false
+                }
+            }
+        }
+    }
+    
+    @IBAction func searchTextFieldEditingChanged(_ sender: UITextField) {
+        if let searchText = sender.text {
+            if !searchText.isEmpty {
+                searchArray = MIProcessor.sharedMIP.masterSearchArray.filter({ (searchItem) -> Bool in
+                    if searchItem.name.localizedCaseInsensitiveContains(searchText) {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+                if searchArray.count > 0 {
+                    searchTableView.isHidden = false
+                    searchTableView.reloadData()
+                } else {
+                    searchTableView.isHidden = true
+                    searchTableView.reloadData()
+                }
+            } else {
+                searchArray.removeAll()
+                searchTableView.reloadData()
+                searchTableView.isHidden = true
+            }
+        }
+    }
+    
+    @IBOutlet weak var searchTableView: UITableView!
+    
+    @IBAction func searchDismissXPressed(_ sender: UIButton) {
+        searchTextField.text = ""
+        supplementalSearchView.isHidden = true
+    }
+    
+    @IBAction func filterSearchPressed(_ sender: UIBarButtonItem) {
+        supplementalSearchView.isHidden = false
+    }
+    
+    @IBAction func reportsBooksPressed(_ sender: UIBarButtonItem) {
+        
     }
     
     @IBAction func addUniversalClicked(_: UIBarButtonItem) {
@@ -955,6 +1014,8 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch tableView {
+        case searchTableView:
+            return searchArray.count
         case editProjectTableView:
             return filteredBizzyEntities.count
         default: // I.e., editProjectAddEntityTableView && editEntityTableView (both require same hookup)
@@ -965,6 +1026,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell: UITableViewCell?
         switch tableView {
+        case searchTableView:
+            let filteredName = searchArray[indexPath.row].name
+            cell = tableView.dequeueReusableCell(withIdentifier: "SearchCell", for: indexPath)
+            cell!.textLabel!.text = filteredName
         case editProjectTableView:
             let filteredName = filteredBizzyEntities[indexPath.row].name
             cell = tableView.dequeueReusableCell(withIdentifier: "EditProjectCell", for: indexPath)
@@ -984,6 +1049,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true) //Added this to stop chicanery of cells still being selected if you change your mind and go back a second time. // PURE GOLD!
         switch tableView {
+        case searchTableView:
+            let theThingToBeSearched = searchArray[indexPath.row]
+            searchTextField.text = theThingToBeSearched.name
+            searchArray.removeAll()
+            searchTableView.isHidden = true
         case editProjectTableView:
             customerNamePlaceholder = filteredBizzyEntities[indexPath.row].name
             customerNamePlaceholderKeyString = filteredBizzyEntities[indexPath.row].key
@@ -1118,7 +1188,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
                 switch universalItem.universalItemType {
                 case 3: //Fuel
                     baseHeight = 160
-                    sentenceOneHeight = 100
+                    sentenceOneHeight = 120
                     imageHeight = CGFloat(universalItem.picHeightInt)
                 case 4: //Transfer
                     baseHeight = 218
