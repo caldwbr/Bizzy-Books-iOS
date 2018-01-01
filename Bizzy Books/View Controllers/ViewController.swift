@@ -623,7 +623,22 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         if let editEntityEIN = editEntityEINTextField.text {
             einPlaceholder = editEntityEIN
         }
-        entitiesRef.child(entityNamePlaceholderKeyString).updateChildValues(["type": entityRelationId, "name": entityNamePlaceholder, "phoneNumber": phoneNumberPlaceholder, "email": emailPlaceholder, "street": streetPlaceholder, "city": cityPlaceholder, "state": statePlaceholder, "ssn": ssnPlaceholder, "ein": einPlaceholder])
+        var entityMultipathDict: Dictionary<String, Any> = [String: Any]()
+        entityMultipathDict = ["entities/\(entityNamePlaceholderKeyString)/type": entityRelationId, "entities/\(entityNamePlaceholderKeyString)/name": entityNamePlaceholder, "entities/\(entityNamePlaceholderKeyString)/phoneNumber": phoneNumberPlaceholder, "entities/\(entityNamePlaceholderKeyString)/email": emailPlaceholder, "entities/\(entityNamePlaceholderKeyString)/street": streetPlaceholder, "entities/\(entityNamePlaceholderKeyString)/city": cityPlaceholder, "entities/\(entityNamePlaceholderKeyString)/state": statePlaceholder, "entities/\(entityNamePlaceholderKeyString)/ssn": ssnPlaceholder, "entities/\(entityNamePlaceholderKeyString)/ein": einPlaceholder]
+        for univs in MIProcessor.sharedMIP.mIPUniversals {
+            if univs.whoKey == entityNamePlaceholderKeyString {
+                entityMultipathDict["universals/\(univs.key)/whoName"] = entityNamePlaceholder
+            }
+            if univs.whomKey == entityNamePlaceholderKeyString {
+                entityMultipathDict["universals/\(univs.key)/whomName"] = entityNamePlaceholder
+            }
+        }
+        for projs in MIProcessor.sharedMIP.mIPProjects {
+            if projs.customerKey == entityNamePlaceholderKeyString {
+                entityMultipathDict["projects/\(projs.key)/customerName"] = entityNamePlaceholder
+            }
+        }
+        masterRef.updateChildValues(entityMultipathDict)
         popUpAnimateOut(popUpView: editEntityView)
     }
     
