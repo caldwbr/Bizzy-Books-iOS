@@ -442,6 +442,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         }
     }
     
+    @IBOutlet weak var addAccountTableView: UITableView!
     @IBOutlet weak var addAccountAccountTypePickerView: UIPickerView!
     @IBOutlet var addAccountView: UIView!
     @IBOutlet weak var addAccountNameTextField: UITextField!
@@ -497,14 +498,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 yourSecondaryAccountPlaceholder = thisAccountItem.name
                 secondaryAccountTypePlaceholderId = thisAccountItem.accountTypeId
             }
-            addAccountNameTextField.text = ""
-            addAccountStartingBalanceTextField.text = ""
-            addAccountStartingBalanceTextField.isNegative = false
-            addAccountPhoneNumberTextField.text = ""
-            addAccountEmailTextField.text = ""
-            addAccountStreetTextField.text = ""
-            addAccountCityTextField.text = ""
-            addAccountStateTextField.text = ""
+            addAccountClearFields()
             switch self.selectedType {
             case 0, 1, 2, 3:
                 self.accountLabel.text = thisAccountItem.name
@@ -530,6 +524,16 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         }
     }
     
+    func addAccountClearFields() {
+        addAccountNameTextField.text = ""
+        addAccountStartingBalanceTextField.text = ""
+        addAccountStartingBalanceTextField.isNegative = false
+        addAccountPhoneNumberTextField.text = ""
+        addAccountEmailTextField.text = ""
+        addAccountStreetTextField.text = ""
+        addAccountCityTextField.text = ""
+        addAccountStateTextField.text = ""
+    }
     
     //Main Account Popup Items (usually from, but can be to)
     @IBOutlet var selectAccountView: UIView!
@@ -754,6 +758,46 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 } else {
                     self.addProjectSelectCustomerTableView.isHidden = false
                 }
+            }
+        }
+    }
+    
+    @IBAction func addAccountNameTextFieldTouchedDown(_ sender: UITextField) {
+        if (sender.text) != nil {
+            if !(sender.text?.isEmpty)! {
+                if self.addAccountTableView.isHidden == false {
+                    self.addAccountTableView.isHidden = true
+                } else {
+                    self.addAccountTableView.isHidden = false
+                }
+            }
+        }
+    }
+    
+    @IBAction func addAccountNameTextFieldChanged(_ sender: UITextField) {
+        if let searchText = sender.text {
+            addAccountClearFields() // PURE FREAKING GOLD!!!!! clears all fields out if user starts deleting already accepted entity - dont have to do some insane code checking for backspace pressed or anything!!!
+            addAccountNameTextField.text = searchText
+            if !searchText.isEmpty {
+                ContactsLogicManager.shared.fetchContactsMatching(name: searchText, completion: { (contacts) in
+                    if let theContacts = contacts {
+                        self.recommendedContacts = theContacts
+                        if self.recommendedContacts.count > 0 {
+                            self.addAccountTableView.isHidden = false
+                        } else {
+                            self.addAccountTableView.isHidden = true // PURE GOLD - hides tableview if no match to current typing so that it's not in the way when you are just trying to add your own. THIS SHOULD NOT GO IN MOST TABLEVIEW ENTRY FIELDS AS MOST OF MY TABLEVIEWS require A MATCH.
+                        }
+                        self.addAccountTableView.reloadData()
+                    }
+                    else {
+                        // Contact fetch failed
+                        // Denied permission
+                    }
+                })
+            } else {
+                recommendedContacts.removeAll()
+                addAccountTableView.reloadData()
+                addAccountTableView.isHidden = true
             }
         }
     }
@@ -1068,6 +1112,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         selectAccountTableView.isHidden = true
         selectSecondaryAccountView.isHidden = true
         addProjectSelectCustomerTableView.isHidden = true
+        addAccountTableView.isHidden = true
     }
 
     override func viewDidLoad() {
@@ -1112,6 +1157,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         selectWhomTableView.tableFooterView = UIView(frame: .zero)
         selectAccountTableView.tableFooterView = UIView(frame: .zero)
         selectSecondaryAccountTableView.tableFooterView = UIView(frame: .zero)
+        addProjectSelectCustomerTableView.tableFooterView = UIView(frame: .zero)
         
         theFormatter.usesGroupingSeparator = true
         theFormatter.numberStyle = .currency
@@ -2264,6 +2310,8 @@ extension AddUniversal: UITableViewDataSource, UITableViewDelegate {
             return filteredFirebaseAccounts.count
         case self.addProjectSelectCustomerTableView:
             return filteredFirebaseEntities.count
+        case self.addAccountTableView:
+            return recommendedContacts.count
         default:
             return recommendedContacts.count
         }
@@ -2273,7 +2321,6 @@ extension AddUniversal: UITableViewDataSource, UITableViewDelegate {
         var cell:UITableViewCell?
         switch tableView {
         case contactSuggestionsTableView:
-            print("Hello...")
             cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath)
             let contact = recommendedContacts[indexPath.row]
             let name = contact.givenName + " " + contact.familyName
@@ -2283,8 +2330,6 @@ extension AddUniversal: UITableViewDataSource, UITableViewDelegate {
             let who = filteredFirebaseEntities[indexPath.row]
             let name = who.name
             cell!.textLabel!.text = name
-            print("The name is ")
-            print(name)
         case selectWhomTableView:
             cell = tableView.dequeueReusableCell(withIdentifier: "SelectWhomCell", for: indexPath)
             let whom = filteredFirebaseEntities[indexPath.row]
@@ -2314,6 +2359,11 @@ extension AddUniversal: UITableViewDataSource, UITableViewDelegate {
             cell = tableView.dequeueReusableCell(withIdentifier: "AddProjectSelectCustomerCell", for: indexPath)
             let customer = filteredFirebaseEntities[indexPath.row]
             let name = customer.name
+            cell!.textLabel!.text = name
+        case addAccountTableView:
+            cell = tableView.dequeueReusableCell(withIdentifier: "AccountContactCell", for: indexPath)
+            let contact = recommendedContacts[indexPath.row]
+            let name = contact.givenName + " " + contact.familyName
             cell!.textLabel!.text = name
         default:
             cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath)
@@ -2372,6 +2422,29 @@ extension AddUniversal: UITableViewDataSource, UITableViewDelegate {
             self.addProjectSearchCustomerTextField.text = customer.name
             self.tempKeyHolder = customer.key
             self.filteredFirebaseEntities.removeAll()
+        case self.addAccountTableView:
+            let contact = self.recommendedContacts[indexPath.row]
+            self.selectedContact = contact
+            self.addAccountTableView.isHidden = true
+            addAccountNameTextField.text = contact.givenName + " " + contact.familyName
+            if (contact.isKeyAvailable(CNContactEmailAddressesKey)) {
+                if let theEmail = contact.emailAddresses.first {
+                    addAccountEmailTextField.text = theEmail.value as String
+                }
+            }
+            if (contact.isKeyAvailable(CNContactPhoneNumbersKey)) {
+                if let thePhoneNumber = contact.phoneNumbers.first  {
+                    addAccountPhoneNumberTextField.text = thePhoneNumber.value.stringValue
+                }
+            }
+            if (contact.isKeyAvailable(CNContactPostalAddressesKey)) {
+                if let theAddress = contact.postalAddresses.first {
+                    addAccountStreetTextField.text = theAddress.value.street
+                    addAccountCityTextField.text = theAddress.value.city
+                    addAccountStateTextField.text = theAddress.value.state
+                }
+            }
+            self.recommendedContacts.removeAll()
         default:
             let contact = self.recommendedContacts[indexPath.row]
             self.selectedContact = contact
