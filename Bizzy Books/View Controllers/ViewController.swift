@@ -99,6 +99,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     var shouldEnterLoop = true
     var localAccounts: [AccountItem] = [AccountItem]() //There's no need for an array buy xcode is being a moron so this is the only way to trick it into allowing me to initialize the needed items up here!
     var localProjects: [ProjectItem] = [ProjectItem]()
+    var localEntities: [EntityItem] = [EntityItem]()
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         editProjectTableView.isHidden = true
@@ -825,6 +826,8 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             case 2: // Entities
                 popUpAnimateIn(popUpView: editEntityView)
                 if let thisEntity = MIProcessor.sharedMIP.mIP[indexPath.item] as? EntityItem {
+                    localEntities.removeAll()
+                    localEntities.append(thisEntity)
                     entityNamePlaceholder = thisEntity.name
                     editEntityNameTextField.text = entityNamePlaceholder
                     entityNamePlaceholderKeyString = thisEntity.key
@@ -843,7 +846,11 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                     einPlaceholder = thisEntity.ein
                     editEntityEINTextField.text = einPlaceholder
                     entityRelationId = thisEntity.type
-                    editEntityRelationPickerView.selectRow(entityRelationId, inComponent: 0, animated: true)
+                    if thisEntity.key == MIProcessor.sharedMIP.trueYou {
+                        editEntityRelationPickerView.isHidden = true
+                    } else {
+                        editEntityRelationPickerView.selectRow(entityRelationId, inComponent: 0, animated: true)
+                    }
                 }
             case 3: // Accounts
                 popUpAnimateIn(popUpView: editAccountView)
@@ -1109,6 +1116,10 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         default: // Universal - Ie case 0 the most frequent
             if let universalItem = MIProcessor.sharedMIP.mIP[i] as? UniversalItem {
                 switch universalItem.universalItemType {
+                case 3: //Fuel
+                    baseHeight = 160
+                    sentenceOneHeight = 100
+                    imageHeight = CGFloat(universalItem.picHeightInt)
                 case 4: //Transfer
                     baseHeight = 218
                     if universalItem.notes != "" {
