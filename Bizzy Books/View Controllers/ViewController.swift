@@ -499,7 +499,19 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         if let editAccountState = editAccountStateTextField.text {
             statePlaceholder = editAccountState
         }
-        accountsRef.child(accountKeyPlaceholder).updateChildValues(["name": accountNamePlaceholder, "startingBal": accountStartingBalance, "phoneNumber": phoneNumberPlaceholder, "email": emailPlaceholder, "street": streetPlaceholder, "city": cityPlaceholder, "state": statePlaceholder, "accountTypeId": accountTypeId])
+        var accountMultipathDict: Dictionary<String, Any> = [String: Any]()
+        accountMultipathDict = ["accounts/\(accountKeyPlaceholder)/name": accountNamePlaceholder, "accounts/\(accountKeyPlaceholder)/startingBal": accountStartingBalance, "accounts/\(accountKeyPlaceholder)/phoneNumber": phoneNumberPlaceholder, "accounts/\(accountKeyPlaceholder)/email": emailPlaceholder, "accounts/\(accountKeyPlaceholder)/street": streetPlaceholder, "accounts/\(accountKeyPlaceholder)/city": cityPlaceholder, "accounts/\(accountKeyPlaceholder)/state": statePlaceholder, "accounts/\(accountKeyPlaceholder)/accountTypeId": accountTypeId]
+        for univs in MIProcessor.sharedMIP.mIPUniversals {
+            if univs.accountOneKey == accountKeyPlaceholder {
+                accountMultipathDict["universals/\(univs.key)/accountOneName"] = accountNamePlaceholder
+                accountMultipathDict["universals/\(univs.key)/accountOneType"] = accountTypeId
+            }
+            if univs.accountTwoKey == accountKeyPlaceholder {
+                accountMultipathDict["universals/\(univs.key)/accountTwoName"] = accountNamePlaceholder
+                accountMultipathDict["universals/\(univs.key)/accountTwoType"] = accountTypeId
+            }
+        }
+        masterRef.updateChildValues(accountMultipathDict)
         popUpAnimateOut(popUpView: editAccountView)
     }
     var accountKeyPlaceholder = ""
@@ -735,7 +747,6 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                 projectMultipathDict["universals/\(univs.key)/projectItemName"] = projectNamePlaceholder
             }
         }
-        //print("HEYY BRADD " + String(describing: projectMultipathDict))
         masterRef.updateChildValues(projectMultipathDict)
         popUpAnimateOut(popUpView: editProjectView)
     }
