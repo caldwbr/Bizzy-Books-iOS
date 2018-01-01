@@ -97,6 +97,8 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     @IBOutlet weak var cardViewCollectionView: UICollectionView!
     //var multiversalItems = [MultiversalItem]()
     var shouldEnterLoop = true
+    var localAccounts: [AccountItem] = [AccountItem]() //There's no need for an array buy xcode is being a moron so this is the only way to trick it into allowing me to initialize the needed items up here!
+    var localProjects: [ProjectItem] = [ProjectItem]()
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         editProjectTableView.isHidden = true
@@ -173,7 +175,9 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     @IBOutlet weak var profilePic: UIImageView!
     
     func checkLoggedIn() {
+
         Auth.auth().addStateDidChangeListener { auth, user in
+            
             if user != nil {
                 // User is signed in.
                 userUID = (user?.uid)!
@@ -193,14 +197,27 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                 self.youEntityRef = Database.database().reference().child("users").child(userUID).child("youEntity")
                 self.firstTimeRef = Database.database().reference().child("users").child(userUID).child("firstTime")
                 self.initializeIfFirstAppUse()
-                self.masterRef.observeSingleEvent(of: .childChanged, with: { (snapshot) in // GENIUS!!!!! This line loads MIP only when an item gets added/changed/deleted (and exactly WHEN an item gets added/changed/deleted) in Firebase database IN REALTIME!!!!
-                    self.shouldEnterLoop = false
-                    self.loadTheMIP()
-                })
-                if MIProcessor.sharedMIP.mIP.count == 0 {
+                print("ONE!")
+                self.masterRef.observe(.childChanged, with: { (snapshot) in // GENIUS!!!!! This line loads MIP only when an item gets added/changed/deleted (and exactly WHEN an item gets added/changed/deleted) in Firebase database IN REALTIME!!!!
+                    print("TWO!")
                     if self.shouldEnterLoop {
                         self.shouldEnterLoop = false
+                        print("THREE!")
                         self.loadTheMIP()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5), execute: {
+                            self.shouldEnterLoop = true
+                        })
+                    }
+                })
+                if MIProcessor.sharedMIP.mIP.count == 0 {
+                    print("FOUR!")
+                    if self.shouldEnterLoop {
+                        self.shouldEnterLoop = false
+                        print("FIVE!")
+                        self.loadTheMIP()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5), execute: {
+                            self.shouldEnterLoop = true
+                        })
                     }
                 }
             } else {
@@ -711,7 +728,15 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         if let editProjectState = editProjectStateTextField.text {
             statePlaceholder = editProjectState
         }
-        projectsRef.child(projectKeyPlaceholder).updateChildValues(["name": projectNamePlaceholder, "customerName": customerNamePlaceholder, "customerKey": customerNamePlaceholderKeyString, "howDidTheyHearOfYouString": howDidTheyHearOfYouPickerData[howDidTheyHearOfYouId], "howDidTheyHearOfYouId": howDidTheyHearOfYouId, "projectTags": tagsPlaceholder, "projectNotes": notesPlaceholder, "projectAddressStreet": streetPlaceholder, "projectAddressCity": cityPlaceholder, "projectAddressState": statePlaceholder])
+        var projectMultipathDict: Dictionary<String, Any> = [String: Any]()
+        projectMultipathDict = ["projects/\(projectKeyPlaceholder)/name": projectNamePlaceholder, "projects/\(projectKeyPlaceholder)/customerName": customerNamePlaceholder, "projects/\(projectKeyPlaceholder)/customerKey": customerNamePlaceholderKeyString, "projects/\(projectKeyPlaceholder)/howDidTheyHearOfYouString": howDidTheyHearOfYouPickerData[howDidTheyHearOfYouId], "projects/\(projectKeyPlaceholder)/howDidTheyHearOfYouId": howDidTheyHearOfYouId, "projects/\(projectKeyPlaceholder)/projectStatusName": projectStatusPickerData[projectStatusId], "projects/\(projectKeyPlaceholder)/projectStatusId": projectStatusId, "projects/\(projectKeyPlaceholder)/projectTags": tagsPlaceholder, "projects/\(projectKeyPlaceholder)/projectNotes": notesPlaceholder, "projects/\(projectKeyPlaceholder)/projectAddressStreet": streetPlaceholder, "projects/\(projectKeyPlaceholder)/projectAddressCity": cityPlaceholder, "projects/\(projectKeyPlaceholder)/projectAddressState": statePlaceholder]
+        for univs in MIProcessor.sharedMIP.mIPUniversals {
+            if univs.projectItemKey == projectKeyPlaceholder {
+                projectMultipathDict["universals/\(univs.key)/projectItemName"] = projectNamePlaceholder
+            }
+        }
+        //print("HEYY BRADD " + String(describing: projectMultipathDict))
+        masterRef.updateChildValues(projectMultipathDict)
         popUpAnimateOut(popUpView: editProjectView)
     }
 
@@ -743,6 +768,8 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             case 1: // Projects
                 popUpAnimateIn(popUpView: editProjectView)
                 if let thisProject = MIProcessor.sharedMIP.mIP[indexPath.item] as? ProjectItem {
+                    localProjects.removeAll()
+                    localProjects.append(thisProject)
                     projectKeyPlaceholder = thisProject.key
                     projectNamePlaceholder = thisProject.name
                     editProjectNameTextField.text = projectNamePlaceholder
@@ -787,6 +814,8 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             case 3: // Accounts
                 popUpAnimateIn(popUpView: editAccountView)
                 if let thisAccount = MIProcessor.sharedMIP.mIP[indexPath.item] as? AccountItem {
+                    localAccounts.removeAll()
+                    localAccounts.append(thisAccount)
                     accountKeyPlaceholder = thisAccount.key
                     accountNamePlaceholder = thisAccount.name
                     editAccountNameTextField.text = accountNamePlaceholder
