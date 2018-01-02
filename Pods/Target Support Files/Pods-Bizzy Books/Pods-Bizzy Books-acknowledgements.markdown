@@ -955,10 +955,6 @@ SOFTWARE.
    limitations under the License.
 
 
-## Google-Mobile-Ads-SDK
-
-Copyright 2017 Google
-
 ## GoogleSignIn
 
 Copyright 2017 Google

@@ -283,6 +283,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var addProjectCityTextField: UITextField!
     @IBOutlet weak var addProjectStateTextField: UITextField!
     @IBAction func addProjectCancelPressed(_ sender: UIButton) {
+        addProjectClearFields()
         self.addProjectView.removeFromSuperview()
     }
     @IBAction func addProjectSavePressed(_ sender: UIButton) {
@@ -300,8 +301,22 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             self.projectPlaceholderKeyString = addProjectKeyString
             self.projectPlaceholder = thisProjectItem.name
             self.projectLabel.text = self.projectPlaceholder
+            addProjectClearFields()
             self.selectProjectView.removeFromSuperview()
         }
+    }
+    func addProjectClearFields() {
+        addProjectNameTextField.text = ""
+        addProjectSearchCustomerTextField.text = ""
+        projectStatusPickerView.reloadAllComponents()
+        projectStatusPickerView.selectRow(0, inComponent: 0, animated: false)
+        howDidTheyHearOfYouPickerView.reloadAllComponents()
+        howDidTheyHearOfYouPickerView.selectRow(0, inComponent: 0, animated: false)
+        addProjectTagsTextField.text = ""
+        addProjectNotesTextField.text = ""
+        addProjectStreetTextField.text = ""
+        addProjectCityTextField.text = ""
+        addProjectStateTextField.text = ""
     }
     
     @IBOutlet var addVehicleView: UIView!
@@ -2128,7 +2143,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             projectStatusPlaceholderId = row
         }
         
-        if !(pickerCode == 5) && !(pickerCode == 6) && !(pickerCode == 8) && !(pickerCode == 9) {
+        if !(pickerCode == 5) && !(pickerCode == 6) && !(pickerCode == 8) && !(pickerCode == 9) && (pickerView.tag != 1) {
             reloadSentence(selectedType: selectedType)
         }
     }

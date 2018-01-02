@@ -9,8 +9,6 @@ target 'Bizzy Books' do
 
     pod 'Firebase/Core'
 
-    pod 'Firebase/AdMob'
-
     pod 'Firebase/Database'
 
     pod 'Firebase/Crash'
