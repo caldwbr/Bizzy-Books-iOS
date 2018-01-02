@@ -2203,7 +2203,7 @@ If you can't think of a project with which to associate a business expense, use 
                             </constraints>
                             <state key="normal">
                                 <attributedString key="attributedTitle">
-                                    <fragment content="Buy $9.99/mo">
+                                    <fragment content="Buy $1.99/mo">
                                         <attributes>
                                             <font key="NSFont" metaFont="system" size="15"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
