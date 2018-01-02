@@ -1596,6 +1596,7 @@
                         <outlet property="useTaxSwitchContainer" destination="UAu-tf-AmX" id="j3W-9t-jxH"/>
                         <outlet property="visualEffectView" destination="j1D-Zw-q0Z" id="Dwg-xN-CHF"/>
                         <segue destination="hbX-gv-lOf" kind="show" identifier="saveUniversalAndReturn" id="mqi-xC-yE3"/>
+                        <segue destination="2UW-Cs-UZw" kind="show" identifier="proSubscription" id="EI8-ro-8d9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ugf-7U-bWy" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2605,11 +2606,6 @@ If you can't think of a project with which to associate a business expense, use 
                         <constraint firstAttribute="trailing" secondItem="yqx-aJ-eWI" secondAttribute="trailing" constant="16" id="wV1-Mw-jZa"/>
                         <constraint firstItem="a79-zN-uj4" firstAttribute="bottom" secondItem="ol0-J5-ozK" secondAttribute="bottom" id="z8E-OK-MZA"/>
                     </constraints>
-                    <variation key="default">
-                        <mask key="subviews">
-                            <exclude reference="8W4-Zb-6F6"/>
-                        </mask>
-                    </variation>
                 </view>
                 <view contentMode="scaleToFill" id="dSN-pE-ETU">
                     <rect key="frame" x="0.0" y="0.0" width="358" height="523"/>
@@ -3169,6 +3165,194 @@ If you can't think of a project with which to associate a business expense, use 
                 </view>
             </objects>
             <point key="canvasLocation" x="1844" y="138.0809595202399"/>
+        </scene>
+        <!--Pro Subscription View Controller-->
+        <scene sceneID="qz1-Uf-kPa">
+            <objects>
+                <viewController id="2UW-Cs-UZw" customClass="ProSubscriptionViewController" customModule="Bizzy_Books" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="oJg-wq-MTc"/>
+                        <viewControllerLayoutGuide type="bottom" id="HmQ-YA-fw1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="c4o-j6-5Ge">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="800"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7lY-6n-Pv9">
+                                <rect key="frame" x="0.0" y="64" width="375" height="692"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-UQ-a2G">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="800"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" text="Bizzy Books Pro" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jt8-YI-TRz">
+                                                <rect key="frame" x="102" y="20" width="171.5" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bizzybookspro" translatesAutoresizingMaskIntoConstraints="NO" id="r1W-T0-TWJ">
+                                                <rect key="frame" x="112" y="70" width="150" height="150"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="150" id="AcU-e0-LhP"/>
+                                                    <constraint firstAttribute="width" constant="150" id="eBG-U9-7a1"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="40" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R49-Ig-JaN">
+                                                <rect key="frame" x="16" y="228" width="343" height="552"/>
+                                                <mutableString key="text">Enables ability to upload photos.  Purchase auto-renewing monthly subscription of Bizzy Books Pro for $1.99/month (US) to unlock!  Payment will be charged to iTunes account at confirmation of purchase. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period.   Account will be charged for renewal within 24-hours prior to the end of the current period, and identify the cost of the renewal.  Subscriptions may be managed by the user and auto-renewal may be turned off by going to the user's Account Settings after purchase.  Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription.  Terms of use: bizzybooks.com/tos.html  Privacy policy: bizzybooks.com/privacy.html</mutableString>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v2e-QJ-efz">
+                                                <rect key="frame" x="0.0" y="-68" width="375" height="1060"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" id="BYk-yb-uS5">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="1060"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                </view>
+                                                <blurEffect style="light"/>
+                                            </visualEffectView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="R49-Ig-JaN" secondAttribute="bottom" constant="20" id="2tj-Id-8co"/>
+                                            <constraint firstItem="R49-Ig-JaN" firstAttribute="leading" secondItem="gBR-UQ-a2G" secondAttribute="leading" constant="16" id="7ij-ry-WX6"/>
+                                            <constraint firstAttribute="trailing" secondItem="R49-Ig-JaN" secondAttribute="trailing" constant="16" id="No7-dl-g39"/>
+                                            <constraint firstItem="Jt8-YI-TRz" firstAttribute="centerX" secondItem="gBR-UQ-a2G" secondAttribute="centerX" id="Sqm-7q-Hs6"/>
+                                            <constraint firstItem="R49-Ig-JaN" firstAttribute="top" secondItem="r1W-T0-TWJ" secondAttribute="bottom" constant="8" id="VUj-zJ-34N"/>
+                                            <constraint firstItem="r1W-T0-TWJ" firstAttribute="top" secondItem="Jt8-YI-TRz" secondAttribute="bottom" constant="20" id="aEu-TU-mYy"/>
+                                            <constraint firstItem="r1W-T0-TWJ" firstAttribute="centerX" secondItem="gBR-UQ-a2G" secondAttribute="centerX" id="d1E-jO-Syp"/>
+                                            <constraint firstItem="Jt8-YI-TRz" firstAttribute="top" secondItem="gBR-UQ-a2G" secondAttribute="top" constant="20" id="niH-Km-lMv"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="gBR-UQ-a2G" firstAttribute="top" secondItem="7lY-6n-Pv9" secondAttribute="top" id="Jcv-c8-3DJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="gBR-UQ-a2G" secondAttribute="bottom" id="hxN-jW-v7u"/>
+                                    <constraint firstAttribute="trailing" secondItem="gBR-UQ-a2G" secondAttribute="trailing" id="lZN-k6-FFE"/>
+                                    <constraint firstItem="gBR-UQ-a2G" firstAttribute="leading" secondItem="7lY-6n-Pv9" secondAttribute="leading" id="lkW-RZ-Rcy"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="HmQ-YA-fw1" firstAttribute="top" secondItem="7lY-6n-Pv9" secondAttribute="bottom" id="Duq-8D-qO4"/>
+                            <constraint firstItem="7lY-6n-Pv9" firstAttribute="top" secondItem="oJg-wq-MTc" secondAttribute="bottom" id="Wgy-gp-0dT"/>
+                            <constraint firstItem="gBR-UQ-a2G" firstAttribute="width" secondItem="c4o-j6-5Ge" secondAttribute="width" id="g80-Gf-gVs"/>
+                            <constraint firstItem="gBR-UQ-a2G" firstAttribute="height" secondItem="c4o-j6-5Ge" secondAttribute="height" id="hwP-gd-35M"/>
+                            <constraint firstAttribute="trailing" secondItem="7lY-6n-Pv9" secondAttribute="trailing" id="uY4-J7-9HT"/>
+                            <constraint firstItem="7lY-6n-Pv9" firstAttribute="leading" secondItem="c4o-j6-5Ge" secondAttribute="leading" id="yLv-Rc-jPc"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem title="Restore" id="7pq-iW-isB">
+                            <connections>
+                                <action selector="proSubscriptionRestorePressed:" destination="2UW-Cs-UZw" id="UVk-xn-Ilp"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem title="Close" id="aHs-jU-dHb">
+                            <connections>
+                                <action selector="proSubscriptionClosePressed:" destination="2UW-Cs-UZw" id="slk-en-t6R"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="UCR-Gh-ADz"/>
+                        <barButtonItem title="Buy ($1.99/month US)" id="x8P-Qb-xcn">
+                            <connections>
+                                <action selector="proSubscriptionBuyPressed:" destination="2UW-Cs-UZw" id="0eg-nm-Kwh"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <size key="freeformSize" width="375" height="800"/>
+                    <connections>
+                        <outlet property="proSubscriptionBuyFailedView" destination="6ZL-L3-ckP" id="bF0-td-Fc4"/>
+                        <outlet property="proSubscriptionContentView" destination="gBR-UQ-a2G" id="6Qm-T9-UQu"/>
+                        <outlet property="proSubscriptionRestoreFailedView" destination="RMs-nt-Fnl" id="DlM-Ww-EzO"/>
+                        <outlet property="proSubscriptionVisualEffectView" destination="v2e-QJ-efz" id="Kig-HY-dH9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PNi-cm-A30" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="RMs-nt-Fnl">
+                    <rect key="frame" x="0.0" y="0.0" width="319" height="218"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Failed to Restore" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kyU-gb-quj">
+                            <rect key="frame" x="70.5" y="20" width="178.5" height="30"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Failed to restore - please buy a subscription if desired." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3yM-Ow-k45">
+                            <rect key="frame" x="16" y="70" width="287" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="wT8-7b-HqO"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="THn-pc-0OK">
+                            <rect key="frame" x="144" y="150" width="30" height="48"/>
+                            <state key="normal" title="Ok"/>
+                            <connections>
+                                <action selector="proSubscriptionRestoreFailedOkPressed:" destination="2UW-Cs-UZw" eventType="touchUpInside" id="tks-KO-KUq"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="kyU-gb-quj" firstAttribute="top" secondItem="RMs-nt-Fnl" secondAttribute="top" constant="20" id="5rV-R1-oQ6"/>
+                        <constraint firstItem="kyU-gb-quj" firstAttribute="centerX" secondItem="RMs-nt-Fnl" secondAttribute="centerX" id="Cc3-f0-L0a"/>
+                        <constraint firstItem="THn-pc-0OK" firstAttribute="top" secondItem="3yM-Ow-k45" secondAttribute="bottom" constant="20" id="DzK-st-8Go"/>
+                        <constraint firstItem="3yM-Ow-k45" firstAttribute="leading" secondItem="RMs-nt-Fnl" secondAttribute="leading" constant="16" id="VTb-Ao-dBp"/>
+                        <constraint firstAttribute="trailing" secondItem="3yM-Ow-k45" secondAttribute="trailing" constant="16" id="YBC-6c-lEu"/>
+                        <constraint firstAttribute="bottom" secondItem="THn-pc-0OK" secondAttribute="bottom" constant="20" id="cJb-ae-b5k"/>
+                        <constraint firstItem="3yM-Ow-k45" firstAttribute="top" secondItem="kyU-gb-quj" secondAttribute="bottom" constant="20" id="kuP-JG-nBR"/>
+                        <constraint firstItem="THn-pc-0OK" firstAttribute="centerX" secondItem="RMs-nt-Fnl" secondAttribute="centerX" id="qdH-2B-OaW"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" id="6ZL-L3-ckP">
+                    <rect key="frame" x="0.0" y="0.0" width="319" height="217"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Failed to Buy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FXz-vg-Q8u">
+                            <rect key="frame" x="91" y="20" width="137.5" height="30"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Failed to buy - images cannot be uploaded without a subscription." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3fa-NL-tsP">
+                            <rect key="frame" x="16" y="70" width="287" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="1TI-RX-OFQ"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cvA-ns-NQz">
+                            <rect key="frame" x="144" y="150" width="30" height="47"/>
+                            <state key="normal" title="Ok"/>
+                            <connections>
+                                <action selector="proSubscriptionBuyFailedOkPressed:" destination="2UW-Cs-UZw" eventType="touchUpInside" id="uk0-4A-ou5"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="3fa-NL-tsP" firstAttribute="top" secondItem="FXz-vg-Q8u" secondAttribute="bottom" constant="20" id="2Vp-Wx-5FV"/>
+                        <constraint firstItem="cvA-ns-NQz" firstAttribute="top" secondItem="3fa-NL-tsP" secondAttribute="bottom" constant="20" id="NYX-OC-zJi"/>
+                        <constraint firstAttribute="bottom" secondItem="cvA-ns-NQz" secondAttribute="bottom" constant="20" id="Nnh-K3-brV"/>
+                        <constraint firstItem="FXz-vg-Q8u" firstAttribute="top" secondItem="6ZL-L3-ckP" secondAttribute="top" constant="20" id="WQO-5p-giM"/>
+                        <constraint firstItem="3fa-NL-tsP" firstAttribute="leading" secondItem="6ZL-L3-ckP" secondAttribute="leading" constant="16" id="Xqz-g8-tc5"/>
+                        <constraint firstItem="FXz-vg-Q8u" firstAttribute="centerX" secondItem="6ZL-L3-ckP" secondAttribute="centerX" id="bBC-3F-VLF"/>
+                        <constraint firstItem="cvA-ns-NQz" firstAttribute="centerX" secondItem="6ZL-L3-ckP" secondAttribute="centerX" id="g1L-ym-XCs"/>
+                        <constraint firstAttribute="trailing" secondItem="3fa-NL-tsP" secondAttribute="trailing" constant="16" id="ncq-vl-bZV"/>
+                    </constraints>
+                </view>
+            </objects>
+            <point key="canvasLocation" x="2576.8000000000002" y="158.32083958020991"/>
         </scene>
         <!--Reports View Controller-->
         <scene sceneID="gxL-Vf-hjM">

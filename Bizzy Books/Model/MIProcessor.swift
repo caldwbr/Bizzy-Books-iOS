@@ -23,6 +23,7 @@ final class MIProcessor {
     public var mIPAccounts: [AccountItem] = [AccountItem]()
     public var mIPVehicles: [VehicleItem] = [VehicleItem]()
     public var trueYou: String = String()
+    public var isUserCurrentlySubscribed: Bool = Bool()
     var universalsRef: DatabaseReference!
     var entitiesRef: DatabaseReference!
     var projectsRef: DatabaseReference!

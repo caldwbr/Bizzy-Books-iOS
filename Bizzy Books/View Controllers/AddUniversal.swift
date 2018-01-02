@@ -36,13 +36,12 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var projectsRef: DatabaseReference!
     var vehiclesRef: DatabaseReference!
     var accountsRef: DatabaseReference!
-    var currentlySubscribedRef: DatabaseReference!
-    var currentlySubscribedShortenedRef: DatabaseReference!
-    var currentSubscriptionRef: DatabaseReference!
+
     var specialAccessRef: DatabaseReference!
+    var currentlySubscribedRef: DatabaseReference!
+    var currentSubscriptionRef: DatabaseReference!
     var userCurrentImageIdCountRef: DatabaseReference!
     
-    var isUserCurrentlySubscribed: Bool = false
     var hasUserSpecialAccess: Bool = false
     
     var thereIsAnImage = false
@@ -1046,16 +1045,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var subscriptionProImage: UIImageView!
     
     @IBAction func subscriptionRestorePressed(_ sender: UIButton) {
-        bradsStore.searchForProduct()
-        bradsStore.restorePurchases { (isTrue, theString, err) in
-            if isTrue {
-                print("Restoration made " + theString!)
-                self.currentlySubscribedRef.setValue(true)
-            } else {
-                self.currentlySubscribedRef.setValue(false)
-            }
-        }
-        self.popUpAnimateOut(popUpView: self.subscriptionPopUpView)
+        print("la")
     }
     
     @IBAction func subscriptionNotNowPressed(_ sender: UIButton) {
@@ -1063,20 +1053,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     @IBAction func subscriptionBuyPressed(_ sender: UIButton) {
-        bradsStore.searchForProduct()
-        bradsStore.purchase { (isTrue, theString, err) in
-            if isTrue {
-                print("Purchase made " + theString!)
-                self.currentlySubscribedRef.setValue(true)
-                self.isUserCurrentlySubscribed = true
-            } else {
-                print("Something happened " + String(describing: err))
-                self.currentlySubscribedRef.setValue(false)
-                self.isUserCurrentlySubscribed = false
-            }
-            
-        }
-        self.popUpAnimateOut(popUpView: self.subscriptionPopUpView)
+        print("la la")
     }
     
     @IBOutlet weak var scrollView: UIScrollView!
@@ -1085,21 +1062,57 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var imageView: UIImageView!
     
     @IBAction func cameraPressed(_ sender: UIBarButtonItem) {
-        print(String(describing: self.isUserCurrentlySubscribed))
         if hasUserSpecialAccess == true {
             launchPhotos()
         } else {
             prePhotosNoSpecialPassSubscriptionCheck()
         }
-    
     }
     
     func prePhotosNoSpecialPassSubscriptionCheck() {
-        switch self.isUserCurrentlySubscribed {
+        switch MIProcessor.sharedMIP.isUserCurrentlySubscribed {
         case true:
             launchPhotos()
         default:
-            popUpAnimateIn(popUpView: subscriptionPopUpView)
+            currentSubscriptionRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                print("W O A H 5")
+                if let timeInterval = snapshot.value as? TimeInterval {
+                    print("W O A H 6")
+                    let date = Date(timeIntervalSince1970: timeInterval)
+                    if Date().compare(date) == .orderedAscending {
+                        // Subscription is valid
+                        print("W O A H 7")
+                        MIProcessor.sharedMIP.isUserCurrentlySubscribed = true
+                        self.currentlySubscribedRef.setValue(true)
+                        self.launchPhotos()
+                    } else {
+                        print("W O A H 8")
+                        MIProcessor.sharedMIP.isUserCurrentlySubscribed = false
+                        self.currentlySubscribedRef.setValue(false)
+                        self.performSegue(withIdentifier: "proSubscription", sender: self)
+                    }
+                }
+                
+                // We need to refresh the subscription state from AppStore
+                self.bradsStore.restorePurchases { (isTrue, theString, err) in
+                    if err != nil {
+                        print(" H e y l o 5" + String(describing: err))
+                    }
+                    if isTrue {
+                        // Subscription is valid
+                        MIProcessor.sharedMIP.isUserCurrentlySubscribed = true
+                        self.currentlySubscribedRef.setValue(true)
+                        print(" H E Y L O 6 ")
+                        self.launchPhotos()
+                    } else {
+                        // Subscription is invalid
+                        MIProcessor.sharedMIP.isUserCurrentlySubscribed = false
+                        self.currentlySubscribedRef.setValue(false)
+                        print(" H E Y L O 7 ")
+                        self.performSegue(withIdentifier: "proSubscription", sender: self)
+                    }
+                }
+            })
         }
     }
     
@@ -1642,9 +1655,9 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
         vehiclesRef = Database.database().reference().child("users").child(userUID).child("vehicles")
         accountsRef = Database.database().reference().child("users").child(userUID).child("accounts")
+        specialAccessRef = Database.database().reference().child("users").child(userUID).child("specialAccess")
         currentlySubscribedRef = Database.database().reference().child("users").child(userUID).child("currentlySubscribed")
         currentSubscriptionRef = Database.database().reference().child("users").child(userUID).child("subscriptionExpirationDate")
-        specialAccessRef = Database.database().reference().child("users").child(userUID).child("specialAccess")
         userCurrentImageIdCountRef = Database.database().reference().child("users").child(userUID).child("userCurrentImageIdCount")
         // This is only valid if we have updated this flag recently
         /*currentlySubscribedRef.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -1678,12 +1691,12 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 if Date().compare(date) == .orderedAscending {
                     // Subscription is valid
                     print("W O A H 3")
-                    self.isUserCurrentlySubscribed = true
+                    MIProcessor.sharedMIP.isUserCurrentlySubscribed = true
                     self.currentlySubscribedRef.setValue(true)
                     return
                 } else {
                     print("W O A H 4")
-                    self.isUserCurrentlySubscribed = false
+                    MIProcessor.sharedMIP.isUserCurrentlySubscribed = false
                     self.currentlySubscribedRef.setValue(false)
                 }
             }
@@ -1695,12 +1708,12 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 }
                 if isTrue {
                     // Subscription is valid
-                    self.isUserCurrentlySubscribed = true
+                    MIProcessor.sharedMIP.isUserCurrentlySubscribed = true
                     self.currentlySubscribedRef.setValue(true)
                     print(" H E Y L O 2 ")
                 } else {
                     // Subscription is invalid
-                    self.isUserCurrentlySubscribed = false
+                    MIProcessor.sharedMIP.isUserCurrentlySubscribed = false
                     self.currentlySubscribedRef.setValue(false)
                     print(" H E Y L O 3 ")
                 }

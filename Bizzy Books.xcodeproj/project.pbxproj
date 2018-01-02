@@ -45,6 +45,7 @@
 		EB851E3C1D9578B2002D19F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB851E3A1D9578B2002D19F4 /* Main.storyboard */; };
 		EB851E3F1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EB851E3D1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld */; };
 		EB851E4C1D957932002D19F4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB851E4B1D957932002D19F4 /* GoogleService-Info.plist */; };
+		EB952E3B1FFBFCFC006AA124 /* ProSubscriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB952E3A1FFBFCFC006AA124 /* ProSubscriptionViewController.swift */; };
 		EBB407E31FE7101000E307C2 /* StringifyAnInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB407E21FE7101000E307C2 /* StringifyAnInt.swift */; };
 		EBB407E51FE8120500E307C2 /* ObtainBalanceAfter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB407E41FE8120500E307C2 /* ObtainBalanceAfter.swift */; };
 		EBB407E71FE8A33F00E307C2 /* TheAmtSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB407E61FE8A33F00E307C2 /* TheAmtSingleton.swift */; };
@@ -115,6 +116,7 @@
 		EB851E3E1D9578B2002D19F4 /* Bizzy_Books.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Bizzy_Books.xcdatamodel; sourceTree = "<group>"; };
 		EB851E451D9578B2002D19F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB851E4B1D957932002D19F4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		EB952E3A1FFBFCFC006AA124 /* ProSubscriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProSubscriptionViewController.swift; sourceTree = "<group>"; };
 		EBB407E21FE7101000E307C2 /* StringifyAnInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringifyAnInt.swift; sourceTree = "<group>"; };
 		EBB407E41FE8120500E307C2 /* ObtainBalanceAfter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObtainBalanceAfter.swift; sourceTree = "<group>"; };
 		EBB407E61FE8A33F00E307C2 /* TheAmtSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheAmtSingleton.swift; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 				EB851E381D9578B2002D19F4 /* ViewController.swift */,
 				EB3F93B91DDD41900049C343 /* AddUniversal.swift */,
 				EBD42D5F1FFB4E6E0004F896 /* ReportsViewController.swift */,
+				EB952E3A1FFBFCFC006AA124 /* ProSubscriptionViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -596,6 +599,7 @@
 				EB190FC71F0B3CC500C80E07 /* ContactsLogicManager.swift in Sources */,
 				EB5856A81FB6352D006C6212 /* AccountItem.swift in Sources */,
 				EB2441C31FE614CC004EDC56 /* AccountCardViewCollectionViewCell.swift in Sources */,
+				EB952E3B1FFBFCFC006AA124 /* ProSubscriptionViewController.swift in Sources */,
 				EB5856A61FB6311C006C6212 /* EntityItem.swift in Sources */,
 				EBB407E51FE8120500E307C2 /* ObtainBalanceAfter.swift in Sources */,
 				EBB407E71FE8A33F00E307C2 /* TheAmtSingleton.swift in Sources */,
