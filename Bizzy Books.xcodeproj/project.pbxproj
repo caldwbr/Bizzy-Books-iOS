@@ -64,6 +64,7 @@
 		EBB77BDE1EFE2D4D0084D014 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BDD1EFE2D4D0084D014 /* UIColor+Hex.swift */; };
 		EBC54EB51FFA187600A03906 /* SearchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC54EB41FFA187600A03906 /* SearchItem.swift */; };
 		EBD42D5E1FFB3E540004F896 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD42D5D1FFB3E540004F896 /* CustomImageView.swift */; };
+		EBD42D601FFB4E6E0004F896 /* ReportsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD42D5F1FFB4E6E0004F896 /* ReportsViewController.swift */; };
 		FA7B73181EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7B73171EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		FA7B731D1EFC5785007A1AEA /* DropdownFlowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7B731C1EFC5785007A1AEA /* DropdownFlowCollectionViewCell.swift */; };
 		FA7B731F1EFC5976007A1AEA /* DropdownReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7B731E1EFC5976007A1AEA /* DropdownReusableView.xib */; };
@@ -133,6 +134,7 @@
 		EBB77BDD1EFE2D4D0084D014 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		EBC54EB41FFA187600A03906 /* SearchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchItem.swift; sourceTree = "<group>"; };
 		EBD42D5D1FFB3E540004F896 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
+		EBD42D5F1FFB4E6E0004F896 /* ReportsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsViewController.swift; sourceTree = "<group>"; };
 		FA7B73171EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		FA7B731C1EFC5785007A1AEA /* DropdownFlowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownFlowCollectionViewCell.swift; sourceTree = "<group>"; };
 		FA7B731E1EFC5976007A1AEA /* DropdownReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DropdownReusableView.xib; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 			children = (
 				EB851E381D9578B2002D19F4 /* ViewController.swift */,
 				EB3F93B91DDD41900049C343 /* AddUniversal.swift */,
+				EBD42D5F1FFB4E6E0004F896 /* ReportsViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -584,6 +587,7 @@
 				EBC54EB51FFA187600A03906 /* SearchItem.swift in Sources */,
 				EB2441CF1FE6345F004EDC56 /* CardViewLabelFlowCollectionViewDataSource.swift in Sources */,
 				EB2441BF1FE6148D004EDC56 /* ProjectCardViewCollectionViewCell.swift in Sources */,
+				EBD42D601FFB4E6E0004F896 /* ReportsViewController.swift in Sources */,
 				EB2441B21FE20C81004EDC56 /* EntityCardViewCollectionViewCell.swift in Sources */,
 				FA7B73211EFC5983007A1AEA /* DropdownReusableView.swift in Sources */,
 				EBB77BDE1EFE2D4D0084D014 /* UIColor+Hex.swift in Sources */,

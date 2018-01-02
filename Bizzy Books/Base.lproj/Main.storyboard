@@ -266,12 +266,14 @@
                         <outlet property="editVehicleView" destination="vL5-ov-Zue" id="gdA-gH-Qne"/>
                         <outlet property="editVehicleYearTextField" destination="TR1-8n-JmZ" id="jIe-LW-dqH"/>
                         <outlet property="profilePic" destination="rbB-IY-pTB" id="hV9-LJ-frY"/>
+                        <outlet property="reportsBooksButton" destination="a7H-gg-Wbv" id="bgX-yR-Lcw"/>
                         <outlet property="searchTableView" destination="iw8-PX-3Zk" id="X2b-gU-8ZL"/>
                         <outlet property="searchTextField" destination="C1E-7W-mrL" id="I1X-w8-ox4"/>
                         <outlet property="supplementalSearchView" destination="UIa-zH-14Z" id="oHP-oL-r71"/>
                         <outlet property="vcvisualEffectsView" destination="jM3-Pa-zeE" id="3tD-bf-Ept"/>
                         <outlet property="welcomeView" destination="igV-p2-VKO" id="aE0-Lf-sjA"/>
                         <segue destination="XGO-PW-Ssy" kind="show" identifier="createUniversal" id="W4H-c8-Kns"/>
+                        <segue destination="RRM-0d-BEc" kind="show" id="9Ki-Dp-ZAS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -3162,6 +3164,24 @@ If you can't think of a project with which to associate a business expense, use 
                 </view>
             </objects>
             <point key="canvasLocation" x="1844" y="138.0809595202399"/>
+        </scene>
+        <!--Reports View Controller-->
+        <scene sceneID="gxL-Vf-hjM">
+            <objects>
+                <viewController id="RRM-0d-BEc" customClass="ReportsViewController" customModule="Bizzy_Books" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="RBV-ni-Ymh"/>
+                        <viewControllerLayoutGuide type="bottom" id="4xi-q4-93n"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="0qV-mD-eWE">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0fN-Xo-V95" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1866" y="838"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Vvx-eE-QZz">

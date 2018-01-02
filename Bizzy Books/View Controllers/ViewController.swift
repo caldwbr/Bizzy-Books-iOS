@@ -116,6 +116,12 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         self.editProjectAddEntityTableView.keyboardDismissMode = .interactive
         self.editEntityTableView.keyboardDismissMode = .interactive
         self.searchTableView.keyboardDismissMode = .interactive
+        reportsBooksButton.isEnabled = false
+        reportsBooksButton.tintColor = UIColor.clear
+        
+        // Later on...
+        // reportsBooksButton.isEnabled = true (or make it part of pro subscription)
+        // reportsBooksButton.tintColor = UIColor.blue
         
         TheAmtSingleton.shared.theStartingBal = 0
         editAccountStartingBalanceTextField.formatter.numberStyle = NumberFormatter.Style.currency
@@ -307,8 +313,9 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         cardViewCollectionView.reloadData()
     }
     
+    @IBOutlet weak var reportsBooksButton: UIBarButtonItem!
     @IBAction func reportsBooksPressed(_ sender: UIBarButtonItem) {
-        
+        //performSegue(withIdentifier: "showReports", sender: self)
     }
     
     @IBAction func addUniversalClicked(_: UIBarButtonItem) {
@@ -1184,7 +1191,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         case 1: // SIP!
             switch MIProcessor.sharedMIP.sIP[i].multiversalType {
             case 1: // Project
-                baseHeight = 110
+                baseHeight = 130
                 if let projectItem = MIProcessor.sharedMIP.sIP[i] as? ProjectItem {
                     if projectItem.projectNotes != "" {
                         if projectItem.projectNotes.count < 30 {
@@ -1337,7 +1344,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         default: // I.e. case 0 MIP!
             switch MIProcessor.sharedMIP.mIP[i].multiversalType {
             case 1: // Project
-                baseHeight = 110
+                baseHeight = 130
                 if let projectItem = MIProcessor.sharedMIP.mIP[i] as? ProjectItem {
                     if projectItem.projectNotes != "" {
                         if projectItem.projectNotes.count < 30 {
