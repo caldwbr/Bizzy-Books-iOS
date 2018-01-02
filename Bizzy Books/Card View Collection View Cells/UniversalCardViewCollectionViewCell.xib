@@ -117,7 +117,7 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="ajO-9e-Y4z">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="ajO-9e-Y4z" customClass="CustomImageView" customModule="Bizzy_Books" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="310" width="350" height="1"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="thc-7z-R3I"/>

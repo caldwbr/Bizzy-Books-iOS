@@ -149,7 +149,7 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7vz-cT-WBm">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7vz-cT-WBm" customClass="CustomImageView" customModule="Bizzy_Books" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="258" width="350" height="1"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="Ikw-G5-P8O"/>

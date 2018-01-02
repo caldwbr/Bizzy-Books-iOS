@@ -35,7 +35,7 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
     @IBOutlet weak var universalCardViewAccountLabel: UILabel!
     @IBOutlet weak var universalCardViewBalAfterLabel: UILabel!
     @IBOutlet weak var universalCardViewAccountImageView: UIImageView!
-    @IBOutlet weak var universalCardViewImageView: UIImageView!
+    @IBOutlet weak var universalCardViewImageView: CustomImageView!
     private let dataSource = CardViewLabelFlowCollectionViewDataSource()
     let stringifyAnInt: StringifyAnInt = StringifyAnInt()
     
@@ -68,6 +68,10 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
             universalItem = MIProcessor.sharedMIP.mIP[i] as! UniversalItem
         } else {
             universalItem = MIProcessor.sharedMIP.sIP[i] as! UniversalItem
+        }
+        universalCardViewImageViewHeightConstraint.constant = CGFloat(universalItem.picHeightInt)
+        if universalItem.picUrl != "" {
+            universalCardViewImageView.loadImageUsingUrlString(universalItem.picUrl)
         }
         switch universalItem.universalItemType {
         case 1:
@@ -201,10 +205,6 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
             default:
                 break
             }
-            if universalItem.picUrl != "" {
-                let downloadURL = URL(string: universalItem.picUrl)!
-                downloadImage(url: downloadURL)
-            }
             universalCardViewCollectionView.reloadData()
             universalCardViewCollectionView.layoutIfNeeded()
             universalCardViewAccountLabel.text = universalItem.accountOneName
@@ -263,46 +263,6 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
         universalCardViewBalAfterLabel.text = ""
     }
     
-    func getDataFromUrl(url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            completion(data, response, error)
-            }.resume()
-    }
-    
     @IBOutlet weak var universalCardViewImageViewHeightConstraint: NSLayoutConstraint!
-    
-    func downloadImage(url: URL) {
-        print("Download Started")
-        getDataFromUrl(url: url) { data, response, error in
-            guard let data = data, error == nil else { return }
-            print(response?.suggestedFilename ?? url.lastPathComponent)
-            print("Download Finished")
-            DispatchQueue.main.async() {
-                let image: UIImage = UIImage(data: data)!
-                let aspectRatio = image.size.height / image.size.width
-                let imageViewHeight = self.widthConstraint.constant * aspectRatio
-                self.universalCardViewImageViewHeightConstraint.constant = imageViewHeight
-                self.universalCardViewImageView.image = image
-                self.universalCardViewCollectionView.reloadData()
-                self.universalCardViewCollectionView.layoutIfNeeded()
-            }
-        }
-    }
-    /*
-    //forces the system to do one layout pass
-    var isHeightCalculated: Bool = false
-    
-    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-        if !isHeightCalculated {
-            setNeedsLayout()
-            layoutIfNeeded()
-            let size = contentView.systemLayoutSizeFitting(layoutAttributes.size)
-            var newFrame = layoutAttributes.frame
-            newFrame.size.width = CGFloat(ceilf(Float(size.width)))
-            layoutAttributes.frame = newFrame
-            isHeightCalculated = true
-        }
-        return layoutAttributes
-    }*/
 
 }

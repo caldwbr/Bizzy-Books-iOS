@@ -21,7 +21,7 @@ class UniversalTransferCardViewCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var universalTransferToBankImageView: UIImageView!
     @IBOutlet weak var universalTransferToBankLabel: UILabel!
     @IBOutlet weak var universalTransferToBankBalAfterLabel: UILabel!
-    @IBOutlet weak var universalTransferMainImageView: UIImageView!
+    @IBOutlet weak var universalTransferMainImageView: CustomImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -46,6 +46,7 @@ class UniversalTransferCardViewCollectionViewCell: UICollectionViewCell {
         } else {
             universalItem = MIProcessor.sharedMIP.sIP[i] as! UniversalItem
         }
+        universalTransferMainImageViewHeightConstraint.constant = CGFloat(universalItem.picHeightInt)
         universalTransferNotesLabel.text = universalItem.notes
         if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
             let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
@@ -60,34 +61,11 @@ class UniversalTransferCardViewCollectionViewCell: UICollectionViewCell {
         universalTransferFromBankBalAfterLabel.text = universalItem.balOneAfterString
         universalTransferToBankBalAfterLabel.text = universalItem.balTwoAfterString
         if universalItem.picUrl != "" {
-            let downloadURL = URL(string: universalItem.picUrl)!
-            downloadImage(url: downloadURL)
+            universalTransferMainImageView.loadImageUsingUrlString(universalItem.picUrl)
         }
-    }
-    
-    func getDataFromUrl(url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            completion(data, response, error)
-            }.resume()
     }
     
     @IBOutlet weak var universalTransferMainImageViewHeightConstraint: NSLayoutConstraint!
-    
-    func downloadImage(url: URL) {
-        print("Download Started")
-        getDataFromUrl(url: url) { data, response, error in
-            guard let data = data, error == nil else { return }
-            print(response?.suggestedFilename ?? url.lastPathComponent)
-            print("Download Finished")
-            DispatchQueue.main.async() {
-                let image: UIImage = UIImage(data: data)!
-                let aspectRatio = image.size.height / image.size.width
-                let imageViewHeight = self.widthConstraint.constant * aspectRatio
-                self.universalTransferMainImageViewHeightConstraint.constant = imageViewHeight
-                self.universalTransferMainImageView.image = image
-            }
-        }
-    }
     
     func convertTimestamp(serverTimestamp: Double) -> String {
         let x = serverTimestamp / 1000

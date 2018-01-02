@@ -70,7 +70,7 @@
                                 <constraint firstAttribute="height" constant="1" id="Lu4-VH-Ogp"/>
                             </constraints>
                         </view>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7o8-FU-0MZ">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7o8-FU-0MZ" customClass="CustomImageView" customModule="Bizzy_Books" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="168" width="350" height="1"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="z6l-Gq-S3a"/>
