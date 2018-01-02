@@ -1445,17 +1445,22 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         print("Download Started")
         getDataFromUrl(url: url) { data, response, error in
             guard let data = data, error == nil else { return }
-            print(response?.suggestedFilename ?? url.lastPathComponent)
-            print("Download Finished")
             DispatchQueue.main.async() {
                 if let image = UIImage(data: data) {
                     let aspectRatio = image.size.height / image.size.width
                     let screenSize = UIScreen.main.bounds
                     let screenWidth = screenSize.width
                     let imageViewWidth = screenWidth
-                    let imageWidthCard: CGFloat = 350
+                    var widthConstraintConstant: CGFloat = 0
+                    let screenWidthTwo = UIScreen.main.bounds.size.width
+                    if screenWidthTwo > 374.0 {
+                        widthConstraintConstant = 350.0
+                    } else {
+                        widthConstraintConstant = screenWidthTwo - (2 * 12)
+                    }
+                    let savedImageViewWidth = widthConstraintConstant
                     self.imageViewHeight = imageViewWidth * aspectRatio
-                    self.imageViewHeightInt = Int(imageWidthCard * aspectRatio)
+                    self.imageViewHeightInt = Int(savedImageViewWidth * aspectRatio)
                     self.imageViewHeightConstraint.constant = self.imageViewHeight
                     self.imageView.image = image
                 }
@@ -1496,12 +1501,22 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             let aspectRatio = image.size.height / image.size.width
+            
+            var widthConstraintConstant: CGFloat = 0
+            let screenWidthTwo = UIScreen.main.bounds.size.width
+            if screenWidthTwo > 374.0 {
+                widthConstraintConstant = 350.0
+            } else {
+                widthConstraintConstant = screenWidthTwo - (2 * 12)
+            }
+            let savedImageViewWidth = widthConstraintConstant
+            
             let screenSize = UIScreen.main.bounds
             let screenWidth = screenSize.width
             let imageViewWidth = screenWidth
-            let imageWidthCard: CGFloat = 350
+            
             imageViewHeight = imageViewWidth * aspectRatio
-            imageViewHeightInt = Int(imageWidthCard * aspectRatio)
+            imageViewHeightInt = Int(savedImageViewWidth * aspectRatio) // This saves CORRECT height of image based on cardview width TAKING VARIOUS SCREEN SIZES INTO ACCOUNT just like is done in UniversalCardViewCollectionViewCell.swift
             imageViewHeightConstraint.constant = imageViewHeight
             imageView.image = image
             thereIsAnImage = true
