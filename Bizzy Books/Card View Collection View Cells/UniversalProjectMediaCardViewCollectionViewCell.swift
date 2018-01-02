@@ -35,34 +35,38 @@ class UniversalProjectMediaCardViewCollectionViewCell: UICollectionViewCell {
     
     func configure(i: Int) {
         universalProjMediaHugeImageView.image = nil
-        if let universalItem = MIProcessor.sharedMIP.mIP[i] as? UniversalItem {
-            if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
-                let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
-                universalProjMediaDateLabel.text = timeStampAsString
-            }
-            universalProjMediaNotesLabel.text = universalItem.notes
-            universalProjMediaJobNameLabel.text = universalItem.projectItemName
-            universalProjMediaPicTypeLabel.text = universalItem.projectPicTypeName
-            DispatchQueue.main.async {
-                //Get project status
-                let projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
-                if universalItem.projectItemKey == "0" {
-                    self.universalProjMediaStatusLabel.text = ""
-                } else {
-                    projectsRef.observe(.value) { (snapshot) in
-                        for item in snapshot.children {
-                            let firebaseProject = ProjectItem(snapshot: item as! DataSnapshot)
-                            if firebaseProject.key == universalItem.projectItemKey {
-                                self.universalProjMediaStatusLabel.text = firebaseProject.projectStatusName
-                            }
+        let universalItem: UniversalItem
+        if MIProcessor.sharedMIP.mipORsip == 0 {
+            universalItem = MIProcessor.sharedMIP.mIP[i] as! UniversalItem
+        } else {
+            universalItem = MIProcessor.sharedMIP.sIP[i] as! UniversalItem
+        }
+        if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
+            let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
+            universalProjMediaDateLabel.text = timeStampAsString
+        }
+        universalProjMediaNotesLabel.text = universalItem.notes
+        universalProjMediaJobNameLabel.text = universalItem.projectItemName
+        universalProjMediaPicTypeLabel.text = universalItem.projectPicTypeName
+        DispatchQueue.main.async {
+            //Get project status
+            let projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
+            if universalItem.projectItemKey == "0" {
+                self.universalProjMediaStatusLabel.text = ""
+            } else {
+                projectsRef.observe(.value) { (snapshot) in
+                    for item in snapshot.children {
+                        let firebaseProject = ProjectItem(snapshot: item as! DataSnapshot)
+                        if firebaseProject.key == universalItem.projectItemKey {
+                            self.universalProjMediaStatusLabel.text = firebaseProject.projectStatusName
                         }
                     }
                 }
             }
-            if universalItem.picUrl != "" {
-                let downloadURL = URL(string: universalItem.picUrl)!
-                downloadImage(url: downloadURL)
-            }
+        }
+        if universalItem.picUrl != "" {
+            let downloadURL = URL(string: universalItem.picUrl)!
+            downloadImage(url: downloadURL)
         }
     }
     

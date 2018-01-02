@@ -36,47 +36,52 @@ class AccountCardViewCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(i: Int) {
-        if let accountItem = MIProcessor.sharedMIP.mIP[i] as? AccountItem {
-            accountNameLabel.text = accountItem.name
-            switch accountItem.accountTypeId {
-            case 0:
-                accountTypeLabel.text = "Bank Account"
-                accountTypeImageView.image = UIImage(named: "bank")
-            case 1:
-                accountTypeLabel.text = "Credit Account"
-                accountTypeImageView.image = UIImage(named: "credit")
-            case 2:
-                accountTypeLabel.text = "Cash Account"
-                accountTypeImageView.image = UIImage(named: "cash")
-            default: //I.e. case 3
-                accountTypeLabel.text = "Store Credit Account"
-                accountTypeImageView.image = UIImage(named: "storecredit")
-            }
-            if let timeStampAsDouble: Double = accountItem.timeStamp as? Double {
-                let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
-                accountDate.text = timeStampAsString
-            }
-            accountTrifecta.isHidden = false
-            accountPhoneView.isHidden = false
-            accountEmailView.isHidden = false
-            accountGeoView.isHidden = false
-            if (accountItem.phoneNumber == "") && (accountItem.email == "") && (accountItem.street == "") {
-                accountTrifecta.isHidden = true
-            }
-            if accountItem.phoneNumber == "" {
-                accountPhoneView.isHidden = true
-            }
-            if accountItem.email == "" {
-                accountEmailView.isHidden = true
-            }
-            if (accountItem.street == "") || (accountItem.city == "") || (accountItem.state == "") {
-                accountGeoView.isHidden = true
-            }
-            accountPhoneLabel.text = accountItem.phoneNumber
-            accountEmailLabel.text = accountItem.email
-            accountStreetLabel.text = accountItem.street
-            accountCityStateLabel.text = accountItem.city + " " + accountItem.state
+        accountTypeImageView.image = nil
+        let accountItem: AccountItem
+        if MIProcessor.sharedMIP.mipORsip == 0 {
+            accountItem = MIProcessor.sharedMIP.mIP[i] as! AccountItem
+        } else {
+            accountItem = MIProcessor.sharedMIP.sIP[i] as! AccountItem
         }
+        accountNameLabel.text = accountItem.name
+        switch accountItem.accountTypeId {
+        case 0:
+            accountTypeLabel.text = "Bank Account"
+            accountTypeImageView.image = UIImage(named: "bank")
+        case 1:
+            accountTypeLabel.text = "Credit Account"
+            accountTypeImageView.image = UIImage(named: "credit")
+        case 2:
+            accountTypeLabel.text = "Cash Account"
+            accountTypeImageView.image = UIImage(named: "cash")
+        default: //I.e. case 3
+            accountTypeLabel.text = "Store Credit Account"
+            accountTypeImageView.image = UIImage(named: "storecredit")
+        }
+        if let timeStampAsDouble: Double = accountItem.timeStamp as? Double {
+            let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
+            accountDate.text = timeStampAsString
+        }
+        accountTrifecta.isHidden = false
+        accountPhoneView.isHidden = false
+        accountEmailView.isHidden = false
+        accountGeoView.isHidden = false
+        if (accountItem.phoneNumber == "") && (accountItem.email == "") && (accountItem.street == "") {
+            accountTrifecta.isHidden = true
+        }
+        if accountItem.phoneNumber == "" {
+            accountPhoneView.isHidden = true
+        }
+        if accountItem.email == "" {
+            accountEmailView.isHidden = true
+        }
+        if (accountItem.street == "") || (accountItem.city == "") || (accountItem.state == "") {
+            accountGeoView.isHidden = true
+        }
+        accountPhoneLabel.text = accountItem.phoneNumber
+        accountEmailLabel.text = accountItem.email
+        accountStreetLabel.text = accountItem.street
+        accountCityStateLabel.text = accountItem.city + " " + accountItem.state
     }
 
     func convertTimestamp(serverTimestamp: Double) -> String {

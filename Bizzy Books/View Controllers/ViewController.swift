@@ -262,6 +262,8 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         }
     }
     
+    @IBOutlet weak var cardViewCollectionViewTopConstraint: NSLayoutConstraint!
+    
     @IBAction func searchTextFieldEditingChanged(_ sender: UITextField) {
         if let searchText = sender.text {
             if !searchText.isEmpty {
@@ -291,11 +293,18 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     
     @IBAction func searchDismissXPressed(_ sender: UIButton) {
         searchTextField.text = ""
+        searchTableView.reloadData()
+        searchTableView.isHidden = true
         supplementalSearchView.isHidden = true
+        cardViewCollectionViewTopConstraint.constant = 10
+        MIProcessor.sharedMIP.mipORsip = 0 // BACK TO THE MIP!!
+        cardViewCollectionView.reloadData()
     }
     
     @IBAction func filterSearchPressed(_ sender: UIBarButtonItem) {
         supplementalSearchView.isHidden = false
+        cardViewCollectionViewTopConstraint.constant = 50
+        cardViewCollectionView.reloadData()
     }
     
     @IBAction func reportsBooksPressed(_ sender: UIBarButtonItem) {
@@ -370,43 +379,86 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print("CV COUNT " + String(describing: MIProcessor.sharedMIP.mIP.count))
-        return MIProcessor.sharedMIP.mIP.count
+        switch MIProcessor.sharedMIP.mipORsip {
+        case 1: // SIP!
+            return MIProcessor.sharedMIP.sIP.count
+        default: // I.e. case 0 MIP!
+            return MIProcessor.sharedMIP.mIP.count
+        }
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let i = indexPath.item
-        switch MIProcessor.sharedMIP.mIP[i].multiversalType {
-        case 1:
-            let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "ProjectCardViewCollectionViewCell", for: indexPath) as! ProjectCardViewCollectionViewCell
-            cell.configure(i: i)
-            return cell
-        case 2:
-            let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "EntityCardViewCollectionViewCell", for: indexPath) as! EntityCardViewCollectionViewCell
-            cell.configure(i: i)
-            return cell
-        case 3:
-            let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "AccountCardViewCollectionViewCell", for: indexPath) as! AccountCardViewCollectionViewCell
-            cell.configure(i: i)
-            return cell
-        case 4:
-            let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "VehicleCardViewCollectionViewCell", for: indexPath) as! VehicleCardViewCollectionViewCell
-            cell.configure(i: i)
-            return cell
-        default:
-            let universal = MIProcessor.sharedMIP.mIP[i] as! UniversalItem
-            switch universal.universalItemType {
+        switch MIProcessor.sharedMIP.mipORsip {
+        case 1: // SIP!
+            switch MIProcessor.sharedMIP.sIP[i].multiversalType {
+            case 1:
+                let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "ProjectCardViewCollectionViewCell", for: indexPath) as! ProjectCardViewCollectionViewCell
+                cell.configure(i: i)
+                return cell
+            case 2:
+                let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "EntityCardViewCollectionViewCell", for: indexPath) as! EntityCardViewCollectionViewCell
+                cell.configure(i: i)
+                return cell
+            case 3:
+                let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "AccountCardViewCollectionViewCell", for: indexPath) as! AccountCardViewCollectionViewCell
+                cell.configure(i: i)
+                return cell
             case 4:
-                let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalTransferCardViewCollectionViewCell", for: indexPath) as! UniversalTransferCardViewCollectionViewCell
+                let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "VehicleCardViewCollectionViewCell", for: indexPath) as! VehicleCardViewCollectionViewCell
                 cell.configure(i: i)
                 return cell
-            case 6:
-                let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalProjectMediaCardViewCollectionViewCell", for: indexPath) as! UniversalProjectMediaCardViewCollectionViewCell
+            default:
+                let universal = MIProcessor.sharedMIP.sIP[i] as! UniversalItem
+                switch universal.universalItemType {
+                case 4:
+                    let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalTransferCardViewCollectionViewCell", for: indexPath) as! UniversalTransferCardViewCollectionViewCell
+                    cell.configure(i: i)
+                    return cell
+                case 6:
+                    let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalProjectMediaCardViewCollectionViewCell", for: indexPath) as! UniversalProjectMediaCardViewCollectionViewCell
+                    cell.configure(i: i)
+                    return cell
+                default: // I.e., cases 0, 1, 2, and 3 (most all cases!)
+                    let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalCardViewCollectionViewCell", for: indexPath) as! UniversalCardViewCollectionViewCell
+                    cell.configure(i: i)
+                    return cell
+                }
+            }
+        default: // I.e. case 0 MIP!
+            switch MIProcessor.sharedMIP.mIP[i].multiversalType {
+            case 1:
+                let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "ProjectCardViewCollectionViewCell", for: indexPath) as! ProjectCardViewCollectionViewCell
                 cell.configure(i: i)
                 return cell
-            default: // I.e., cases 0, 1, 2, and 3 (most all cases!)
-                let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalCardViewCollectionViewCell", for: indexPath) as! UniversalCardViewCollectionViewCell
+            case 2:
+                let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "EntityCardViewCollectionViewCell", for: indexPath) as! EntityCardViewCollectionViewCell
                 cell.configure(i: i)
                 return cell
+            case 3:
+                let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "AccountCardViewCollectionViewCell", for: indexPath) as! AccountCardViewCollectionViewCell
+                cell.configure(i: i)
+                return cell
+            case 4:
+                let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "VehicleCardViewCollectionViewCell", for: indexPath) as! VehicleCardViewCollectionViewCell
+                cell.configure(i: i)
+                return cell
+            default:
+                let universal = MIProcessor.sharedMIP.mIP[i] as! UniversalItem
+                switch universal.universalItemType {
+                case 4:
+                    let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalTransferCardViewCollectionViewCell", for: indexPath) as! UniversalTransferCardViewCollectionViewCell
+                    cell.configure(i: i)
+                    return cell
+                case 6:
+                    let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalProjectMediaCardViewCollectionViewCell", for: indexPath) as! UniversalProjectMediaCardViewCollectionViewCell
+                    cell.configure(i: i)
+                    return cell
+                default: // I.e., cases 0, 1, 2, and 3 (most all cases!)
+                    let cell = cardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "UniversalCardViewCollectionViewCell", for: indexPath) as! UniversalCardViewCollectionViewCell
+                    cell.configure(i: i)
+                    return cell
+                }
             }
         }
     }
@@ -1053,7 +1105,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             let theThingToBeSearched = searchArray[indexPath.row]
             searchTextField.text = theThingToBeSearched.name
             searchArray.removeAll()
+            searchTableView.reloadData()
             searchTableView.isHidden = true
+            MIProcessor.sharedMIP.updateTheSIP(i: theThingToBeSearched.i)
+            cardViewCollectionView.reloadData()
         case editProjectTableView:
             customerNamePlaceholder = filteredBizzyEntities[indexPath.row].name
             customerNamePlaceholderKeyString = filteredBizzyEntities[indexPath.row].key
@@ -1125,120 +1180,315 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         var ssnHeight: CGFloat = 0
         var einHeight: CGFloat = 0
         var imageHeight: CGFloat = 1
-        switch MIProcessor.sharedMIP.mIP[i].multiversalType {
-        case 1: // Project
-            baseHeight = 80
-            sentenceOneHeight = 140
-            sentenceTwoHeight = 180
-        case 2: // Entity
-            baseHeight = 140 //92
-            if let entityItem = MIProcessor.sharedMIP.mIP[i] as? EntityItem {
-                if entityItem.phoneNumber != "" {
-                    phoneHeight = 30
+        switch MIProcessor.sharedMIP.mipORsip {
+        case 1: // SIP!
+            switch MIProcessor.sharedMIP.sIP[i].multiversalType {
+            case 1: // Project
+                baseHeight = 110
+                if let projectItem = MIProcessor.sharedMIP.sIP[i] as? ProjectItem {
+                    if projectItem.projectNotes != "" {
+                        if projectItem.projectNotes.count < 30 {
+                            phoneHeight = 25
+                        } else if projectItem.projectNotes.count < 60 {
+                            phoneHeight = 45
+                        } else {
+                            phoneHeight = 80
+                        }
+                    }
+                    if projectItem.projectTags != "" {
+                        if projectItem.projectTags.count < 30 {
+                            emailHeight = 30
+                        } else if projectItem.projectTags.count < 60 {
+                            emailHeight = 60
+                        } else {
+                            emailHeight = 90
+                        }
+                    }
+                    if projectItem.projectAddressStreet != "" {
+                        sentenceOneHeight = 140
+                    } else {
+                        sentenceOneHeight = 100
+                    }
                 }
-                if entityItem.email != "" {
-                    emailHeight = 38
+                sentenceTwoHeight = 180
+            case 2: // Entity
+                baseHeight = 140 //92
+                if let entityItem = MIProcessor.sharedMIP.sIP[i] as? EntityItem {
+                    if entityItem.phoneNumber != "" {
+                        phoneHeight = 30
+                    }
+                    if entityItem.email != "" {
+                        emailHeight = 38
+                    }
+                    if entityItem.street != "" {
+                        if entityItem.city != "" {
+                            if entityItem.state != "" {
+                                geoHeight = 50
+                            }
+                        }
+                    }
+                    if entityItem.ssn != "" {
+                        ssnHeight = 29
+                    }
+                    if entityItem.ein != "" {
+                        einHeight = 29
+                    }
                 }
-                if entityItem.street != "" {
-                    if entityItem.city != "" {
-                        if entityItem.state != "" {
-                            geoHeight = 50
+            case 3: // Account
+                baseHeight = 140 //92
+                if let accountItem = MIProcessor.sharedMIP.sIP[i] as? AccountItem {
+                    if accountItem.phoneNumber != "" {
+                        phoneHeight = 30
+                    }
+                    if accountItem.email != "" {
+                        emailHeight = 38
+                    }
+                    if accountItem.street != "" {
+                        if accountItem.city != "" {
+                            if accountItem.state != "" {
+                                geoHeight = 50
+                            }
                         }
                     }
                 }
-                if entityItem.ssn != "" {
-                    ssnHeight = 29
+            case 4: // Vehicle
+                baseHeight = 140 //92
+                if let vehicleItem = MIProcessor.sharedMIP.sIP[i] as? VehicleItem {
+                    if vehicleItem.licensePlateNumber != "" {
+                        phoneHeight = 25
+                    }
+                    if vehicleItem.vehicleIdentificationNumber != "" {
+                        emailHeight = 25
+                    }
+                    if vehicleItem.placedInCommissionDate != "" {
+                        geoHeight = 25
+                    }
                 }
-                if entityItem.ein != "" {
-                    einHeight = 29
-                }
-            }
-        case 3: // Account
-            baseHeight = 140 //92
-            if let accountItem = MIProcessor.sharedMIP.mIP[i] as? AccountItem {
-                if accountItem.phoneNumber != "" {
-                    phoneHeight = 30
-                }
-                if accountItem.email != "" {
-                    emailHeight = 38
-                }
-                if accountItem.street != "" {
-                    if accountItem.city != "" {
-                        if accountItem.state != "" {
-                            geoHeight = 50
+            default: // Universal - Ie case 0 the most frequent
+                var longString = ""
+                if let universalItem = MIProcessor.sharedMIP.sIP[i] as? UniversalItem {
+                    if universalItem.notes != "" {
+                        if universalItem.notes.count < 30 {
+                            phoneHeight = 25
+                        } else if universalItem.notes.count < 60 {
+                            phoneHeight = 45
+                        } else {
+                            phoneHeight = 80
+                        }
+                    }
+                    imageHeight = CGFloat(universalItem.picHeightInt)
+                    switch universalItem.universalItemType {
+                    case 1: // Personal
+                        baseHeight = 100
+                        longString = universalItem.whoName + universalItem.whomName + universalItem.taxReasonName
+                    case 2: // Mixed
+                        baseHeight = 100
+                        switch universalItem.taxReasonId {
+                        case 2: // Labor ie wc
+                            longString = universalItem.whoName + universalItem.whomName + universalItem.personalReasonName + universalItem.taxReasonName + universalItem.workersCompName
+                        case 5: // Vehicle
+                            longString = universalItem.whoName + universalItem.whomName + universalItem.personalReasonName + universalItem.taxReasonName + universalItem.vehicleName
+                        case 6: // AdMeans
+                            longString = universalItem.whoName + universalItem.whomName + universalItem.personalReasonName + universalItem.taxReasonName + universalItem.advertisingMeansName
+                        default: // Nothing important
+                            longString = universalItem.whoName + universalItem.whomName + universalItem.personalReasonName + universalItem.taxReasonName
+                        }
+                    case 3: // Fuel
+                        baseHeight = 50
+                        longString = "At 234566 miles you paid $00.00 to " + universalItem.whomName + " for 00.000 gallons of 87 gas in your " + universalItem.vehicleName
+                    case 4: // Transfer
+                        baseHeight = 150
+                    case 6: // Project Media
+                        baseHeight = 80
+                    default:
+                        baseHeight = 120
+                        switch universalItem.taxReasonId {
+                        case 2: // Labor ie wc
+                            longString = universalItem.whoName + universalItem.whomName + universalItem.taxReasonName + universalItem.workersCompName
+                        case 5: // Vehicle
+                            longString = universalItem.whoName + universalItem.whomName + universalItem.taxReasonName + universalItem.vehicleName
+                        case 6: // AdMeans
+                            longString = universalItem.whoName + universalItem.whomName + universalItem.taxReasonName + universalItem.advertisingMeansName
+                        default: // Nothing important
+                            longString = universalItem.whoName + universalItem.whomName + universalItem.taxReasonName
                         }
                     }
                 }
-            }
-        case 4: // Vehicle
-            baseHeight = 140 //92
-            if let vehicleItem = MIProcessor.sharedMIP.mIP[i] as? VehicleItem {
-                if vehicleItem.licensePlateNumber != "" {
-                    phoneHeight = 25
-                }
-                if vehicleItem.vehicleIdentificationNumber != "" {
-                    emailHeight = 25
-                }
-                if vehicleItem.placedInCommissionDate != "" {
-                    geoHeight = 25
+                if longString.count < 15 {
+                    sentenceOneHeight = 80
+                } else if longString.count < 40 {
+                    sentenceOneHeight = 110
+                } else if longString.count < 65 {
+                    sentenceOneHeight = 140
+                } else if longString.count < 80 {
+                    sentenceOneHeight = 170
+                } else {
+                    sentenceOneHeight = 200
                 }
             }
-        default: // Universal - Ie case 0 the most frequent
-            if let universalItem = MIProcessor.sharedMIP.mIP[i] as? UniversalItem {
-                switch universalItem.universalItemType {
-                case 3: //Fuel
-                    baseHeight = 160
-                    sentenceOneHeight = 120
-                    imageHeight = CGFloat(universalItem.picHeightInt)
-                case 4: //Transfer
-                    baseHeight = 218
+            let totalHeight = baseHeight + sentenceOneHeight + sentenceTwoHeight + phoneHeight + emailHeight + geoHeight + ssnHeight + einHeight + imageHeight
+            var theWidth: CGFloat = 0
+            if view.frame.width < 370 { //Protection for tiny iPhones
+                theWidth = view.frame.width - 20
+            } else { //Good for most iphones and safe for iPads
+                theWidth = 350
+            }
+            return CGSize(width: theWidth, height: totalHeight)
+        default: // I.e. case 0 MIP!
+            switch MIProcessor.sharedMIP.mIP[i].multiversalType {
+            case 1: // Project
+                baseHeight = 110
+                if let projectItem = MIProcessor.sharedMIP.mIP[i] as? ProjectItem {
+                    if projectItem.projectNotes != "" {
+                        if projectItem.projectNotes.count < 30 {
+                            phoneHeight = 25
+                        } else if projectItem.projectNotes.count < 60 {
+                            phoneHeight = 45
+                        } else {
+                            phoneHeight = 80
+                        }
+                    }
+                    if projectItem.projectTags != "" {
+                        if projectItem.projectTags.count < 30 {
+                            emailHeight = 30
+                        } else if projectItem.projectTags.count < 60 {
+                            emailHeight = 60
+                        } else {
+                            emailHeight = 90
+                        }
+                    }
+                    if projectItem.projectAddressStreet != "" {
+                        sentenceOneHeight = 140
+                    } else {
+                        sentenceOneHeight = 100
+                    }
+                }
+                sentenceTwoHeight = 180
+            case 2: // Entity
+                baseHeight = 140 //92
+                if let entityItem = MIProcessor.sharedMIP.mIP[i] as? EntityItem {
+                    if entityItem.phoneNumber != "" {
+                        phoneHeight = 30
+                    }
+                    if entityItem.email != "" {
+                        emailHeight = 38
+                    }
+                    if entityItem.street != "" {
+                        if entityItem.city != "" {
+                            if entityItem.state != "" {
+                                geoHeight = 50
+                            }
+                        }
+                    }
+                    if entityItem.ssn != "" {
+                        ssnHeight = 29
+                    }
+                    if entityItem.ein != "" {
+                        einHeight = 29
+                    }
+                }
+            case 3: // Account
+                baseHeight = 140 //92
+                if let accountItem = MIProcessor.sharedMIP.mIP[i] as? AccountItem {
+                    if accountItem.phoneNumber != "" {
+                        phoneHeight = 30
+                    }
+                    if accountItem.email != "" {
+                        emailHeight = 38
+                    }
+                    if accountItem.street != "" {
+                        if accountItem.city != "" {
+                            if accountItem.state != "" {
+                                geoHeight = 50
+                            }
+                        }
+                    }
+                }
+            case 4: // Vehicle
+                baseHeight = 140 //92
+                if let vehicleItem = MIProcessor.sharedMIP.mIP[i] as? VehicleItem {
+                    if vehicleItem.licensePlateNumber != "" {
+                        phoneHeight = 25
+                    }
+                    if vehicleItem.vehicleIdentificationNumber != "" {
+                        emailHeight = 25
+                    }
+                    if vehicleItem.placedInCommissionDate != "" {
+                        geoHeight = 25
+                    }
+                }
+            default: // Universal - Ie case 0 the most frequent
+                var longString = ""
+                if let universalItem = MIProcessor.sharedMIP.mIP[i] as? UniversalItem {
                     if universalItem.notes != "" {
-                        phoneHeight = 21
+                        if universalItem.notes.count < 30 {
+                            phoneHeight = 25
+                        } else if universalItem.notes.count < 60 {
+                            phoneHeight = 45
+                        } else {
+                            phoneHeight = 80
+                        }
                     }
                     imageHeight = CGFloat(universalItem.picHeightInt)
-                case 6: //Project Media
-                    baseHeight = 113
-                    if universalItem.notes != "" {
-                        phoneHeight = 29
+                    switch universalItem.universalItemType {
+                    case 1: // Personal
+                        baseHeight = 100
+                        longString = universalItem.whoName + universalItem.whomName + universalItem.taxReasonName
+                    case 2: // Mixed
+                        baseHeight = 100
+                        switch universalItem.taxReasonId {
+                        case 2: // Labor ie wc
+                            longString = universalItem.whoName + universalItem.whomName + universalItem.personalReasonName + universalItem.taxReasonName + universalItem.workersCompName
+                        case 5: // Vehicle
+                            longString = universalItem.whoName + universalItem.whomName + universalItem.personalReasonName + universalItem.taxReasonName + universalItem.vehicleName
+                        case 6: // AdMeans
+                            longString = universalItem.whoName + universalItem.whomName + universalItem.personalReasonName + universalItem.taxReasonName + universalItem.advertisingMeansName
+                        default: // Nothing important
+                            longString = universalItem.whoName + universalItem.whomName + universalItem.personalReasonName + universalItem.taxReasonName
+                        }
+                    case 3: // Fuel
+                        baseHeight = 50
+                        longString = "At 234566 miles you paid $00.00 to " + universalItem.whomName + " for 00.000 gallons of 87 gas in your " + universalItem.vehicleName
+                    case 4: // Transfer
+                        baseHeight = 150
+                    case 6: // Project Media
+                        baseHeight = 80
+                    default:
+                        baseHeight = 120
+                        switch universalItem.taxReasonId {
+                        case 2: // Labor ie wc
+                            longString = universalItem.whoName + universalItem.whomName + universalItem.taxReasonName + universalItem.workersCompName
+                        case 5: // Vehicle
+                            longString = universalItem.whoName + universalItem.whomName + universalItem.taxReasonName + universalItem.vehicleName
+                        case 6: // AdMeans
+                            longString = universalItem.whoName + universalItem.whomName + universalItem.taxReasonName + universalItem.advertisingMeansName
+                        default: // Nothing important
+                            longString = universalItem.whoName + universalItem.whomName + universalItem.taxReasonName
+                        }
                     }
-                    imageHeight = CGFloat(universalItem.picHeightInt)
-                default:
-                    baseHeight = 160
-                    sentenceOneHeight = 60
-                    imageHeight = CGFloat(universalItem.picHeightInt)
+                }
+                if longString.count < 15 {
+                    sentenceOneHeight = 80
+                } else if longString.count < 40 {
+                    sentenceOneHeight = 110
+                } else if longString.count < 65 {
+                    sentenceOneHeight = 140
+                } else if longString.count < 80 {
+                    sentenceOneHeight = 170
+                } else {
+                    sentenceOneHeight = 200
                 }
             }
+            let totalHeight = baseHeight + sentenceOneHeight + sentenceTwoHeight + phoneHeight + emailHeight + geoHeight + ssnHeight + einHeight + imageHeight
+            var theWidth: CGFloat = 0
+            if view.frame.width < 370 { //Protection for tiny iPhones
+                theWidth = view.frame.width - 20
+            } else { //Good for most iphones and safe for iPads
+                theWidth = 350
+            }
+            return CGSize(width: theWidth, height: totalHeight)
         }
-        let totalHeight = baseHeight + sentenceOneHeight + sentenceTwoHeight + phoneHeight + emailHeight + geoHeight + ssnHeight + einHeight + imageHeight
-        var theWidth: CGFloat = 0
-        if view.frame.width < 370 { //Protection for tiny iPhones
-            theWidth = view.frame.width - 20
-        } else { //Good for most iphones and safe for iPads
-            theWidth = 350
-        }
-        return CGSize(width: theWidth, height: totalHeight)
-        /*
-        if let universalItem = MIProcessor.sharedMIP.mIP[i] as? UniversalItem {
-            /*
-             1. get the height of the dynamic sentence
-             2. get the height of image based on the card width and the aspect ratio of the image (which should be saved in the Firebase)
-             3. get the height of the rest of the components (static parts)
-             4. add all those componets up and you get the total height
-             
-             EXAMPLE:
-             let approximateWidthOfBioTextView = view.frame.width - 12 - 50 - 12 - 2
-             let size = CGSize(width: approximateWidthOfBioTextView, height: 1000)
-             let attributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 15)]
-             
-             let estimatedFrame = NSString(string: user.bioText).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-             
-             return CGSize(width: view.frame.width, height: estimatedFrame.height + 66)
-             */
-        }
-        */
     }
-    
-    
 }
 
 extension UIViewController {

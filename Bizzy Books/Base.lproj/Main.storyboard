@@ -23,7 +23,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="never" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="I5h-vO-tie">
-                                <rect key="frame" x="0.0" y="64" width="375" height="692"/>
+                                <rect key="frame" x="0.0" y="74" width="375" height="682"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="NOr-hV-Hd2">
                                     <size key="itemSize" width="50" height="50"/>
@@ -132,7 +132,7 @@
                             <constraint firstItem="I5h-vO-tie" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="bSZ-7U-act"/>
                             <constraint firstItem="UIa-zH-14Z" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="eOB-3Y-YyQ"/>
                             <constraint firstAttribute="trailing" secondItem="UIa-zH-14Z" secondAttribute="trailing" id="ffT-8Z-zEk"/>
-                            <constraint firstItem="I5h-vO-tie" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="iuG-2Q-d6M"/>
+                            <constraint firstItem="I5h-vO-tie" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="10" id="iuG-2Q-d6M"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="I5h-vO-tie" secondAttribute="bottom" id="lUu-xY-NV0"/>
                             <constraint firstAttribute="trailing" secondItem="I5h-vO-tie" secondAttribute="trailing" id="qv8-HP-pee"/>
                         </constraints>
@@ -213,6 +213,7 @@
                     <size key="freeformSize" width="375" height="800"/>
                     <connections>
                         <outlet property="cardViewCollectionView" destination="I5h-vO-tie" id="2ly-X6-kZa"/>
+                        <outlet property="cardViewCollectionViewTopConstraint" destination="iuG-2Q-d6M" id="CXf-x6-Kua"/>
                         <outlet property="editAccountCityTextField" destination="nQI-16-nBC" id="b0A-yI-vsj"/>
                         <outlet property="editAccountEmailTextField" destination="OY5-oF-lOh" id="bzc-GD-5ST"/>
                         <outlet property="editAccountNameTextField" destination="Gea-V3-Pe6" id="pXa-YJ-d0Z"/>

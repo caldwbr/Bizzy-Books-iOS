@@ -15,6 +15,8 @@ final class MIProcessor {
     private init() {}
     
     public var mIP: [MultiversalItem] = [MultiversalItem]()
+    public var sIP: [MultiversalItem] = [MultiversalItem]() // the search mip!
+    public var mipORsip: Int = Int()
     public var mIPUniversals: [UniversalItem] = [UniversalItem]()
     public var mIPProjects: [ProjectItem] = [ProjectItem]()
     public var mIPEntities: [EntityItem] = [EntityItem]()
@@ -34,6 +36,7 @@ final class MIProcessor {
     var masterSearchArray: [SearchItem] = [SearchItem]()
     
     func loadTheMip(completion: @escaping () -> ()) {
+        mipORsip = 0 // MIP!
         self.universalsRef = Database.database().reference().child("users").child(userUID).child("universals")
         self.projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
         self.entitiesRef = Database.database().reference().child("users").child(userUID).child("entities")
@@ -102,27 +105,79 @@ final class MIProcessor {
         for i in 0..<mIPProjects.count {
             let j = mIPProjects.count - i - 1
             mIP.append(mIPProjects[j])
-            let searchItem = SearchItem(i: mIP.count, name: mIPProjects[j].name)
+            let searchItem = SearchItem(i: mIP.count - 1, name: mIPProjects[j].name)
             masterSearchArray.append(searchItem)
         }
         for i in 0..<mIPEntities.count {
             let j = mIPEntities.count - i - 1
             mIP.append(mIPEntities[j])
-            let searchItem = SearchItem(i: mIP.count, name: mIPEntities[j].name)
+            let searchItem = SearchItem(i: mIP.count - 1, name: mIPEntities[j].name)
             masterSearchArray.append(searchItem)
         }
         for i in 0..<mIPAccounts.count {
             let j = mIPAccounts.count - i - 1
             mIP.append(mIPAccounts[j])
-            let searchItem = SearchItem(i: mIP.count, name: mIPAccounts[j].name)
+            let searchItem = SearchItem(i: mIP.count - 1, name: mIPAccounts[j].name)
             masterSearchArray.append(searchItem)
         }
         for i in 0..<mIPVehicles.count {
             let j = mIPVehicles.count - i - 1
             mIP.append(mIPVehicles[j])
             let vehName = mIPVehicles[j].year + " " + mIPVehicles[j].make + " " + mIPVehicles[j].model
-            let searchItem = SearchItem(i: mIP.count, name: vehName)
+            let searchItem = SearchItem(i: mIP.count - 1, name: vehName)
             masterSearchArray.append(searchItem)
+        }
+    }
+    
+    func updateTheSIP(i: Int) { // I.e. SEARCH mip hahahaha ;)
+        mipORsip = 1 // SIP!
+        sIP.removeAll()
+        if i > 0 { //This would be Project, Entity, Account or Vehicle
+            switch mIP[i].multiversalType {
+            case 1: // Project
+                if let thisProj = mIP[i] as? ProjectItem {
+                    sIP.append(thisProj)
+                    for thisUniv in mIPUniversals {
+                        if thisUniv.projectItemKey == thisProj.key {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case 2: // Entity
+                if let thisEnti = mIP[i] as? EntityItem {
+                    sIP.append(thisEnti)
+                    for thisProj in mIPProjects {
+                        if thisProj.customerKey == thisEnti.key {
+                            sIP.append(thisProj)
+                        }
+                    }
+                    for thisUniv in mIPUniversals {
+                        if (thisUniv.whoKey == thisEnti.key) || (thisUniv.whomKey == thisEnti.key) {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case 3: // Account
+                if let thisAcco = mIP[i] as? AccountItem {
+                    sIP.append(thisAcco)
+                    for thisUniv in mIPUniversals {
+                        if (thisUniv.accountOneKey == thisAcco.key) || (thisUniv.accountTwoKey == thisAcco.key) {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            default: // I.e. case 4 Vehicle
+                if let thisVehi = mIP[i] as? VehicleItem {
+                    sIP.append(thisVehi)
+                    for thisUniv in mIPUniversals {
+                        if thisUniv.vehicleKey == thisVehi.key {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            }
+        } else if i < 0 { //This would be goodies
+            
         }
     }
     

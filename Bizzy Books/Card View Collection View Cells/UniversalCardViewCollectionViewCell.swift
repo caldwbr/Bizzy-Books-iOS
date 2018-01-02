@@ -63,149 +63,153 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
         imageView.image = nil
         universalCardViewAccountImageView.image = nil
         universalCardViewImageView.image = nil //HERE IT IS we were nilling the wrong imageview! (the tiny one) now we are nilling the big image view that was getting recycled and screwing everything up!!
-        if let universalItem = MIProcessor.sharedMIP.mIP[i] as? UniversalItem {
-            switch universalItem.universalItemType {
-            case 1:
-                universalCardViewStatusLabel.isHidden = true
-                imageView.image = UIImage(named: "personal")
-                universalCardViewItemTypeLabel.text = "Personal"
-                universalCardViewProjectNameLabel.text = ""
-                universalCardViewStatusLabel.text = ""
-                if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
-                    let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
-                    universalCardViewDateLabel.text = timeStampAsString
-                }
-                universalCardViewNotesLabel.text = universalItem.notes
-                dataSource.items = [
-                    LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),
-                    LabelFlowItem(text: "paid", color: .gray, action: nil),
-                    LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.what), color: UIColor.BizzyColor.Green.What, action: nil),
-                    LabelFlowItem(text: "to", color: .gray, action: nil),
-                    LabelFlowItem(text: universalItem.whomName, color: UIColor.BizzyColor.Purple.Whom, action: nil),
-                    LabelFlowItem(text: "for", color: .gray, action: nil),
-                    LabelFlowItem(text: universalItem.personalReasonName, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil)
-                ]
-                universalCardViewCollectionView.reloadData()
-                universalCardViewCollectionView.layoutIfNeeded()
-                universalCardViewAccountLabel.text = universalItem.accountOneName
-                universalCardViewBalAfterLabel.text = universalItem.balOneAfterString
-                updateAccountImage(universalItem: universalItem)
-            case 2:
-                universalCardViewStatusLabel.isHidden = false
-                imageView.image = UIImage(named: "mixed")
-                universalCardViewItemTypeLabel.text = "Mixed"
-                universalCardViewProjectNameLabel.text = universalItem.projectItemName
-                if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
-                    let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
-                    universalCardViewDateLabel.text = timeStampAsString
-                }
-                universalCardViewNotesLabel.text = universalItem.notes
-                universalCardViewStatusLabel.text = MIProcessor.sharedMIP.mIPUniversals[i].projectStatusString
-                let percBusiness = Int(Double(universalItem.what) * Double(universalItem.percentBusiness)/100)
-                let percPersonal = Int(Double(universalItem.what) * Double(100 - universalItem.percentBusiness)/100)
-                let stringifyAnInt = StringifyAnInt()
-                let percBusinessString = stringifyAnInt.stringify(theInt: percBusiness)
-                let percPersonalString = stringifyAnInt.stringify(theInt: percPersonal)
-                dataSource.items = [
-                    LabelFlowItem(text: "At", color: .gray, action: nil),
-                    LabelFlowItem(text: (stringifyAnInt.stringify(theInt: universalItem.percentBusiness, theNumberStyle: .none , theGroupingSeparator: false) + "%"), color: UIColor.BizzyColor.Yellow.ProjectStatus, action: nil),
-                    LabelFlowItem(text: "business,", color: .gray, action: nil),
-                    LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),
-                    LabelFlowItem(text: "paid", color: .gray, action: nil),
-                    LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.what), color: UIColor.BizzyColor.Green.What, action: nil),
-                    LabelFlowItem(text: "to", color: .gray, action: nil),
-                    LabelFlowItem(text: universalItem.whomName, color: UIColor.BizzyColor.Purple.Whom, action: nil),
-                    LabelFlowItem(text: "for", color: .gray, action: nil),
-                    LabelFlowItem(text: (universalItem.personalReasonName + " (" + percPersonalString + ")"), color: UIColor.BizzyColor.Magenta.TaxReason, action: nil),
-                    LabelFlowItem(text: "and", color: .gray, action: nil),
-                    LabelFlowItem(text: (universalItem.taxReasonName + " (" + percBusinessString + ")"), color: UIColor.BizzyColor.Magenta.TaxReason, action: nil)
-                ]
-                switch universalItem.taxReasonId {
-                case 2:
-                    dataSource.items.append(LabelFlowItem(text: universalItem.workersCompName, color: UIColor.BizzyColor.Orange.WC, action: nil ))
-                case 5:
-                    dataSource.items.append(LabelFlowItem(text: universalItem.vehicleName, color: UIColor.BizzyColor.Orange.Vehicle, action: nil ))
-                case 6:
-                    dataSource.items.append(LabelFlowItem(text: universalItem.advertisingMeansName, color: UIColor.BizzyColor.Orange.AdMeans, action: nil ))
-                default:
-                    break
-                }
-                universalCardViewCollectionView.reloadData()
-                universalCardViewCollectionView.layoutIfNeeded()
-                universalCardViewAccountLabel.text = universalItem.accountOneName
-                universalCardViewBalAfterLabel.text = universalItem.balOneAfterString
-                updateAccountImage(universalItem: universalItem)
-            case 3:
-                universalCardViewStatusLabel.isHidden = true
-                imageView.image = UIImage(named: "fuel")
-                universalCardViewItemTypeLabel.text = "Fuel"
-                if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
-                    let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
-                    universalCardViewDateLabel.text = timeStampAsString
-                }
-                universalCardViewProjectNameLabel.text = ""
-                universalCardViewNotesLabel.text = universalItem.notes
-                var ppG = Int((Double(universalItem.what)/Double(universalItem.howMany)) * 1000)
-                dataSource.items = [
-                    LabelFlowItem(text: "At", color: .gray, action: nil),
-                    LabelFlowItem(text: String(universalItem.odometerReading), color: UIColor.BizzyColor.Blue.Who, action: nil),
-                    LabelFlowItem(text: "miles, you paid", color: .gray, action: nil),
-                    LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.what), color: UIColor.BizzyColor.Blue.Project, action: nil),
-                    LabelFlowItem(text: "to", color: .gray, action: nil),
-                    LabelFlowItem(text: universalItem.whomName, color: UIColor.BizzyColor.Purple.Whom, action: nil),
-                    LabelFlowItem(text: "for", color: .gray, action: nil),
-                    LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.howMany, theNumberStyle: .decimal, theGroupingSeparator: true), color: UIColor.BizzyColor.Green.What, action: nil),
-                    LabelFlowItem(text: "gallons of", color: .gray, action: nil),
-                    LabelFlowItem(text: universalItem.fuelTypeName, color: UIColor.BizzyColor.Orange.WC, action: nil),
-                    LabelFlowItem(text: "in your", color: .gray, action: nil),
-                    LabelFlowItem(text: universalItem.vehicleName, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil),
-                    LabelFlowItem(text: ("(" + stringifyAnInt.stringify(theInt: ppG) + "/gal)"), color: UIColor.BizzyColor.Green.Account, action: nil)
-                ]
-                universalCardViewCollectionView.reloadData()
-                universalCardViewCollectionView.layoutIfNeeded()
-                universalCardViewAccountLabel.text = universalItem.accountOneName
-                universalCardViewBalAfterLabel.text = universalItem.balOneAfterString
-                updateAccountImage(universalItem: universalItem)
-            default: // I.e., case 0, the most frequent!
-                universalCardViewStatusLabel.isHidden = false
-                imageView.image = UIImage(named: "business")
-                universalCardViewItemTypeLabel.text = "Business"
-                if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
-                    let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
-                    universalCardViewDateLabel.text = timeStampAsString
-                }
-                universalCardViewProjectNameLabel.text = universalItem.projectItemName
-                universalCardViewNotesLabel.text = universalItem.notes
-                universalCardViewStatusLabel.text = MIProcessor.sharedMIP.mIPUniversals[i].projectStatusString
-                dataSource.items = [
-                    LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),
-                    LabelFlowItem(text: "paid", color: .gray, action: nil),
-                    LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.what), color: UIColor.BizzyColor.Green.What, action: nil),
-                    LabelFlowItem(text: "to", color: .gray, action: nil),
-                    LabelFlowItem(text: universalItem.whomName, color: UIColor.BizzyColor.Purple.Whom, action: nil),
-                    LabelFlowItem(text: "for", color: .gray, action: nil),
-                    LabelFlowItem(text: universalItem.taxReasonName, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil)
-                ]
-                switch universalItem.taxReasonId {
-                case 2:
-                    dataSource.items.append(LabelFlowItem(text: universalItem.workersCompName, color: UIColor.BizzyColor.Orange.WC, action: nil ))
-                case 5:
-                    dataSource.items.append(LabelFlowItem(text: universalItem.vehicleName, color: UIColor.BizzyColor.Orange.Vehicle, action: nil ))
-                case 6:
-                    dataSource.items.append(LabelFlowItem(text: universalItem.advertisingMeansName, color: UIColor.BizzyColor.Orange.AdMeans, action: nil ))
-                default:
-                    break
-                }
-                if universalItem.picUrl != "" {
-                    let downloadURL = URL(string: universalItem.picUrl)!
-                    downloadImage(url: downloadURL)
-                }
-                universalCardViewCollectionView.reloadData()
-                universalCardViewCollectionView.layoutIfNeeded()
-                universalCardViewAccountLabel.text = universalItem.accountOneName
-                universalCardViewBalAfterLabel.text = universalItem.balOneAfterString
-                updateAccountImage(universalItem: universalItem)
+        let universalItem: UniversalItem
+        if MIProcessor.sharedMIP.mipORsip == 0 {
+            universalItem = MIProcessor.sharedMIP.mIP[i] as! UniversalItem
+        } else {
+            universalItem = MIProcessor.sharedMIP.sIP[i] as! UniversalItem
+        }
+        switch universalItem.universalItemType {
+        case 1:
+            universalCardViewStatusLabel.isHidden = true
+            imageView.image = UIImage(named: "personal")
+            universalCardViewItemTypeLabel.text = "Personal"
+            universalCardViewProjectNameLabel.text = ""
+            universalCardViewStatusLabel.text = ""
+            if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
+                let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
+                universalCardViewDateLabel.text = timeStampAsString
             }
+            universalCardViewNotesLabel.text = universalItem.notes
+            dataSource.items = [
+                LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),
+                LabelFlowItem(text: "paid", color: .gray, action: nil),
+                LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.what), color: UIColor.BizzyColor.Green.What, action: nil),
+                LabelFlowItem(text: "to", color: .gray, action: nil),
+                LabelFlowItem(text: universalItem.whomName, color: UIColor.BizzyColor.Purple.Whom, action: nil),
+                LabelFlowItem(text: "for", color: .gray, action: nil),
+                LabelFlowItem(text: universalItem.personalReasonName, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil)
+            ]
+            universalCardViewCollectionView.reloadData()
+            universalCardViewCollectionView.layoutIfNeeded()
+            universalCardViewAccountLabel.text = universalItem.accountOneName
+            universalCardViewBalAfterLabel.text = universalItem.balOneAfterString
+            updateAccountImage(universalItem: universalItem)
+        case 2:
+            universalCardViewStatusLabel.isHidden = false
+            imageView.image = UIImage(named: "mixed")
+            universalCardViewItemTypeLabel.text = "Mixed"
+            universalCardViewProjectNameLabel.text = universalItem.projectItemName
+            if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
+                let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
+                universalCardViewDateLabel.text = timeStampAsString
+            }
+            universalCardViewNotesLabel.text = universalItem.notes
+            universalCardViewStatusLabel.text = MIProcessor.sharedMIP.mIPUniversals[i].projectStatusString
+            let percBusiness = Int(Double(universalItem.what) * Double(universalItem.percentBusiness)/100)
+            let percPersonal = Int(Double(universalItem.what) * Double(100 - universalItem.percentBusiness)/100)
+            let stringifyAnInt = StringifyAnInt()
+            let percBusinessString = stringifyAnInt.stringify(theInt: percBusiness)
+            let percPersonalString = stringifyAnInt.stringify(theInt: percPersonal)
+            dataSource.items = [
+                LabelFlowItem(text: "At", color: .gray, action: nil),
+                LabelFlowItem(text: (stringifyAnInt.stringify(theInt: universalItem.percentBusiness, theNumberStyle: .none , theGroupingSeparator: false) + "%"), color: UIColor.BizzyColor.Yellow.ProjectStatus, action: nil),
+                LabelFlowItem(text: "business,", color: .gray, action: nil),
+                LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),
+                LabelFlowItem(text: "paid", color: .gray, action: nil),
+                LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.what), color: UIColor.BizzyColor.Green.What, action: nil),
+                LabelFlowItem(text: "to", color: .gray, action: nil),
+                LabelFlowItem(text: universalItem.whomName, color: UIColor.BizzyColor.Purple.Whom, action: nil),
+                LabelFlowItem(text: "for", color: .gray, action: nil),
+                LabelFlowItem(text: (universalItem.personalReasonName + " (" + percPersonalString + ")"), color: UIColor.BizzyColor.Magenta.TaxReason, action: nil),
+                LabelFlowItem(text: "and", color: .gray, action: nil),
+                LabelFlowItem(text: (universalItem.taxReasonName + " (" + percBusinessString + ")"), color: UIColor.BizzyColor.Magenta.TaxReason, action: nil)
+            ]
+            switch universalItem.taxReasonId {
+            case 2:
+                dataSource.items.append(LabelFlowItem(text: universalItem.workersCompName, color: UIColor.BizzyColor.Orange.WC, action: nil ))
+            case 5:
+                dataSource.items.append(LabelFlowItem(text: universalItem.vehicleName, color: UIColor.BizzyColor.Orange.Vehicle, action: nil ))
+            case 6:
+                dataSource.items.append(LabelFlowItem(text: universalItem.advertisingMeansName, color: UIColor.BizzyColor.Orange.AdMeans, action: nil ))
+            default:
+                break
+            }
+            universalCardViewCollectionView.reloadData()
+            universalCardViewCollectionView.layoutIfNeeded()
+            universalCardViewAccountLabel.text = universalItem.accountOneName
+            universalCardViewBalAfterLabel.text = universalItem.balOneAfterString
+            updateAccountImage(universalItem: universalItem)
+        case 3:
+            universalCardViewStatusLabel.isHidden = true
+            imageView.image = UIImage(named: "fuel")
+            universalCardViewItemTypeLabel.text = "Fuel"
+            if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
+                let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
+                universalCardViewDateLabel.text = timeStampAsString
+            }
+            universalCardViewProjectNameLabel.text = ""
+            universalCardViewNotesLabel.text = universalItem.notes
+            var ppG = Int((Double(universalItem.what)/Double(universalItem.howMany)) * 1000)
+            dataSource.items = [
+                LabelFlowItem(text: "At", color: .gray, action: nil),
+                LabelFlowItem(text: String(universalItem.odometerReading), color: UIColor.BizzyColor.Blue.Who, action: nil),
+                LabelFlowItem(text: "miles, you paid", color: .gray, action: nil),
+                LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.what), color: UIColor.BizzyColor.Blue.Project, action: nil),
+                LabelFlowItem(text: "to", color: .gray, action: nil),
+                LabelFlowItem(text: universalItem.whomName, color: UIColor.BizzyColor.Purple.Whom, action: nil),
+                LabelFlowItem(text: "for", color: .gray, action: nil),
+                LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.howMany, theNumberStyle: .decimal, theGroupingSeparator: true), color: UIColor.BizzyColor.Green.What, action: nil),
+                LabelFlowItem(text: "gallons of", color: .gray, action: nil),
+                LabelFlowItem(text: universalItem.fuelTypeName, color: UIColor.BizzyColor.Orange.WC, action: nil),
+                LabelFlowItem(text: "in your", color: .gray, action: nil),
+                LabelFlowItem(text: universalItem.vehicleName, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil),
+                LabelFlowItem(text: ("(" + stringifyAnInt.stringify(theInt: ppG) + "/gal)"), color: UIColor.BizzyColor.Green.Account, action: nil)
+            ]
+            universalCardViewCollectionView.reloadData()
+            universalCardViewCollectionView.layoutIfNeeded()
+            universalCardViewAccountLabel.text = universalItem.accountOneName
+            universalCardViewBalAfterLabel.text = universalItem.balOneAfterString
+            updateAccountImage(universalItem: universalItem)
+        default: // I.e., case 0, the most frequent!
+            universalCardViewStatusLabel.isHidden = false
+            imageView.image = UIImage(named: "business")
+            universalCardViewItemTypeLabel.text = "Business"
+            if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
+                let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
+                universalCardViewDateLabel.text = timeStampAsString
+            }
+            universalCardViewProjectNameLabel.text = universalItem.projectItemName
+            universalCardViewNotesLabel.text = universalItem.notes
+            universalCardViewStatusLabel.text = universalItem.projectStatusString
+            dataSource.items = [
+                LabelFlowItem(text: universalItem.whoName, color: UIColor.BizzyColor.Blue.Who, action: nil),
+                LabelFlowItem(text: "paid", color: .gray, action: nil),
+                LabelFlowItem(text: stringifyAnInt.stringify(theInt: universalItem.what), color: UIColor.BizzyColor.Green.What, action: nil),
+                LabelFlowItem(text: "to", color: .gray, action: nil),
+                LabelFlowItem(text: universalItem.whomName, color: UIColor.BizzyColor.Purple.Whom, action: nil),
+                LabelFlowItem(text: "for", color: .gray, action: nil),
+                LabelFlowItem(text: universalItem.taxReasonName, color: UIColor.BizzyColor.Magenta.TaxReason, action: nil)
+            ]
+            switch universalItem.taxReasonId {
+            case 2:
+                dataSource.items.append(LabelFlowItem(text: universalItem.workersCompName, color: UIColor.BizzyColor.Orange.WC, action: nil ))
+            case 5:
+                dataSource.items.append(LabelFlowItem(text: universalItem.vehicleName, color: UIColor.BizzyColor.Orange.Vehicle, action: nil ))
+            case 6:
+                dataSource.items.append(LabelFlowItem(text: universalItem.advertisingMeansName, color: UIColor.BizzyColor.Orange.AdMeans, action: nil ))
+            default:
+                break
+            }
+            if universalItem.picUrl != "" {
+                let downloadURL = URL(string: universalItem.picUrl)!
+                downloadImage(url: downloadURL)
+            }
+            universalCardViewCollectionView.reloadData()
+            universalCardViewCollectionView.layoutIfNeeded()
+            universalCardViewAccountLabel.text = universalItem.accountOneName
+            universalCardViewBalAfterLabel.text = universalItem.balOneAfterString
+            updateAccountImage(universalItem: universalItem)
         }
     }
     
@@ -254,6 +258,7 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
         universalCardViewNotesLabel.text = ""
         dataSource.items.removeAll()
         universalCardViewAccountImageView.image = nil
+        universalCardViewImageView.image = nil
         universalCardViewAccountLabel.text = ""
         universalCardViewBalAfterLabel.text = ""
     }

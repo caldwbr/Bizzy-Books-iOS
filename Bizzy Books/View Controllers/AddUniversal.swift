@@ -1687,10 +1687,12 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         })
         youRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let youKey = snapshot.value as? String {
-                self.whoPlaceholder = "You"
-                self.whoPlaceholderKeyString = youKey
                 self.trueYouKeyString = youKey
-                self.reloadSentence(selectedType: self.selectedType)
+                if TheAmtSingleton.shared.theMIPNumber == -1 {
+                    self.whoPlaceholder = "You"
+                    self.whoPlaceholderKeyString = youKey
+                    self.reloadSentence(selectedType: self.selectedType)
+                }
             }
         })
         //masterRef.setValue(["username": "Brad Caldwell"]) //This erases all siblings!!!!!! Including any childrenbyautoid!!!

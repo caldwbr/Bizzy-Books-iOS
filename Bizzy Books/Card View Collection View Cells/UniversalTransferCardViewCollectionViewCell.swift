@@ -12,7 +12,6 @@ import Firebase
 class UniversalTransferCardViewCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var universalTransferImageView: UIImageView!
     @IBOutlet weak var universalTransferDateLabel: UILabel!
     @IBOutlet weak var universalTransferNotesLabel: UILabel!
     @IBOutlet weak var universalTransferAmountLabel: UILabel!
@@ -38,28 +37,31 @@ class UniversalTransferCardViewCollectionViewCell: UICollectionViewCell {
     func register(_ nib: UINib?, forCellWithReuseIdentifier identifier: String) {}
     
     func configure(i: Int) {
-        universalTransferImageView.image = nil
         universalTransferFromBankImageView.image = nil
         universalTransferToBankImageView.image = nil
         universalTransferMainImageView.image = nil
-        if let universalItem = MIProcessor.sharedMIP.mIP[i] as? UniversalItem {
-            universalTransferNotesLabel.text = universalItem.notes
-            if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
-                let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
-                universalTransferDateLabel.text = timeStampAsString
-            }
-            let stringifyAnInt = StringifyAnInt()
-            let amtTransferred = stringifyAnInt.stringify(theInt: universalItem.what) + " moved"
-            universalTransferAmountLabel.text = amtTransferred
-            updateAccountImages(universalItem: universalItem)
-            universalTransferFromBankLabel.text = universalItem.accountOneName
-            universalTransferToBankLabel.text = universalItem.accountTwoName
-            universalTransferFromBankBalAfterLabel.text = universalItem.balOneAfterString
-            universalTransferToBankBalAfterLabel.text = universalItem.balTwoAfterString
-            if universalItem.picUrl != "" {
-                let downloadURL = URL(string: universalItem.picUrl)!
-                downloadImage(url: downloadURL)
-            }
+        let universalItem: UniversalItem
+        if MIProcessor.sharedMIP.mipORsip == 0 {
+            universalItem = MIProcessor.sharedMIP.mIP[i] as! UniversalItem
+        } else {
+            universalItem = MIProcessor.sharedMIP.sIP[i] as! UniversalItem
+        }
+        universalTransferNotesLabel.text = universalItem.notes
+        if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
+            let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
+            universalTransferDateLabel.text = timeStampAsString
+        }
+        let stringifyAnInt = StringifyAnInt()
+        let amtTransferred = stringifyAnInt.stringify(theInt: universalItem.what) + " moved"
+        universalTransferAmountLabel.text = amtTransferred
+        updateAccountImages(universalItem: universalItem)
+        universalTransferFromBankLabel.text = universalItem.accountOneName
+        universalTransferToBankLabel.text = universalItem.accountTwoName
+        universalTransferFromBankBalAfterLabel.text = universalItem.balOneAfterString
+        universalTransferToBankBalAfterLabel.text = universalItem.balTwoAfterString
+        if universalItem.picUrl != "" {
+            let downloadURL = URL(string: universalItem.picUrl)!
+            downloadImage(url: downloadURL)
         }
     }
     

@@ -36,33 +36,37 @@ class VehicleCardViewCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(i: Int) {
-        if let vehicleItem = MIProcessor.sharedMIP.mIP[i] as? VehicleItem {
-            trifectaView.isHidden = false
-            licensePlateView.isHidden = false
-            vinView.isHidden = false
-            picView.isHidden = false
-            vehicleNameLabel.text = vehicleItem.color + " " + vehicleItem.year + " " + vehicleItem.make + " " + vehicleItem.model
-            if let timeStampAsDouble: Double = vehicleItem.timeStamp as? Double {
-                let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
-                vehicleDateLabel.text = timeStampAsString
-            }
-            vehicleFuelTypeLabel.text = vehicleItem.fuelString
-            if (vehicleItem.licensePlateNumber == "") && (vehicleItem.vehicleIdentificationNumber == "") && (vehicleItem.placedInCommissionDate == "") {
-                trifectaView.isHidden = true
-            }
-            if vehicleItem.licensePlateNumber == "" {
-                licensePlateView.isHidden = true
-            }
-            if vehicleItem.vehicleIdentificationNumber == "" {
-                vinView.isHidden = true
-            }
-            if vehicleItem.placedInCommissionDate == "" {
-                picView.isHidden = true
-            }
-            licensePlateLabel.text = vehicleItem.licensePlateNumber
-            vinLabel.text = vehicleItem.vehicleIdentificationNumber
-            picLabel.text = vehicleItem.placedInCommissionDate
+        let vehicleItem: VehicleItem
+        if MIProcessor.sharedMIP.mipORsip == 0 {
+            vehicleItem = MIProcessor.sharedMIP.mIP[i] as! VehicleItem
+        } else {
+            vehicleItem = MIProcessor.sharedMIP.sIP[i] as! VehicleItem
         }
+        trifectaView.isHidden = false
+        licensePlateView.isHidden = false
+        vinView.isHidden = false
+        picView.isHidden = false
+        vehicleNameLabel.text = vehicleItem.color + " " + vehicleItem.year + " " + vehicleItem.make + " " + vehicleItem.model
+        if let timeStampAsDouble: Double = vehicleItem.timeStamp as? Double {
+            let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
+            vehicleDateLabel.text = timeStampAsString
+        }
+        vehicleFuelTypeLabel.text = vehicleItem.fuelString
+        if (vehicleItem.licensePlateNumber == "") && (vehicleItem.vehicleIdentificationNumber == "") && (vehicleItem.placedInCommissionDate == "") {
+            trifectaView.isHidden = true
+        }
+        if vehicleItem.licensePlateNumber == "" {
+            licensePlateView.isHidden = true
+        }
+        if vehicleItem.vehicleIdentificationNumber == "" {
+            vinView.isHidden = true
+        }
+        if vehicleItem.placedInCommissionDate == "" {
+            picView.isHidden = true
+        }
+        licensePlateLabel.text = vehicleItem.licensePlateNumber
+        vinLabel.text = vehicleItem.vehicleIdentificationNumber
+        picLabel.text = vehicleItem.placedInCommissionDate
     }
     
     func convertTimestamp(serverTimestamp: Double) -> String {
