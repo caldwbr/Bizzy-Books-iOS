@@ -103,12 +103,24 @@ final class MIProcessor {
         for i in 0..<mIPUniversals.count {
             let j = mIPUniversals.count - i - 1
             mIP.append(mIPUniversals[j])
+            if mIPUniversals[j].notes != "" {
+                let searchItemNotes = SearchItem(i: -mIP.count - 99, name: "Notes: \(mIPUniversals[j].notes)")
+                masterSearchArray.append(searchItemNotes)
+            }
         }
         for i in 0..<mIPProjects.count {
             let j = mIPProjects.count - i - 1
             mIP.append(mIPProjects[j])
             let searchItem = SearchItem(i: mIP.count - 1, name: mIPProjects[j].name)
             masterSearchArray.append(searchItem)
+            if mIPProjects[j].projectNotes != "" {
+                let searchItemNotes = SearchItem(i: -mIP.count - 99, name: "Notes: \(mIPProjects[j].projectNotes)")
+                masterSearchArray.append(searchItemNotes)
+            }
+            if mIPProjects[j].projectTags != "" {
+                let searchItemTags = SearchItem(i: -mIP.count - 999999, name: "Tags: \(mIPProjects[j].projectTags)")
+                masterSearchArray.append(searchItemTags)
+            }
         }
         for i in 0..<mIPEntities.count {
             let j = mIPEntities.count - i - 1
@@ -188,6 +200,10 @@ final class MIProcessor {
             }
         } else { //This would be goodies
             switch i {
+            case 0: // Show all universals
+                for thisUniv in mIPUniversals {
+                    sIP.append(thisUniv)
+                }
             case -1: // Show all project cards
                 for thisProj in mIPProjects {
                     sIP.append(thisProj)
@@ -366,9 +382,26 @@ final class MIProcessor {
                         sIP.append(thisProj)
                     }
                 }
-            default: // I.e. case 0 Show all universals
-                for thisUniv in mIPUniversals {
-                    sIP.append(thisUniv)
+            default: // I.e. cases -100 or lower (NOTES) **AND** cases -1_000_000 or lower (TAGS)
+                if i > -1_000_000 { // I.e. univ notes or project notes
+                    print(1)
+                    let h = -(i + 100)
+                    switch mIP[h].multiversalType {
+                    case 1: // Project
+                        if let thisProj = mIP[h] as? ProjectItem {
+                            sIP.append(thisProj)
+                        }
+                    default: // Universal
+                        if let thisUniv = mIP[h] as? UniversalItem {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                } else { // I.e. project tags
+                    print(2)
+                    let h = -(i + 1_000_000)
+                    if let thisProj = mIP[h] as? ProjectItem {
+                        sIP.append(thisProj)
+                    }
                 }
             }
         }
