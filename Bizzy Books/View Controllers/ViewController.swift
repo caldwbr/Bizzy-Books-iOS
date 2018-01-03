@@ -905,6 +905,99 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     var statePlaceholder: String = ""
     var projectKeyPlaceholder: String = ""
     
+    func updateProject(thisProject: ProjectItem) {
+        localProjects.removeAll()
+        localProjects.append(thisProject)
+        projectKeyPlaceholder = thisProject.key
+        projectNamePlaceholder = thisProject.name
+        editProjectNameTextField.text = projectNamePlaceholder
+        customerNamePlaceholder = thisProject.customerName
+        editProjectCustomerNameTextField.text = customerNamePlaceholder
+        customerNamePlaceholderKeyString = thisProject.customerKey
+        projectStatusId = thisProject.projectStatusId
+        editProjectProjectStatusPickerView.selectRow(projectStatusId, inComponent: 0, animated: true)
+        howDidTheyHearOfYouId = thisProject.howDidTheyHearOfYouId
+        editProjectHowDidTheyHearOfYouPickerView.selectRow(howDidTheyHearOfYouId, inComponent: 0, animated: true)
+        tagsPlaceholder = thisProject.projectTags
+        editProjectTagsTextField.text = tagsPlaceholder
+        notesPlaceholder = thisProject.projectNotes
+        editProjectNotesTextField.text = notesPlaceholder
+        streetPlaceholder = thisProject.projectAddressStreet
+        cityPlaceholder = thisProject.projectAddressCity
+        statePlaceholder = thisProject.projectAddressState
+    }
+    
+    func updateEntity(thisEntity: EntityItem) {
+        localEntities.removeAll()
+        localEntities.append(thisEntity)
+        entityNamePlaceholder = thisEntity.name
+        editEntityNameTextField.text = entityNamePlaceholder
+        entityNamePlaceholderKeyString = thisEntity.key
+        phoneNumberPlaceholder = thisEntity.phoneNumber
+        editEntityPhoneNumberTextField.text = phoneNumberPlaceholder
+        emailPlaceholder = thisEntity.email
+        editEntityEmailTextField.text = emailPlaceholder
+        streetPlaceholder = thisEntity.street
+        editEntityStreetTextField.text = streetPlaceholder
+        cityPlaceholder = thisEntity.city
+        editEntityCityTextField.text = cityPlaceholder
+        statePlaceholder = thisEntity.state
+        editEntityStateTextField.text = statePlaceholder
+        ssnPlaceholder = thisEntity.ssn
+        editEntitySSNTextField.text = ssnPlaceholder
+        einPlaceholder = thisEntity.ein
+        editEntityEINTextField.text = einPlaceholder
+        entityRelationId = thisEntity.type
+        if thisEntity.key == MIProcessor.sharedMIP.trueYou {
+            editEntityRelationPickerView.isHidden = true
+        } else {
+            editEntityRelationPickerView.selectRow(entityRelationId, inComponent: 0, animated: true)
+        }
+    }
+    
+    func updateAccount(thisAccount: AccountItem) {
+        localAccounts.removeAll()
+        localAccounts.append(thisAccount)
+        accountKeyPlaceholder = thisAccount.key
+        accountNamePlaceholder = thisAccount.name
+        editAccountNameTextField.text = accountNamePlaceholder
+        accountStartingBalance = thisAccount.startingBal
+        TheAmtSingleton.shared.theStartingBal = accountStartingBalance
+        editAccountStartingBalanceTextField.setText()
+        accountTypeId = thisAccount.accountTypeId
+        editAccountTypePickerView.selectRow(accountTypeId, inComponent: 0, animated: true)
+        phoneNumberPlaceholder = thisAccount.phoneNumber
+        editAccountPhoneNumberTextField.text = phoneNumberPlaceholder
+        emailPlaceholder = thisAccount.email
+        editAccountEmailTextField.text = emailPlaceholder
+        streetPlaceholder = thisAccount.street
+        editAccountStreetTextField.text = streetPlaceholder
+        cityPlaceholder = thisAccount.city
+        editAccountCityTextField.text = cityPlaceholder
+        statePlaceholder = thisAccount.state
+        editAccountStateTextField.text = statePlaceholder
+    }
+    
+    func updateVehicle(thisVehicle: VehicleItem) {
+        vehicleKeyPlaceholder = thisVehicle.key
+        vehicleColorPlaceholder = thisVehicle.color
+        editVehicleColorTextField.text = vehicleColorPlaceholder
+        vehicleYearPlaceholder = thisVehicle.year
+        editVehicleYearTextField.text = vehicleYearPlaceholder
+        vehicleMakePlaceholder = thisVehicle.make
+        editVehicleMakeTextField.text = vehicleMakePlaceholder
+        vehicleModelPlaceholder = thisVehicle.model
+        editVehicleModelTextField.text = vehicleModelPlaceholder
+        fuelTypeId = thisVehicle.fuelId
+        editVehicleFuelTypePickerView.selectRow(fuelTypeId, inComponent: 0, animated: true)
+        vehicleLPNPlaceholder = thisVehicle.licensePlateNumber
+        editVehicleLPNTextField.text = vehicleLPNPlaceholder
+        vehicleVINPlaceholder = thisVehicle.vehicleIdentificationNumber
+        editVehicleVINTextField.text = vehicleVINPlaceholder
+        vehiclePICPlaceholder = thisVehicle.placedInCommissionDate
+        editVehiclePICTextField.text = vehiclePICPlaceholder
+    }
+    
     //LET THE EDITING OR DELETION OF ITEMS BEGIN!!!!!!!!!!!!!!!!!!
     @objc func handleLongPress(gesture : UILongPressGestureRecognizer!) {
         
@@ -916,107 +1009,72 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         let p = gesture.location(in: self.cardViewCollectionView)
         
         if let indexPath = self.cardViewCollectionView.indexPathForItem(at: p) {
-            TheAmtSingleton.shared.theMIPNumber = indexPath.item
-            switch MIProcessor.sharedMIP.mIP[indexPath.item].multiversalType {
-            case 1: // Projects
-                popUpAnimateIn(popUpView: editProjectView)
-                if let thisProject = MIProcessor.sharedMIP.mIP[indexPath.item] as? ProjectItem {
-                    localProjects.removeAll()
-                    localProjects.append(thisProject)
-                    projectKeyPlaceholder = thisProject.key
-                    projectNamePlaceholder = thisProject.name
-                    editProjectNameTextField.text = projectNamePlaceholder
-                    customerNamePlaceholder = thisProject.customerName
-                    editProjectCustomerNameTextField.text = customerNamePlaceholder
-                    customerNamePlaceholderKeyString = thisProject.customerKey
-                    projectStatusId = thisProject.projectStatusId
-                    editProjectProjectStatusPickerView.selectRow(projectStatusId, inComponent: 0, animated: true)
-                    howDidTheyHearOfYouId = thisProject.howDidTheyHearOfYouId
-                    editProjectHowDidTheyHearOfYouPickerView.selectRow(howDidTheyHearOfYouId, inComponent: 0, animated: true)
-                    tagsPlaceholder = thisProject.projectTags
-                    editProjectTagsTextField.text = tagsPlaceholder
-                    notesPlaceholder = thisProject.projectNotes
-                    editProjectNotesTextField.text = notesPlaceholder
-                    streetPlaceholder = thisProject.projectAddressStreet
-                    cityPlaceholder = thisProject.projectAddressCity
-                    statePlaceholder = thisProject.projectAddressState
-                }
-            case 2: // Entities
-                popUpAnimateIn(popUpView: editEntityView)
-                if let thisEntity = MIProcessor.sharedMIP.mIP[indexPath.item] as? EntityItem {
-                    localEntities.removeAll()
-                    localEntities.append(thisEntity)
-                    entityNamePlaceholder = thisEntity.name
-                    editEntityNameTextField.text = entityNamePlaceholder
-                    entityNamePlaceholderKeyString = thisEntity.key
-                    phoneNumberPlaceholder = thisEntity.phoneNumber
-                    editEntityPhoneNumberTextField.text = phoneNumberPlaceholder
-                    emailPlaceholder = thisEntity.email
-                    editEntityEmailTextField.text = emailPlaceholder
-                    streetPlaceholder = thisEntity.street
-                    editEntityStreetTextField.text = streetPlaceholder
-                    cityPlaceholder = thisEntity.city
-                    editEntityCityTextField.text = cityPlaceholder
-                    statePlaceholder = thisEntity.state
-                    editEntityStateTextField.text = statePlaceholder
-                    ssnPlaceholder = thisEntity.ssn
-                    editEntitySSNTextField.text = ssnPlaceholder
-                    einPlaceholder = thisEntity.ein
-                    editEntityEINTextField.text = einPlaceholder
-                    entityRelationId = thisEntity.type
-                    if thisEntity.key == MIProcessor.sharedMIP.trueYou {
-                        editEntityRelationPickerView.isHidden = true
-                    } else {
-                        editEntityRelationPickerView.selectRow(entityRelationId, inComponent: 0, animated: true)
+            switch MIProcessor.sharedMIP.mipORsip {
+            case 1: // The SIP!
+                switch MIProcessor.sharedMIP.sIP[indexPath.item].multiversalType {
+                case 1: // Projects
+                    popUpAnimateIn(popUpView: editProjectView)
+                    if let thisProject = MIProcessor.sharedMIP.sIP[indexPath.item] as? ProjectItem {
+                        updateProject(thisProject: thisProject)
                     }
+                case 2: // Entities
+                    popUpAnimateIn(popUpView: editEntityView)
+                    if let thisEntity = MIProcessor.sharedMIP.sIP[indexPath.item] as? EntityItem {
+                        updateEntity(thisEntity: thisEntity)
+                    }
+                case 3: // Accounts
+                    popUpAnimateIn(popUpView: editAccountView)
+                    if let thisAccount = MIProcessor.sharedMIP.sIP[indexPath.item] as? AccountItem {
+                        updateAccount(thisAccount: thisAccount)
+                    }
+                case 4: // Vehicles
+                    popUpAnimateIn(popUpView: editVehicleView)
+                    if let thisVehicle = MIProcessor.sharedMIP.sIP[indexPath.item] as? VehicleItem {
+                        updateVehicle(thisVehicle: thisVehicle)
+                    }
+                default: // Universals
+                    if let thisUniversal = MIProcessor.sharedMIP.sIP[indexPath.item] as? UniversalItem {
+                        for (index, mippy) in MIProcessor.sharedMIP.mIP.enumerated() {
+                            switch mippy.multiversalType {
+                            case 0: // Universals
+                                if let univ = mippy as? UniversalItem {
+                                    if univ.key == thisUniversal.key {
+                                        TheAmtSingleton.shared.theMIPNumber = index
+                                    }
+                                }
+                            default: // Proj, Ent, Acc, Veh are irrelevant here
+                                print("Do nothing")
+                            }
+                        }
+                    }
+                    performSegue(withIdentifier: "createUniversal", sender: self)
                 }
-            case 3: // Accounts
-                popUpAnimateIn(popUpView: editAccountView)
-                if let thisAccount = MIProcessor.sharedMIP.mIP[indexPath.item] as? AccountItem {
-                    localAccounts.removeAll()
-                    localAccounts.append(thisAccount)
-                    accountKeyPlaceholder = thisAccount.key
-                    accountNamePlaceholder = thisAccount.name
-                    editAccountNameTextField.text = accountNamePlaceholder
-                    accountStartingBalance = thisAccount.startingBal
-                    TheAmtSingleton.shared.theStartingBal = accountStartingBalance
-                    editAccountStartingBalanceTextField.setText()
-                    accountTypeId = thisAccount.accountTypeId
-                    editAccountTypePickerView.selectRow(accountTypeId, inComponent: 0, animated: true)
-                    phoneNumberPlaceholder = thisAccount.phoneNumber
-                    editAccountPhoneNumberTextField.text = phoneNumberPlaceholder
-                    emailPlaceholder = thisAccount.email
-                    editAccountEmailTextField.text = emailPlaceholder
-                    streetPlaceholder = thisAccount.street
-                    editAccountStreetTextField.text = streetPlaceholder
-                    cityPlaceholder = thisAccount.city
-                    editAccountCityTextField.text = cityPlaceholder
-                    statePlaceholder = thisAccount.state
-                    editAccountStateTextField.text = statePlaceholder
+            default: // The MIP!
+                TheAmtSingleton.shared.theMIPNumber = indexPath.item
+                switch MIProcessor.sharedMIP.mIP[indexPath.item].multiversalType {
+                case 1: // Projects
+                    popUpAnimateIn(popUpView: editProjectView)
+                    if let thisProject = MIProcessor.sharedMIP.mIP[indexPath.item] as? ProjectItem {
+                        updateProject(thisProject: thisProject)
+                    }
+                case 2: // Entities
+                    popUpAnimateIn(popUpView: editEntityView)
+                    if let thisEntity = MIProcessor.sharedMIP.mIP[indexPath.item] as? EntityItem {
+                        updateEntity(thisEntity: thisEntity)
+                    }
+                case 3: // Accounts
+                    popUpAnimateIn(popUpView: editAccountView)
+                    if let thisAccount = MIProcessor.sharedMIP.mIP[indexPath.item] as? AccountItem {
+                        updateAccount(thisAccount: thisAccount)
+                    }
+                case 4: // Vehicles
+                    popUpAnimateIn(popUpView: editVehicleView)
+                    if let thisVehicle = MIProcessor.sharedMIP.mIP[indexPath.item] as? VehicleItem {
+                        updateVehicle(thisVehicle: thisVehicle)
+                    }
+                default: // Universals
+                    performSegue(withIdentifier: "createUniversal", sender: self)
                 }
-            case 4: // Vehicles
-                popUpAnimateIn(popUpView: editVehicleView)
-                if let thisVehicle = MIProcessor.sharedMIP.mIP[indexPath.item] as? VehicleItem {
-                    vehicleKeyPlaceholder = thisVehicle.key
-                    vehicleColorPlaceholder = thisVehicle.color
-                    editVehicleColorTextField.text = vehicleColorPlaceholder
-                    vehicleYearPlaceholder = thisVehicle.year
-                    editVehicleYearTextField.text = vehicleYearPlaceholder
-                    vehicleMakePlaceholder = thisVehicle.make
-                    editVehicleMakeTextField.text = vehicleMakePlaceholder
-                    vehicleModelPlaceholder = thisVehicle.model
-                    editVehicleModelTextField.text = vehicleModelPlaceholder
-                    fuelTypeId = thisVehicle.fuelId
-                    editVehicleFuelTypePickerView.selectRow(fuelTypeId, inComponent: 0, animated: true)
-                    vehicleLPNPlaceholder = thisVehicle.licensePlateNumber
-                    editVehicleLPNTextField.text = vehicleLPNPlaceholder
-                    vehicleVINPlaceholder = thisVehicle.vehicleIdentificationNumber
-                    editVehicleVINTextField.text = vehicleVINPlaceholder
-                    vehiclePICPlaceholder = thisVehicle.placedInCommissionDate
-                    editVehiclePICTextField.text = vehiclePICPlaceholder
-                }
-            default: // Universals
-                performSegue(withIdentifier: "createUniversal", sender: self)
             }
         } else {
             print("couldn't find index path")

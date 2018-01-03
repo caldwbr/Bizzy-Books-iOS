@@ -99,6 +99,7 @@ final class MIProcessor {
         mIP.removeAll()
         masterSearchArray.removeAll()
         //HERE IS WHERE YOU WANT TO ADD IN THE GOODIES INTO THE MASTER SEARCH ARRAY ALL THE NEGATIVE INTS
+        appendTheGoodies()
         for i in 0..<mIPUniversals.count {
             let j = mIPUniversals.count - i - 1
             mIP.append(mIPUniversals[j])
@@ -126,6 +127,14 @@ final class MIProcessor {
             mIP.append(mIPVehicles[j])
             let vehName = mIPVehicles[j].year + " " + mIPVehicles[j].make + " " + mIPVehicles[j].model
             let searchItem = SearchItem(i: mIP.count - 1, name: vehName)
+            masterSearchArray.append(searchItem)
+        }
+    }
+    
+    func appendTheGoodies() {
+        let goodies: [String] = ["Items", "Projects", "Entities", "Accounts", "Vehicles", "Overhead"]
+        for i in 0..<goodies.count {
+            let searchItem = SearchItem(i: -i, name: goodies[i])
             masterSearchArray.append(searchItem)
         }
     }
@@ -177,8 +186,35 @@ final class MIProcessor {
                     }
                 }
             }
-        } else if i < 0 { //This would be goodies
-            
+        } else { //This would be goodies
+            switch i {
+            case -1: // Show all project cards
+                for thisProj in mIPProjects {
+                    sIP.append(thisProj)
+                }
+            case -2: // Show all entities
+                for thisEnti in mIPEntities {
+                    sIP.append(thisEnti)
+                }
+            case -3: // Show all accounts
+                for thisAcco in mIPAccounts {
+                    sIP.append(thisAcco)
+                }
+            case -4: // Show all vehicles
+                for thisVehi in mIPVehicles {
+                    sIP.append(thisVehi)
+                }
+            case -5: // Show all overhead items
+                for thisUniv in mIPUniversals {
+                    if thisUniv.projectItemKey == "0" {
+                        sIP.append(thisUniv)
+                    }
+                }
+            default: // I.e. case 0 Show all universals
+                for thisUniv in mIPUniversals {
+                    sIP.append(thisUniv)
+                }
+            }
         }
     }
     
