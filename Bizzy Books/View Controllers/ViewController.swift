@@ -101,6 +101,8 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     var localProjects: [ProjectItem] = [ProjectItem]()
     var localEntities: [EntityItem] = [EntityItem]()
     var searchArray: [SearchItem] = [SearchItem]()
+    var thingToBeSearchedInt = 1_000_002
+    var thingToBeSearchedName = ""
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         editProjectTableView.isHidden = true
@@ -214,7 +216,20 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                     if self.shouldEnterLoop {
                         self.shouldEnterLoop = false
                         print("THREE!")
-                        self.loadTheMIP()
+                        if MIProcessor.sharedMIP.mipORsip == 0 {
+                            self.loadTheMIP()
+                        } else {
+                            DispatchQueue.main.async {
+                                MIProcessor.sharedMIP.loadTheMip {
+                                    MIProcessor.sharedMIP.obtainTheBalancesAfter()
+                                    MIProcessor.sharedMIP.loadTheStatuses()
+                                    MIProcessor.sharedMIP.updateTheMIP()
+                                    MIProcessor.sharedMIP.updateTheSIP(i: self.thingToBeSearchedInt, name: self.thingToBeSearchedName)
+                                    self.cardViewCollectionView.reloadData()//Critical line - this makes or breaks the app :/
+                                }
+                            }
+                        }
+                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5), execute: {
                             self.shouldEnterLoop = true
                         })
@@ -1170,6 +1185,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         switch tableView {
         case searchTableView:
             let theThingToBeSearched = searchArray[indexPath.row]
+            thingToBeSearchedInt = theThingToBeSearched.i //These two lines are for when an item is updated while SIP is true so that when the call is made from firebase to this app that an item has been changed and updateTheMip is called, it can handle reloading the SIP afterwards so the view doesn't change while search bar is still visible.
+            thingToBeSearchedName = theThingToBeSearched.name
             if (theThingToBeSearched.i != 1_000_000) && (theThingToBeSearched.i != 1_000_001) {
                 searchTextField.text = theThingToBeSearched.name
             }

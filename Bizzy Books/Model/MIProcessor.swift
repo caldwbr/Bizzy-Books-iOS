@@ -146,7 +146,7 @@ final class MIProcessor {
     }
     
     func appendTheGoodies() {
-        let goodies: [String] = ["Items", "Projects", "Entities", "Accounts", "Vehicles", "Overhead", "Business", "Personal", "Mixed", "Fuel", "Transfer", "Project media", "Current job leads", "Current bids", "Jobs under contract", "Paid jobs", "Lost job opportunities", "Other project status", "Job via unknown means", "Job via referral", "Job via website", "Job via YP", "Job via social media", "Job via soliciting", "Job via AdWords", "Job via company shirts", "Job via sign", "Job via vehicle wrap", "Job via billboard", "Job via TV", "Job via radio", "Job via other method"]
+        let goodies: [String] = ["Items", "Projects", "Entities", "Accounts", "Vehicles", "Overhead", "Business", "Personal", "Mixed", "Fuel", "Transfer", "Project media", "Current job leads", "Current bids", "Jobs under contract", "Paid jobs", "Lost job opportunities", "Other project status", "Job via unknown means", "Job via referral", "Job via website", "Job via YP", "Job via social media", "Job via soliciting", "Job via AdWords", "Job via company shirts", "Job via sign", "Job via vehicle wrap", "Job via billboard", "Job via TV", "Job via radio", "Job via other method", "Customers", "Vendors", "Subs", "Employees", "Stores", "Government", "Other entities", "You"]
         for i in 0..<goodies.count {
             let searchItem = SearchItem(i: -i, name: goodies[i])
             masterSearchArray.append(searchItem)
@@ -411,6 +411,54 @@ final class MIProcessor {
                 for thisProj in mIPProjects {
                     if thisProj.howDidTheyHearOfYouId == 13 {
                         sIP.append(thisProj)
+                    }
+                }
+            case -32: // Customers
+                for thisEnti in mIPEntities {
+                    if thisEnti.type == 0 {
+                        sIP.append(thisEnti)
+                    }
+                }
+            case -33: // Vendors
+                for thisEnti in mIPEntities {
+                    if thisEnti.type == 1 {
+                        sIP.append(thisEnti)
+                    }
+                }
+            case -34: // Subs
+                for thisEnti in mIPEntities {
+                    if thisEnti.type == 2 {
+                        sIP.append(thisEnti)
+                    }
+                }
+            case -35: // Employees
+                for thisEnti in mIPEntities {
+                    if thisEnti.type == 3 {
+                        sIP.append(thisEnti)
+                    }
+                }
+            case -36: // Stores
+                for thisEnti in mIPEntities {
+                    if thisEnti.type == 4 {
+                        sIP.append(thisEnti)
+                    }
+                }
+            case -37: // Government
+                for thisEnti in mIPEntities {
+                    if thisEnti.type == 5 {
+                        sIP.append(thisEnti)
+                    }
+                }
+            case -38: // Other Entities
+                for thisEnti in mIPEntities {
+                    if thisEnti.type == 6 {
+                        sIP.append(thisEnti)
+                    }
+                }
+            case -39: // You
+                for thisEnti in mIPEntities {
+                    if thisEnti.type == 9 {
+                        sIP.append(thisEnti)
                     }
                 }
             default: // I.e. cases -100 or lower (NOTES) **AND** cases -1_000_000 or lower (TAGS)
