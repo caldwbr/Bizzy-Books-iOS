@@ -132,7 +132,7 @@ final class MIProcessor {
     }
     
     func appendTheGoodies() {
-        let goodies: [String] = ["Items", "Projects", "Entities", "Accounts", "Vehicles", "Overhead"]
+        let goodies: [String] = ["Items", "Projects", "Entities", "Accounts", "Vehicles", "Overhead", "Business", "Personal", "Mixed", "Fuel", "Transfer", "Project Media"]
         for i in 0..<goodies.count {
             let searchItem = SearchItem(i: -i, name: goodies[i])
             masterSearchArray.append(searchItem)
@@ -207,6 +207,42 @@ final class MIProcessor {
             case -5: // Show all overhead items
                 for thisUniv in mIPUniversals {
                     if thisUniv.projectItemKey == "0" {
+                        sIP.append(thisUniv)
+                    }
+                }
+            case -6: // Show all business items (including mixed)
+                for thisUniv in mIPUniversals {
+                    if thisUniv.universalItemType == 0 || thisUniv.universalItemType == 2 {
+                        sIP.append(thisUniv)
+                    }
+                }
+            case -7: // Show all personal items (including mixed)
+                for thisUniv in mIPUniversals {
+                    if thisUniv.universalItemType == 1 || thisUniv.universalItemType == 2 {
+                        sIP.append(thisUniv)
+                    }
+                }
+            case -8: // Show all mixed items only
+                for thisUniv in mIPUniversals {
+                    if thisUniv.universalItemType == 2 {
+                        sIP.append(thisUniv)
+                    }
+                }
+            case -9: // Show all fuel items
+                for thisUniv in mIPUniversals {
+                    if thisUniv.universalItemType == 3 {
+                        sIP.append(thisUniv)
+                    }
+                }
+            case -10: // Show all transfer items
+                for thisUniv in mIPUniversals {
+                    if thisUniv.universalItemType == 4 {
+                        sIP.append(thisUniv)
+                    }
+                }
+            case -11: // Project media items
+                for thisUniv in mIPUniversals {
+                    if thisUniv.universalItemType == 6 {
                         sIP.append(thisUniv)
                     }
                 }
