@@ -132,7 +132,7 @@ final class MIProcessor {
     }
     
     func appendTheGoodies() {
-        let goodies: [String] = ["Items", "Projects", "Entities", "Accounts", "Vehicles", "Overhead", "Business", "Personal", "Mixed", "Fuel", "Transfer", "Project Media"]
+        let goodies: [String] = ["Items", "Projects", "Entities", "Accounts", "Vehicles", "Overhead", "Business", "Personal", "Mixed", "Fuel", "Transfer", "Project media", "Current job leads", "Current bids", "Jobs under contract", "Paid jobs", "Lost job opportunities", "Other project status", "Job via unknown means", "Job via referral", "Job via website", "Job via YP", "Job via social media", "Job via soliciting", "Job via AdWords", "Job via company shirts", "Job via sign", "Job via vehicle wrap", "Job via billboard", "Job via TV", "Job via radio", "Job via other method"]
         for i in 0..<goodies.count {
             let searchItem = SearchItem(i: -i, name: goodies[i])
             masterSearchArray.append(searchItem)
@@ -244,6 +244,126 @@ final class MIProcessor {
                 for thisUniv in mIPUniversals {
                     if thisUniv.universalItemType == 6 {
                         sIP.append(thisUniv)
+                    }
+                }
+            case -12: // Current job leads
+                for thisProj in mIPProjects {
+                    if thisProj.projectStatusId == 0 {
+                        sIP.append(thisProj)
+                    }
+                }
+            case -13: // Current bids
+                for thisProj in mIPProjects {
+                    if thisProj.projectStatusId == 1 {
+                        sIP.append(thisProj)
+                    }
+                }
+            case -14: // Jobs under contract
+                for thisProj in mIPProjects {
+                    if thisProj.projectStatusId == 2 {
+                        sIP.append(thisProj)
+                    }
+                }
+            case -15: // Paid jobs
+                for thisProj in mIPProjects {
+                    if thisProj.projectStatusId == 3 {
+                        sIP.append(thisProj)
+                    }
+                }
+            case -16: // Lost job opportunities
+                for thisProj in mIPProjects {
+                    if thisProj.projectStatusId == 4 {
+                        sIP.append(thisProj)
+                    }
+                }
+            case -17: // Other project status
+                for thisProj in mIPProjects {
+                    if thisProj.projectStatusId == 5 {
+                        sIP.append(thisProj)
+                    }
+                }
+            case -18: // Job via unknown means
+                for thisProj in mIPProjects {
+                    if thisProj.howDidTheyHearOfYouId == 0 {
+                        sIP.append(thisProj)
+                    }
+                }
+            case -19: // Job via referral
+                for thisProj in mIPProjects {
+                    if thisProj.howDidTheyHearOfYouId == 1 {
+                        sIP.append(thisProj)
+                    }
+                }
+            case -20: // Job via website
+                for thisProj in mIPProjects {
+                    if thisProj.howDidTheyHearOfYouId == 2 {
+                        sIP.append(thisProj)
+                    }
+                }
+            case -21: // Job via YP
+                for thisProj in mIPProjects {
+                    if thisProj.howDidTheyHearOfYouId == 3 {
+                        sIP.append(thisProj)
+                    }
+                }
+            case -22: // Job via social media
+                for thisProj in mIPProjects {
+                    if thisProj.howDidTheyHearOfYouId == 4 {
+                        sIP.append(thisProj)
+                    }
+                }
+            case -23: // Job via soliciting
+                for thisProj in mIPProjects {
+                    if thisProj.howDidTheyHearOfYouId == 5 {
+                        sIP.append(thisProj)
+                    }
+                }
+            case -24: // Job via AdWords
+                for thisProj in mIPProjects {
+                    if thisProj.howDidTheyHearOfYouId == 6 {
+                        sIP.append(thisProj)
+                    }
+                }
+            case -25: // Job via company shirt
+                for thisProj in mIPProjects {
+                    if thisProj.howDidTheyHearOfYouId == 7 {
+                        sIP.append(thisProj)
+                    }
+                }
+            case -26: // Job via sign
+                for thisProj in mIPProjects {
+                    if thisProj.howDidTheyHearOfYouId == 8 {
+                        sIP.append(thisProj)
+                    }
+                }
+            case -27: // Job via vehicle wrap
+                for thisProj in mIPProjects {
+                    if thisProj.howDidTheyHearOfYouId == 9 {
+                        sIP.append(thisProj)
+                    }
+                }
+            case -28: // Job via billboard
+                for thisProj in mIPProjects {
+                    if thisProj.howDidTheyHearOfYouId == 10 {
+                        sIP.append(thisProj)
+                    }
+                }
+            case -29: // Job via TV
+                for thisProj in mIPProjects {
+                    if thisProj.howDidTheyHearOfYouId == 11 {
+                        sIP.append(thisProj)
+                    }
+                }
+            case -30: // Job via radio
+                for thisProj in mIPProjects {
+                    if thisProj.howDidTheyHearOfYouId == 12 {
+                        sIP.append(thisProj)
+                    }
+                }
+            case -31: // Job via other means
+                for thisProj in mIPProjects {
+                    if thisProj.howDidTheyHearOfYouId == 13 {
+                        sIP.append(thisProj)
                     }
                 }
             default: // I.e. case 0 Show all universals
