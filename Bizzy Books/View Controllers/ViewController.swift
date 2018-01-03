@@ -280,6 +280,8 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                         return false
                     }
                 })
+                searchArray.append(SearchItem(i: 1_000_000, name: "Notes containing: \(searchText)"))
+                searchArray.append(SearchItem(i: 1_000_001, name: "Tags containing: \(searchText)"))
                 if searchArray.count > 0 {
                     searchTableView.isHidden = false
                     searchTableView.reloadData()
@@ -1168,11 +1170,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         switch tableView {
         case searchTableView:
             let theThingToBeSearched = searchArray[indexPath.row]
-            searchTextField.text = theThingToBeSearched.name
+            if (theThingToBeSearched.i != 1_000_000) && (theThingToBeSearched.i != 1_000_001) {
+                searchTextField.text = theThingToBeSearched.name
+            }
+            MIProcessor.sharedMIP.updateTheSIP(i: theThingToBeSearched.i, name: theThingToBeSearched.name)
             searchArray.removeAll()
             searchTableView.reloadData()
             searchTableView.isHidden = true
-            MIProcessor.sharedMIP.updateTheSIP(i: theThingToBeSearched.i)
             cardViewCollectionView.reloadData()
         case editProjectTableView:
             customerNamePlaceholder = filteredBizzyEntities[indexPath.row].name

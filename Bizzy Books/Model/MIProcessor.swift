@@ -151,53 +151,82 @@ final class MIProcessor {
         }
     }
     
-    func updateTheSIP(i: Int) { // I.e. SEARCH mip hahahaha ;)
+    func updateTheSIP(i: Int, name: String) { // I.e. SEARCH mip hahahaha ;)
         mipORsip = 1 // SIP!
         sIP.removeAll()
         if i > 0 { //This would be Project, Entity, Account or Vehicle
-            switch mIP[i].multiversalType {
-            case 1: // Project
-                if let thisProj = mIP[i] as? ProjectItem {
-                    sIP.append(thisProj)
-                    for thisUniv in mIPUniversals {
-                        if thisUniv.projectItemKey == thisProj.key {
-                            sIP.append(thisUniv)
+            if i < 1_000_000 {
+                switch mIP[i].multiversalType {
+                case 1: // Project
+                    if let thisProj = mIP[i] as? ProjectItem {
+                        sIP.append(thisProj)
+                        for thisUniv in mIPUniversals {
+                            if thisUniv.projectItemKey == thisProj.key {
+                                sIP.append(thisUniv)
+                            }
+                        }
+                    }
+                case 2: // Entity
+                    if let thisEnti = mIP[i] as? EntityItem {
+                        sIP.append(thisEnti)
+                        for thisProj in mIPProjects {
+                            if thisProj.customerKey == thisEnti.key {
+                                sIP.append(thisProj)
+                            }
+                        }
+                        for thisUniv in mIPUniversals {
+                            if (thisUniv.whoKey == thisEnti.key) || (thisUniv.whomKey == thisEnti.key) {
+                                sIP.append(thisUniv)
+                            }
+                        }
+                    }
+                case 3: // Account
+                    if let thisAcco = mIP[i] as? AccountItem {
+                        sIP.append(thisAcco)
+                        for thisUniv in mIPUniversals {
+                            if (thisUniv.accountOneKey == thisAcco.key) || (thisUniv.accountTwoKey == thisAcco.key) {
+                                sIP.append(thisUniv)
+                            }
+                        }
+                    }
+                default: // Vehicle
+                    if let thisVehi = mIP[i] as? VehicleItem {
+                        sIP.append(thisVehi)
+                        for thisUniv in mIPUniversals {
+                            if thisUniv.vehicleKey == thisVehi.key {
+                                sIP.append(thisUniv)
+                            }
                         }
                     }
                 }
-            case 2: // Entity
-                if let thisEnti = mIP[i] as? EntityItem {
-                    sIP.append(thisEnti)
+            } else if i == 1_000_000 {
+                let wordToRemove = "Notes containing: "
+                var namey = name
+                if let range = namey.range(of: wordToRemove) {
+                    namey.removeSubrange(range)
                     for thisProj in mIPProjects {
-                        if thisProj.customerKey == thisEnti.key {
+                        if thisProj.projectNotes.localizedCaseInsensitiveContains(namey) {
                             sIP.append(thisProj)
                         }
                     }
                     for thisUniv in mIPUniversals {
-                        if (thisUniv.whoKey == thisEnti.key) || (thisUniv.whomKey == thisEnti.key) {
+                        if thisUniv.notes.localizedCaseInsensitiveContains(namey) {
                             sIP.append(thisUniv)
                         }
                     }
                 }
-            case 3: // Account
-                if let thisAcco = mIP[i] as? AccountItem {
-                    sIP.append(thisAcco)
-                    for thisUniv in mIPUniversals {
-                        if (thisUniv.accountOneKey == thisAcco.key) || (thisUniv.accountTwoKey == thisAcco.key) {
-                            sIP.append(thisUniv)
+            } else if i == 1_000_001 {
+                let wordToRemove = "Tags containing: "
+                var namey = name
+                if let range = namey.range(of: wordToRemove) {
+                    namey.removeSubrange(range)
+                    for thisProj in mIPProjects {
+                        if thisProj.projectTags.localizedCaseInsensitiveContains(namey) {
+                            sIP.append(thisProj)
                         }
                     }
                 }
-            default: // I.e. case 4 Vehicle
-                if let thisVehi = mIP[i] as? VehicleItem {
-                    sIP.append(thisVehi)
-                    for thisUniv in mIPUniversals {
-                        if thisUniv.vehicleKey == thisVehi.key {
-                            sIP.append(thisUniv)
-                        }
-                    }
-                }
-            }
+            } // Note that nothing is done with numbers > 1_000_001 this space is AVAILABLE!! lol
         } else { //This would be goodies
             switch i {
             case 0: // Show all universals
