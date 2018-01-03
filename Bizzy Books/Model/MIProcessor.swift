@@ -146,7 +146,7 @@ final class MIProcessor {
     }
     
     func appendTheGoodies() {
-        let goodies: [String] = ["Items", "Projects", "Entities", "Accounts", "Vehicles", "Overhead", "Business", "Personal", "Mixed", "Fuel", "Transfer", "Project media", "Current job leads", "Current bids", "Jobs under contract", "Paid jobs", "Lost job opportunities", "Other project status", "Job via unknown means", "Job via referral", "Job via website", "Job via YP", "Job via social media", "Job via soliciting", "Job via AdWords", "Job via company shirts", "Job via sign", "Job via vehicle wrap", "Job via billboard", "Job via TV", "Job via radio", "Job via other method", "Customers", "Vendors", "Subs", "Employees", "Stores", "Government", "Other entities", "You"]
+        let goodies: [String] = ["Items", "Projects", "Entities", "Accounts", "Vehicles", "Overhead", "Business", "Personal", "Mixed", "Fuel", "Transfer", "Project media", "Current job leads", "Current bids", "Jobs under contract", "Paid jobs", "Lost job opportunities", "Other project status", "Job via unknown means", "Job via referral", "Job via website", "Job via YP", "Job via social media", "Job via soliciting", "Job via AdWords", "Job via company shirts", "Job via sign", "Job via vehicle wrap", "Job via billboard", "Job via TV", "Job via radio", "Job via other method", "Customers", "Vendors", "Subs", "Employees", "Stores", "Government", "Other entities", "You entity type"]
         for i in 0..<goodies.count {
             let searchItem = SearchItem(i: -i, name: goodies[i])
             masterSearchArray.append(searchItem)
