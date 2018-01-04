@@ -146,7 +146,7 @@ final class MIProcessor {
     }
     
     func appendTheGoodies() {
-        let goodies: [String] = ["Items", "Projects", "Entities", "Accounts", "Vehicles", "Overhead", "Business", "Personal", "Mixed", "Fuel", "Transfer", "Project media", "Current job leads", "Current bids", "Jobs under contract", "Paid jobs", "Lost job opportunities", "Other project status", "Job via unknown means", "Job via referral", "Job via website", "Job via YP", "Job via social media", "Job via soliciting", "Job via AdWords", "Job via company shirts", "Job via sign", "Job via vehicle wrap", "Job via billboard", "Job via TV", "Job via radio", "Job via other method", "Customers", "Vendors", "Subs", "Employees", "Stores", "Government", "Other entities", "You entity type"]
+        let goodies: [String] = ["Items", "Projects", "Entities", "Accounts", "Vehicles", "Overhead", "Business", "Personal", "Mixed", "Fuel", "Transfer", "Project media", "Current job leads", "Current bids", "Jobs under contract", "Paid jobs", "Lost job opportunities", "Other project status", "Jobs via unknown means", "Jobs via referral", "Jobs via website", "Jobs via YP", "Jobs via social media", "Jobs via soliciting", "Jobs via AdWords", "Jobs via company shirts", "Jobs via sign", "Jobs via vehicle wrap", "Jobs via billboard", "Jobs via TV", "Jobs via radio", "Jobs via other method", "Customers", "Vendors", "Subs", "Employees", "Stores", "Government", "Other entities", "You entity type", "Food", "Fun", "Pet", "Utilities", "Phone", "Office", "Giving", "Insurance", "House", "Yard", "Medical", "Travel", "Clothes", "Other personal category", "Income", "Supplies", "Labor", "Meals", "Office", "Vehicle", "Advertising", "Pro help", "Machine rental", "Property rental", "Tax+license", "Insurance(WC+GL)", "Business travel", "Employee benefit", "Depreciation", "Depletion", "Business utilities", "Commissions", "Business wages", "Business mortgage interest", "Other business interest", "Business pension", "Business repairs", "Unknown advertising expenses", "Referral expenses", "Website expenses", "YP expenses", "Social media expenses", "Soliciting expenses", "AdWords expenses", "Company shirt expenses", "Sign expenses", "Vehicle wrap expenses", "Billboard expenses", "TV ad expenses", "Radio ad expenses", "Other ad expenses", "Sub has WC", "Incurred WC", "WC N/A", "Bank accounts", "Credit accounts", "Cash accounts", "Store refund accounts"]
         for i in 0..<goodies.count {
             let searchItem = SearchItem(i: -i, name: goodies[i])
             masterSearchArray.append(searchItem)
@@ -459,6 +459,496 @@ final class MIProcessor {
                 for thisEnti in mIPEntities {
                     if thisEnti.type == 9 {
                         sIP.append(thisEnti)
+                    }
+                }
+            case -40: // Food
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 1) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.personalReasonId == 0 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -41: // Fun
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 1) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.personalReasonId == 1 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -42: // Pet
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 1) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.personalReasonId == 2 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -43: // Utilities
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 1) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.personalReasonId == 3 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -44: // Phone
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 1) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.personalReasonId == 4 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -45: // Office
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 1) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.personalReasonId == 5 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -46: // Giving
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 1) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.personalReasonId == 6 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -47: // Insurance
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 1) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.personalReasonId == 7 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -48: // House
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 1) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.personalReasonId == 8 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -49: // Yard
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 1) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.personalReasonId == 9 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -50: // Medical
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 1) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.personalReasonId == 10 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -51: // Travel
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 1) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.personalReasonId == 11 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -52: // Clothes
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 1) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.personalReasonId == 12 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -53: // Other personal category
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 1) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.personalReasonId == 13 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -54: // Income
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 0 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -55: // Supplies
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 1 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -56: // Labor
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 2 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -57: // Meals
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 3 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -58: // Office
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 4 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -59: // Vehicle (taxReasonforExpense)
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 5 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -60: // Advertising (taxReasonForExpense)
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 6 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -61: // Pro help
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 7 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -62: // Machine rental
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 8 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -63: // Property rental
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 9 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -64: // Tax+license
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 10 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -65: // Insurance(WC+GL)
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 11 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -66: // Travel
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 12 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -67: // Employee benefit
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 13 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -68: // Depreciation
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 14 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -69: // Depletion
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 15 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -70: // Business utilities
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 16 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -71: // Commissions
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 17 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -72: // Wages
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 18 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -73: // Mortgage business interest
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 19 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -74: // Other business interest
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 20 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -75: // Pension
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 21 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -76: // Business repairs
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 22 {
+                            sIP.append(thisUniv)
+                        }
+                    }
+                }
+            case -77: // Unknown advertising expenses
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 6 { // I.e. = advertising expense
+                            if thisUniv.advertisingMeansId == 0 {
+                                sIP.append(thisUniv)
+                            }
+                        }
+                    }
+                }
+            case -78: // Referral advertising expenses
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 6 { // I.e. = advertising expense
+                            if thisUniv.advertisingMeansId == 0 {
+                                sIP.append(thisUniv)
+                            }
+                        }
+                    }
+                }
+            case -79: // Website advertising expenses
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 6 { // I.e. = advertising expense
+                            if thisUniv.advertisingMeansId == 0 {
+                                sIP.append(thisUniv)
+                            }
+                        }
+                    }
+                }
+            case -80: // YP advertising expenses
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 6 { // I.e. = advertising expense
+                            if thisUniv.advertisingMeansId == 0 {
+                                sIP.append(thisUniv)
+                            }
+                        }
+                    }
+                }
+            case -81: // Social media advertising expenses
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 6 { // I.e. = advertising expense
+                            if thisUniv.advertisingMeansId == 0 {
+                                sIP.append(thisUniv)
+                            }
+                        }
+                    }
+                }
+            case -82: // Soliciting advertising expenses
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 6 { // I.e. = advertising expense
+                            if thisUniv.advertisingMeansId == 0 {
+                                sIP.append(thisUniv)
+                            }
+                        }
+                    }
+                }
+            case -83: // AdWords advertising expenses
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 6 { // I.e. = advertising expense
+                            if thisUniv.advertisingMeansId == 0 {
+                                sIP.append(thisUniv)
+                            }
+                        }
+                    }
+                }
+            case -84: // Company shirts advertising expenses
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 6 { // I.e. = advertising expense
+                            if thisUniv.advertisingMeansId == 0 {
+                                sIP.append(thisUniv)
+                            }
+                        }
+                    }
+                }
+            case -85: // Sign advertising expenses
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 6 { // I.e. = advertising expense
+                            if thisUniv.advertisingMeansId == 0 {
+                                sIP.append(thisUniv)
+                            }
+                        }
+                    }
+                }
+            case -86: // Vehicle wrap advertising expenses
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 6 { // I.e. = advertising expense
+                            if thisUniv.advertisingMeansId == 0 {
+                                sIP.append(thisUniv)
+                            }
+                        }
+                    }
+                }
+            case -87: // Billboard advertising expenses
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 6 { // I.e. = advertising expense
+                            if thisUniv.advertisingMeansId == 0 {
+                                sIP.append(thisUniv)
+                            }
+                        }
+                    }
+                }
+            case -88: // TV advertising expenses
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 6 { // I.e. = advertising expense
+                            if thisUniv.advertisingMeansId == 0 {
+                                sIP.append(thisUniv)
+                            }
+                        }
+                    }
+                }
+            case -89: // Radio advertising expenses
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 6 { // I.e. = advertising expense
+                            if thisUniv.advertisingMeansId == 0 {
+                                sIP.append(thisUniv)
+                            }
+                        }
+                    }
+                }
+            case -90: // Other advertising expenses
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 6 { // I.e. = advertising expense
+                            if thisUniv.advertisingMeansId == 0 {
+                                sIP.append(thisUniv)
+                            }
+                        }
+                    }
+                }
+            case -91: // Sub has WC
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 2 { // I.e. = labor expense
+                            if thisUniv.workersCompId == 0 {
+                                sIP.append(thisUniv)
+                            }
+                        }
+                    }
+                }
+            case -92: // Incurred WC
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 2 { // I.e. = labor expense
+                            if thisUniv.workersCompId == 1 {
+                                sIP.append(thisUniv)
+                            }
+                        }
+                    }
+                }
+            case -93: // WC N/A
+                for thisUniv in mIPUniversals {
+                    if (thisUniv.universalItemType == 0) || (thisUniv.universalItemType == 2) {
+                        if thisUniv.taxReasonId == 2 { // I.e. = labor expense
+                            if thisUniv.workersCompId == 2 {
+                                sIP.append(thisUniv)
+                            }
+                        }
+                    }
+                }
+            case -94: // Bank accounts
+                for thisAcco in mIPAccounts {
+                    if thisAcco.accountTypeId == 0 {
+                        sIP.append(thisAcco)
+                    }
+                }
+            case -94: // Credit accounts
+                for thisAcco in mIPAccounts {
+                    if thisAcco.accountTypeId == 1 {
+                        sIP.append(thisAcco)
+                    }
+                }
+            case -94: // Cash accounts
+                for thisAcco in mIPAccounts {
+                    if thisAcco.accountTypeId == 2 {
+                        sIP.append(thisAcco)
+                    }
+                }
+            case -94: // Store refund accounts
+                for thisAcco in mIPAccounts {
+                    if thisAcco.accountTypeId == 3 {
+                        sIP.append(thisAcco)
                     }
                 }
             default: // I.e. cases -100 or lower (NOTES) **AND** cases -1_000_000 or lower (TAGS)

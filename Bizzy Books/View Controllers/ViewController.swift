@@ -1108,20 +1108,14 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         
         if firstLaunch.isFirstLaunch {
             // do things // MOVE stuff from the always closure below into this one when you're ready for final deployment of app!
-            firstTimeRef.observeSingleEvent(of: .value, with: { (snapshot) in
-                if let isReallyFirstTime = snapshot.value as? Bool {
-                    if isReallyFirstTime {
-                        let addEntityKeyReference = self.entitiesRef.childByAutoId()
-                        self.addEntityKeyString = addEntityKeyReference.key
-                        let timeStampDictionaryForFirebase = [".sv": "timestamp"]
-                        let thisEntityItem = EntityItem(type: 9, name: "You", phoneNumber: "", email: "", street: "", city: "", state: "", ssn: "", ein: "", timeStamp: timeStampDictionaryForFirebase, key: self.addEntityKeyString)
-                        self.entitiesRef.child(self.addEntityKeyString).setValue(thisEntityItem.toAnyObject())
-                        self.youEntityRef.setValue(self.addEntityKeyString)
-                        self.firstTimeRef.setValue(false)
-                        self.popUpAnimateIn(popUpView: self.welcomeView)
-                    }
-                }
-            })
+            let addEntityKeyReference = self.entitiesRef.childByAutoId()
+            self.addEntityKeyString = addEntityKeyReference.key
+            let timeStampDictionaryForFirebase = [".sv": "timestamp"]
+            let thisEntityItem = EntityItem(type: 9, name: "You", phoneNumber: "", email: "", street: "", city: "", state: "", ssn: "", ein: "", timeStamp: timeStampDictionaryForFirebase, key: self.addEntityKeyString)
+            self.entitiesRef.child(self.addEntityKeyString).setValue(thisEntityItem.toAnyObject())
+            self.youEntityRef.setValue(self.addEntityKeyString)
+            self.firstTimeRef.setValue(false)
+            self.popUpAnimateIn(popUpView: self.welcomeView)
         }
         
         let alwaysFirstLaunch = FirstLaunch.alwaysFirst()

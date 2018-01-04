@@ -493,7 +493,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             if let _ = addAccountStateTextField.text {
                 addAccountStatePlaceholder = addAccountStateTextField.text!
             }
-            let thisAccountItem = AccountItem(name: addAccountNamePlaceholder, accountTypeId: accountTypePlaceholderId, phoneNumber: addAccountPhoneNumberPlaceholder, email: addAccountEmailPlaceholder, street: addAccountStreetPlaceholder, city: addAccountCityPlaceholder, state: addAccountStatePlaceholder, startingBal: TheAmtSingleton.shared.theAmt, creditDetailsAvailable: false, isLoan: false, loanType: 0, loanTypeSubcategory: 0, loanPercentOne: 0.0, loanPercentTwo: 0.0, loanPercentThree: 0.0, loanPercentFour: 0.0, loanIntFactorOne: 0, loanIntFactorTwo: 0, loanIntFactorThree: 0, loanIntFactorFour: 0, maxLimit: 0, maxCashAdvanceAllowance: 0, closeDay: 0, dueDay: 0, cycle: 0, minimumPaymentRequired: 0, lateFeeAsOneTimeInt: 0, lateFeeAsPercentageOfTotalBalance: 0.0, cycleDues: 0, duesCycle: 0, minimumPaymentToBeSmart: 0, interestRate: 0.0, interestKind: 0, timeStamp: timeStampDictionaryForFirebase, key: addAccountKeyString)
+            let thisAccountItem = AccountItem(name: addAccountNamePlaceholder, accountTypeId: accountTypePlaceholderId, phoneNumber: addAccountPhoneNumberPlaceholder, email: addAccountEmailPlaceholder, street: addAccountStreetPlaceholder, city: addAccountCityPlaceholder, state: addAccountStatePlaceholder, startingBal: TheAmtSingleton.shared.theStartingBal, creditDetailsAvailable: false, isLoan: false, loanType: 0, loanTypeSubcategory: 0, loanPercentOne: 0.0, loanPercentTwo: 0.0, loanPercentThree: 0.0, loanPercentFour: 0.0, loanIntFactorOne: 0, loanIntFactorTwo: 0, loanIntFactorThree: 0, loanIntFactorFour: 0, maxLimit: 0, maxCashAdvanceAllowance: 0, closeDay: 0, dueDay: 0, cycle: 0, minimumPaymentRequired: 0, lateFeeAsOneTimeInt: 0, lateFeeAsPercentageOfTotalBalance: 0.0, cycleDues: 0, duesCycle: 0, minimumPaymentToBeSmart: 0, interestRate: 0.0, interestKind: 0, timeStamp: timeStampDictionaryForFirebase, key: addAccountKeyString)
             accountsRef.child(addAccountKeyString).setValue(thisAccountItem.toAnyObject())
             popUpAnimateOut(popUpView: addAccountView)
             if accountSenderCode == 0 {
@@ -1029,6 +1029,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         case 2:
             self.addProjectSearchCustomerTextField.text = addEntityNameTextField.text!
             self.tempKeyHolder = addEntityKeyString
+            self.pickerCode = 6 // We are resetting this to 6 so that with tag = 0 it goes back to howDidTheyHearOfYou picker (or projectStatus if tag = 1)
             self.addEntityView.removeFromSuperview()
         default:
             popUpAnimateOut(popUpView: selectWhoView)
@@ -1038,7 +1039,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             popUpAnimateOut(popUpView: addEntityView)
         }
         reloadSentence(selectedType: selectedType)
-        pickerCode = 0
+        //I deleted self.pickerCode = 0 here in case it was messing with the AddProject screen crashing.
     }
     
     @IBOutlet var subscriptionPopUpView: UIView!
@@ -1076,42 +1077,47 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         default:
             currentSubscriptionRef.observeSingleEvent(of: .value, with: { (snapshot) in
                 print("W O A H 5")
-                if let timeInterval = snapshot.value as? TimeInterval {
-                    print("W O A H 6")
-                    let date = Date(timeIntervalSince1970: timeInterval)
-                    if Date().compare(date) == .orderedAscending {
-                        // Subscription is valid
-                        print("W O A H 7")
-                        MIProcessor.sharedMIP.isUserCurrentlySubscribed = true
-                        self.currentlySubscribedRef.setValue(true)
-                        self.launchPhotos()
-                    } else {
-                        print("W O A H 8")
-                        MIProcessor.sharedMIP.isUserCurrentlySubscribed = false
-                        self.currentlySubscribedRef.setValue(false)
-                        self.performSegue(withIdentifier: "proSubscription", sender: self)
+                if snapshot.exists() {
+                    if let timeInterval = snapshot.value as? TimeInterval {
+                        print("W O A H 6")
+                        let date = Date(timeIntervalSince1970: timeInterval)
+                        if Date().compare(date) == .orderedAscending {
+                            // Subscription is valid
+                            print("W O A H 7")
+                            MIProcessor.sharedMIP.isUserCurrentlySubscribed = true
+                            self.currentlySubscribedRef.setValue(true)
+                            self.launchPhotos()
+                        } else {
+                            print("W O A H 8")
+                            MIProcessor.sharedMIP.isUserCurrentlySubscribed = false
+                            self.currentlySubscribedRef.setValue(false)
+                            self.performSegue(withIdentifier: "proSubscription", sender: self)
+                        }
                     }
+                    
+                    // We need to refresh the subscription state from AppStore
+                    self.bradsStore.restorePurchases { (isTrue, theString, err) in
+                        if err != nil {
+                            print(" H e y l o 5" + String(describing: err))
+                        }
+                        if isTrue {
+                            // Subscription is valid
+                            MIProcessor.sharedMIP.isUserCurrentlySubscribed = true
+                            self.currentlySubscribedRef.setValue(true)
+                            print(" H E Y L O 6 ")
+                            self.launchPhotos()
+                        } else {
+                            // Subscription is invalid
+                            MIProcessor.sharedMIP.isUserCurrentlySubscribed = false
+                            self.currentlySubscribedRef.setValue(false)
+                            print(" H E Y L O 7 ")
+                            self.performSegue(withIdentifier: "proSubscription", sender: self)
+                        }
+                    }
+                } else {
+                    self.performSegue(withIdentifier: "proSubscription", sender: self)
                 }
                 
-                // We need to refresh the subscription state from AppStore
-                self.bradsStore.restorePurchases { (isTrue, theString, err) in
-                    if err != nil {
-                        print(" H e y l o 5" + String(describing: err))
-                    }
-                    if isTrue {
-                        // Subscription is valid
-                        MIProcessor.sharedMIP.isUserCurrentlySubscribed = true
-                        self.currentlySubscribedRef.setValue(true)
-                        print(" H E Y L O 6 ")
-                        self.launchPhotos()
-                    } else {
-                        // Subscription is invalid
-                        MIProcessor.sharedMIP.isUserCurrentlySubscribed = false
-                        self.currentlySubscribedRef.setValue(false)
-                        print(" H E Y L O 7 ")
-                        self.performSegue(withIdentifier: "proSubscription", sender: self)
-                    }
-                }
             })
         }
     }
