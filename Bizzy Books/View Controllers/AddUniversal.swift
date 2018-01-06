@@ -339,7 +339,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             vehiclesRef.child(addVehicleKeyString).setValue(thisVehicleItem.toAnyObject())
             popUpAnimateOut(popUpView: addVehicleView)
             vehiclePlaceholderKeyString = addVehicleKeyString
-            vehiclePlaceholder = thisVehicleItem.color + " " + thisVehicleItem.year + " " + thisVehicleItem.make + " " + thisVehicleItem.model
+            vehiclePlaceholder = thisVehicleItem.year + " " + thisVehicleItem.make + " " + thisVehicleItem.model
             self.reloadSentence(selectedType: self.selectedType)
             self.selectVehicleView.removeFromSuperview()
         }
