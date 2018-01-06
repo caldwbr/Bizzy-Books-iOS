@@ -129,7 +129,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var addAccountStatePlaceholder = ""
     let stringifyAnInt = StringifyAnInt()
     var imageViewHeight: CGFloat = 1
-    var imageViewHeightInt: Int = 1
+    var aspectRatio: CGFloat = 0
     var picNumber: Int = 0
     
     // 0 = Who, 1 = Whom, 2 = Project Customer
@@ -1494,7 +1494,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                     }
                     let savedImageViewWidth = widthConstraintConstant
                     self.imageViewHeight = imageViewWidth * aspectRatio
-                    self.imageViewHeightInt = Int(savedImageViewWidth * aspectRatio)
                     self.imageViewHeightConstraint.constant = self.imageViewHeight
                     self.imageView.image = image
                 }
@@ -1534,7 +1533,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            let aspectRatio = image.size.height / image.size.width
+            aspectRatio = image.size.height / image.size.width
             
             var widthConstraintConstant: CGFloat = 0
             let screenWidthTwo = UIScreen.main.bounds.size.width
@@ -1550,7 +1549,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             let imageViewWidth = screenWidth
             
             imageViewHeight = imageViewWidth * aspectRatio
-            imageViewHeightInt = Int(savedImageViewWidth * aspectRatio) // This saves CORRECT height of image based on cardview width TAKING VARIOUS SCREEN SIZES INTO ACCOUNT just like is done in UniversalCardViewCollectionViewCell.swift
+            //imageViewHeightInt = Int(savedImageViewWidth * aspectRatio) // This saves CORRECT height of image based on cardview width TAKING VARIOUS SCREEN SIZES INTO ACCOUNT just like is done in UniversalCardViewCollectionViewCell.swift
             imageViewHeightConstraint.constant = imageViewHeight
             imageView.image = image
             thereIsAnImage = true
@@ -1665,17 +1664,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         currentlySubscribedRef = Database.database().reference().child("users").child(userUID).child("currentlySubscribed")
         currentSubscriptionRef = Database.database().reference().child("users").child(userUID).child("subscriptionExpirationDate")
         userCurrentImageIdCountRef = Database.database().reference().child("users").child(userUID).child("userCurrentImageIdCount")
-        // This is only valid if we have updated this flag recently
-        /*currentlySubscribedRef.observeSingleEvent(of: .value, with: { (snapshot) in
-            if let subscribed = snapshot.value as? Bool {
-                print("S: " + String(subscribed))
-                if subscribed {
-                    self.isUserCurrentlySubscribed = true
-                } else {
-                    self.isUserCurrentlySubscribed = false
-                }
-            }
-        })*/
         specialAccessRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let special = snapshot.value as? Bool {
                 print("Special: " + String(special))
@@ -1838,12 +1826,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         collectionView.delegate = dataSource
         collectionView.dataSource = dataSource
         collectionView.reloadData()
-        
-        // Resize the collection view's height according to it's contents
-        //view.layoutIfNeeded()
-        //collectionViewHeightConstraint.constant = collectionView.contentSize.height
         view.layoutIfNeeded()
-
     }
     
     func reloadSentence(selectedType: Int) {
@@ -2297,6 +2280,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             yourAccountPlaceholder = yourPrimaryAccountPlaceholder
             yourAccountPlaceholderKeyString = yourPrimaryAccountPlaceholderKeyString
         }
+        var intifiedAspectRatio: Int = 1
+        if aspectRatio != 1 { // If it is 1, we don't want to multiply - we want to keep image height so tiny as to be negligible, but without presenting something over 0 which might cause a crash.
+            intifiedAspectRatio = Int(aspectRatio * 1000)
+        }
         switch TheAmtSingleton.shared.theMIPNumber {
         case -1: //The AddUniversal case
             let addUniversalKeyReference = universalsRef.childByAutoId()
@@ -2308,7 +2295,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 let thisAccountRef = Database.database().reference().child("users").child(userUID).child("accounts")
                 thisAccountRef.child(yourAccountPlaceholderKeyString).updateChildValues(["startingBal": correctedStartingBalance])
             default:
-                let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: TheAmtSingleton.shared.theOdo, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: TheAmtSingleton.shared.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountOneType: accountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: TheAmtSingleton.shared.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, picHeightInt: imageViewHeightInt, picNumber: picNumber, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
+                let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: TheAmtSingleton.shared.theOdo, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: TheAmtSingleton.shared.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountOneType: accountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: TheAmtSingleton.shared.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, picAspectRatio: intifiedAspectRatio, picNumber: picNumber, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
                 universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
             }
         default: //The UpdateUniversal case, where MIPnumber represents item number in array
@@ -2320,7 +2307,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                     thereIsUseTax = true
                 }
             }
-            universalsRef.child(addUniversalKeyString).updateChildValues(["projectItemName": projectPlaceholder, "projectItemKey": projectPlaceholderKeyString, "odometerReading": TheAmtSingleton.shared.theOdo, "howMany": TheAmtSingleton.shared.howMany, "notes": notes, "whoName": whoPlaceholder, "whoKey": whoPlaceholderKeyString, "fuelTypeName": fuelTypePlaceholder, "fuelTypeId": fuelTypePlaceholderId, "what": TheAmtSingleton.shared.theAmt, "whomName": whomPlaceholder, "whomKey": whomPlaceholderKeyString, "taxReasonName": whatTaxReasonPlaceholder, "taxReasonId": whatTaxReasonPlaceholderId, "vehicleName": vehiclePlaceholder, "vehicleKey": vehiclePlaceholderKeyString, "workersCompName": workersCompPlaceholder, "workersCompId": workersCompPlaceholderId, "advertisingMeansName": advertisingMeansPlaceholder, "advertisingMeansId": advertisingMeansPlaceholderId, "personalReasonName": whatPersonalReasonPlaceholder, "personalReasonId": whatPersonalReasonPlaceholderId, "percentBusiness": thePercent, "accountOneName": yourAccountPlaceholder, "accountOneKey": yourAccountPlaceholderKeyString, "accountOneType": accountTypePlaceholderId, "accountTwoName": yourSecondaryAccountPlaceholder, "accountTwoKey": yourSecondaryAccountPlaceholderKeyString, "accountTwoType": secondaryAccountTypePlaceholderId, "picNumber": picNumber, "picUrl": urlString, "picHeightInt": imageViewHeightInt, "useTax": thereIsUseTax, "projectPicTypeName": projectMediaTypePlaceholder, "projectPicTypeId": projectMediaTypePlaceholderId])
+            universalsRef.child(addUniversalKeyString).updateChildValues(["projectItemName": projectPlaceholder, "projectItemKey": projectPlaceholderKeyString, "odometerReading": TheAmtSingleton.shared.theOdo, "howMany": TheAmtSingleton.shared.howMany, "notes": notes, "whoName": whoPlaceholder, "whoKey": whoPlaceholderKeyString, "fuelTypeName": fuelTypePlaceholder, "fuelTypeId": fuelTypePlaceholderId, "what": TheAmtSingleton.shared.theAmt, "whomName": whomPlaceholder, "whomKey": whomPlaceholderKeyString, "taxReasonName": whatTaxReasonPlaceholder, "taxReasonId": whatTaxReasonPlaceholderId, "vehicleName": vehiclePlaceholder, "vehicleKey": vehiclePlaceholderKeyString, "workersCompName": workersCompPlaceholder, "workersCompId": workersCompPlaceholderId, "advertisingMeansName": advertisingMeansPlaceholder, "advertisingMeansId": advertisingMeansPlaceholderId, "personalReasonName": whatPersonalReasonPlaceholder, "personalReasonId": whatPersonalReasonPlaceholderId, "percentBusiness": thePercent, "accountOneName": yourAccountPlaceholder, "accountOneKey": yourAccountPlaceholderKeyString, "accountOneType": accountTypePlaceholderId, "accountTwoName": yourSecondaryAccountPlaceholder, "accountTwoKey": yourSecondaryAccountPlaceholderKeyString, "accountTwoType": secondaryAccountTypePlaceholderId, "picNumber": picNumber, "picUrl": urlString, "picAspectRatio": intifiedAspectRatio, "useTax": thereIsUseTax, "projectPicTypeName": projectMediaTypePlaceholder, "projectPicTypeId": projectMediaTypePlaceholderId])
         }
         TheAmtSingleton.shared.theAmt = 0
         TheAmtSingleton.shared.howMany = 0

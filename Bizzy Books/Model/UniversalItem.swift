@@ -51,7 +51,7 @@ struct UniversalItem: MultiversalItem {
     let useTax: Bool
     let notes: String
     let picUrl: String
-    let picHeightInt: Int
+    let picAspectRatio: Int // Expressed as HEIGHT over WIDTH TIMES 1000 (to allow to be int with accuracy, just as with money except 1000 here) we changed it from height to aspect ratio because user could also sign in on an Android device of different width
     let picNumber: Int
     let projectPicTypeName: String
     let projectPicTypeId: Int
@@ -62,7 +62,7 @@ struct UniversalItem: MultiversalItem {
     let feeAmount: Int // For future use
     let ref: DatabaseReference?
     
-    init(universalItemType: Int, projectItemName: String, projectItemKey: String, odometerReading: Int, whoName: String, whoKey: String, what: Int, whomName: String, whomKey: String, taxReasonName: String, taxReasonId: Int, vehicleName: String, vehicleKey: String, workersCompName: String, workersCompId: Int, advertisingMeansName: String, advertisingMeansId: Int, personalReasonName: String, personalReasonId: Int, percentBusiness: Int, accountOneName: String, accountOneKey: String, accountOneType: Int, accountTwoName: String, accountTwoKey: String, accountTwoType: Int, howMany: Int, fuelTypeName: String, fuelTypeId: Int, useTax: Bool, notes: String, picUrl: String, picHeightInt: Int, picNumber: Int, projectPicTypeName: String, projectPicTypeId: Int, timeStamp: Any, latitude: Double, longitude: Double, atmFee: Bool, feeAmount: Int, key: String = "") {
+    init(universalItemType: Int, projectItemName: String, projectItemKey: String, odometerReading: Int, whoName: String, whoKey: String, what: Int, whomName: String, whomKey: String, taxReasonName: String, taxReasonId: Int, vehicleName: String, vehicleKey: String, workersCompName: String, workersCompId: Int, advertisingMeansName: String, advertisingMeansId: Int, personalReasonName: String, personalReasonId: Int, percentBusiness: Int, accountOneName: String, accountOneKey: String, accountOneType: Int, accountTwoName: String, accountTwoKey: String, accountTwoType: Int, howMany: Int, fuelTypeName: String, fuelTypeId: Int, useTax: Bool, notes: String, picUrl: String, picAspectRatio: Int, picNumber: Int, projectPicTypeName: String, projectPicTypeId: Int, timeStamp: Any, latitude: Double, longitude: Double, atmFee: Bool, feeAmount: Int, key: String = "") {
         self.key = key
         self.universalItemType = universalItemType
         self.projectItemName = projectItemName
@@ -96,7 +96,7 @@ struct UniversalItem: MultiversalItem {
         self.useTax = useTax
         self.notes = notes
         self.picUrl = picUrl
-        self.picHeightInt = picHeightInt
+        self.picAspectRatio = picAspectRatio
         self.picNumber = picNumber
         self.projectPicTypeName = projectPicTypeName
         self.projectPicTypeId = projectPicTypeId
@@ -143,7 +143,7 @@ struct UniversalItem: MultiversalItem {
         useTax = snapshotValue["useTax"] as? Bool ?? false
         notes = snapshotValue["notes"] as? String ?? ""
         picUrl = snapshotValue["picUrl"] as? String ?? ""
-        picHeightInt = snapshotValue["picHeightInt"] as? Int ?? 1
+        picAspectRatio = snapshotValue["picAspectRatio"] as? Int ?? 1
         picNumber = snapshotValue["picNumber"] as? Int ?? 0
         projectPicTypeName = snapshotValue["projectPicTypeName"] as? String ?? ""
         projectPicTypeId = snapshotValue["projectPicTypeId"] as? Int ?? 0
@@ -189,7 +189,7 @@ struct UniversalItem: MultiversalItem {
             "useTax": useTax,
             "notes": notes,
             "picUrl": picUrl,
-            "picHeightInt": picHeightInt,
+            "picAspectRatio": picAspectRatio,
             "picNumber": picNumber,
             "projectPicTypeName": projectPicTypeName,
             "projectPicTypeId": projectPicTypeId,

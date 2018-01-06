@@ -31,7 +31,6 @@ class ContactsLogicManager: NSObject {
                     DispatchQueue.main.async {
                         completion(nil)
                     }
-                    
                 }
             }
             else {

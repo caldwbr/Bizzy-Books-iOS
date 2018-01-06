@@ -103,6 +103,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     var searchArray: [SearchItem] = [SearchItem]()
     var thingToBeSearchedInt = 1_000_002
     var thingToBeSearchedName = ""
+    var widthConstraintConstant: CGFloat = 0
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         editProjectTableView.isHidden = true
@@ -120,6 +121,14 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         self.searchTableView.keyboardDismissMode = .interactive
         reportsBooksButton.isEnabled = false
         reportsBooksButton.tintColor = UIColor.clear
+        
+        let screenWidth = UIScreen.main.bounds.size.width
+        if screenWidth > 374.0 {
+            widthConstraintConstant = 350.0
+        } else {
+            widthConstraintConstant = screenWidth - (2 * 12)
+        }
+        print("The widthConstraintConstant is... " + String(describing: widthConstraintConstant))
         
         // Later on...
         // reportsBooksButton.isEnabled = true (or make it part of pro subscription)
@@ -1356,7 +1365,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
                             phoneHeight = 80
                         }
                     }
-                    imageHeight = CGFloat(universalItem.picHeightInt)
+                    imageHeight = (CGFloat(universalItem.picAspectRatio) / 1000) * widthConstraintConstant
                     switch universalItem.universalItemType {
                     case 1: // Personal
                         baseHeight = 100
@@ -1374,7 +1383,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
                             longString = universalItem.whoName + universalItem.whomName + universalItem.personalReasonName + universalItem.taxReasonName
                         }
                     case 3: // Fuel
-                        baseHeight = 50
+                        baseHeight = 70
                         longString = "At 234566 miles you paid $00.00 to " + universalItem.whomName + " for 00.000 gallons of 87 gas in your " + universalItem.vehicleName
                     case 4: // Transfer
                         baseHeight = 150
@@ -1509,7 +1518,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
                             phoneHeight = 80
                         }
                     }
-                    imageHeight = CGFloat(universalItem.picHeightInt)
+                    imageHeight = (CGFloat(universalItem.picAspectRatio) / 1000) * widthConstraintConstant
                     switch universalItem.universalItemType {
                     case 1: // Personal
                         baseHeight = 100
@@ -1527,7 +1536,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
                             longString = universalItem.whoName + universalItem.whomName + universalItem.personalReasonName + universalItem.taxReasonName
                         }
                     case 3: // Fuel
-                        baseHeight = 50
+                        baseHeight = 70
                         longString = "At 234566 miles you paid $00.00 to " + universalItem.whomName + " for 00.000 gallons of 87 gas in your " + universalItem.vehicleName
                     case 4: // Transfer
                         baseHeight = 150

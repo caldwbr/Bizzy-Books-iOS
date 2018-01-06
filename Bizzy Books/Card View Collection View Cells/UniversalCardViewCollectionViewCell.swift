@@ -69,7 +69,7 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
         } else {
             universalItem = MIProcessor.sharedMIP.sIP[i] as! UniversalItem
         }
-        universalCardViewImageViewHeightConstraint.constant = CGFloat(universalItem.picHeightInt)
+        universalCardViewImageViewHeightConstraint.constant = (CGFloat(universalItem.picAspectRatio) / 1000) * widthConstraint.constant
         if universalItem.picUrl != "" {
             universalCardViewImageView.loadImageUsingUrlString(universalItem.picUrl)
         }

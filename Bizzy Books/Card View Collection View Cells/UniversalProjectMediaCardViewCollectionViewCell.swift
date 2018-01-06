@@ -45,7 +45,7 @@ class UniversalProjectMediaCardViewCollectionViewCell: UICollectionViewCell {
             let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
             universalProjMediaDateLabel.text = timeStampAsString
         }
-        universalProjMediaHugeImageViewHeightConstraint.constant = CGFloat(universalItem.picHeightInt)
+        universalProjMediaHugeImageViewHeightConstraint.constant = (CGFloat(universalItem.picAspectRatio) / 1000) * widthConstraint.constant
         universalProjMediaNotesLabel.text = universalItem.notes
         universalProjMediaJobNameLabel.text = universalItem.projectItemName
         universalProjMediaPicTypeLabel.text = universalItem.projectPicTypeName

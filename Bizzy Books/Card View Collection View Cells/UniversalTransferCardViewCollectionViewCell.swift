@@ -46,7 +46,7 @@ class UniversalTransferCardViewCollectionViewCell: UICollectionViewCell {
         } else {
             universalItem = MIProcessor.sharedMIP.sIP[i] as! UniversalItem
         }
-        universalTransferMainImageViewHeightConstraint.constant = CGFloat(universalItem.picHeightInt)
+        universalTransferMainImageViewHeightConstraint.constant = (CGFloat(universalItem.picAspectRatio) / 1000) * widthConstraint.constant
         universalTransferNotesLabel.text = universalItem.notes
         if let timeStampAsDouble: Double = universalItem.timeStamp as? Double {
             let timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
