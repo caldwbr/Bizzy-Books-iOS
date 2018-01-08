@@ -104,6 +104,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     var thingToBeSearchedInt = 1_000_002
     var thingToBeSearchedName = ""
     var widthConstraintConstant: CGFloat = 0
+    var refreshControl = UIRefreshControl()
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         editProjectTableView.isHidden = true
@@ -121,6 +122,18 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         self.searchTableView.keyboardDismissMode = .interactive
         reportsBooksButton.isEnabled = false
         reportsBooksButton.tintColor = UIColor.clear
+        
+        // Add Refresh Control to Table View
+        if #available(iOS 10.0, *) {
+            cardViewCollectionView.refreshControl = refreshControl
+        } else {
+            cardViewCollectionView.addSubview(refreshControl)
+        }
+        
+        // Initialize the refresh control.
+        refreshControl.backgroundColor = #colorLiteral(red: 0.1538379192, green: 0.3075230122, blue: 1, alpha: 1)
+        refreshControl.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        refreshControl.addTarget(self, action: #selector(refreshTheMIP), for: .valueChanged)
         
         let screenWidth = UIScreen.main.bounds.size.width
         if screenWidth > 374.0 {
@@ -195,6 +208,21 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         popUpAnimateOut(popUpView: welcomeView)
     }
     @IBOutlet weak var profilePic: UIImageView!
+    
+    @objc func refreshTheMIP() {
+        DispatchQueue.main.async {
+            MIProcessor.sharedMIP.loadTheMip {
+                MIProcessor.sharedMIP.obtainTheBalancesAfter()
+                MIProcessor.sharedMIP.loadTheStatuses()
+                MIProcessor.sharedMIP.updateTheMIP()
+                if MIProcessor.sharedMIP.mipORsip == 1 {
+                    MIProcessor.sharedMIP.updateTheSIP(i: self.thingToBeSearchedInt, name: self.thingToBeSearchedName)
+                }
+                self.cardViewCollectionView.reloadData()//Critical line - this makes or breaks the app :/
+                self.refreshControl.endRefreshing()
+            }
+        }
+    }
     
     func checkLoggedIn() {
 
