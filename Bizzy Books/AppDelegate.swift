@@ -143,7 +143,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if FirebaseApp.app() == nil {
             FirebaseApp.configure()
         }
-        //Database.database().isPersistenceEnabled = true
+        Database.database().isPersistenceEnabled = true
         IAPProcessor.shared.startListening()
     }
 }

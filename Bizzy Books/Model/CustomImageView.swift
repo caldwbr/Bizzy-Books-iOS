@@ -19,14 +19,6 @@ class CustomImageView: UIImageView {
         imageUrlString = urlString
         image = nil
         
-        var widthConstraintConstant: CGFloat = 0
-        let screenWidth = UIScreen.main.bounds.size.width
-        if screenWidth > 374.0 {
-            widthConstraintConstant = 350.0
-        } else {
-            widthConstraintConstant = screenWidth - (2 * 12)
-        }
-        
         if let imageFromCache = imageCache.object(forKey: urlString as AnyObject) as? UIImage {
             self.image = imageFromCache
             return
