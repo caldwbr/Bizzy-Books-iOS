@@ -130,6 +130,13 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             cardViewCollectionView.addSubview(refreshControl)
         }
         
+        //Test Atbash
+        var text = "Blue Toyota Prius"
+        var ciphertext = text.encrypt()
+        print("Encrypted: " + ciphertext)
+        var plaintext = ciphertext.decrypt()
+        print("Decrypted: " + plaintext)
+        
         // Initialize the refresh control.
         refreshControl.backgroundColor = #colorLiteral(red: 0.1538379192, green: 0.3075230122, blue: 1, alpha: 1)
         refreshControl.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)

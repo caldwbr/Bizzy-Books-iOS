@@ -64,6 +64,7 @@
 		EBB77BDC1EFE2ABC0084D014 /* UIColorCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BDB1EFE2ABC0084D014 /* UIColorCustom.swift */; };
 		EBB77BDE1EFE2D4D0084D014 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BDD1EFE2D4D0084D014 /* UIColor+Hex.swift */; };
 		EBC54EB51FFA187600A03906 /* SearchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC54EB41FFA187600A03906 /* SearchItem.swift */; };
+		EBC79C24200857CD00AFCE0D /* Atbash.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC79C23200857CD00AFCE0D /* Atbash.swift */; };
 		EBD42D5E1FFB3E540004F896 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD42D5D1FFB3E540004F896 /* CustomImageView.swift */; };
 		EBD42D601FFB4E6E0004F896 /* ReportsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD42D5F1FFB4E6E0004F896 /* ReportsViewController.swift */; };
 		FA7B73181EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7B73171EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift */; };
@@ -135,6 +136,7 @@
 		EBB77BDB1EFE2ABC0084D014 /* UIColorCustom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorCustom.swift; sourceTree = "<group>"; };
 		EBB77BDD1EFE2D4D0084D014 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		EBC54EB41FFA187600A03906 /* SearchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchItem.swift; sourceTree = "<group>"; };
+		EBC79C23200857CD00AFCE0D /* Atbash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atbash.swift; sourceTree = "<group>"; };
 		EBD42D5D1FFB3E540004F896 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		EBD42D5F1FFB4E6E0004F896 /* ReportsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsViewController.swift; sourceTree = "<group>"; };
 		FA7B73171EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 				EBB407E61FE8A33F00E307C2 /* TheAmtSingleton.swift */,
 				EBC54EB41FFA187600A03906 /* SearchItem.swift */,
 				EBD42D5D1FFB3E540004F896 /* CustomImageView.swift */,
+				EBC79C23200857CD00AFCE0D /* Atbash.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -588,6 +591,7 @@
 				EB2441CD1FE63054004EDC56 /* CardViewSentenceCell.swift in Sources */,
 				EB2441C71FE61510004EDC56 /* VehicleCardViewCollectionViewCell.swift in Sources */,
 				EBC54EB51FFA187600A03906 /* SearchItem.swift in Sources */,
+				EBC79C24200857CD00AFCE0D /* Atbash.swift in Sources */,
 				EB2441CF1FE6345F004EDC56 /* CardViewLabelFlowCollectionViewDataSource.swift in Sources */,
 				EB2441BF1FE6148D004EDC56 /* ProjectCardViewCollectionViewCell.swift in Sources */,
 				EBD42D601FFB4E6E0004F896 /* ReportsViewController.swift in Sources */,
