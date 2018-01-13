@@ -22,6 +22,8 @@ target 'Bizzy Books' do
     pod 'FBSDKLoginKit'
 
     pod 'Fabric'
+
+    pod 'RNCryptor', '~> 5.0'
     
     # Dropdown
     pod 'MKDropdownMenu'

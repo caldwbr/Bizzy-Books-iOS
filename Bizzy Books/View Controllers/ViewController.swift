@@ -15,6 +15,7 @@ import FirebaseFacebookAuthUI
 import FBSDKCoreKit
 import FBSDKLoginKit
 import Contacts
+import RNCryptor
 
 var userUID = ""
 var userTokens = ""
@@ -130,12 +131,6 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             cardViewCollectionView.addSubview(refreshControl)
         }
         
-        //Test Atbash
-        var text = "Blue Toyota Prius"
-        var ciphertext = text.encrypt()
-        print("Encrypted: " + ciphertext)
-        var plaintext = ciphertext.decrypt()
-        print("Decrypted: " + plaintext)
         
         // Initialize the refresh control.
         refreshControl.backgroundColor = #colorLiteral(red: 0.1538379192, green: 0.3075230122, blue: 1, alpha: 1)
@@ -253,6 +248,79 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                 self.vehiclesRef = Database.database().reference().child("users").child(userUID).child("vehicles")
                 self.youEntityRef = Database.database().reference().child("users").child(userUID).child("youEntity")
                 self.firstTimeRef = Database.database().reference().child("users").child(userUID).child("firstTime")
+                /*
+                 //Test Atbash
+                 var text = "Blue Toyota Prius"
+                 var ciphertext = text.encrypt()
+                 print("Encrypted: " + ciphertext)
+                 var plaintext = ciphertext.decrypt()
+                 print("Decrypted: " + plaintext)
+                 */
+                
+                // Encryption
+                let data = "Yo Yo Hello Hello".data(using: .utf8)
+                let password = "123abc"
+                let encryptKey = "1234567890abcdefabcdef1234567890".data(using: .utf8)
+                let hmacKey = "abcdef12345678901234567890abcdef".data(using: .utf8)
+                let encryptor = RNCryptor.EncryptorV3(encryptionKey: encryptKey!, hmacKey: hmacKey!)
+                let decryptor = RNCryptor.DecryptorV3(encryptionKey: encryptKey!, hmacKey: hmacKey!)
+                let ciphertext = encryptor.encrypt(data: data!)
+                let stringForm = ciphertext.base64EncodedString(options: NSData.Base64EncodingOptions.endLineWithCarriageReturn)
+                self.masterRef.child("TESTENCRYPTION").setValue(stringForm)
+                //let dataOption = NSData(base64EncodedString: stringForm, options: []) Getting data back, supposedly
+                
+                /*
+                 let data = "Yo Yo Hello Hello".data(using: .utf8) // Length of string DOES have effect both on number of bytes in data AND on length (number of bytes) of the cypher
+                 print("the data! " + String(describing: data))
+                 print("Ory \(data! as NSData)") // "as NSData" is necessary - otherwise it just prints the number of bytes rather than the hexidecimal representations of the bytes
+                 let password = "123abc" // Length of password has no effect on length of the cypher
+                 var ciphertext = RNCryptor.encrypt(data: data!, withPassword: password) //Ciphertext is DIFFERENT every time as expected, even with same password, although we're going to switch to secret key.
+                 print("THE CYPHER !!! " + String(describing: ciphertext))
+                 print("OR!! " + ciphertext.base64EncodedString())
+                 print("OORRRRR!!!!!! \(ciphertext as NSData)")
+                 
+                 Here's what converting the utf8 (encrypted) data to chars appears as - no doubt the "craziness" spoken of by RNapier
+                 
+                 convertUTF82Char: error1 9F! FdconvertUTF82Char: error2 60! ￠convertUTF82Char: error2 DA! 󣧚convertUTF82Char: error1 A4! jconvertUTF82Char: error1 AA! convertUTF82Char: error1 89! convertUTF82Char: error1 92! convertUTF82Char: error2 FE! ϾhconvertUTF82Char: error1 FD! convertUTF82Char: error1 BD! convertUTF82Char: error1 93! convertUTF82Char: error2 FF! Ϳ'convertUTF82Char: error1 A8! convertUTF82Char: error1 BA! WۨeconvertUTF82Char: error1 89!  xSRconvertUTF82Char: error3 C0! convertUTF82Char: error3 EC! convertUTF82Char: error2 7F! ￿convertUTF82Char: error1 84! convertUTF82Char: error1 A7! convertUTF82Char: error2 F1! ٱpconvertUTF82Char: error2 79! ￹MxconvertUTF82Char: error2 16! ﾖconvertUTF82Char: error2 37! ￷convertUTF82Char: error1 A5! ((convertUTF82Char: error1 9D! convertUTF82Char: error1 AF! KconvertUTF82Char: error3 E6! convertUTF82Char: error3 E9! dec2char error: Code point out of range: 167A76D<xbO@convertUTF82Char: error1 B3! lconvertUTF82Char: error2 FD! ۽convertUTF82Char: error3 F8! convertUTF82Char: error2 27! ﾧ|JconvertUTF82Char: error2 7F! ￿convertUTF82Char: error1 88! Vi>convertUTF82Char: error1 B3! $qconvertUTF82Char: error1 FD! oconvertUTF82Char: error3 4!
+                 
+                 But in my console, it's apparently just showing the utf8 numbers representing corresponding byte number
+                 <03019f46 64cb60f3 a3a6daa4 6aaa8992 cffe68fd bd9315cd ff27a80f bac197db a8658900 20785352 f3c0ec7f 84a7d8f1 70c7794d 78de16cd 3704a528 289d18af 4bf5e6e9 b6443c78 624f40b3 6cdafdee f8277c4a 04c77f88 56693eb3 2471fd6f f304>
+                 Because the "Yo Yo Hello Hello" string when changed to utf8 is <596f2059 6f204865 6c6c6f20 48656c6c 6f>, which converts right back to "Yo Yo Hello Hello"
+                 WELL, the online convertor likes the spaces to be between every two digits, like so: 59 6f 20 59 6f 20 48 65 6c 6c 6f 20 48 65 6c 6c 6f
+                 
+                 UTF8 will use only one byte per character if possible (or as many as needed, probably up to four bytes I assume). Remember 1 byte = 8 bits.
+                 The 01100101 type bytes of UTF8 are shown to humans like 3b or 35 or some other two-item character and/or digit combo (called "hexadecimal," with a lowercase h lol).
+                 10011111 in binary is 237 in octal is 159 in decimal is 9F in hexadecimal
+                 Unicode is a huge, 1-million count mapping of characters to values - U+1E00 the U and + are just saying "It's unicode". The 1E00 is the "code point" - In other (decimal) words, it is the 7680th character of the
+                 Unicode table. It is officially called "LATIN CAPITAL LETTER A WITH RING BELOW". Ḁ
+                 
+ 
+                
+                // Decryption
+                do {
+                    var cipher2 = ""
+                    self.masterRef.child("TESTENCRYPTION").observeSingleEvent(of: .value, with: { (snapshot) in
+                        for item in snapshot.children {
+                            cipher2 = item as! String
+                        }
+                    })
+                    let cipher2data = cipher2.da
+                    let originalData = try RNCryptor.decrypt(data: , withPassword: password)
+                    let newbie = String("\(originalData)")
+                    print("IT IS UH " + newbie)
+                    let base64EncodedData = originalData.base64EncodedData()
+                    //Decode base64
+                    let newData = NSData(base64Encoded: base64EncodedData, options: NSData.Base64DecodingOptions.ignoreUnknownCharacters)! //BOTH this line and the one above ACTUALLY ARE necessary BION! (believe it or not)
+                    
+                    //Convert NSData to NSString
+                    let newNSString = NSString(data: newData as Data, encoding: String.Encoding.utf8.rawValue)!
+                    
+                    print("New NSSTRING!!!!!!!!!!!!!!!!!!!!!!!! " + (newNSString as String))
+                    // ...
+                } catch {
+                    print(error)
+                }
+ */
                 self.initializeIfFirstAppUse()
                 print("ONE!")
                 self.masterRef.observe(.childChanged, with: { (snapshot) in // GENIUS!!!!! This line loads MIP only when an item gets added/changed/deleted (and exactly WHEN an item gets added/changed/deleted) in Firebase database IN REALTIME!!!!
