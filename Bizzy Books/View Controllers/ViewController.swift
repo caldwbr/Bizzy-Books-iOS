@@ -249,14 +249,16 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                 self.youEntityRef = Database.database().reference().child("users").child(userUID).child("youEntity")
                 self.firstTimeRef = Database.database().reference().child("users").child(userUID).child("firstTime")
                 
+                var encryptedKeyYo = ""
+                var recoveredKeyYo = ""
                 
                 user?.getIDTokenForcingRefresh(true) { idToken, error in
                     if let error = error, idToken != "" {
                         // Handle error
                         return;
                     }
-                    // Send token to your backend via HTTPS
-                    // ...
+                    
+                    // ENCRYPTION
                     let url = URL(string: "https://bizzy-books.appspot.com/key")!
                     var request = URLRequest(url: url)
                     print("idToken!! " + (idToken)!)
@@ -277,10 +279,83 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                         }
                         
                         let responseString = String(data: data, encoding: .utf8)
+                        
+                        do {
+                            let json = try JSONSerialization.jsonObject(with: data, options: [])
+                            if let object = json as? [String: Any] {
+                                // json is a dictionary
+                                print("1!!!! " + String(describing: object["key"]!))
+                                print("ENCRYPT! " + String(describing: object["encrypted"]!))
+                                encryptedKeyYo = String(describing: object["encrypted"]!)
+                                
+                                
+                            } else if let object = json as? [Any] {
+                                // json is an array
+                                print("2!!!! " + String(describing: object))
+                            } else {
+                                print("JSON is invalid")
+                            }
+                        } catch {
+                            print("TO ERR IS HUMAN")
+                        }
+                        
+ 
                         print("responseString = \(responseString)")
                     }
                     task.resume()
+                    
                 }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5), execute: {
+                    user?.getIDTokenForcingRefresh(true) { idToken, error in
+                        if let error = error, idToken != "" {
+                            // Handle error
+                            return;
+                        }
+                        
+                        //DECRYPTION
+                        var url2 = URLComponents(string: "https://bizzy-books.appspot.com/decrypt")!
+                        url2.queryItems = [
+                            URLQueryItem(name: "value", value: encryptedKeyYo)
+                        ]
+                        var request2 = URLRequest(url: url2.url!)
+                        request2.addValue("Bearer \(idToken!)", forHTTPHeaderField: "Authorization")
+                        //request2.addValue("Name \(encryptedKeyYo)", forHTTPHeaderField: "Parameters")
+                        //request2.httpBody = encryptedKeyYo.data(using: .utf8)
+                        //request2.addValue("value \(encryptedKeyYo)", forHTTPHeaderField: "params")
+                        request2.httpMethod = "GET"
+                        let task2 = URLSession.shared.dataTask(with: request2) { data, response, error in
+                            guard let data = data, error == nil else {
+                                print("error=\(error)")
+                                return
+                            }
+                            if let httpStatus2 = response as? HTTPURLResponse, httpStatus2.statusCode != 200 {
+                                print("statusCode should be 200, but is \(httpStatus2.statusCode)")
+                                print("response = \(response)")
+                            }
+                            
+                            let responseString2 = String(data: data, encoding: .utf8)
+                            print("responseString2 = \(responseString2)")
+                            do {
+                                let json = try JSONSerialization.jsonObject(with: data, options: [])
+                                if let object = json as? [String: Any] {
+                                    // json is a dictionary
+                                    recoveredKeyYo = String(describing: object["key"]!)
+                                    print("recoveredKeyYo = " + recoveredKeyYo)
+                                    
+                                } else if let object = json as? [Any] {
+                                    // json is an array
+                                    print("2!!!! " + String(describing: object))
+                                } else {
+                                    print("JSON is invalid")
+                                }
+                            } catch {
+                                print("TO ERR IS HUMAN")
+                            }
+                        }
+                        task2.resume()
+                    }
+                })
 
                 
                 /*
@@ -1509,7 +1584,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
                         baseHeight = 100
                         longString = universalItem.whoName + universalItem.whomName + universalItem.taxReasonName
                     case 2: // Mixed
-                        baseHeight = 100
+                        baseHeight = 160
                         switch universalItem.taxReasonId {
                         case 2: // Labor ie wc
                             longString = universalItem.whoName + universalItem.whomName + universalItem.personalReasonName + universalItem.taxReasonName + universalItem.workersCompName
@@ -1662,7 +1737,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
                         baseHeight = 100
                         longString = universalItem.whoName + universalItem.whomName + universalItem.taxReasonName
                     case 2: // Mixed
-                        baseHeight = 100
+                        baseHeight = 160
                         switch universalItem.taxReasonId {
                         case 2: // Labor ie wc
                             longString = universalItem.whoName + universalItem.whomName + universalItem.personalReasonName + universalItem.taxReasonName + universalItem.workersCompName
