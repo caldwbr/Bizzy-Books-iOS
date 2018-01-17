@@ -248,6 +248,41 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                 self.vehiclesRef = Database.database().reference().child("users").child(userUID).child("vehicles")
                 self.youEntityRef = Database.database().reference().child("users").child(userUID).child("youEntity")
                 self.firstTimeRef = Database.database().reference().child("users").child(userUID).child("firstTime")
+                
+                
+                user?.getIDTokenForcingRefresh(true) { idToken, error in
+                    if let error = error, idToken != "" {
+                        // Handle error
+                        return;
+                    }
+                    // Send token to your backend via HTTPS
+                    // ...
+                    let url = URL(string: "https://bizzy-books.appspot.com/key")!
+                    var request = URLRequest(url: url)
+                    print("idToken!! " + (idToken)!)
+                    request.addValue("Bearer \(idToken!)", forHTTPHeaderField: "Authorization")
+                    //request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+                    request.httpMethod = "POST"
+                    //let postString = idToken
+                    //request.httpBody = postString?.data(using: .utf8)
+                    let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                        guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                            print("error=\(error)")
+                            return
+                        }
+                        
+                        if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+                            print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                            print("response = \(response)")
+                        }
+                        
+                        let responseString = String(data: data, encoding: .utf8)
+                        print("responseString = \(responseString)")
+                    }
+                    task.resume()
+                }
+
+                
                 /*
                  //Test Atbash
                  var text = "Blue Toyota Prius"
@@ -255,7 +290,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                  print("Encrypted: " + ciphertext)
                  var plaintext = ciphertext.decrypt()
                  print("Decrypted: " + plaintext)
-                 */
+                 
                 
                 // Encryption
                 let data = "Yo Yo Hello Hello".data(using: .utf8)
@@ -269,7 +304,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                 self.masterRef.child("TESTENCRYPTION").setValue(stringForm)
                 //let dataOption = NSData(base64EncodedString: stringForm, options: []) Getting data back, supposedly
                 
-                /*
+                
                  let data = "Yo Yo Hello Hello".data(using: .utf8) // Length of string DOES have effect both on number of bytes in data AND on length (number of bytes) of the cypher
                  print("the data! " + String(describing: data))
                  print("Ory \(data! as NSData)") // "as NSData" is necessary - otherwise it just prints the number of bytes rather than the hexidecimal representations of the bytes
