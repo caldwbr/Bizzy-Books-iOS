@@ -2216,8 +2216,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             guard yourAccountPlaceholderKeyString != "" else { return }
         case 6:
             guard projectPlaceholderKeyString != "" else { return }
-            if projectMediaTypePlaceholderId != -1 {
-                guard projectStatusPlaceholderId != -1 else { return } // Ensure a project status unless it's overhead
+            if projectPlaceholderKeyString != "0" {
+                guard projectStatusPlaceholderId != -1 else { return } // Ensure a project status unless it's overhead //OVERHEAD is "zero" not -1!!!!!!!!! And it's a freaking string not an int sheesh...
             }
         default:
             guard projectPlaceholderKeyString != "" else { return }
