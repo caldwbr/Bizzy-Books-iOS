@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return UIApplication.shared.delegate as! AppDelegate
     }
     
-    /*
+    
     //YES!!! This AMAZING bit of code stops "Word Flow" "Swipe" "SwiftKey" or any other usually good keyboard from popping up and forcing some generic entry where you want specifically numeric entry, etc.!!!
     func application(_ application: UIApplication, shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplicationExtensionPointIdentifier) -> Bool {
         if extensionPointIdentifier == UIApplicationExtensionPointIdentifier.keyboard {
@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         return true
     }
- */
+ 
     
     func showMessage(message: String) {
         let alertController = UIAlertController(title: "Contacts", message: message, preferredStyle: UIAlertControllerStyle.alert)

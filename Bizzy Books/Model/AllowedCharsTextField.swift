@@ -48,6 +48,11 @@ class AllowedCharsTextField: UITextField, UITextFieldDelegate {
         guard string.count > 0 else {
             return true
         }*/
+        //BY THE FREAKING WAY, SwiftKey is sooo stupid it doesn't register backspaces
+        //THEREFORE, we can't freaking use SwiftKey for notes entry or anything
+        //because we have to resign from using it at all. Without registering backspace,
+        //if you enter a wrong number, it grows only larger and larger as you delete and retype your
+        //numbers. ABSO freaking LUTELY insane.
         
         // 7
         let allowedCharsSet = CharacterSet(charactersIn: allowedChars)
@@ -130,7 +135,7 @@ class AllowedCharsTextField: UITextField, UITextFieldDelegate {
                 return false //This was the line that, when set to true, was appending the digit-in-purgatory after field had already been rendered by "updateAmount()" IE $0.055
             default:
                 if let digit = Int(string) {
-                    
+                    print("Yoo hoo I'm actually here and the digit is \(digit)")
                     if thisIsTheAmt.theAmt > 10_000_000_00 {
                         thisIsTheAmt.theAmt = 0
                         self.text = ""
@@ -144,7 +149,9 @@ class AllowedCharsTextField: UITextField, UITextFieldDelegate {
                     self.text = updateAmount()
                 }
                 if string == "" {
+                    print("I see thee!!")
                     thisIsTheAmt.theAmt = thisIsTheAmt.theAmt/10
+                    print("This is the amt.the amt " + String(describing: thisIsTheAmt.theAmt))
                     self.text = thisIsTheAmt.theAmt == 0 ? "" : updateAmount()
                 }
                 if string == "-" {

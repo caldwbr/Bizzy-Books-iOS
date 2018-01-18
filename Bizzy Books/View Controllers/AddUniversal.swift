@@ -1730,9 +1730,11 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             if let youKey = snapshot.value as? String {
                 self.trueYouKeyString = youKey
                 if TheAmtSingleton.shared.theMIPNumber == -1 {
-                    self.whoPlaceholder = "You"
-                    self.whoPlaceholderKeyString = youKey
-                    self.reloadSentence(selectedType: self.selectedType)
+                    if self.whoPlaceholderKeyString == "" {
+                        self.whoPlaceholder = "You"
+                        self.whoPlaceholderKeyString = youKey
+                        self.reloadSentence(selectedType: self.selectedType)
+                    }
                 }
             }
         })
@@ -2296,7 +2298,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 for mip in MIProcessor.sharedMIP.mIPProjects {
                     if mip.key == projectPlaceholderKeyString {
                         if projectStatusPlaceholderId != mip.projectStatusId {
-                            projectsRef.child(mip.key).updateChildValues(["projectStatusId": projectStatusPlaceholderId, "projectStatusName": projectStatusPlaceholder])
+                            projectsRef.child(mip.key).updateChildValues(["projectStatusId": projectStatusPlaceholderId, "projectStatusName": projectStatusPlaceholder.encryptIt()])
                         }
                     }
                 }
@@ -2333,7 +2335,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                     thereIsUseTax = true
                 }
             }
-            universalsRef.child(addUniversalKeyString).updateChildValues(["projectItemName": projectPlaceholder, "projectItemKey": projectPlaceholderKeyString, "odometerReading": TheAmtSingleton.shared.theOdo, "howMany": TheAmtSingleton.shared.howMany, "notes": notes, "whoName": whoPlaceholder, "whoKey": whoPlaceholderKeyString, "fuelTypeName": fuelTypePlaceholder, "fuelTypeId": fuelTypePlaceholderId, "what": TheAmtSingleton.shared.theAmt, "whomName": whomPlaceholder, "whomKey": whomPlaceholderKeyString, "taxReasonName": whatTaxReasonPlaceholder, "taxReasonId": whatTaxReasonPlaceholderId, "vehicleName": vehiclePlaceholder, "vehicleKey": vehiclePlaceholderKeyString, "workersCompName": workersCompPlaceholder, "workersCompId": workersCompPlaceholderId, "advertisingMeansName": advertisingMeansPlaceholder, "advertisingMeansId": advertisingMeansPlaceholderId, "personalReasonName": whatPersonalReasonPlaceholder, "personalReasonId": whatPersonalReasonPlaceholderId, "percentBusiness": thePercent, "accountOneName": yourAccountPlaceholder, "accountOneKey": yourAccountPlaceholderKeyString, "accountOneType": accountTypePlaceholderId, "accountTwoName": yourSecondaryAccountPlaceholder, "accountTwoKey": yourSecondaryAccountPlaceholderKeyString, "accountTwoType": secondaryAccountTypePlaceholderId, "picNumber": picNumber, "picUrl": urlString, "picAspectRatio": intifiedAspectRatio, "useTax": thereIsUseTax, "projectPicTypeName": projectMediaTypePlaceholder, "projectPicTypeId": projectMediaTypePlaceholderId])
+            universalsRef.child(addUniversalKeyString).updateChildValues(["projectItemName": projectPlaceholder.encryptIt(), "projectItemKey": projectPlaceholderKeyString, "odometerReading": TheAmtSingleton.shared.theOdo, "howMany": TheAmtSingleton.shared.howMany, "notes": notes.encryptIt(), "whoName": whoPlaceholder.encryptIt(), "whoKey": whoPlaceholderKeyString, "fuelTypeName": fuelTypePlaceholder.encryptIt(), "fuelTypeId": fuelTypePlaceholderId, "what": TheAmtSingleton.shared.theAmt, "whomName": whomPlaceholder.encryptIt(), "whomKey": whomPlaceholderKeyString, "taxReasonName": whatTaxReasonPlaceholder.encryptIt(), "taxReasonId": whatTaxReasonPlaceholderId, "vehicleName": vehiclePlaceholder.encryptIt(), "vehicleKey": vehiclePlaceholderKeyString, "workersCompName": workersCompPlaceholder.encryptIt(), "workersCompId": workersCompPlaceholderId, "advertisingMeansName": advertisingMeansPlaceholder.encryptIt(), "advertisingMeansId": advertisingMeansPlaceholderId, "personalReasonName": whatPersonalReasonPlaceholder.encryptIt(), "personalReasonId": whatPersonalReasonPlaceholderId, "percentBusiness": thePercent, "accountOneName": yourAccountPlaceholder.encryptIt(), "accountOneKey": yourAccountPlaceholderKeyString, "accountOneType": accountTypePlaceholderId, "accountTwoName": yourSecondaryAccountPlaceholder.encryptIt(), "accountTwoKey": yourSecondaryAccountPlaceholderKeyString, "accountTwoType": secondaryAccountTypePlaceholderId, "picNumber": picNumber, "picUrl": urlString.encryptIt(), "picAspectRatio": intifiedAspectRatio, "useTax": thereIsUseTax, "projectPicTypeName": projectMediaTypePlaceholder.encryptIt(), "projectPicTypeId": projectMediaTypePlaceholderId])
         }
         TheAmtSingleton.shared.theAmt = 0
         TheAmtSingleton.shared.howMany = 0

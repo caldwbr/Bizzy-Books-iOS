@@ -2606,11 +2606,6 @@ If you can't think of a project with which to associate a business expense, use 
                         <constraint firstAttribute="trailing" secondItem="yqx-aJ-eWI" secondAttribute="trailing" constant="16" id="wV1-Mw-jZa"/>
                         <constraint firstItem="a79-zN-uj4" firstAttribute="bottom" secondItem="ol0-J5-ozK" secondAttribute="bottom" id="z8E-OK-MZA"/>
                     </constraints>
-                    <variation key="default">
-                        <mask key="subviews">
-                            <exclude reference="8W4-Zb-6F6"/>
-                        </mask>
-                    </variation>
                 </view>
                 <view contentMode="scaleToFill" id="dSN-pE-ETU">
                     <rect key="frame" x="0.0" y="0.0" width="358" height="523"/>
