@@ -91,13 +91,13 @@ struct AccountItem: MultiversalItem {
     init(snapshot: DataSnapshot) {
         key = snapshot.key
         let snapshotValue = snapshot.value as! [String: AnyObject]
-        name = snapshotValue["name"] as? String ?? ""
+        name = (snapshotValue["name"] as? String)?.decryptIt() ?? ""
         accountTypeId = snapshotValue["accountTypeId"] as? Int ?? 0
-        phoneNumber = snapshotValue["phoneNumber"] as? String ?? ""
-        email = snapshotValue["email"] as? String ?? ""
-        street = snapshotValue["street"] as? String ?? ""
-        city = snapshotValue["city"] as? String ?? ""
-        state = snapshotValue["state"] as? String ?? ""
+        phoneNumber = (snapshotValue["phoneNumber"] as? String)?.decryptIt() ?? ""
+        email = (snapshotValue["email"] as? String)?.decryptIt() ?? ""
+        street = (snapshotValue["street"] as? String)?.decryptIt() ?? ""
+        city = (snapshotValue["city"] as? String)?.decryptIt() ?? ""
+        state = (snapshotValue["state"] as? String)?.decryptIt() ?? ""
         startingBal = snapshotValue["startingBal"] as? Int ?? 0
         creditDetailsAvailable = snapshotValue["creditDetailsAvailable"] as? Bool ?? false
         isLoan = snapshotValue["isLoan"] as? Bool ?? false
@@ -130,13 +130,13 @@ struct AccountItem: MultiversalItem {
     
     func toAnyObject() -> Any {
         return [
-            "name": name,
+            "name": name.encryptIt(),
             "accountTypeId": accountTypeId,
-            "phoneNumber": phoneNumber,
-            "email": email,
-            "street": street,
-            "city": city,
-            "state": state,
+            "phoneNumber": phoneNumber.encryptIt(),
+            "email": email.encryptIt(),
+            "street": street.encryptIt(),
+            "city": city.encryptIt(),
+            "state": state.encryptIt(),
             "startingBal": startingBal,
             "creditDetailsAvailable": creditDetailsAvailable,
             "isLoan": isLoan,

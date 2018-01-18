@@ -248,189 +248,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                 self.vehiclesRef = Database.database().reference().child("users").child(userUID).child("vehicles")
                 self.youEntityRef = Database.database().reference().child("users").child(userUID).child("youEntity")
                 self.firstTimeRef = Database.database().reference().child("users").child(userUID).child("firstTime")
-                
-                var encryptedKeyYo = ""
-                var recoveredKeyYo = ""
-                
-                user?.getIDTokenForcingRefresh(true) { idToken, error in
-                    if let error = error, idToken != "" {
-                        // Handle error
-                        return;
-                    }
-                    
-                    // ENCRYPTION
-                    let url = URL(string: "https://bizzy-books.appspot.com/key")!
-                    var request = URLRequest(url: url)
-                    print("idToken!! " + (idToken)!)
-                    request.addValue("Bearer \(idToken!)", forHTTPHeaderField: "Authorization")
-                    //request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-                    request.httpMethod = "POST"
-                    //let postString = idToken
-                    //request.httpBody = postString?.data(using: .utf8)
-                    let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                        guard let data = data, error == nil else {                                                 // check for fundamental networking error
-                            print("error=\(error)")
-                            return
-                        }
-                        
-                        if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
-                            print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                            print("response = \(response)")
-                        }
-                        
-                        let responseString = String(data: data, encoding: .utf8)
-                        
-                        do {
-                            let json = try JSONSerialization.jsonObject(with: data, options: [])
-                            if let object = json as? [String: Any] {
-                                // json is a dictionary
-                                print("1!!!! " + String(describing: object["key"]!))
-                                print("ENCRYPT! " + String(describing: object["encrypted"]!))
-                                encryptedKeyYo = String(describing: object["encrypted"]!)
-                                
-                                
-                            } else if let object = json as? [Any] {
-                                // json is an array
-                                print("2!!!! " + String(describing: object))
-                            } else {
-                                print("JSON is invalid")
-                            }
-                        } catch {
-                            print("TO ERR IS HUMAN")
-                        }
-                        
- 
-                        print("responseString = \(responseString)")
-                    }
-                    task.resume()
-                    
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5), execute: {
-                    user?.getIDTokenForcingRefresh(true) { idToken, error in
-                        if let error = error, idToken != "" {
-                            // Handle error
-                            return;
-                        }
-                        
-                        //DECRYPTION
-                        var url2 = URLComponents(string: "https://bizzy-books.appspot.com/decrypt")!
-                        url2.queryItems = [
-                            URLQueryItem(name: "value", value: encryptedKeyYo)
-                        ]
-                        var request2 = URLRequest(url: url2.url!)
-                        request2.addValue("Bearer \(idToken!)", forHTTPHeaderField: "Authorization")
-                        //request2.addValue("Name \(encryptedKeyYo)", forHTTPHeaderField: "Parameters")
-                        //request2.httpBody = encryptedKeyYo.data(using: .utf8)
-                        //request2.addValue("value \(encryptedKeyYo)", forHTTPHeaderField: "params")
-                        request2.httpMethod = "GET"
-                        let task2 = URLSession.shared.dataTask(with: request2) { data, response, error in
-                            guard let data = data, error == nil else {
-                                print("error=\(error)")
-                                return
-                            }
-                            if let httpStatus2 = response as? HTTPURLResponse, httpStatus2.statusCode != 200 {
-                                print("statusCode should be 200, but is \(httpStatus2.statusCode)")
-                                print("response = \(response)")
-                            }
-                            
-                            let responseString2 = String(data: data, encoding: .utf8)
-                            print("responseString2 = \(responseString2)")
-                            do {
-                                let json = try JSONSerialization.jsonObject(with: data, options: [])
-                                if let object = json as? [String: Any] {
-                                    // json is a dictionary
-                                    recoveredKeyYo = String(describing: object["key"]!)
-                                    print("recoveredKeyYo = " + recoveredKeyYo)
-                                    
-                                } else if let object = json as? [Any] {
-                                    // json is an array
-                                    print("2!!!! " + String(describing: object))
-                                } else {
-                                    print("JSON is invalid")
-                                }
-                            } catch {
-                                print("TO ERR IS HUMAN")
-                            }
-                        }
-                        task2.resume()
-                    }
-                })
 
-                
-                /*
-                 //Test Atbash
-                 var text = "Blue Toyota Prius"
-                 var ciphertext = text.encrypt()
-                 print("Encrypted: " + ciphertext)
-                 var plaintext = ciphertext.decrypt()
-                 print("Decrypted: " + plaintext)
-                 
-                
-                // Encryption
-                let data = "Yo Yo Hello Hello".data(using: .utf8)
-                let password = "123abc"
-                let encryptKey = "1234567890abcdefabcdef1234567890".data(using: .utf8)
-                let hmacKey = "abcdef12345678901234567890abcdef".data(using: .utf8)
-                let encryptor = RNCryptor.EncryptorV3(encryptionKey: encryptKey!, hmacKey: hmacKey!)
-                let decryptor = RNCryptor.DecryptorV3(encryptionKey: encryptKey!, hmacKey: hmacKey!)
-                let ciphertext = encryptor.encrypt(data: data!)
-                let stringForm = ciphertext.base64EncodedString(options: NSData.Base64EncodingOptions.endLineWithCarriageReturn)
-                self.masterRef.child("TESTENCRYPTION").setValue(stringForm)
-                //let dataOption = NSData(base64EncodedString: stringForm, options: []) Getting data back, supposedly
-                
-                
-                 let data = "Yo Yo Hello Hello".data(using: .utf8) // Length of string DOES have effect both on number of bytes in data AND on length (number of bytes) of the cypher
-                 print("the data! " + String(describing: data))
-                 print("Ory \(data! as NSData)") // "as NSData" is necessary - otherwise it just prints the number of bytes rather than the hexidecimal representations of the bytes
-                 let password = "123abc" // Length of password has no effect on length of the cypher
-                 var ciphertext = RNCryptor.encrypt(data: data!, withPassword: password) //Ciphertext is DIFFERENT every time as expected, even with same password, although we're going to switch to secret key.
-                 print("THE CYPHER !!! " + String(describing: ciphertext))
-                 print("OR!! " + ciphertext.base64EncodedString())
-                 print("OORRRRR!!!!!! \(ciphertext as NSData)")
-                 
-                 Here's what converting the utf8 (encrypted) data to chars appears as - no doubt the "craziness" spoken of by RNapier
-                 
-                 convertUTF82Char: error1 9F! FdconvertUTF82Char: error2 60! ￠convertUTF82Char: error2 DA! 󣧚convertUTF82Char: error1 A4! jconvertUTF82Char: error1 AA! convertUTF82Char: error1 89! convertUTF82Char: error1 92! convertUTF82Char: error2 FE! ϾhconvertUTF82Char: error1 FD! convertUTF82Char: error1 BD! convertUTF82Char: error1 93! convertUTF82Char: error2 FF! Ϳ'convertUTF82Char: error1 A8! convertUTF82Char: error1 BA! WۨeconvertUTF82Char: error1 89!  xSRconvertUTF82Char: error3 C0! convertUTF82Char: error3 EC! convertUTF82Char: error2 7F! ￿convertUTF82Char: error1 84! convertUTF82Char: error1 A7! convertUTF82Char: error2 F1! ٱpconvertUTF82Char: error2 79! ￹MxconvertUTF82Char: error2 16! ﾖconvertUTF82Char: error2 37! ￷convertUTF82Char: error1 A5! ((convertUTF82Char: error1 9D! convertUTF82Char: error1 AF! KconvertUTF82Char: error3 E6! convertUTF82Char: error3 E9! dec2char error: Code point out of range: 167A76D<xbO@convertUTF82Char: error1 B3! lconvertUTF82Char: error2 FD! ۽convertUTF82Char: error3 F8! convertUTF82Char: error2 27! ﾧ|JconvertUTF82Char: error2 7F! ￿convertUTF82Char: error1 88! Vi>convertUTF82Char: error1 B3! $qconvertUTF82Char: error1 FD! oconvertUTF82Char: error3 4!
-                 
-                 But in my console, it's apparently just showing the utf8 numbers representing corresponding byte number
-                 <03019f46 64cb60f3 a3a6daa4 6aaa8992 cffe68fd bd9315cd ff27a80f bac197db a8658900 20785352 f3c0ec7f 84a7d8f1 70c7794d 78de16cd 3704a528 289d18af 4bf5e6e9 b6443c78 624f40b3 6cdafdee f8277c4a 04c77f88 56693eb3 2471fd6f f304>
-                 Because the "Yo Yo Hello Hello" string when changed to utf8 is <596f2059 6f204865 6c6c6f20 48656c6c 6f>, which converts right back to "Yo Yo Hello Hello"
-                 WELL, the online convertor likes the spaces to be between every two digits, like so: 59 6f 20 59 6f 20 48 65 6c 6c 6f 20 48 65 6c 6c 6f
-                 
-                 UTF8 will use only one byte per character if possible (or as many as needed, probably up to four bytes I assume). Remember 1 byte = 8 bits.
-                 The 01100101 type bytes of UTF8 are shown to humans like 3b or 35 or some other two-item character and/or digit combo (called "hexadecimal," with a lowercase h lol).
-                 10011111 in binary is 237 in octal is 159 in decimal is 9F in hexadecimal
-                 Unicode is a huge, 1-million count mapping of characters to values - U+1E00 the U and + are just saying "It's unicode". The 1E00 is the "code point" - In other (decimal) words, it is the 7680th character of the
-                 Unicode table. It is officially called "LATIN CAPITAL LETTER A WITH RING BELOW". Ḁ
-                 
- 
-                
-                // Decryption
-                do {
-                    var cipher2 = ""
-                    self.masterRef.child("TESTENCRYPTION").observeSingleEvent(of: .value, with: { (snapshot) in
-                        for item in snapshot.children {
-                            cipher2 = item as! String
-                        }
-                    })
-                    let cipher2data = cipher2.da
-                    let originalData = try RNCryptor.decrypt(data: , withPassword: password)
-                    let newbie = String("\(originalData)")
-                    print("IT IS UH " + newbie)
-                    let base64EncodedData = originalData.base64EncodedData()
-                    //Decode base64
-                    let newData = NSData(base64Encoded: base64EncodedData, options: NSData.Base64DecodingOptions.ignoreUnknownCharacters)! //BOTH this line and the one above ACTUALLY ARE necessary BION! (believe it or not)
-                    
-                    //Convert NSData to NSString
-                    let newNSString = NSString(data: newData as Data, encoding: String.Encoding.utf8.rawValue)!
-                    
-                    print("New NSSTRING!!!!!!!!!!!!!!!!!!!!!!!! " + (newNSString as String))
-                    // ...
-                } catch {
-                    print(error)
-                }
- */
                 self.initializeIfFirstAppUse()
                 print("ONE!")
                 self.masterRef.observe(.childChanged, with: { (snapshot) in // GENIUS!!!!! This line loads MIP only when an item gets added/changed/deleted (and exactly WHEN an item gets added/changed/deleted) in Firebase database IN REALTIME!!!!
@@ -858,14 +676,14 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             statePlaceholder = editAccountState
         }
         var accountMultipathDict: Dictionary<String, Any> = [String: Any]()
-        accountMultipathDict = ["accounts/\(accountKeyPlaceholder)/name": accountNamePlaceholder, "accounts/\(accountKeyPlaceholder)/startingBal": accountStartingBalance, "accounts/\(accountKeyPlaceholder)/phoneNumber": phoneNumberPlaceholder, "accounts/\(accountKeyPlaceholder)/email": emailPlaceholder, "accounts/\(accountKeyPlaceholder)/street": streetPlaceholder, "accounts/\(accountKeyPlaceholder)/city": cityPlaceholder, "accounts/\(accountKeyPlaceholder)/state": statePlaceholder, "accounts/\(accountKeyPlaceholder)/accountTypeId": accountTypeId]
+        accountMultipathDict = ["accounts/\(accountKeyPlaceholder)/name": accountNamePlaceholder.encryptIt(), "accounts/\(accountKeyPlaceholder)/startingBal": accountStartingBalance, "accounts/\(accountKeyPlaceholder)/phoneNumber": phoneNumberPlaceholder.encryptIt(), "accounts/\(accountKeyPlaceholder)/email": emailPlaceholder.encryptIt(), "accounts/\(accountKeyPlaceholder)/street": streetPlaceholder.encryptIt(), "accounts/\(accountKeyPlaceholder)/city": cityPlaceholder.encryptIt(), "accounts/\(accountKeyPlaceholder)/state": statePlaceholder.encryptIt(), "accounts/\(accountKeyPlaceholder)/accountTypeId": accountTypeId]
         for univs in MIProcessor.sharedMIP.mIPUniversals {
             if univs.accountOneKey == accountKeyPlaceholder {
-                accountMultipathDict["universals/\(univs.key)/accountOneName"] = accountNamePlaceholder
+                accountMultipathDict["universals/\(univs.key)/accountOneName"] = accountNamePlaceholder.encryptIt()
                 accountMultipathDict["universals/\(univs.key)/accountOneType"] = accountTypeId
             }
             if univs.accountTwoKey == accountKeyPlaceholder {
-                accountMultipathDict["universals/\(univs.key)/accountTwoName"] = accountNamePlaceholder
+                accountMultipathDict["universals/\(univs.key)/accountTwoName"] = accountNamePlaceholder.encryptIt()
                 accountMultipathDict["universals/\(univs.key)/accountTwoType"] = accountTypeId
             }
         }
@@ -917,11 +735,11 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             vehiclePICPlaceholder = editVehiclePIC
         }
         var vehicleMultipathDict: Dictionary<String, Any> = [String: Any]()
-        vehicleMultipathDict = ["vehicles/\(vehicleKeyPlaceholder)/color": vehicleColorPlaceholder, "vehicles/\(vehicleKeyPlaceholder)/year": vehicleYearPlaceholder, "vehicles/\(vehicleKeyPlaceholder)/make": vehicleMakePlaceholder, "vehicles/\(vehicleKeyPlaceholder)/model": vehicleModelPlaceholder, "vehicles/\(vehicleKeyPlaceholder)/fuelId": fuelTypeId, "vehicles/\(vehicleKeyPlaceholder)/fuelString": fuelTypePickerData[fuelTypeId], "vehicles/\(vehicleKeyPlaceholder)/licensePlateNumber": vehicleLPNPlaceholder, "vehicles/\(vehicleKeyPlaceholder)/vehicleIdentificationNumber": vehicleVINPlaceholder, "vehicles/\(vehicleKeyPlaceholder)/placedInCommissionDate": vehiclePICPlaceholder]
+        vehicleMultipathDict = ["vehicles/\(vehicleKeyPlaceholder)/color": vehicleColorPlaceholder.encryptIt(), "vehicles/\(vehicleKeyPlaceholder)/year": vehicleYearPlaceholder.encryptIt(), "vehicles/\(vehicleKeyPlaceholder)/make": vehicleMakePlaceholder.encryptIt(), "vehicles/\(vehicleKeyPlaceholder)/model": vehicleModelPlaceholder.encryptIt(), "vehicles/\(vehicleKeyPlaceholder)/fuelId": fuelTypeId, "vehicles/\(vehicleKeyPlaceholder)/fuelString": fuelTypePickerData[fuelTypeId].encryptIt(), "vehicles/\(vehicleKeyPlaceholder)/licensePlateNumber": vehicleLPNPlaceholder.encryptIt(), "vehicles/\(vehicleKeyPlaceholder)/vehicleIdentificationNumber": vehicleVINPlaceholder.encryptIt(), "vehicles/\(vehicleKeyPlaceholder)/placedInCommissionDate": vehiclePICPlaceholder.encryptIt()]
         for univs in MIProcessor.sharedMIP.mIPUniversals {
             if univs.vehicleKey == vehicleKeyPlaceholder {
                 let vehicleName = vehicleYearPlaceholder + " " + vehicleMakePlaceholder + " " + vehicleModelPlaceholder
-                vehicleMultipathDict["universals/\(univs.key)/vehicleName"] = vehicleName
+                vehicleMultipathDict["universals/\(univs.key)/vehicleName"] = vehicleName.encryptIt()
             }
         }
         masterRef.updateChildValues(vehicleMultipathDict)
@@ -982,18 +800,18 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             einPlaceholder = editEntityEIN
         }
         var entityMultipathDict: Dictionary<String, Any> = [String: Any]()
-        entityMultipathDict = ["entities/\(entityNamePlaceholderKeyString)/type": entityRelationId, "entities/\(entityNamePlaceholderKeyString)/name": entityNamePlaceholder, "entities/\(entityNamePlaceholderKeyString)/phoneNumber": phoneNumberPlaceholder, "entities/\(entityNamePlaceholderKeyString)/email": emailPlaceholder, "entities/\(entityNamePlaceholderKeyString)/street": streetPlaceholder, "entities/\(entityNamePlaceholderKeyString)/city": cityPlaceholder, "entities/\(entityNamePlaceholderKeyString)/state": statePlaceholder, "entities/\(entityNamePlaceholderKeyString)/ssn": ssnPlaceholder, "entities/\(entityNamePlaceholderKeyString)/ein": einPlaceholder]
+        entityMultipathDict = ["entities/\(entityNamePlaceholderKeyString)/type": entityRelationId, "entities/\(entityNamePlaceholderKeyString)/name": entityNamePlaceholder.encryptIt(), "entities/\(entityNamePlaceholderKeyString)/phoneNumber": phoneNumberPlaceholder.encryptIt(), "entities/\(entityNamePlaceholderKeyString)/email": emailPlaceholder.encryptIt(), "entities/\(entityNamePlaceholderKeyString)/street": streetPlaceholder.encryptIt(), "entities/\(entityNamePlaceholderKeyString)/city": cityPlaceholder.encryptIt(), "entities/\(entityNamePlaceholderKeyString)/state": statePlaceholder.encryptIt(), "entities/\(entityNamePlaceholderKeyString)/ssn": ssnPlaceholder.encryptIt(), "entities/\(entityNamePlaceholderKeyString)/ein": einPlaceholder.encryptIt()]
         for univs in MIProcessor.sharedMIP.mIPUniversals {
             if univs.whoKey == entityNamePlaceholderKeyString {
-                entityMultipathDict["universals/\(univs.key)/whoName"] = entityNamePlaceholder
+                entityMultipathDict["universals/\(univs.key)/whoName"] = entityNamePlaceholder.encryptIt()
             }
             if univs.whomKey == entityNamePlaceholderKeyString {
-                entityMultipathDict["universals/\(univs.key)/whomName"] = entityNamePlaceholder
+                entityMultipathDict["universals/\(univs.key)/whomName"] = entityNamePlaceholder.encryptIt()
             }
         }
         for projs in MIProcessor.sharedMIP.mIPProjects {
             if projs.customerKey == entityNamePlaceholderKeyString {
-                entityMultipathDict["projects/\(projs.key)/customerName"] = entityNamePlaceholder
+                entityMultipathDict["projects/\(projs.key)/customerName"] = entityNamePlaceholder.encryptIt()
             }
         }
         masterRef.updateChildValues(entityMultipathDict)
@@ -1122,10 +940,10 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             statePlaceholder = editProjectState
         }
         var projectMultipathDict: Dictionary<String, Any> = [String: Any]()
-        projectMultipathDict = ["projects/\(projectKeyPlaceholder)/name": projectNamePlaceholder, "projects/\(projectKeyPlaceholder)/customerName": customerNamePlaceholder, "projects/\(projectKeyPlaceholder)/customerKey": customerNamePlaceholderKeyString, "projects/\(projectKeyPlaceholder)/howDidTheyHearOfYouString": howDidTheyHearOfYouPickerData[howDidTheyHearOfYouId], "projects/\(projectKeyPlaceholder)/howDidTheyHearOfYouId": howDidTheyHearOfYouId, "projects/\(projectKeyPlaceholder)/projectStatusName": projectStatusPickerData[projectStatusId], "projects/\(projectKeyPlaceholder)/projectStatusId": projectStatusId, "projects/\(projectKeyPlaceholder)/projectTags": tagsPlaceholder, "projects/\(projectKeyPlaceholder)/projectNotes": notesPlaceholder, "projects/\(projectKeyPlaceholder)/projectAddressStreet": streetPlaceholder, "projects/\(projectKeyPlaceholder)/projectAddressCity": cityPlaceholder, "projects/\(projectKeyPlaceholder)/projectAddressState": statePlaceholder]
+        projectMultipathDict = ["projects/\(projectKeyPlaceholder)/name": projectNamePlaceholder.encryptIt(), "projects/\(projectKeyPlaceholder)/customerName": customerNamePlaceholder.encryptIt(), "projects/\(projectKeyPlaceholder)/customerKey": customerNamePlaceholderKeyString, "projects/\(projectKeyPlaceholder)/howDidTheyHearOfYouString": howDidTheyHearOfYouPickerData[howDidTheyHearOfYouId].encryptIt(), "projects/\(projectKeyPlaceholder)/howDidTheyHearOfYouId": howDidTheyHearOfYouId, "projects/\(projectKeyPlaceholder)/projectStatusName": projectStatusPickerData[projectStatusId].encryptIt(), "projects/\(projectKeyPlaceholder)/projectStatusId": projectStatusId, "projects/\(projectKeyPlaceholder)/projectTags": tagsPlaceholder.encryptIt(), "projects/\(projectKeyPlaceholder)/projectNotes": notesPlaceholder.encryptIt(), "projects/\(projectKeyPlaceholder)/projectAddressStreet": streetPlaceholder.encryptIt(), "projects/\(projectKeyPlaceholder)/projectAddressCity": cityPlaceholder.encryptIt(), "projects/\(projectKeyPlaceholder)/projectAddressState": statePlaceholder.encryptIt()]
         for univs in MIProcessor.sharedMIP.mIPUniversals {
             if univs.projectItemKey == projectKeyPlaceholder {
-                projectMultipathDict["universals/\(univs.key)/projectItemName"] = projectNamePlaceholder
+                projectMultipathDict["universals/\(univs.key)/projectItemName"] = projectNamePlaceholder.encryptIt()
             }
         }
         masterRef.updateChildValues(projectMultipathDict)
@@ -1514,7 +1332,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
                 }
                 sentenceTwoHeight = 180
             case 2: // Entity
-                baseHeight = 140 //92
+                baseHeight = 160 //92
                 if let entityItem = MIProcessor.sharedMIP.sIP[i] as? EntityItem {
                     if entityItem.phoneNumber != "" {
                         phoneHeight = 30
@@ -1667,7 +1485,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
                 }
                 sentenceTwoHeight = 180
             case 2: // Entity
-                baseHeight = 140 //92
+                baseHeight = 160 //92
                 if let entityItem = MIProcessor.sharedMIP.mIP[i] as? EntityItem {
                     if entityItem.phoneNumber != "" {
                         phoneHeight = 30

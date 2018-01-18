@@ -43,30 +43,30 @@ struct VehicleItem: MultiversalItem {
     init(snapshot: DataSnapshot) {
         key = snapshot.key
         let snapshotValue = snapshot.value as! [String: AnyObject]
-        year = snapshotValue["year"] as? String ?? ""
-        make = snapshotValue["make"] as? String ?? ""
-        model = snapshotValue["model"] as? String ?? ""
-        color = snapshotValue["color"] as? String ?? ""
+        year = (snapshotValue["year"] as? String)?.decryptIt() ?? ""
+        make = (snapshotValue["make"] as? String)?.decryptIt() ?? ""
+        model = (snapshotValue["model"] as? String)?.decryptIt() ?? ""
+        color = (snapshotValue["color"] as? String)?.decryptIt() ?? ""
         fuelId = snapshotValue["fuelId"] as? Int ?? 0
-        fuelString = snapshotValue["fuelString"] as? String ?? ""
-        placedInCommissionDate = snapshotValue["placedInCommissionDate"] as? String ?? ""
-        licensePlateNumber = snapshotValue["licensePlateNumber"] as? String ?? ""
-        vehicleIdentificationNumber = snapshotValue["vehicleIdentificationNumber"] as? String ?? ""
+        fuelString = (snapshotValue["fuelString"] as? String)?.decryptIt() ?? ""
+        placedInCommissionDate = (snapshotValue["placedInCommissionDate"] as? String)?.decryptIt() ?? ""
+        licensePlateNumber = (snapshotValue["licensePlateNumber"] as? String)?.decryptIt() ?? ""
+        vehicleIdentificationNumber = (snapshotValue["vehicleIdentificationNumber"] as? String)?.decryptIt() ?? ""
         timeStamp = snapshotValue["timeStamp"] ?? 0
         ref = snapshot.ref
     }
     
     func toAnyObject() -> Any {
         return [
-            "year": year,
-            "make": make,
-            "model": model,
-            "color": color,
+            "year": year.encryptIt(),
+            "make": make.encryptIt(),
+            "model": model.encryptIt(),
+            "color": color.encryptIt(),
             "fuelId": fuelId,
-            "fuelString": fuelString,
-            "placedInCommissionDate": placedInCommissionDate,
-            "licensePlateNumber": licensePlateNumber,
-            "vehicleIdentificationNumber": vehicleIdentificationNumber,
+            "fuelString": fuelString.encryptIt(),
+            "placedInCommissionDate": placedInCommissionDate.encryptIt(),
+            "licensePlateNumber": licensePlateNumber.encryptIt(),
+            "vehicleIdentificationNumber": vehicleIdentificationNumber.encryptIt(),
             "timeStamp": timeStamp
         ]
     }

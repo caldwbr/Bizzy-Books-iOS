@@ -112,40 +112,40 @@ struct UniversalItem: MultiversalItem {
         key = snapshot.key
         let snapshotValue = snapshot.value as! [String: AnyObject]
         universalItemType = snapshotValue["universalItemType"] as? Int ?? 0
-        projectItemName = snapshotValue["projectItemName"] as? String ?? ""
+        projectItemName = (snapshotValue["projectItemName"] as? String)?.decryptIt() ?? ""
         projectItemKey = snapshotValue["projectItemKey"] as? String ?? ""
-        odometerReading = snapshotValue["odometerReading"] as! Int
-        whoName = snapshotValue["whoName"] as? String ?? ""
+        odometerReading = snapshotValue["odometerReading"] as? Int ?? 0
+        whoName = (snapshotValue["whoName"] as? String)?.decryptIt() ?? ""
         whoKey = snapshotValue["whoKey"] as? String ?? ""
         what = snapshotValue["what"] as? Int ?? 0
-        whomName = snapshotValue["whomName"] as? String ?? ""
+        whomName = (snapshotValue["whomName"] as? String)?.decryptIt() ?? ""
         whomKey = snapshotValue["whomKey"] as? String ?? ""
-        taxReasonName = snapshotValue["taxReasonName"] as? String ?? ""
+        taxReasonName = (snapshotValue["taxReasonName"] as? String)?.decryptIt() ?? ""
         taxReasonId = snapshotValue["taxReasonId"] as? Int ?? 0
-        vehicleName = snapshotValue["vehicleName"] as? String ?? ""
+        vehicleName = (snapshotValue["vehicleName"] as? String)?.decryptIt() ?? ""
         vehicleKey = snapshotValue["vehicleKey"] as? String ?? ""
-        workersCompName = snapshotValue["workersCompName"] as? String ?? ""
+        workersCompName = (snapshotValue["workersCompName"] as? String)?.decryptIt() ?? ""
         workersCompId = snapshotValue["workersCompId"] as? Int ?? 0
-        advertisingMeansName = snapshotValue["advertisingMeansName"] as? String ?? ""
+        advertisingMeansName = (snapshotValue["advertisingMeansName"] as? String)?.decryptIt() ?? ""
         advertisingMeansId = snapshotValue["advertisingMeansId"] as? Int ?? 0
-        personalReasonName = snapshotValue["personalReasonName"] as? String ?? ""
+        personalReasonName = (snapshotValue["personalReasonName"] as? String)?.decryptIt() ?? ""
         personalReasonId = snapshotValue["personalReasonId"] as? Int ?? 0
         percentBusiness = snapshotValue["percentBusiness"] as? Int ?? 0
-        accountOneName = snapshotValue["accountOneName"] as? String ?? ""
+        accountOneName = (snapshotValue["accountOneName"] as? String)?.decryptIt() ?? ""
         accountOneKey = snapshotValue["accountOneKey"] as? String ?? ""
         accountOneType = snapshotValue["accountOneType"] as? Int ?? 0
-        accountTwoName = snapshotValue["accountTwoName"] as? String ?? ""
+        accountTwoName = (snapshotValue["accountTwoName"] as? String)?.decryptIt() ?? ""
         accountTwoKey = snapshotValue["accountTwoKey"] as? String ?? ""
         accountTwoType = snapshotValue["accountTwoType"] as? Int ?? 0
         howMany = snapshotValue["howMany"] as? Int ?? 0
-        fuelTypeName = snapshotValue["fuelTypeName"] as? String ?? ""
+        fuelTypeName = (snapshotValue["fuelTypeName"] as? String)?.decryptIt() ?? ""
         fuelTypeId = snapshotValue["fuelTypeId"] as? Int ?? 0
         useTax = snapshotValue["useTax"] as? Bool ?? false
-        notes = snapshotValue["notes"] as? String ?? ""
-        picUrl = snapshotValue["picUrl"] as? String ?? ""
+        notes = (snapshotValue["notes"] as? String)?.decryptIt() ?? ""
+        picUrl = (snapshotValue["picUrl"] as? String)?.decryptIt() ?? ""
         picAspectRatio = snapshotValue["picAspectRatio"] as? Int ?? 1
         picNumber = snapshotValue["picNumber"] as? Int ?? 0
-        projectPicTypeName = snapshotValue["projectPicTypeName"] as? String ?? ""
+        projectPicTypeName = ((snapshotValue["projectPicTypeName"] as? String)?.decryptIt())!
         projectPicTypeId = snapshotValue["projectPicTypeId"] as? Int ?? 0
         timeStamp = snapshotValue["timeStamp"] ?? 0
         latitude = snapshotValue["latitude"] as? Double ?? 0.0
@@ -158,40 +158,40 @@ struct UniversalItem: MultiversalItem {
     func toAnyObject() -> Any {
         return [
             "universalItemType": universalItemType,
-            "projectItemName": projectItemName,
+            "projectItemName": projectItemName.encryptIt(),
             "projectItemKey": projectItemKey,
             "odometerReading": odometerReading,
-            "whoName": whoName,
+            "whoName": whoName.encryptIt(),
             "whoKey": whoKey,
             "what": what,
-            "whomName": whomName,
+            "whomName": whomName.encryptIt(),
             "whomKey": whomKey,
-            "taxReasonName": taxReasonName,
+            "taxReasonName": taxReasonName.encryptIt(),
             "taxReasonId": taxReasonId,
-            "vehicleName": vehicleName,
+            "vehicleName": vehicleName.encryptIt(),
             "vehicleKey": vehicleKey,
-            "workersCompName": workersCompName,
+            "workersCompName": workersCompName.encryptIt(),
             "workersCompId": workersCompId,
-            "advertisingMeansName": advertisingMeansName,
+            "advertisingMeansName": advertisingMeansName.encryptIt(),
             "advertisingMeansId": advertisingMeansId,
-            "personalReasonName": personalReasonName,
+            "personalReasonName": personalReasonName.encryptIt(),
             "personalReasonId": personalReasonId,
             "percentBusiness": percentBusiness,
-            "accountOneName": accountOneName,
+            "accountOneName": accountOneName.encryptIt(),
             "accountOneKey": accountOneKey,
             "accountOneType": accountOneType,
-            "accountTwoName": accountTwoName,
+            "accountTwoName": accountTwoName.encryptIt(),
             "accountTwoKey": accountTwoKey,
             "accountTwoType": accountTwoType,
             "howMany": howMany,
-            "fuelTypeName": fuelTypeName,
+            "fuelTypeName": fuelTypeName.encryptIt(),
             "fuelTypeId": fuelTypeId,
             "useTax": useTax,
-            "notes": notes,
-            "picUrl": picUrl,
+            "notes": notes.encryptIt(),
+            "picUrl": picUrl.encryptIt(),
             "picAspectRatio": picAspectRatio,
             "picNumber": picNumber,
-            "projectPicTypeName": projectPicTypeName,
+            "projectPicTypeName": projectPicTypeName.encryptIt(),
             "projectPicTypeId": projectPicTypeId,
             "timeStamp": timeStamp,
             "latitude": latitude,

@@ -44,14 +44,14 @@ struct EntityItem: MultiversalItem {
         key = snapshot.key
         let snapshotValue = snapshot.value as! [String: AnyObject]
         type = snapshotValue["type"] as? Int ?? 0
-        name = snapshotValue["name"] as? String ?? ""
-        phoneNumber = snapshotValue["phoneNumber"] as? String ?? ""
-        email = snapshotValue["email"] as? String ?? ""
-        street = snapshotValue["street"] as? String ?? ""
-        city = snapshotValue["city"] as? String ?? ""
-        state = snapshotValue["state"] as? String ?? ""
-        ssn = snapshotValue["ssn"] as? String ?? ""
-        ein = snapshotValue["ein"] as? String ?? ""
+        name = (snapshotValue["name"] as? String)?.decryptIt() ?? ""
+        phoneNumber = (snapshotValue["phoneNumber"] as? String)?.decryptIt() ?? ""
+        email = (snapshotValue["email"] as? String)?.decryptIt() ?? ""
+        street = (snapshotValue["street"] as? String)?.decryptIt() ?? ""
+        city = (snapshotValue["city"] as? String)?.decryptIt() ?? ""
+        state = (snapshotValue["state"] as? String)?.decryptIt() ?? ""
+        ssn = (snapshotValue["ssn"] as? String)?.decryptIt() ?? ""
+        ein = (snapshotValue["ein"] as? String)?.decryptIt() ?? ""
         timeStamp = snapshotValue["timeStamp"] ?? 0
         ref = snapshot.ref
     }
@@ -59,14 +59,14 @@ struct EntityItem: MultiversalItem {
     func toAnyObject() -> Any { //Turns an EntityItem into a dictionary for storage in Firebase
         return [
             "type": type,
-            "name": name,
-            "phoneNumber": phoneNumber,
-            "email": email,
-            "street": street,
-            "city": city,
-            "state": state,
-            "ssn": ssn,
-            "ein": ein,
+            "name": name.encryptIt(),
+            "phoneNumber": phoneNumber.encryptIt(),
+            "email": email.encryptIt(),
+            "street": street.encryptIt(),
+            "city": city.encryptIt(),
+            "state": state.encryptIt(),
+            "ssn": ssn.encryptIt(),
+            "ein": ein.encryptIt(),
             "timeStamp": timeStamp
         ]
     }

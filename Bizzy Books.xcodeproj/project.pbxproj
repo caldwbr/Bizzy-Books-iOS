@@ -34,6 +34,7 @@
 		EB3F93BA1DDD41900049C343 /* AddUniversal.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3F93B91DDD41900049C343 /* AddUniversal.swift */; };
 		EB4392C01EF6077700C568C3 /* BizzyAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */; };
 		EB4734941DE25BD900F6928E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB4734931DE25BD900F6928E /* Assets.xcassets */; };
+		EB4EA8CB20111C56005D7552 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4EA8CA20111C56005D7552 /* Extensions.swift */; };
 		EB5856A61FB6311C006C6212 /* EntityItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5856A51FB6311C006C6212 /* EntityItem.swift */; };
 		EB5856A81FB6352D006C6212 /* AccountItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5856A71FB6352D006C6212 /* AccountItem.swift */; };
 		EB5856AA1FB635CA006C6212 /* UniversalItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5856A91FB635CA006C6212 /* UniversalItem.swift */; };
@@ -64,7 +65,6 @@
 		EBB77BDC1EFE2ABC0084D014 /* UIColorCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BDB1EFE2ABC0084D014 /* UIColorCustom.swift */; };
 		EBB77BDE1EFE2D4D0084D014 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BDD1EFE2D4D0084D014 /* UIColor+Hex.swift */; };
 		EBC54EB51FFA187600A03906 /* SearchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC54EB41FFA187600A03906 /* SearchItem.swift */; };
-		EBC79C24200857CD00AFCE0D /* Atbash.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC79C23200857CD00AFCE0D /* Atbash.swift */; };
 		EBD42D5E1FFB3E540004F896 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD42D5D1FFB3E540004F896 /* CustomImageView.swift */; };
 		EBD42D601FFB4E6E0004F896 /* ReportsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD42D5F1FFB4E6E0004F896 /* ReportsViewController.swift */; };
 		FA7B73181EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7B73171EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift */; };
@@ -103,6 +103,7 @@
 		EB3F93B91DDD41900049C343 /* AddUniversal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddUniversal.swift; sourceTree = "<group>"; };
 		EB4392BF1EF6077700C568C3 /* BizzyAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BizzyAuthViewController.swift; sourceTree = "<group>"; };
 		EB4734931DE25BD900F6928E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EB4EA8CA20111C56005D7552 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		EB5856A51FB6311C006C6212 /* EntityItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityItem.swift; sourceTree = "<group>"; };
 		EB5856A71FB6352D006C6212 /* AccountItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountItem.swift; sourceTree = "<group>"; };
 		EB5856A91FB635CA006C6212 /* UniversalItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalItem.swift; sourceTree = "<group>"; };
@@ -136,7 +137,6 @@
 		EBB77BDB1EFE2ABC0084D014 /* UIColorCustom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorCustom.swift; sourceTree = "<group>"; };
 		EBB77BDD1EFE2D4D0084D014 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		EBC54EB41FFA187600A03906 /* SearchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchItem.swift; sourceTree = "<group>"; };
-		EBC79C23200857CD00AFCE0D /* Atbash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atbash.swift; sourceTree = "<group>"; };
 		EBD42D5D1FFB3E540004F896 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		EBD42D5F1FFB4E6E0004F896 /* ReportsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsViewController.swift; sourceTree = "<group>"; };
 		FA7B73171EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
@@ -298,7 +298,7 @@
 				EBB407E61FE8A33F00E307C2 /* TheAmtSingleton.swift */,
 				EBC54EB41FFA187600A03906 /* SearchItem.swift */,
 				EBD42D5D1FFB3E540004F896 /* CustomImageView.swift */,
-				EBC79C23200857CD00AFCE0D /* Atbash.swift */,
+				EB4EA8CA20111C56005D7552 /* Extensions.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -527,11 +527,11 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Bizzy Books/Pods-Bizzy Books-resources.sh",
-				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseAuthUI.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseFacebookAuthUI.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseGoogleAuthUI.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebasePhoneAuthUI.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseTwitterAuthUI.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseFacebookAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseGoogleAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebasePhoneAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseTwitterAuthUI.bundle,
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle",
@@ -593,7 +593,6 @@
 				EB2441CD1FE63054004EDC56 /* CardViewSentenceCell.swift in Sources */,
 				EB2441C71FE61510004EDC56 /* VehicleCardViewCollectionViewCell.swift in Sources */,
 				EBC54EB51FFA187600A03906 /* SearchItem.swift in Sources */,
-				EBC79C24200857CD00AFCE0D /* Atbash.swift in Sources */,
 				EB2441CF1FE6345F004EDC56 /* CardViewLabelFlowCollectionViewDataSource.swift in Sources */,
 				EB2441BF1FE6148D004EDC56 /* ProjectCardViewCollectionViewCell.swift in Sources */,
 				EBD42D601FFB4E6E0004F896 /* ReportsViewController.swift in Sources */,
@@ -611,6 +610,7 @@
 				EBB407E71FE8A33F00E307C2 /* TheAmtSingleton.swift in Sources */,
 				EBB407E31FE7101000E307C2 /* StringifyAnInt.swift in Sources */,
 				EB1915C81FD85B370078AA64 /* IAPProcessor.swift in Sources */,
+				EB4EA8CB20111C56005D7552 /* Extensions.swift in Sources */,
 				EBB77BD61EFC36070084D014 /* LabelTextFieldFlowItem.swift in Sources */,
 				EB2441BB1FE613CF004EDC56 /* UniversalCardViewCollectionViewCell.swift in Sources */,
 				EB2441AE1FE20BF6004EDC56 /* CardView.swift in Sources */,

@@ -274,7 +274,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBAction func addProjectAddCustomerPressed(_ sender: UIButton) {
         pickerCode = 5
         entitySenderCode = 2
-        popUpAnimateIn(popUpView: addEntityView)
+        popUpAnimateInNoVisualEffectsView(popUpView: addEntityView)
     }
     @IBOutlet weak var addProjectTagsTextField: UITextField!
     @IBOutlet weak var addProjectNotesTextField: UITextField!
@@ -361,6 +361,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         pickerCode = 5
         entitySenderCode = 0
         popUpAnimateIn(popUpView: addEntityView)
+        //popUpAnimateIn(popUpView: addEntityView)
     }
     @IBAction func whoDismissTapped(_ sender: UIButton) {
         selectWhoClearing()
@@ -396,6 +397,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         pickerCode = 5
         entitySenderCode = 1
         popUpAnimateIn(popUpView: addEntityView)
+        //popUpAnimateIn(popUpView: addEntityView)
     }
     @IBAction func whomDismissTapped(_ sender: UIButton) {
         selectWhomClearing()
@@ -556,6 +558,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBAction func accountAddButtonTapped(_ sender: UIButton) {
         selectAccountClearing()
         pickerCode = 9
+        TheAmtSingleton.shared.theStartingBal = 0
         popUpAnimateIn(popUpView: addAccountView)
     }
     @IBAction func accountDismissTapped(_ sender: UIButton) {
@@ -633,6 +636,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         selectSecondaryAccountClearing()
         accountSenderCode = 1
         pickerCode = 9
+        TheAmtSingleton.shared.theStartingBal = 0
         popUpAnimateIn(popUpView: addAccountView)
     }
     @IBAction func secondaryAccountDismissTapped(_ sender: UIButton) {
@@ -1001,7 +1005,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet var addEntityView: UIView!
     
     @IBAction func cancelEntityPressed(_ sender: UIButton) {
-        addEntityView.removeFromSuperview()
+        popUpAnimateOut(popUpView: addEntityView)
     }
     
     @IBAction func clearFieldsEntityPressed(_ sender: UIButton) {
@@ -1021,23 +1025,23 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         case 0:
             self.whoPlaceholder = addEntityNameTextField.text!
             self.whoPlaceholderKeyString = addEntityKeyString
-            popUpAnimateOut(popUpView: selectWhoView)
+            popUpAnimateOut(popUpView: addEntityView)
+            selectWhoView.removeFromSuperview()
         case 1:
             self.whomPlaceholder = addEntityNameTextField.text!
             self.whomPlaceholderKeyString = addEntityKeyString
-            popUpAnimateOut(popUpView: selectWhomView)
+            popUpAnimateOut(popUpView: addEntityView)
+            selectWhomView.removeFromSuperview()
         case 2:
             self.addProjectSearchCustomerTextField.text = addEntityNameTextField.text!
             self.tempKeyHolder = addEntityKeyString
             self.pickerCode = 6 // We are resetting this to 6 so that with tag = 0 it goes back to howDidTheyHearOfYou picker (or projectStatus if tag = 1)
-            self.addEntityView.removeFromSuperview()
+            popUpAnimateOutNoVisualEffectsView(popUpView: addEntityView)
         default:
-            popUpAnimateOut(popUpView: selectWhoView)
+            popUpAnimateOut(popUpView: addEntityView)
+            selectWhoView.removeFromSuperview()
         }
         clearAddEntityFields()
-        if !(entitySenderCode == 2){
-            popUpAnimateOut(popUpView: addEntityView)
-        }
         reloadSentence(selectedType: selectedType)
         //I deleted self.pickerCode = 0 here in case it was messing with the AddProject screen crashing.
     }
@@ -1817,6 +1821,28 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             popUpView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
             popUpView.alpha = 0
             self.visualEffectView.isHidden = true
+        }) { (success:Bool) in
+            popUpView.removeFromSuperview()
+        }
+    }
+    
+    func popUpAnimateInNoVisualEffectsView(popUpView: UIView) {
+        self.view.addSubview(popUpView)
+        popUpView.center.x = self.view.center.x
+        popUpView.center.y = self.view.center.y - 50
+        popUpView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+        popUpView.alpha = 0
+        
+        UIView.animate(withDuration: 0.4) {
+            popUpView.alpha = 1
+            popUpView.transform = CGAffineTransform.identity
+        }
+    }
+    
+    func popUpAnimateOutNoVisualEffectsView(popUpView: UIView) {
+        UIView.animate(withDuration: 0.4, animations: {
+            popUpView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            popUpView.alpha = 0
         }) { (success:Bool) in
             popUpView.removeFromSuperview()
         }

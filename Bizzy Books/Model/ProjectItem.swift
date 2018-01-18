@@ -50,17 +50,17 @@ struct ProjectItem: MultiversalItem {
     init(snapshot: DataSnapshot) {
         key = snapshot.key
         let snapshotValue = snapshot.value as! [String: AnyObject]
-        name = snapshotValue["name"] as? String ?? ""
-        customerName = snapshotValue["customerName"] as? String ?? ""
+        name = (snapshotValue["name"] as? String)?.decryptIt() ?? ""
+        customerName = (snapshotValue["customerName"] as? String)?.decryptIt() ?? ""
         customerKey = snapshotValue["customerKey"] as? String ?? ""
-        howDidTheyHearOfYouString = snapshotValue["howDidTheyHearOfYouString"] as? String ?? ""
+        howDidTheyHearOfYouString = (snapshotValue["howDidTheyHearOfYouString"] as? String)?.decryptIt() ?? ""
         howDidTheyHearOfYouId = snapshotValue["howDidTheyHearOfYouId"] as? Int ?? 0
-        projectTags = snapshotValue["projectTags"] as? String ?? ""
-        projectAddressStreet = snapshotValue["projectAddressStreet"] as? String ?? ""
-        projectAddressCity = snapshotValue["projectAddressCity"] as? String ?? ""
-        projectAddressState = snapshotValue["projectAddressState"] as? String ?? ""
-        projectNotes = snapshotValue["projectNotes"] as? String ?? ""
-        projectStatusName = snapshotValue["projectStatusName"] as? String ?? ""
+        projectTags = (snapshotValue["projectTags"] as? String)?.decryptIt() ?? ""
+        projectAddressStreet = (snapshotValue["projectAddressStreet"] as? String)?.decryptIt() ?? ""
+        projectAddressCity = (snapshotValue["projectAddressCity"] as? String)?.decryptIt() ?? ""
+        projectAddressState = (snapshotValue["projectAddressState"] as? String)?.decryptIt() ?? ""
+        projectNotes = (snapshotValue["projectNotes"] as? String)?.decryptIt() ?? ""
+        projectStatusName = (snapshotValue["projectStatusName"] as? String)?.decryptIt() ?? ""
         projectStatusId = snapshotValue["projectStatusId"] as? Int ?? 0
         timeStamp = snapshotValue["timeStamp"] ?? 0
         ref = snapshot.ref
@@ -68,17 +68,17 @@ struct ProjectItem: MultiversalItem {
     
     func toAnyObject() -> Any {
         return [
-            "name": name,
-            "customerName": customerName,
+            "name": name.encryptIt(),
+            "customerName": customerName.encryptIt(),
             "customerKey": customerKey,
-            "howDidTheyHearOfYouString": howDidTheyHearOfYouString,
+            "howDidTheyHearOfYouString": howDidTheyHearOfYouString.encryptIt(),
             "howDidTheyHearOfYouId": howDidTheyHearOfYouId,
-            "projectTags": projectTags,
-            "projectAddressStreet": projectAddressStreet,
-            "projectAddressCity": projectAddressCity,
-            "projectAddressState": projectAddressState,
-            "projectNotes": projectNotes,
-            "projectStatusName": projectStatusName,
+            "projectTags": projectTags.encryptIt(),
+            "projectAddressStreet": projectAddressStreet.encryptIt(),
+            "projectAddressCity": projectAddressCity.encryptIt(),
+            "projectAddressState": projectAddressState.encryptIt(),
+            "projectNotes": projectNotes.encryptIt(),
+            "projectStatusName": projectStatusName.encryptIt(),
             "projectStatusId": projectStatusId,
             "timeStamp": timeStamp
         ]
