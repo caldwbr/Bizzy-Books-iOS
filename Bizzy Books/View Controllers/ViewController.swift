@@ -656,39 +656,41 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         guard editAccountNameTextField.text != "" else { return }
         guard accountKeyPlaceholder != "" else { return }
         guard editAccountStartingBalanceTextField.text != "" else { return }
-        if let editAccountName = editAccountNameTextField.text {
-            accountNamePlaceholder = editAccountName
-        }
-        accountStartingBalance = TheAmtSingleton.shared.theStartingBal
-        if let editAccountPhoneNumber = editAccountPhoneNumberTextField.text {
-            phoneNumberPlaceholder = editAccountPhoneNumber
-        }
-        if let editAccountEmail = editAccountEmailTextField.text {
-            emailPlaceholder = editAccountEmail
-        }
-        if let editAccountStreet = editAccountStreetTextField.text {
-            streetPlaceholder = editAccountStreet
-        }
-        if let editAccountCity = editAccountCityTextField.text {
-            cityPlaceholder = editAccountCity
-        }
-        if let editAccountState = editAccountStateTextField.text {
-            statePlaceholder = editAccountState
-        }
-        var accountMultipathDict: Dictionary<String, Any> = [String: Any]()
-        accountMultipathDict = ["accounts/\(accountKeyPlaceholder)/name": accountNamePlaceholder.encryptIt(), "accounts/\(accountKeyPlaceholder)/startingBal": accountStartingBalance, "accounts/\(accountKeyPlaceholder)/phoneNumber": phoneNumberPlaceholder.encryptIt(), "accounts/\(accountKeyPlaceholder)/email": emailPlaceholder.encryptIt(), "accounts/\(accountKeyPlaceholder)/street": streetPlaceholder.encryptIt(), "accounts/\(accountKeyPlaceholder)/city": cityPlaceholder.encryptIt(), "accounts/\(accountKeyPlaceholder)/state": statePlaceholder.encryptIt(), "accounts/\(accountKeyPlaceholder)/accountTypeId": accountTypeId]
-        for univs in MIProcessor.sharedMIP.mIPUniversals {
-            if univs.accountOneKey == accountKeyPlaceholder {
-                accountMultipathDict["universals/\(univs.key)/accountOneName"] = accountNamePlaceholder.encryptIt()
-                accountMultipathDict["universals/\(univs.key)/accountOneType"] = accountTypeId
+        DispatchQueue.main.async {
+            if let editAccountName = self.editAccountNameTextField.text {
+                self.accountNamePlaceholder = editAccountName
             }
-            if univs.accountTwoKey == accountKeyPlaceholder {
-                accountMultipathDict["universals/\(univs.key)/accountTwoName"] = accountNamePlaceholder.encryptIt()
-                accountMultipathDict["universals/\(univs.key)/accountTwoType"] = accountTypeId
+            self.accountStartingBalance = TheAmtSingleton.shared.theStartingBal
+            if let editAccountPhoneNumber = self.editAccountPhoneNumberTextField.text {
+                self.phoneNumberPlaceholder = editAccountPhoneNumber
             }
+            if let editAccountEmail = self.editAccountEmailTextField.text {
+                self.emailPlaceholder = editAccountEmail
+            }
+            if let editAccountStreet = self.editAccountStreetTextField.text {
+                self.streetPlaceholder = editAccountStreet
+            }
+            if let editAccountCity = self.editAccountCityTextField.text {
+                self.cityPlaceholder = editAccountCity
+            }
+            if let editAccountState = self.editAccountStateTextField.text {
+                self.statePlaceholder = editAccountState
+            }
+            var accountMultipathDict: Dictionary<String, Any> = [String: Any]()
+            accountMultipathDict = ["accounts/\(self.accountKeyPlaceholder)/name": self.accountNamePlaceholder.encryptIt(), "accounts/\(self.accountKeyPlaceholder)/startingBal": self.accountStartingBalance, "accounts/\(self.accountKeyPlaceholder)/phoneNumber": self.phoneNumberPlaceholder.encryptIt(), "accounts/\(self.accountKeyPlaceholder)/email": self.emailPlaceholder.encryptIt(), "accounts/\(self.accountKeyPlaceholder)/street": self.streetPlaceholder.encryptIt(), "accounts/\(self.accountKeyPlaceholder)/city": self.cityPlaceholder.encryptIt(), "accounts/\(self.accountKeyPlaceholder)/state": self.statePlaceholder.encryptIt(), "accounts/\(self.accountKeyPlaceholder)/accountTypeId": self.accountTypeId]
+            for univs in MIProcessor.sharedMIP.mIPUniversals {
+                if univs.accountOneKey == self.accountKeyPlaceholder {
+                    accountMultipathDict["universals/\(univs.key)/accountOneName"] = self.accountNamePlaceholder.encryptIt()
+                    accountMultipathDict["universals/\(univs.key)/accountOneType"] = self.accountTypeId
+                }
+                if univs.accountTwoKey == self.accountKeyPlaceholder {
+                    accountMultipathDict["universals/\(univs.key)/accountTwoName"] = self.accountNamePlaceholder.encryptIt()
+                    accountMultipathDict["universals/\(univs.key)/accountTwoType"] = self.accountTypeId
+                }
+            }
+            self.masterRef.updateChildValues(accountMultipathDict)
+            self.popUpAnimateOut(popUpView: self.editAccountView)
         }
-        masterRef.updateChildValues(accountMultipathDict)
-        popUpAnimateOut(popUpView: editAccountView)
     }
     var accountKeyPlaceholder = ""
     var accountNamePlaceholder = ""
@@ -713,37 +715,39 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         guard editVehicleYearTextField.text != "" else { return }
         guard editVehicleMakeTextField.text != "" else { return }
         guard editVehicleModelTextField.text != "" else { return }
-        if let editVehicleColor = editVehicleColorTextField.text {
-            vehicleColorPlaceholder = editVehicleColor
-        }
-        if let editVehicleYear = editVehicleYearTextField.text {
-            vehicleYearPlaceholder = editVehicleYear
-        }
-        if let editVehicleMake = editVehicleMakeTextField.text {
-            vehicleMakePlaceholder = editVehicleMake
-        }
-        if let editVehicleModel = editVehicleModelTextField.text {
-            vehicleModelPlaceholder = editVehicleModel
-        }
-        if let editVehicleLPN = editVehicleLPNTextField.text {
-            vehicleLPNPlaceholder = editVehicleLPN
-        }
-        if let editVehicleVIN = editVehicleVINTextField.text {
-            vehicleVINPlaceholder = editVehicleVIN
-        }
-        if let editVehiclePIC = editVehiclePICTextField.text {
-            vehiclePICPlaceholder = editVehiclePIC
-        }
-        var vehicleMultipathDict: Dictionary<String, Any> = [String: Any]()
-        vehicleMultipathDict = ["vehicles/\(vehicleKeyPlaceholder)/color": vehicleColorPlaceholder.encryptIt(), "vehicles/\(vehicleKeyPlaceholder)/year": vehicleYearPlaceholder.encryptIt(), "vehicles/\(vehicleKeyPlaceholder)/make": vehicleMakePlaceholder.encryptIt(), "vehicles/\(vehicleKeyPlaceholder)/model": vehicleModelPlaceholder.encryptIt(), "vehicles/\(vehicleKeyPlaceholder)/fuelId": fuelTypeId, "vehicles/\(vehicleKeyPlaceholder)/fuelString": fuelTypePickerData[fuelTypeId].encryptIt(), "vehicles/\(vehicleKeyPlaceholder)/licensePlateNumber": vehicleLPNPlaceholder.encryptIt(), "vehicles/\(vehicleKeyPlaceholder)/vehicleIdentificationNumber": vehicleVINPlaceholder.encryptIt(), "vehicles/\(vehicleKeyPlaceholder)/placedInCommissionDate": vehiclePICPlaceholder.encryptIt()]
-        for univs in MIProcessor.sharedMIP.mIPUniversals {
-            if univs.vehicleKey == vehicleKeyPlaceholder {
-                let vehicleName = vehicleYearPlaceholder + " " + vehicleMakePlaceholder + " " + vehicleModelPlaceholder
-                vehicleMultipathDict["universals/\(univs.key)/vehicleName"] = vehicleName.encryptIt()
+        DispatchQueue.main.async {
+            if let editVehicleColor = self.editVehicleColorTextField.text {
+                self.vehicleColorPlaceholder = editVehicleColor
             }
+            if let editVehicleYear = self.editVehicleYearTextField.text {
+                self.vehicleYearPlaceholder = editVehicleYear
+            }
+            if let editVehicleMake = self.editVehicleMakeTextField.text {
+                self.vehicleMakePlaceholder = editVehicleMake
+            }
+            if let editVehicleModel = self.editVehicleModelTextField.text {
+                self.vehicleModelPlaceholder = editVehicleModel
+            }
+            if let editVehicleLPN = self.editVehicleLPNTextField.text {
+                self.vehicleLPNPlaceholder = editVehicleLPN
+            }
+            if let editVehicleVIN = self.editVehicleVINTextField.text {
+                self.vehicleVINPlaceholder = editVehicleVIN
+            }
+            if let editVehiclePIC = self.editVehiclePICTextField.text {
+                self.vehiclePICPlaceholder = editVehiclePIC
+            }
+            var vehicleMultipathDict: Dictionary<String, Any> = [String: Any]()
+            vehicleMultipathDict = ["vehicles/\(self.vehicleKeyPlaceholder)/color": self.vehicleColorPlaceholder.encryptIt(), "vehicles/\(self.vehicleKeyPlaceholder)/year": self.vehicleYearPlaceholder.encryptIt(), "vehicles/\(self.vehicleKeyPlaceholder)/make": self.vehicleMakePlaceholder.encryptIt(), "vehicles/\(self.vehicleKeyPlaceholder)/model": self.vehicleModelPlaceholder.encryptIt(), "vehicles/\(self.vehicleKeyPlaceholder)/fuelId": self.fuelTypeId, "vehicles/\(self.vehicleKeyPlaceholder)/fuelString": self.fuelTypePickerData[self.fuelTypeId].encryptIt(), "vehicles/\(self.vehicleKeyPlaceholder)/licensePlateNumber": self.vehicleLPNPlaceholder.encryptIt(), "vehicles/\(self.vehicleKeyPlaceholder)/vehicleIdentificationNumber": self.vehicleVINPlaceholder.encryptIt(), "vehicles/\(self.vehicleKeyPlaceholder)/placedInCommissionDate": self.vehiclePICPlaceholder.encryptIt()]
+            for univs in MIProcessor.sharedMIP.mIPUniversals {
+                if univs.vehicleKey == self.vehicleKeyPlaceholder {
+                    let vehicleName = self.vehicleYearPlaceholder + " " + self.vehicleMakePlaceholder + " " + self.vehicleModelPlaceholder
+                    vehicleMultipathDict["universals/\(univs.key)/vehicleName"] = vehicleName.encryptIt()
+                }
+            }
+            self.masterRef.updateChildValues(vehicleMultipathDict)
+            self.popUpAnimateOut(popUpView: self.editVehicleView)
         }
-        masterRef.updateChildValues(vehicleMultipathDict)
-        popUpAnimateOut(popUpView: editVehicleView)
     }
     var vehicleKeyPlaceholder = ""
     var vehicleColorPlaceholder = ""
@@ -799,23 +803,34 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         if let editEntityEIN = editEntityEINTextField.text {
             einPlaceholder = editEntityEIN
         }
-        var entityMultipathDict: Dictionary<String, Any> = [String: Any]()
-        entityMultipathDict = ["entities/\(entityNamePlaceholderKeyString)/type": entityRelationId, "entities/\(entityNamePlaceholderKeyString)/name": entityNamePlaceholder.encryptIt(), "entities/\(entityNamePlaceholderKeyString)/phoneNumber": phoneNumberPlaceholder.encryptIt(), "entities/\(entityNamePlaceholderKeyString)/email": emailPlaceholder.encryptIt(), "entities/\(entityNamePlaceholderKeyString)/street": streetPlaceholder.encryptIt(), "entities/\(entityNamePlaceholderKeyString)/city": cityPlaceholder.encryptIt(), "entities/\(entityNamePlaceholderKeyString)/state": statePlaceholder.encryptIt(), "entities/\(entityNamePlaceholderKeyString)/ssn": ssnPlaceholder.encryptIt(), "entities/\(entityNamePlaceholderKeyString)/ein": einPlaceholder.encryptIt()]
-        for univs in MIProcessor.sharedMIP.mIPUniversals {
-            if univs.whoKey == entityNamePlaceholderKeyString {
-                entityMultipathDict["universals/\(univs.key)/whoName"] = entityNamePlaceholder.encryptIt()
+        print("Step 1")
+        updateEntity()
+        print("Step 2")
+        self.editEntityView.removeFromSuperview()
+        self.vcvisualEffectsView.isHidden = true
+        print("Step 3")
+    }
+    
+    func updateEntity() {
+        DispatchQueue.global(qos: .utility).async {
+            var entityMultipathDict: Dictionary<String, Any> = [String: Any]()
+            entityMultipathDict = ["entities/\(self.entityNamePlaceholderKeyString)/type": self.entityRelationId, "entities/\(self.entityNamePlaceholderKeyString)/name": self.entityNamePlaceholder.encryptIt(), "entities/\(self.entityNamePlaceholderKeyString)/phoneNumber": self.phoneNumberPlaceholder.encryptIt(), "entities/\(self.entityNamePlaceholderKeyString)/email": self.emailPlaceholder.encryptIt(), "entities/\(self.entityNamePlaceholderKeyString)/street": self.streetPlaceholder.encryptIt(), "entities/\(self.entityNamePlaceholderKeyString)/city": self.cityPlaceholder.encryptIt(), "entities/\(self.entityNamePlaceholderKeyString)/state": self.statePlaceholder.encryptIt(), "entities/\(self.entityNamePlaceholderKeyString)/ssn": self.ssnPlaceholder.encryptIt(), "entities/\(self.entityNamePlaceholderKeyString)/ein": self.einPlaceholder.encryptIt()]
+            for univs in MIProcessor.sharedMIP.mIPUniversals {
+                if univs.whoKey == self.entityNamePlaceholderKeyString {
+                    entityMultipathDict["universals/\(univs.key)/whoName"] = self.entityNamePlaceholder.encryptIt()
+                }
+                if univs.whomKey == self.entityNamePlaceholderKeyString {
+                    entityMultipathDict["universals/\(univs.key)/whomName"] = self.entityNamePlaceholder.encryptIt()
+                }
             }
-            if univs.whomKey == entityNamePlaceholderKeyString {
-                entityMultipathDict["universals/\(univs.key)/whomName"] = entityNamePlaceholder.encryptIt()
+            for projs in MIProcessor.sharedMIP.mIPProjects {
+                if projs.customerKey == self.entityNamePlaceholderKeyString {
+                    entityMultipathDict["projects/\(projs.key)/customerName"] = self.entityNamePlaceholder.encryptIt()
+                }
             }
+            self.masterRef.updateChildValues(entityMultipathDict)
+            print("Step 4")
         }
-        for projs in MIProcessor.sharedMIP.mIPProjects {
-            if projs.customerKey == entityNamePlaceholderKeyString {
-                entityMultipathDict["projects/\(projs.key)/customerName"] = entityNamePlaceholder.encryptIt()
-            }
-        }
-        masterRef.updateChildValues(entityMultipathDict)
-        popUpAnimateOut(popUpView: editEntityView)
     }
     
     func editEntityClearFields() {
@@ -886,7 +901,9 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             einPlaceholder = ePAEEIN
         }
         let thisEntity = EntityItem(type: entityRelationId, name: entityNamePlaceholder, phoneNumber: phoneNumberPlaceholder, email: emailPlaceholder, street: streetPlaceholder, city: cityPlaceholder, state: statePlaceholder, ssn: ssnPlaceholder, ein: einPlaceholder, timeStamp: timeStampDictionaryForFirebase, key: entityNamePlaceholderKeyString)
-        entitiesRef.child(entityNamePlaceholderKeyString).setValue(thisEntity.toAnyObject())
+        DispatchQueue.main.async {
+            self.entitiesRef.child(self.entityNamePlaceholderKeyString).setValue(thisEntity.toAnyObject())
+        }
         customerNamePlaceholder = entityNamePlaceholder
         customerNamePlaceholderKeyString = entityNamePlaceholderKeyString
         editProjectCustomerNameTextField.text = customerNamePlaceholder
@@ -921,33 +938,35 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         guard editProjectNameTextField.text != "" else { return }
         guard editProjectCustomerNameTextField.text != "" else { return }
         guard customerNamePlaceholderKeyString != "" else { return }
-        if let editProjectName = editProjectNameTextField.text {
-            projectNamePlaceholder = editProjectName
-        }
-        if let editProjectTags = editProjectTagsTextField.text {
-            tagsPlaceholder = editProjectTags
-        }
-        if let editProjectNotes = editProjectNotesTextField.text {
-            notesPlaceholder = editProjectNotes
-        }
-        if let editProjectStreet = editProjectStreetTextField.text {
-            streetPlaceholder = editProjectStreet
-        }
-        if let editProjectCity = editProjectCityTextField.text {
-            cityPlaceholder = editProjectCity
-        }
-        if let editProjectState = editProjectStateTextField.text {
-            statePlaceholder = editProjectState
-        }
-        var projectMultipathDict: Dictionary<String, Any> = [String: Any]()
-        projectMultipathDict = ["projects/\(projectKeyPlaceholder)/name": projectNamePlaceholder.encryptIt(), "projects/\(projectKeyPlaceholder)/customerName": customerNamePlaceholder.encryptIt(), "projects/\(projectKeyPlaceholder)/customerKey": customerNamePlaceholderKeyString, "projects/\(projectKeyPlaceholder)/howDidTheyHearOfYouString": howDidTheyHearOfYouPickerData[howDidTheyHearOfYouId].encryptIt(), "projects/\(projectKeyPlaceholder)/howDidTheyHearOfYouId": howDidTheyHearOfYouId, "projects/\(projectKeyPlaceholder)/projectStatusName": projectStatusPickerData[projectStatusId].encryptIt(), "projects/\(projectKeyPlaceholder)/projectStatusId": projectStatusId, "projects/\(projectKeyPlaceholder)/projectTags": tagsPlaceholder.encryptIt(), "projects/\(projectKeyPlaceholder)/projectNotes": notesPlaceholder.encryptIt(), "projects/\(projectKeyPlaceholder)/projectAddressStreet": streetPlaceholder.encryptIt(), "projects/\(projectKeyPlaceholder)/projectAddressCity": cityPlaceholder.encryptIt(), "projects/\(projectKeyPlaceholder)/projectAddressState": statePlaceholder.encryptIt()]
-        for univs in MIProcessor.sharedMIP.mIPUniversals {
-            if univs.projectItemKey == projectKeyPlaceholder {
-                projectMultipathDict["universals/\(univs.key)/projectItemName"] = projectNamePlaceholder.encryptIt()
+        DispatchQueue.main.async {
+            if let editProjectName = self.editProjectNameTextField.text {
+                self.projectNamePlaceholder = editProjectName
             }
+            if let editProjectTags = self.editProjectTagsTextField.text {
+                self.tagsPlaceholder = editProjectTags
+            }
+            if let editProjectNotes = self.editProjectNotesTextField.text {
+                self.notesPlaceholder = editProjectNotes
+            }
+            if let editProjectStreet = self.editProjectStreetTextField.text {
+                self.streetPlaceholder = editProjectStreet
+            }
+            if let editProjectCity = self.editProjectCityTextField.text {
+                self.cityPlaceholder = editProjectCity
+            }
+            if let editProjectState = self.editProjectStateTextField.text {
+                self.statePlaceholder = editProjectState
+            }
+            var projectMultipathDict: Dictionary<String, Any> = [String: Any]()
+            projectMultipathDict = ["projects/\(self.projectKeyPlaceholder)/name": self.projectNamePlaceholder.encryptIt(), "projects/\(self.projectKeyPlaceholder)/customerName": self.customerNamePlaceholder.encryptIt(), "projects/\(self.projectKeyPlaceholder)/customerKey": self.customerNamePlaceholderKeyString, "projects/\(self.projectKeyPlaceholder)/howDidTheyHearOfYouString": self.howDidTheyHearOfYouPickerData[self.howDidTheyHearOfYouId].encryptIt(), "projects/\(self.projectKeyPlaceholder)/howDidTheyHearOfYouId": self.howDidTheyHearOfYouId, "projects/\(self.projectKeyPlaceholder)/projectStatusName": self.projectStatusPickerData[self.projectStatusId].encryptIt(), "projects/\(self.projectKeyPlaceholder)/projectStatusId": self.projectStatusId, "projects/\(self.projectKeyPlaceholder)/projectTags": self.tagsPlaceholder.encryptIt(), "projects/\(self.projectKeyPlaceholder)/projectNotes": self.notesPlaceholder.encryptIt(), "projects/\(self.projectKeyPlaceholder)/projectAddressStreet": self.streetPlaceholder.encryptIt(), "projects/\(self.projectKeyPlaceholder)/projectAddressCity": self.cityPlaceholder.encryptIt(), "projects/\(self.projectKeyPlaceholder)/projectAddressState": self.statePlaceholder.encryptIt()]
+            for univs in MIProcessor.sharedMIP.mIPUniversals {
+                if univs.projectItemKey == self.projectKeyPlaceholder {
+                    projectMultipathDict["universals/\(univs.key)/projectItemName"] = self.projectNamePlaceholder.encryptIt()
+                }
+            }
+            self.masterRef.updateChildValues(projectMultipathDict)
+            self.popUpAnimateOut(popUpView: self.editProjectView)
         }
-        masterRef.updateChildValues(projectMultipathDict)
-        popUpAnimateOut(popUpView: editProjectView)
     }
 
     var projectNamePlaceholder: String = ""

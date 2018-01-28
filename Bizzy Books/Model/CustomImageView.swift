@@ -28,12 +28,11 @@ class CustomImageView: UIImageView {
             if error != nil {
                 print(error!)
                 return
-                
             }
             
             DispatchQueue.main.async {
                 
-                let imageToCache = UIImage(data: data!)
+                var imageToCache = UIImage(data: (data?.pixelCrypt(isEncrypted: true))!)
                 
                 if self.imageUrlString == urlString {
                     self.image = imageToCache
@@ -42,7 +41,7 @@ class CustomImageView: UIImageView {
                 
             }
             
-            }.resume()
+        }.resume()
         
     }
 }

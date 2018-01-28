@@ -131,6 +131,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var imageViewHeight: CGFloat = 1
     var aspectRatio: CGFloat = 0
     var picNumber: Int = 0
+    var cryptic: Bool = false // About the image!
     
     // 0 = Who, 1 = Whom, 2 = Project Customer
     var entitySenderCode = 0 {
@@ -295,7 +296,9 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             }
             let timeStampDictionaryForFirebase = [".sv": "timestamp"]
             let thisProjectItem = ProjectItem(name: addProjectNameTextField.text!, customerName: addProjectSearchCustomerTextField.text!, customerKey: tempKeyHolder, howDidTheyHearOfYouString: howDidTheyHearOfYouPlaceholder, howDidTheyHearOfYouId: chosenHowDidTheyHearOfYou, projectTags: addProjectTagsTextField.text!, projectAddressStreet: addProjectStreetTextField.text!, projectAddressCity: addProjectCityTextField.text!, projectAddressState: addProjectStateTextField.text!, projectNotes: addProjectNotesTextField.text!, projectStatusName: projectStatusPlaceholder, projectStatusId: projectStatusPlaceholderId, timeStamp: timeStampDictionaryForFirebase)
-            projectsRef.child(addProjectKeyString).setValue(thisProjectItem.toAnyObject())
+            DispatchQueue.main.async {
+                self.projectsRef.child(self.addProjectKeyString).setValue(thisProjectItem.toAnyObject())
+            }
             popUpAnimateOut(popUpView: addProjectView)
             self.projectPlaceholderKeyString = addProjectKeyString
             self.projectPlaceholder = thisProjectItem.name
@@ -336,7 +339,9 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             addVehicleKeyString = addVehicleKeyReference.key
             let timeStampDictionaryForFirebase = [".sv": "timestamp"]
             let thisVehicleItem = VehicleItem(year: addVehicleYearTextField.text!, make: addVehicleMakeTextField.text!, model: addVehicleModelTextField.text!, color: addVehicleColorTextField.text!, fuelId: addVehicleFuelPickerView.selectedRow(inComponent: 0), fuelString: fuelTypePickerData[addVehicleFuelPickerView.selectedRow(inComponent: 0)], placedInCommissionDate: addVehiclePlacedInCommissionTextField.text!, licensePlateNumber: addVehicleLicensePlateNumberTextField.text!, vehicleIdentificationNumber: addVehicleVehicleIdentificationNumberTextField.text!, timeStamp: timeStampDictionaryForFirebase)
-            vehiclesRef.child(addVehicleKeyString).setValue(thisVehicleItem.toAnyObject())
+            DispatchQueue.main.async {
+                self.vehiclesRef.child(self.addVehicleKeyString).setValue(thisVehicleItem.toAnyObject())
+            }
             popUpAnimateOut(popUpView: addVehicleView)
             vehiclePlaceholderKeyString = addVehicleKeyString
             vehiclePlaceholder = thisVehicleItem.year + " " + thisVehicleItem.make + " " + thisVehicleItem.model
@@ -496,7 +501,9 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 addAccountStatePlaceholder = addAccountStateTextField.text!
             }
             let thisAccountItem = AccountItem(name: addAccountNamePlaceholder, accountTypeId: accountTypePlaceholderId, phoneNumber: addAccountPhoneNumberPlaceholder, email: addAccountEmailPlaceholder, street: addAccountStreetPlaceholder, city: addAccountCityPlaceholder, state: addAccountStatePlaceholder, startingBal: TheAmtSingleton.shared.theStartingBal, creditDetailsAvailable: false, isLoan: false, loanType: 0, loanTypeSubcategory: 0, loanPercentOne: 0.0, loanPercentTwo: 0.0, loanPercentThree: 0.0, loanPercentFour: 0.0, loanIntFactorOne: 0, loanIntFactorTwo: 0, loanIntFactorThree: 0, loanIntFactorFour: 0, maxLimit: 0, maxCashAdvanceAllowance: 0, closeDay: 0, dueDay: 0, cycle: 0, minimumPaymentRequired: 0, lateFeeAsOneTimeInt: 0, lateFeeAsPercentageOfTotalBalance: 0.0, cycleDues: 0, duesCycle: 0, minimumPaymentToBeSmart: 0, interestRate: 0.0, interestKind: 0, timeStamp: timeStampDictionaryForFirebase, key: addAccountKeyString)
-            accountsRef.child(addAccountKeyString).setValue(thisAccountItem.toAnyObject())
+            DispatchQueue.main.async {
+                self.accountsRef.child(self.addAccountKeyString).setValue(thisAccountItem.toAnyObject())
+            }
             popUpAnimateOut(popUpView: addAccountView)
             if accountSenderCode == 0 {
                 switch self.selectedType {
@@ -1020,7 +1027,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         addEntityKeyString = addEntityKeyReference.key
         let timeStampDictionaryForFirebase = [".sv": "timestamp"]
         let thisEntityItem = EntityItem(type: entityPickerView.selectedRow(inComponent: 0), name: addEntityNameTextField.text as String!, phoneNumber: addEntityPhoneNumberTextField.text as String!, email: addEntityEmailTextField.text as String!, street: addEntityStreetTextField.text as String!, city: addEntityCityTextField.text as String!, state: addEntityStateTextField.text as String!, ssn: addEntitySSNTextField.text as String!, ein: addEntityEINTextField.text as String!, timeStamp: timeStampDictionaryForFirebase)
-        entitiesRef.child(addEntityKeyString).setValue(thisEntityItem.toAnyObject())
+        DispatchQueue.main.async {
+            self.entitiesRef.child(self.addEntityKeyString).setValue(thisEntityItem.toAnyObject())
+            self.clearAddEntityFields()
+        }
         switch entitySenderCode {
         case 0:
             self.whoPlaceholder = addEntityNameTextField.text!
@@ -1041,7 +1051,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             popUpAnimateOut(popUpView: addEntityView)
             selectWhoView.removeFromSuperview()
         }
-        clearAddEntityFields()
         reloadSentence(selectedType: selectedType)
         //I deleted self.pickerCode = 0 here in case it was messing with the AddProject screen crashing.
     }
@@ -1557,65 +1566,65 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             imageViewHeightConstraint.constant = imageViewHeight
             imageView.image = image
             thereIsAnImage = true
+            var stupImageData = image.oneTenthIt() // Reduces quality
+            stupImageData = stupImageData.pixelCrypt(isEncrypted: false) // Encrypts
             DispatchQueue.global(qos: .background).async {
-                self.attemptImageUploadToFirebase(image: image)
+                self.attemptImageUploadToFirebase(imageData: stupImageData)
             }
         }
         picker.dismiss(animated: true, completion: nil)
     }
     
-    func attemptImageUploadToFirebase(image: UIImage) {
-        if let uploadData = UIImageJPEGRepresentation(image, 0.1) {
-            self.currentlyUploading = true
-            userCurrentImageIdCount += 1
-            picNumber = userCurrentImageIdCount
-            userCurrentImageIdCountString = String(userCurrentImageIdCount)
-            userCurrentImageIdCountStringPlusType = userCurrentImageIdCountString + ".jpg"
-            let storage = Storage.storage()
-            let storageRef = storage.reference()
-            let imagesRef = storageRef.child("users").child(userUID).child(userCurrentImageIdCountStringPlusType)
-            userCurrentImageIdCountRef.setValue(userCurrentImageIdCountString)
-            let uploadTask = imagesRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
-                if error != nil {
-                    print(String(describing: error))
-                    return
-                }
-                print(String(describing: metadata))
-                self.downloadURL = metadata?.downloadURL()
-            })
-            uploadTask.observe(.progress) { snapshot in
-                // Upload reported progress
-                let percentComplete = 100.0 * Double(snapshot.progress!.completedUnitCount)
-                    / Double(snapshot.progress!.totalUnitCount)
+    func attemptImageUploadToFirebase(imageData: Data) {
+        self.currentlyUploading = true
+        userCurrentImageIdCount += 1
+        picNumber = userCurrentImageIdCount
+        userCurrentImageIdCountString = String(userCurrentImageIdCount)
+        userCurrentImageIdCountStringPlusType = userCurrentImageIdCountString + ".jpg"
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        let imagesRef = storageRef.child("users").child(userUID).child(userCurrentImageIdCountStringPlusType)
+        userCurrentImageIdCountRef.setValue(userCurrentImageIdCountString)
+        let uploadTask = imagesRef.putData(imageData, metadata: nil, completion: { (metadata, error) in
+            if error != nil {
+                print(String(describing: error))
+                return
             }
-            
-            uploadTask.observe(.success) { snapshot in
-                // Upload completed successfully
-                self.currentlyUploading = false
-            }
-            
-            uploadTask.observe(.failure) { snapshot in
-                if let error = snapshot.error as? NSError {
-                    switch (StorageErrorCode(rawValue: error.code)!) {
-                    case .objectNotFound:
-                        // File doesn't exist
-                        break
-                    case .unauthorized:
-                        // User doesn't have permission to access file
-                        break
-                    case .cancelled:
-                        // User canceled the upload
-                        break
-                        
-                        /* ... */
-                        
-                    case .unknown:
-                        // Unknown error occurred, inspect the server response
-                        break
-                    default:
-                        // A separate error occurred. This is a good place to retry the upload.
-                        break
-                    }
+            print(String(describing: metadata))
+            self.downloadURL = metadata?.downloadURL()
+        })
+        uploadTask.observe(.progress) { snapshot in
+            // Upload reported progress
+            let percentComplete = 100.0 * Double(snapshot.progress!.completedUnitCount)
+                / Double(snapshot.progress!.totalUnitCount)
+        }
+        
+        uploadTask.observe(.success) { snapshot in
+            // Upload completed successfully
+            self.currentlyUploading = false
+        }
+        
+        uploadTask.observe(.failure) { snapshot in
+            if let error = snapshot.error as? NSError {
+                switch (StorageErrorCode(rawValue: error.code)!) {
+                case .objectNotFound:
+                    // File doesn't exist
+                    break
+                case .unauthorized:
+                    // User doesn't have permission to access file
+                    break
+                case .cancelled:
+                    // User canceled the upload
+                    break
+                    
+                    /* ... */
+                    
+                case .unknown:
+                    // Unknown error occurred, inspect the server response
+                    break
+                default:
+                    // A separate error occurred. This is a good place to retry the upload.
+                    break
                 }
             }
         }
@@ -1717,8 +1726,6 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 }
             }
         })
-        
-        
         userCurrentImageIdCountRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let count = snapshot.value as? String {
                 if let countAsInt = Int(count) {
@@ -2298,7 +2305,9 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 for mip in MIProcessor.sharedMIP.mIPProjects {
                     if mip.key == projectPlaceholderKeyString {
                         if projectStatusPlaceholderId != mip.projectStatusId {
-                            projectsRef.child(mip.key).updateChildValues(["projectStatusId": projectStatusPlaceholderId, "projectStatusName": projectStatusPlaceholder.encryptIt()])
+                            DispatchQueue.main.async {
+                                self.projectsRef.child(mip.key).updateChildValues(["projectStatusId": self.projectStatusPlaceholderId, "projectStatusName": self.projectStatusPlaceholder.encryptIt()])
+                            }
                         }
                     }
                 }
@@ -2324,7 +2333,12 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 thisAccountRef.child(yourAccountPlaceholderKeyString).updateChildValues(["startingBal": correctedStartingBalance])
             default:
                 let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: TheAmtSingleton.shared.theOdo, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: TheAmtSingleton.shared.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountOneType: accountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: TheAmtSingleton.shared.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, picAspectRatio: intifiedAspectRatio, picNumber: picNumber, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
-                universalsRef.child(addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
+                DispatchQueue.main.async {
+                    self.universalsRef.child(self.addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
+                    TheAmtSingleton.shared.theAmt = 0
+                    TheAmtSingleton.shared.howMany = 0
+                    TheAmtSingleton.shared.theOdo = 0
+                }
             }
         default: //The UpdateUniversal case, where MIPnumber represents item number in array
             if let theNotes = notesTextField.text {
@@ -2335,11 +2349,14 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                     thereIsUseTax = true
                 }
             }
-            universalsRef.child(addUniversalKeyString).updateChildValues(["projectItemName": projectPlaceholder.encryptIt(), "projectItemKey": projectPlaceholderKeyString, "odometerReading": TheAmtSingleton.shared.theOdo, "howMany": TheAmtSingleton.shared.howMany, "notes": notes.encryptIt(), "whoName": whoPlaceholder.encryptIt(), "whoKey": whoPlaceholderKeyString, "fuelTypeName": fuelTypePlaceholder.encryptIt(), "fuelTypeId": fuelTypePlaceholderId, "what": TheAmtSingleton.shared.theAmt, "whomName": whomPlaceholder.encryptIt(), "whomKey": whomPlaceholderKeyString, "taxReasonName": whatTaxReasonPlaceholder.encryptIt(), "taxReasonId": whatTaxReasonPlaceholderId, "vehicleName": vehiclePlaceholder.encryptIt(), "vehicleKey": vehiclePlaceholderKeyString, "workersCompName": workersCompPlaceholder.encryptIt(), "workersCompId": workersCompPlaceholderId, "advertisingMeansName": advertisingMeansPlaceholder.encryptIt(), "advertisingMeansId": advertisingMeansPlaceholderId, "personalReasonName": whatPersonalReasonPlaceholder.encryptIt(), "personalReasonId": whatPersonalReasonPlaceholderId, "percentBusiness": thePercent, "accountOneName": yourAccountPlaceholder.encryptIt(), "accountOneKey": yourAccountPlaceholderKeyString, "accountOneType": accountTypePlaceholderId, "accountTwoName": yourSecondaryAccountPlaceholder.encryptIt(), "accountTwoKey": yourSecondaryAccountPlaceholderKeyString, "accountTwoType": secondaryAccountTypePlaceholderId, "picNumber": picNumber, "picUrl": urlString.encryptIt(), "picAspectRatio": intifiedAspectRatio, "useTax": thereIsUseTax, "projectPicTypeName": projectMediaTypePlaceholder.encryptIt(), "projectPicTypeId": projectMediaTypePlaceholderId])
+            DispatchQueue.main.async {
+                self.universalsRef.child(self.addUniversalKeyString).updateChildValues(["projectItemName": self.projectPlaceholder.encryptIt(), "projectItemKey": self.projectPlaceholderKeyString, "odometerReading": TheAmtSingleton.shared.theOdo, "howMany": TheAmtSingleton.shared.howMany, "notes": notes.encryptIt(), "whoName": self.whoPlaceholder.encryptIt(), "whoKey": self.whoPlaceholderKeyString, "fuelTypeName": self.fuelTypePlaceholder.encryptIt(), "fuelTypeId": self.fuelTypePlaceholderId, "what": TheAmtSingleton.shared.theAmt, "whomName": self.whomPlaceholder.encryptIt(), "whomKey": self.whomPlaceholderKeyString, "taxReasonName": self.whatTaxReasonPlaceholder.encryptIt(), "taxReasonId": self.whatTaxReasonPlaceholderId, "vehicleName": self.vehiclePlaceholder.encryptIt(), "vehicleKey": self.vehiclePlaceholderKeyString, "workersCompName": self.workersCompPlaceholder.encryptIt(), "workersCompId": self.workersCompPlaceholderId, "advertisingMeansName": self.advertisingMeansPlaceholder.encryptIt(), "advertisingMeansId": self.advertisingMeansPlaceholderId, "personalReasonName": self.whatPersonalReasonPlaceholder.encryptIt(), "personalReasonId": self.whatPersonalReasonPlaceholderId, "percentBusiness": self.thePercent, "accountOneName": self.yourAccountPlaceholder.encryptIt(), "accountOneKey": self.yourAccountPlaceholderKeyString, "accountOneType": self.accountTypePlaceholderId, "accountTwoName": self.yourSecondaryAccountPlaceholder.encryptIt(), "accountTwoKey": self.yourSecondaryAccountPlaceholderKeyString, "accountTwoType": self.secondaryAccountTypePlaceholderId, "picNumber": self.picNumber, "picUrl": urlString.encryptIt(), "picAspectRatio": intifiedAspectRatio, "useTax": self.thereIsUseTax, "projectPicTypeName": self.projectMediaTypePlaceholder.encryptIt(), "projectPicTypeId": self.projectMediaTypePlaceholderId])
+                TheAmtSingleton.shared.theAmt = 0
+                TheAmtSingleton.shared.howMany = 0
+                TheAmtSingleton.shared.theOdo = 0
+            }
         }
-        TheAmtSingleton.shared.theAmt = 0
-        TheAmtSingleton.shared.howMany = 0
-        TheAmtSingleton.shared.theOdo = 0
+        
         self.navigationController?.popViewController(animated: true)
     }
     
