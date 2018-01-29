@@ -211,7 +211,10 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     @IBOutlet var welcomeView: UIView!
     @IBAction func welcomeViewGotItPressed(_ sender: UIButton) {
         popUpAnimateOut(popUpView: welcomeView)
-        loadTheMIP()
+        if self.shouldEnterLoop {
+            self.shouldEnterLoop = false
+            loadTheMIP()
+        }
     }
     @IBOutlet weak var profilePic: UIImageView!
     
@@ -256,7 +259,10 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                 self.firstTimeRef.observeSingleEvent(of: .value, with: { (snapshot) in
                     if snapshot.exists() {
                         print("Do NOT any THING")
-                        self.loadTheMIP()
+                        if self.shouldEnterLoop {
+                            self.shouldEnterLoop = false
+                            self.loadTheMIP()
+                        }
                     } else {
                         self.initializeIfFirstAppUse()
                     }
