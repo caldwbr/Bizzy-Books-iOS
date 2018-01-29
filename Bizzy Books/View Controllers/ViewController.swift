@@ -211,6 +211,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     @IBOutlet var welcomeView: UIView!
     @IBAction func welcomeViewGotItPressed(_ sender: UIButton) {
         popUpAnimateOut(popUpView: welcomeView)
+        loadTheMIP()
     }
     @IBOutlet weak var profilePic: UIImageView!
     
@@ -1206,17 +1207,21 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                             print("1!!!! " + String(describing: object["key"]!))
                             print("ENCRYPT! " + String(describing: object["encrypted"]!))
                             self.encryptedKeyYo = String(describing: object["encrypted"]!)
-                            self.masterRef.child("encryptedKey").setValue(self.encryptedKeyYo)
-                            
-                            MIProcessor.sharedMIP.obtainTheKey() {
-                                let addEntityKeyReference = self.entitiesRef.childByAutoId()
-                                self.addEntityKeyString = addEntityKeyReference.key
-                                let timeStampDictionaryForFirebase = [".sv": "timestamp"]
-                                let thisEntityItem = EntityItem(type: 9, name: "You", phoneNumber: "", email: "", street: "", city: "", state: "", ssn: "", ein: "", timeStamp: timeStampDictionaryForFirebase, key: self.addEntityKeyString)
-                                self.entitiesRef.child(self.addEntityKeyString).setValue(thisEntityItem.toAnyObject())
-                                self.youEntityRef.setValue(self.addEntityKeyString)
-                                self.firstTimeRef.setValue(false)
-                                self.popUpAnimateIn(popUpView: self.welcomeView)
+                            self.masterRef.child("encryptedKey").setValue(self.encryptedKeyYo) { (error, ref) -> Void in
+                                if error != nil {
+                                    print("Yikos")
+                                } else {
+                                    MIProcessor.sharedMIP.obtainTheKey() {
+                                        let addEntityKeyReference = self.entitiesRef.childByAutoId()
+                                        self.addEntityKeyString = addEntityKeyReference.key
+                                        let timeStampDictionaryForFirebase = [".sv": "timestamp"]
+                                        let thisEntityItem = EntityItem(type: 9, name: "You", phoneNumber: "", email: "", street: "", city: "", state: "", ssn: "", ein: "", timeStamp: timeStampDictionaryForFirebase, key: self.addEntityKeyString)
+                                        self.entitiesRef.child(self.addEntityKeyString).setValue(thisEntityItem.toAnyObject())
+                                        self.youEntityRef.setValue(self.addEntityKeyString)
+                                        self.firstTimeRef.setValue(false)
+                                        self.popUpAnimateIn(popUpView: self.welcomeView)
+                                    }
+                                }
                             }
                             
                         } else {
