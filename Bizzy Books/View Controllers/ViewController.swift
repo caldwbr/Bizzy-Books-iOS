@@ -1413,24 +1413,14 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
             case 2: // Entity
                 baseHeight = 160 //92
                 if let entityItem = MIProcessor.sharedMIP.sIP[i] as? EntityItem {
-                    if entityItem.phoneNumber != "" {
-                        phoneHeight = 30
-                    }
-                    if entityItem.email != "" {
-                        emailHeight = 38
-                    }
-                    if entityItem.street != "" {
-                        if entityItem.city != "" {
-                            if entityItem.state != "" {
-                                geoHeight = 50
-                            }
-                        }
+                    if (entityItem.phoneNumber != "") || (entityItem.email != "") || (entityItem.city != "") {
+                        phoneHeight = 118
                     }
                     if entityItem.ssn != "" {
-                        ssnHeight = 29
+                        ssnHeight = 30
                     }
                     if entityItem.ein != "" {
-                        einHeight = 29
+                        einHeight = 30
                     }
                 }
             case 3: // Account
@@ -1566,24 +1556,14 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
             case 2: // Entity
                 baseHeight = 160 //92
                 if let entityItem = MIProcessor.sharedMIP.mIP[i] as? EntityItem {
-                    if entityItem.phoneNumber != "" {
-                        phoneHeight = 30
-                    }
-                    if entityItem.email != "" {
-                        emailHeight = 38
-                    }
-                    if entityItem.street != "" {
-                        if entityItem.city != "" {
-                            if entityItem.state != "" {
-                                geoHeight = 50
-                            }
-                        }
+                    if (entityItem.phoneNumber != "") || (entityItem.email != "") || (entityItem.city != "") {
+                        phoneHeight = 118
                     }
                     if entityItem.ssn != "" {
-                        ssnHeight = 29
+                        ssnHeight = 30
                     }
                     if entityItem.ein != "" {
-                        einHeight = 29
+                        einHeight = 30
                     }
                 }
             case 3: // Account

@@ -996,14 +996,10 @@ final class MIProcessor {
         if tHeKeY != nil {
             completion()
         } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1), execute: {
-                self.keyRef = Database.database().reference().child("users").child(userUID).child("encryptedKey")
-                self.keyRef.observeSingleEvent(of: .value, with: { (snapshot) in
-                    if let ke = snapshot.value as? String {
-                        self.theKeyIsHere = ke
-                    }
-                })
-                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1), execute: {
+            self.keyRef = Database.database().reference().child("users").child(userUID).child("encryptedKey")
+            self.keyRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                if let ke = snapshot.value as? String {
+                    self.theKeyIsHere = ke
                     if let _ = self.theKeyIsHere, self.theKeyIsHere != "" {
                         if self.authorized == nil {
                             Auth.auth().addStateDidChangeListener { auth, user in
@@ -1076,8 +1072,7 @@ final class MIProcessor {
                     } else {
                         print("The error is THERE")
                     }
-                })
-                
+                }
             })
         }
     }
