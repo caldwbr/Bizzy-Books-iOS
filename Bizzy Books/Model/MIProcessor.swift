@@ -14,6 +14,7 @@ final class MIProcessor {
     static let sharedMIP = MIProcessor()
     private init() {}
     
+    public var firstTime: Bool = false
     public var mIP: [MultiversalItem] = [MultiversalItem]()
     public var sIP: [MultiversalItem] = [MultiversalItem]() // the search mip!
     public var mipORsip: Int = Int()
@@ -24,62 +25,69 @@ final class MIProcessor {
     public var mIPVehicles: [VehicleItem] = [VehicleItem]()
     public var trueYou: String = String()
     public var isUserCurrentlySubscribed: Bool = Bool()
+    private var tHeKeY: Data!
+    var theUser: User!
     var universalsRef: DatabaseReference!
     var entitiesRef: DatabaseReference!
     var projectsRef: DatabaseReference!
     var vehiclesRef: DatabaseReference!
     var accountsRef: DatabaseReference!
+    var keyRef: DatabaseReference!
     var obtainBalanceAfter = ObtainBalanceAfter()
     var obtainProjectStatus = ObtainProjectStatus()
     var balOneAfter: Int = 0
     var balTwoAfter: Int = 0
     var balsAfter: [Int?] = [Int?]()
     var masterSearchArray: [SearchItem] = [SearchItem]()
+    var authorized: Bool!
+    var theKeyIsHere: String!
     
     func loadTheMip(completion: @escaping () -> ()) {
         mipORsip = 0 // MIP!
-        self.universalsRef = Database.database().reference().child("users").child(userUID).child("universals")
-        self.projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
-        self.entitiesRef = Database.database().reference().child("users").child(userUID).child("entities")
-        self.accountsRef = Database.database().reference().child("users").child(userUID).child("accounts")
-        self.vehiclesRef = Database.database().reference().child("users").child(userUID).child("vehicles")
-        mIPUniversals.removeAll()
-        mIPProjects.removeAll()
-        mIPEntities.removeAll()
-        mIPAccounts.removeAll()
-        mIPVehicles.removeAll()
-        self.universalsRef.observeSingleEvent(of: .value, with: { (snapshot) in
-            for item in snapshot.children {
-                self.mIPUniversals.append(UniversalItem(snapshot: item as! DataSnapshot))
-            }
-            self.projectsRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        obtainTheKey {
+            self.universalsRef = Database.database().reference().child("users").child(userUID).child("universals")
+            self.projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
+            self.entitiesRef = Database.database().reference().child("users").child(userUID).child("entities")
+            self.accountsRef = Database.database().reference().child("users").child(userUID).child("accounts")
+            self.vehiclesRef = Database.database().reference().child("users").child(userUID).child("vehicles")
+            self.mIPUniversals.removeAll()
+            self.mIPProjects.removeAll()
+            self.mIPEntities.removeAll()
+            self.mIPAccounts.removeAll()
+            self.mIPVehicles.removeAll()
+            self.universalsRef.observeSingleEvent(of: .value, with: { (snapshot) in
                 for item in snapshot.children {
-                    self.mIPProjects.append(ProjectItem(snapshot: item as! DataSnapshot))
+                    self.mIPUniversals.append(UniversalItem(snapshot: item as! DataSnapshot))
                 }
-                self.entitiesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                self.projectsRef.observeSingleEvent(of: .value, with: { (snapshot) in
                     for item in snapshot.children {
-                        self.mIPEntities.append(EntityItem(snapshot: item as! DataSnapshot))
+                        self.mIPProjects.append(ProjectItem(snapshot: item as! DataSnapshot))
                     }
-                    self.accountsRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                    self.entitiesRef.observeSingleEvent(of: .value, with: { (snapshot) in
                         for item in snapshot.children {
-                            self.mIPAccounts.append(AccountItem(snapshot: item as! DataSnapshot))
+                            self.mIPEntities.append(EntityItem(snapshot: item as! DataSnapshot))
                         }
-                        self.vehiclesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                        self.accountsRef.observeSingleEvent(of: .value, with: { (snapshot) in
                             for item in snapshot.children {
-                                self.mIPVehicles.append(VehicleItem(snapshot: item as! DataSnapshot))
+                                self.mIPAccounts.append(AccountItem(snapshot: item as! DataSnapshot))
                             }
-                            let youRef = Database.database().reference().child("users").child(userUID).child("youEntity")
-                            youRef.observeSingleEvent(of: .value, with: { (snapshot) in
-                                if let youKey = snapshot.value as? String {
-                                    self.trueYou = youKey
-                                    completion()
+                            self.vehiclesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                                for item in snapshot.children {
+                                    self.mIPVehicles.append(VehicleItem(snapshot: item as! DataSnapshot))
                                 }
+                                let youRef = Database.database().reference().child("users").child(userUID).child("youEntity")
+                                youRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                                    if let youKey = snapshot.value as? String {
+                                        self.trueYou = youKey
+                                        completion()
+                                    }
+                                })
                             })
                         })
                     })
                 })
             })
-        })
+        }
     }
     
     func loadTheStatuses() {
@@ -978,5 +986,101 @@ final class MIProcessor {
             }
         }
     }
+    
+    func askForTheKey() -> Data {
+        return self.tHeKeY
+    }
+    
+    func obtainTheKey(completion: @escaping () -> ()) {
+        print("HAYLOA")
+        if tHeKeY != nil {
+            completion()
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1), execute: {
+                self.keyRef = Database.database().reference().child("users").child(userUID).child("encryptedKey")
+                self.keyRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                    if let ke = snapshot.value as? String {
+                        self.theKeyIsHere = ke
+                    }
+                })
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1), execute: {
+                    if let _ = self.theKeyIsHere, self.theKeyIsHere != "" {
+                        if self.authorized == nil {
+                            Auth.auth().addStateDidChangeListener { auth, user in
+                                if user != nil {
+                                    // User is signed in.
+                                    self.theUser = user
+                                    self.authorized = true
+                                    
+                                    self.theUser.getIDTokenForcingRefresh(true) { idToken, error in
+                                        if let error = error, idToken != "" {
+                                            // Handle error
+                                            print("The error IS HERE")
+                                            return
+                                        }
+                                        
+                                        //DECRYPTION
+                                        var url2 = URLComponents(string: "https://bizzy-books.appspot.com/decrypt")!
+                                        url2.queryItems = [
+                                            URLQueryItem(name: "value", value: self.theKeyIsHere)
+                                        ]
+                                        var request2 = URLRequest(url: url2.url!)
+                                        request2.addValue("Bearer \(idToken!)", forHTTPHeaderField: "Authorization")
+                                        request2.httpMethod = "GET"
+                                        let task2 = URLSession.shared.dataTask(with: request2) { data, response, error in
+                                            guard let data = data, error == nil else {
+                                                print("error=\(error)")
+                                                return
+                                            }
+                                            if let httpStatus2 = response as? HTTPURLResponse, httpStatus2.statusCode != 200 {
+                                                print("statusCode should be 200, but is \(httpStatus2.statusCode)")
+                                                print("response = \(response)")
+                                            }
+                                            
+                                            let responseString2 = String(data: data, encoding: .utf8)
+                                            print("responseString2 = \(responseString2)")
+                                            do {
+                                                let json = try JSONSerialization.jsonObject(with: data, options: [])
+                                                if let object = json as? [String: Any] {
+                                                    // json is a dictionary
+                                                    self.theKeyIsHere = String(describing: object["key"]!) + "82gw2yN7bK"
+                                                    self.tHeKeY = self.theKeyIsHere.data(using: .utf8)
+                                                    print("recoveredKeyYo = " + self.theKeyIsHere)
+                                                    DispatchQueue.main.async {
+                                                        completion()
+                                                    }
+                                                } else {
+                                                    print("JSON is invalid")
+                                                    DispatchQueue.main.async {
+                                                        completion()
+                                                    }
+                                                }
+                                            } catch {
+                                                print("TO ERR IS HUMAN")
+                                                DispatchQueue.main.async {
+                                                    completion()
+                                                }
+                                            }
+                                        }
+                                        task2.resume()
+                                        
+                                    }
+                                    
+                                } else {
+                                    self.authorized = false
+                                }
+                            }
+                        }
+                        
+                        
+                    } else {
+                        print("The error is THERE")
+                    }
+                })
+                
+            })
+        }
+    }
+
     
 }

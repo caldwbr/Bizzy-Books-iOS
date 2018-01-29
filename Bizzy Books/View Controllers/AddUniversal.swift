@@ -1493,7 +1493,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         getDataFromUrl(url: url) { data, response, error in
             guard let data = data, error == nil else { return }
             DispatchQueue.main.async() {
-                if let image = UIImage(data: data) {
+                if let image = UIImage(data: data.decryptIt()) {
                     let aspectRatio = image.size.height / image.size.width
                     let screenSize = UIScreen.main.bounds
                     let screenWidth = screenSize.width

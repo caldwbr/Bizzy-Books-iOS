@@ -98,31 +98,31 @@ struct AccountItem: MultiversalItem {
         street = (snapshotValue["street"] as? String)?.decryptIt() ?? ""
         city = (snapshotValue["city"] as? String)?.decryptIt() ?? ""
         state = (snapshotValue["state"] as? String)?.decryptIt() ?? ""
-        startingBal = snapshotValue["startingBal"] as? Int ?? 0
+        startingBal = (snapshotValue["startingBal"] as? String)?.decryptIt().toInt() ?? 0
         creditDetailsAvailable = snapshotValue["creditDetailsAvailable"] as? Bool ?? false
         isLoan = snapshotValue["isLoan"] as? Bool ?? false
         loanType = snapshotValue["loanType"] as? Int ?? 0
         loanTypeSubcategory = snapshotValue["loanTypeSubcategory"] as? Int ?? 0
-        loanPercentOne = snapshotValue["loanPercentOne"] as? Double ?? 0.0
-        loanPercentTwo = snapshotValue["loanPercentTwo"] as? Double ?? 0.0
-        loanPercentThree = snapshotValue["loanPercentThree"] as? Double ?? 0.0
-        loanPercentFour = snapshotValue["loanPercentFour"] as? Double ?? 0.0
+        loanPercentOne = (snapshotValue["loanPercentOne"] as? String)?.decryptIt().toDouble() ?? 0.0
+        loanPercentTwo = (snapshotValue["loanPercentTwo"] as? String)?.decryptIt().toDouble() ?? 0.0
+        loanPercentThree = (snapshotValue["loanPercentThree"] as? String)?.decryptIt().toDouble() ?? 0.0
+        loanPercentFour = (snapshotValue["loanPercentFour"] as? String)?.decryptIt().toDouble() ?? 0.0
         loanIntFactorOne = snapshotValue["loanIntFactorOne"] as? Int ?? 0
         loanIntFactorTwo = snapshotValue["loanIntFactorTwo"] as? Int ?? 0
         loanIntFactorThree = snapshotValue["loanIntFactorThree"] as? Int ?? 0
         loanIntFactorFour = snapshotValue["loanIntFactorFour"] as? Int ?? 0
-        maxLimit = snapshotValue["maxLimit"] as? Int ?? 0
-        maxCashAdvanceAllowance = snapshotValue["maxCashAdvanceAllowance"] as? Int ?? 0
+        maxLimit = (snapshotValue["maxLimit"] as? String)?.decryptIt().toInt() ?? 0
+        maxCashAdvanceAllowance = (snapshotValue["maxCashAdvanceAllowance"] as? String)?.decryptIt().toInt() ?? 0
         closeDay = snapshotValue["closeDay"] as? Int ?? 0
         dueDay = snapshotValue["dueDay"] as? Int ?? 0
         cycle = snapshotValue["cycle"] as? Int ?? 0
         minimumPaymentRequired = snapshotValue["minimumPaymentRequired"] as? Int ?? 0
         lateFeeAsOneTimeInt = snapshotValue["lateFeeAsOneTimeInt"] as? Int ?? 0
-        lateFeeAsPercentageOfTotalBalance = snapshotValue["lateFeeAsPercentageOfTotalBalance"] as? Double ?? 0.0
-        cycleDues = snapshotValue["cycleDues"] as? Int ?? 0
+        lateFeeAsPercentageOfTotalBalance = (snapshotValue["lateFeeAsPercentageOfTotalBalance"] as? String)?.decryptIt().toDouble() ?? 0.0
+        cycleDues = (snapshotValue["cycleDues"] as? String)?.decryptIt().toInt() ?? 0
         duesCycle = snapshotValue["duesCycle"] as? Int ?? 0
-        minimumPaymentToBeSmart = snapshotValue["minimumPaymentToBeSmart"] as? Int ?? 0
-        interestRate = snapshotValue["interestRate"] as? Double ?? 0.0
+        minimumPaymentToBeSmart = (snapshotValue["minimumPaymentToBeSmart"] as? String)?.decryptIt().toInt() ?? 0
+        interestRate = (snapshotValue["interestRate"] as? String)?.decryptIt().toDouble() ?? 0.0
         interestKind = snapshotValue["interestKind"] as? Int ?? 0
         timeStamp = snapshotValue["timeStamp"] ?? 0
         ref = snapshot.ref
@@ -137,31 +137,31 @@ struct AccountItem: MultiversalItem {
             "street": street.encryptIt(),
             "city": city.encryptIt(),
             "state": state.encryptIt(),
-            "startingBal": startingBal,
+            "startingBal": startingBal.toString().encryptIt(),
             "creditDetailsAvailable": creditDetailsAvailable,
             "isLoan": isLoan,
             "loanType": loanType,
             "loanTypeSubcategory": loanTypeSubcategory,
-            "loanPercentOne": loanPercentOne,
-            "loanPercentTwo": loanPercentTwo,
-            "loanPercentThree": loanPercentThree,
-            "loanPercentFour": loanPercentFour,
+            "loanPercentOne": loanPercentOne.toString().encryptIt(),
+            "loanPercentTwo": loanPercentTwo.toString().encryptIt(),
+            "loanPercentThree": loanPercentThree.toString().encryptIt(),
+            "loanPercentFour": loanPercentFour.toString().encryptIt(),
             "loanIntFactorOne": loanIntFactorOne,
             "loanIntFactorTwo": loanIntFactorTwo,
             "loanIntFactorThree": loanIntFactorThree,
             "loanIntFactorFour": loanIntFactorFour,
-            "maxLimit": maxLimit,
-            "maxCashAdvanceAllowance": maxCashAdvanceAllowance,
+            "maxLimit": maxLimit.toString().encryptIt(),
+            "maxCashAdvanceAllowance": maxCashAdvanceAllowance.toString().encryptIt(),
             "closeDay": closeDay,
             "dueDay": dueDay,
             "cycle": cycle,
             "minimumPaymentRequired": minimumPaymentRequired,
             "lateFeeAsOneTimeInt": lateFeeAsOneTimeInt,
-            "lateFeeAsPercentageOfTotalBalance": lateFeeAsPercentageOfTotalBalance,
-            "cycleDues": cycleDues,
+            "lateFeeAsPercentageOfTotalBalance": lateFeeAsPercentageOfTotalBalance.toString().encryptIt(),
+            "cycleDues": cycleDues.toString().encryptIt(),
             "duesCycle": duesCycle,
-            "minimumPaymentToBeSmart": minimumPaymentToBeSmart,
-            "interestRate": interestRate,
+            "minimumPaymentToBeSmart": minimumPaymentToBeSmart.toString().encryptIt(),
+            "interestRate": interestRate.toString().encryptIt(),
             "interestKind": interestKind,
             "timeStamp": timeStamp
         ]

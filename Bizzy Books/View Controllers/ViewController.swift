@@ -77,6 +77,9 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     }
     
     let timeStampDictionaryForFirebase = [".sv": "timestamp"]
+    var theUser: User!
+    var encryptedKeyYo = ""
+    var recoveredKeyYo = ""
     var masterRef: DatabaseReference!
     var projectsRef: DatabaseReference!
     var accountsRef: DatabaseReference!
@@ -233,6 +236,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
             if user != nil {
                 // User is signed in.
                 userUID = (user?.uid)!
+                self.theUser = user
                 if user?.photoURL == nil {
                 }else{
                     if let imageUrl = NSData(contentsOf: (user?.photoURL)!){
@@ -248,8 +252,14 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                 self.vehiclesRef = Database.database().reference().child("users").child(userUID).child("vehicles")
                 self.youEntityRef = Database.database().reference().child("users").child(userUID).child("youEntity")
                 self.firstTimeRef = Database.database().reference().child("users").child(userUID).child("firstTime")
-
-                self.initializeIfFirstAppUse()
+                self.firstTimeRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                    if snapshot.exists() {
+                        print("Do NOT any THING")
+                        self.loadTheMIP()
+                    } else {
+                        self.initializeIfFirstAppUse()
+                    }
+                })
                 print("ONE!")
                 self.masterRef.observe(.childChanged, with: { (snapshot) in // GENIUS!!!!! This line loads MIP only when an item gets added/changed/deleted (and exactly WHEN an item gets added/changed/deleted) in Firebase database IN REALTIME!!!!
                     print("TWO!")
@@ -1166,15 +1176,60 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         let firstLaunch = FirstLaunch(userDefaults: .standard, key: "com.bizzybooks.FirstLaunch.WasLaunchedBefore")
         
         if firstLaunch.isFirstLaunch {
-            // do things // MOVE stuff from the always closure below into this one when you're ready for final deployment of app!
-            let addEntityKeyReference = self.entitiesRef.childByAutoId()
-            self.addEntityKeyString = addEntityKeyReference.key
-            let timeStampDictionaryForFirebase = [".sv": "timestamp"]
-            let thisEntityItem = EntityItem(type: 9, name: "You", phoneNumber: "", email: "", street: "", city: "", state: "", ssn: "", ein: "", timeStamp: timeStampDictionaryForFirebase, key: self.addEntityKeyString)
-            self.entitiesRef.child(self.addEntityKeyString).setValue(thisEntityItem.toAnyObject())
-            self.youEntityRef.setValue(self.addEntityKeyString)
-            self.firstTimeRef.setValue(false)
-            self.popUpAnimateIn(popUpView: self.welcomeView)
+            //ENCRYPTION KEY STUFF!!!
+            theUser?.getIDTokenForcingRefresh(true) { idToken, error in
+                if let error = error, idToken != "" {
+                    // Handle error
+                    return
+                }
+                let url = URL(string: "https://bizzy-books.appspot.com/key")!
+                var request = URLRequest(url: url)
+                print("idToken!! " + (idToken)!)
+                request.addValue("Bearer \(idToken!)", forHTTPHeaderField: "Authorization")
+                request.httpMethod = "POST"
+                let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                    guard let data = data, error == nil else {
+                        print("error=\(error)")
+                        return
+                    }
+                    
+                    if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
+                        print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                        print("response = \(response)")
+                    }
+                    
+                    let responseString = String(data: data, encoding: .utf8)
+                    
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data, options: [])
+                        if let object = json as? [String: Any] {
+                            print("1!!!! " + String(describing: object["key"]!))
+                            print("ENCRYPT! " + String(describing: object["encrypted"]!))
+                            self.encryptedKeyYo = String(describing: object["encrypted"]!)
+                            self.masterRef.child("encryptedKey").setValue(self.encryptedKeyYo)
+                            
+                            MIProcessor.sharedMIP.obtainTheKey() {
+                                let addEntityKeyReference = self.entitiesRef.childByAutoId()
+                                self.addEntityKeyString = addEntityKeyReference.key
+                                let timeStampDictionaryForFirebase = [".sv": "timestamp"]
+                                let thisEntityItem = EntityItem(type: 9, name: "You", phoneNumber: "", email: "", street: "", city: "", state: "", ssn: "", ein: "", timeStamp: timeStampDictionaryForFirebase, key: self.addEntityKeyString)
+                                self.entitiesRef.child(self.addEntityKeyString).setValue(thisEntityItem.toAnyObject())
+                                self.youEntityRef.setValue(self.addEntityKeyString)
+                                self.firstTimeRef.setValue(false)
+                                self.popUpAnimateIn(popUpView: self.welcomeView)
+                            }
+                            
+                        } else {
+                            print("JSON is invalid")
+                        }
+                    } catch {
+                        print("TO ERR IS HUMAN")
+                    }
+                    print("responseString = \(responseString)")
+                }
+                task.resume()
+                
+            }
         }
         
         let alwaysFirstLaunch = FirstLaunch.alwaysFirst()

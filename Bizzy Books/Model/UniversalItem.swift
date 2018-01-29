@@ -117,7 +117,7 @@ struct UniversalItem: MultiversalItem {
         odometerReading = snapshotValue["odometerReading"] as? Int ?? 0
         whoName = (snapshotValue["whoName"] as? String)?.decryptIt() ?? ""
         whoKey = snapshotValue["whoKey"] as? String ?? ""
-        what = snapshotValue["what"] as? Int ?? 0
+        what = (snapshotValue["what"] as? String)?.decryptIt().toInt() ?? 0
         whomName = (snapshotValue["whomName"] as? String)?.decryptIt() ?? ""
         whomKey = snapshotValue["whomKey"] as? String ?? ""
         taxReasonName = (snapshotValue["taxReasonName"] as? String)?.decryptIt() ?? ""
@@ -137,7 +137,7 @@ struct UniversalItem: MultiversalItem {
         accountTwoName = (snapshotValue["accountTwoName"] as? String)?.decryptIt() ?? ""
         accountTwoKey = snapshotValue["accountTwoKey"] as? String ?? ""
         accountTwoType = snapshotValue["accountTwoType"] as? Int ?? 0
-        howMany = snapshotValue["howMany"] as? Int ?? 0
+        howMany = (snapshotValue["howMany"] as? String)?.decryptIt().toInt() ?? 0
         fuelTypeName = (snapshotValue["fuelTypeName"] as? String)?.decryptIt() ?? ""
         fuelTypeId = snapshotValue["fuelTypeId"] as? Int ?? 0
         useTax = snapshotValue["useTax"] as? Bool ?? false
@@ -148,8 +148,8 @@ struct UniversalItem: MultiversalItem {
         projectPicTypeName = ((snapshotValue["projectPicTypeName"] as? String)?.decryptIt())!
         projectPicTypeId = snapshotValue["projectPicTypeId"] as? Int ?? 0
         timeStamp = snapshotValue["timeStamp"] ?? 0
-        latitude = snapshotValue["latitude"] as? Double ?? 0.0
-        longitude = snapshotValue["longitude"] as? Double ?? 0.0
+        latitude = (snapshotValue["latitude"] as? String)?.decryptIt().toDouble() ?? 0.0
+        longitude = (snapshotValue["longitude"] as? String)?.decryptIt().toDouble() ?? 0.0
         atmFee = snapshotValue["atmFee"] as? Bool ?? false
         feeAmount = snapshotValue["feeAmoount"] as? Int ?? 0
         ref = snapshot.ref
@@ -163,7 +163,7 @@ struct UniversalItem: MultiversalItem {
             "odometerReading": odometerReading,
             "whoName": whoName.encryptIt(),
             "whoKey": whoKey,
-            "what": what,
+            "what": what.toString().encryptIt(),
             "whomName": whomName.encryptIt(),
             "whomKey": whomKey,
             "taxReasonName": taxReasonName.encryptIt(),
@@ -183,7 +183,7 @@ struct UniversalItem: MultiversalItem {
             "accountTwoName": accountTwoName.encryptIt(),
             "accountTwoKey": accountTwoKey,
             "accountTwoType": accountTwoType,
-            "howMany": howMany,
+            "howMany": howMany.toString().encryptIt(),
             "fuelTypeName": fuelTypeName.encryptIt(),
             "fuelTypeId": fuelTypeId,
             "useTax": useTax,
@@ -194,8 +194,8 @@ struct UniversalItem: MultiversalItem {
             "projectPicTypeName": projectPicTypeName.encryptIt(),
             "projectPicTypeId": projectPicTypeId,
             "timeStamp": timeStamp,
-            "latitude": latitude,
-            "longitude": longitude,
+            "latitude": latitude.toString().encryptIt(),
+            "longitude": longitude.toString().encryptIt(),
             "atmFee": atmFee,
             "feeAmount": feeAmount
         ]
