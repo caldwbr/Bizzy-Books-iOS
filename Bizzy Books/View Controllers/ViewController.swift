@@ -219,16 +219,20 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     @IBOutlet weak var profilePic: UIImageView!
     
     @objc func refreshTheMIP() {
-        DispatchQueue.main.async {
-            MIProcessor.sharedMIP.loadTheMip {
-                MIProcessor.sharedMIP.obtainTheBalancesAfter()
-                MIProcessor.sharedMIP.loadTheStatuses()
-                MIProcessor.sharedMIP.updateTheMIP()
-                if MIProcessor.sharedMIP.mipORsip == 1 {
-                    MIProcessor.sharedMIP.updateTheSIP(i: self.thingToBeSearchedInt, name: self.thingToBeSearchedName)
+        if MIProcessor.sharedMIP.mipORsip == 1 {
+            self.refreshControl.endRefreshing()
+        } else {
+            DispatchQueue.main.async {
+                MIProcessor.sharedMIP.loadTheMip {
+                    MIProcessor.sharedMIP.obtainTheBalancesAfter()
+                    MIProcessor.sharedMIP.loadTheStatuses()
+                    MIProcessor.sharedMIP.updateTheMIP()
+                    /*if MIProcessor.sharedMIP.mipORsip == 1 {
+                        MIProcessor.sharedMIP.updateTheSIP(i: self.thingToBeSearchedInt, name: self.thingToBeSearchedName)
+                    }*/
+                    self.cardViewCollectionView.reloadData()//Critical line - this makes or breaks the app :/
+                    self.refreshControl.endRefreshing()
                 }
-                self.cardViewCollectionView.reloadData()//Critical line - this makes or breaks the app :/
-                self.refreshControl.endRefreshing()
             }
         }
     }
