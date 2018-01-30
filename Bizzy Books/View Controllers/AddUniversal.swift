@@ -1157,7 +1157,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         selectProjectTableView.isHidden = true
         selectVehicleTableView.isHidden = true
         selectAccountTableView.isHidden = true
-        selectSecondaryAccountView.isHidden = true
+        selectSecondaryAccountTableView.isHidden = true
         addProjectSelectCustomerTableView.isHidden = true
         addAccountTableView.isHidden = true
     }
