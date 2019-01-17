@@ -68,17 +68,17 @@ struct ProjectItem: MultiversalItem {
     
     func toAnyObject() -> Any {
         return [
-            "name": name.encryptIt(),
-            "customerName": customerName.encryptIt(),
+            "name": name,
+            "customerName": customerName,
             "customerKey": customerKey,
-            "howDidTheyHearOfYouString": howDidTheyHearOfYouString.encryptIt(),
+            "howDidTheyHearOfYouString": howDidTheyHearOfYouString,
             "howDidTheyHearOfYouId": howDidTheyHearOfYouId,
-            "projectTags": projectTags.encryptIt(),
-            "projectAddressStreet": projectAddressStreet.encryptIt(),
-            "projectAddressCity": projectAddressCity.encryptIt(),
-            "projectAddressState": projectAddressState.encryptIt(),
-            "projectNotes": projectNotes.encryptIt(),
-            "projectStatusName": projectStatusName.encryptIt(),
+            "projectTags": projectTags,
+            "projectAddressStreet": projectAddressStreet,
+            "projectAddressCity": projectAddressCity,
+            "projectAddressState": projectAddressState,
+            "projectNotes": projectNotes,
+            "projectStatusName": projectStatusName,
             "projectStatusId": projectStatusId,
             "timeStamp": timeStamp
         ]

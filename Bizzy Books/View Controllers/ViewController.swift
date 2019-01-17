@@ -124,8 +124,8 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         self.editProjectAddEntityTableView.keyboardDismissMode = .interactive
         self.editEntityTableView.keyboardDismissMode = .interactive
         self.searchTableView.keyboardDismissMode = .interactive
-        reportsBooksButton.isEnabled = false
-        reportsBooksButton.tintColor = UIColor.clear
+        //reportsBooksButton.isEnabled = false
+        //reportsBooksButton.tintColor = UIColor.clear
         
         // Add Refresh Control to Table View
         if #available(iOS 10.0, *) {
@@ -260,6 +260,9 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                 self.vehiclesRef = Database.database().reference().child("users").child(userUID).child("vehicles")
                 self.youEntityRef = Database.database().reference().child("users").child(userUID).child("youEntity")
                 self.firstTimeRef = Database.database().reference().child("users").child(userUID).child("firstTime")
+                self.masterRef.observe(.value, with: { (snapshot) in
+                    print("Do NOTTTT ANY thingggggg")
+                })
                 self.firstTimeRef.observeSingleEvent(of: .value, with: { (snapshot) in
                     if snapshot.exists() {
                         print("Do NOT any THING")
@@ -393,7 +396,55 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     
     @IBOutlet weak var reportsBooksButton: UIBarButtonItem!
     @IBAction func reportsBooksPressed(_ sender: UIBarButtonItem) {
-        //performSegue(withIdentifier: "showReports", sender: self)
+        //updateFirebaseWithNonEncryptedMIP()
+        performSegue(withIdentifier: "showReports", sender: self)
+    }
+    
+    func updateFirebaseWithNonEncryptedMIP() {
+        var addUniversalKeyString = ""
+        var addAccountKeyString = ""
+        var addEntityKeyString = ""
+        var addVehicleKeyString = ""
+        var addProjectKeyString = ""
+        var universalsRef: DatabaseReference!
+        var accountsRef: DatabaseReference!
+        var entitiesRef: DatabaseReference!
+        var vehiclesRef: DatabaseReference!
+        var projectsRef: DatabaseReference!
+        universalsRef = Database.database().reference().child("users").child(userUID).child("universals")
+        accountsRef = Database.database().reference().child("users").child(userUID).child("accounts")
+        entitiesRef = Database.database().reference().child("users").child(userUID).child("entities")
+        vehiclesRef = Database.database().reference().child("users").child(userUID).child("vehicles")
+        projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
+        for i in 0..<MIProcessor.sharedMIP.mIPUniversals.count {
+            addUniversalKeyString = MIProcessor.sharedMIP.mIPUniversals[i].key
+            universalsRef.child(addUniversalKeyString).setValue(MIProcessor.sharedMIP.mIPUniversals[i].toAnyObject())
+        }
+        for i in 0..<MIProcessor.sharedMIP.mIPAccounts.count {
+            addAccountKeyString = MIProcessor.sharedMIP.mIPAccounts[i].key
+            accountsRef.child(addAccountKeyString).setValue(MIProcessor.sharedMIP.mIPAccounts[i].toAnyObject())
+        }
+        for i in 0..<MIProcessor.sharedMIP.mIPEntities.count {
+            addEntityKeyString = MIProcessor.sharedMIP.mIPEntities[i].key
+            entitiesRef.child(addEntityKeyString).setValue(MIProcessor.sharedMIP.mIPEntities[i].toAnyObject())
+        }
+        for i in 0..<MIProcessor.sharedMIP.mIPVehicles.count {
+            addVehicleKeyString = MIProcessor.sharedMIP.mIPVehicles[i].key
+            vehiclesRef.child(addVehicleKeyString).setValue(MIProcessor.sharedMIP.mIPVehicles[i].toAnyObject())
+        }
+        for i in 0..<MIProcessor.sharedMIP.mIPProjects.count {
+            addProjectKeyString = MIProcessor.sharedMIP.mIPProjects[i].key
+            projectsRef.child(addProjectKeyString).setValue(MIProcessor.sharedMIP.mIPProjects[i].toAnyObject())
+        }
+        print("DONE DONE DONE DONE DONE DONE DONE DONE DONE")
+        print("DONE DONE DONE DONE DONE DONE DONE DONE DONE")
+        print("DONE DONE DONE DONE DONE DONE DONE DONE DONE")
+        print("DONE DONE DONE DONE DONE DONE DONE DONE DONE")
+        print("DONE DONE DONE DONE DONE DONE DONE DONE DONE")
+        print("DONE DONE DONE DONE DONE DONE DONE DONE DONE")
+        print("DONE DONE DONE DONE DONE DONE DONE DONE DONE")
+        print("DONE DONE DONE DONE DONE DONE DONE DONE DONE")
+        print("DONE DONE DONE DONE DONE DONE DONE DONE DONE")
     }
     
     @IBAction func addUniversalClicked(_: UIBarButtonItem) {

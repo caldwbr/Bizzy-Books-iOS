@@ -58,15 +58,15 @@ struct VehicleItem: MultiversalItem {
     
     func toAnyObject() -> Any {
         return [
-            "year": year.encryptIt(),
-            "make": make.encryptIt(),
-            "model": model.encryptIt(),
-            "color": color.encryptIt(),
+            "year": year,
+            "make": make,
+            "model": model,
+            "color": color,
             "fuelId": fuelId,
-            "fuelString": fuelString.encryptIt(),
-            "placedInCommissionDate": placedInCommissionDate.encryptIt(),
-            "licensePlateNumber": licensePlateNumber.encryptIt(),
-            "vehicleIdentificationNumber": vehicleIdentificationNumber.encryptIt(),
+            "fuelString": fuelString,
+            "placedInCommissionDate": placedInCommissionDate,
+            "licensePlateNumber": licensePlateNumber,
+            "vehicleIdentificationNumber": vehicleIdentificationNumber,
             "timeStamp": timeStamp
         ]
     }

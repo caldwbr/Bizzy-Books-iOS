@@ -22,7 +22,7 @@ target 'Bizzy Books' do
     pod 'FBSDKLoginKit'
 
     pod 'Fabric'
-
+    
     pod 'RNCryptor', '~> 5.0'
     
     # Dropdown
@@ -32,5 +32,7 @@ target 'Bizzy Books' do
     pod 'KTCenterFlowLayout'
 
     pod 'Freddy'
+
+    pod 'SimplePDF'
 
 end

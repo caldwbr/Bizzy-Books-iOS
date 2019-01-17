@@ -44,7 +44,8 @@ final class MIProcessor {
     
     func loadTheMip(completion: @escaping () -> ()) {
         mipORsip = 0 // MIP!
-        obtainTheKey {
+        //obtainTheKey {
+            
             self.universalsRef = Database.database().reference().child("users").child(userUID).child("universals")
             self.projectsRef = Database.database().reference().child("users").child(userUID).child("projects")
             self.entitiesRef = Database.database().reference().child("users").child(userUID).child("entities")
@@ -79,6 +80,14 @@ final class MIProcessor {
                                 youRef.observeSingleEvent(of: .value, with: { (snapshot) in
                                     if let youKey = snapshot.value as? String {
                                         self.trueYou = youKey
+                                        print("WEEEEEEEEERRRRRRREEEEEE DOOOOONNNNNNEEEEE HEEEEERRRRRREEEE!")
+                                        print("WEEEEEEEEERRRRRRREEEEEE DOOOOONNNNNNEEEEE HEEEEERRRRRREEEE!")
+                                        print("WEEEEEEEEERRRRRRREEEEEE DOOOOONNNNNNEEEEE HEEEEERRRRRREEEE!")
+                                        print("WEEEEEEEEERRRRRRREEEEEE DOOOOONNNNNNEEEEE HEEEEERRRRRREEEE!")
+                                        print("WEEEEEEEEERRRRRRREEEEEE DOOOOONNNNNNEEEEE HEEEEERRRRRREEEE!")
+                                        print("WEEEEEEEEERRRRRRREEEEEE DOOOOONNNNNNEEEEE HEEEEERRRRRREEEE!")
+                                        print("WEEEEEEEEERRRRRRREEEEEE DOOOOONNNNNNEEEEE HEEEEERRRRRREEEE!")
+                                        print("WEEEEEEEEERRRRRRREEEEEE DOOOOONNNNNNEEEEE HEEEEERRRRRREEEE!")
                                         completion()
                                     }
                                 })
@@ -87,7 +96,7 @@ final class MIProcessor {
                     })
                 })
             })
-        }
+        //}
     }
     
     func loadTheStatuses() {
@@ -941,19 +950,19 @@ final class MIProcessor {
                         sIP.append(thisAcco)
                     }
                 }
-            case -94: // Credit accounts
+            case -95: // Credit accounts
                 for thisAcco in mIPAccounts {
                     if thisAcco.accountTypeId == 1 {
                         sIP.append(thisAcco)
                     }
                 }
-            case -94: // Cash accounts
+            case -96: // Cash accounts
                 for thisAcco in mIPAccounts {
                     if thisAcco.accountTypeId == 2 {
                         sIP.append(thisAcco)
                     }
                 }
-            case -94: // Store refund accounts
+            case -97: // Store refund accounts
                 for thisAcco in mIPAccounts {
                     if thisAcco.accountTypeId == 3 {
                         sIP.append(thisAcco)

@@ -15,10 +15,13 @@
  *
  */
 
+/**
+ This header is private to the Twitter Core SDK and not exposed for public SDK consumption
+ */
+
 #import "TWTRAuthenticationProvider.h"
 
 @class TWTRAuthConfig;
-@protocol TWTRErrorLogger;
 @protocol TWTRAPIServiceConfig;
 
 __TVOS_UNAVAILABLE @interface TWTRAppleSocialAuthenticaticationProvider : TWTRAuthenticationProvider
@@ -26,6 +29,6 @@ __TVOS_UNAVAILABLE @interface TWTRAppleSocialAuthenticaticationProvider : TWTRAu
                                                                           -
                                                                           (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithAuthConfig:(TWTRAuthConfig *)authConfig apiServiceConfig:(id<TWTRAPIServiceConfig>)apiServiceConfig errorLogger:(id<TWTRErrorLogger>)errorLogger;
+- (instancetype)initWithAuthConfig:(TWTRAuthConfig *)authConfig apiServiceConfig:(id<TWTRAPIServiceConfig>)apiServiceConfig;
 
 @end

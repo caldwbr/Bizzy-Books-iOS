@@ -34,14 +34,15 @@ extension String {
     }
     
     func encryptIt() -> String {
-        let data = self.data(using: .utf8)
-        let encryptor = RNCryptor.EncryptorV3(encryptionKey: MIProcessor.sharedMIP.askForTheKey(), hmacKey: hmacKey!)
-        let ciphertext = encryptor.encrypt(data: data!)
-        return ciphertext.base64EncodedString(options: NSData.Base64EncodingOptions.endLineWithCarriageReturn)
+        //let data = self.data(using: .utf8)
+        //let encryptor = RNCryptor.EncryptorV3(encryptionKey: MIProcessor.sharedMIP.askForTheKey(), hmacKey: hmacKey!)
+        //let ciphertext = encryptor.encrypt(data: data!)
+        //return ciphertext.base64EncodedString(options: NSData.Base64EncodingOptions.endLineWithCarriageReturn)
+        return self
     }
     
     func decryptIt() -> String {
-        do {
+        /*do {
             let data = Data.init(base64Encoded: self)
             let decryptor = RNCryptor.DecryptorV3(encryptionKey: MIProcessor.sharedMIP.askForTheKey(), hmacKey: hmacKey!)
             let originalData = try decryptor.decrypt(data: data!)
@@ -51,7 +52,8 @@ extension String {
             return newNSString as String
         } catch {
             return self
-        }
+        }*/
+        return self
     }
     
 }
@@ -59,11 +61,13 @@ extension String {
 extension Data {
     
     func encryptIt() -> Data {
-        let encryptor = RNCryptor.EncryptorV3(encryptionKey: MIProcessor.sharedMIP.askForTheKey(), hmacKey: hmacKey!)
-        return encryptor.encrypt(data: self as Data)
+        //let encryptor = RNCryptor.EncryptorV3(encryptionKey: MIProcessor.sharedMIP.askForTheKey(), hmacKey: hmacKey!)
+        //return encryptor.encrypt(data: self as Data)
+        return self
     }
     
     func decryptIt() -> Data {
+        /*
         do {
             let decryptor = RNCryptor.DecryptorV3(encryptionKey: MIProcessor.sharedMIP.askForTheKey(), hmacKey: hmacKey!)
             let originalData = try decryptor.decrypt(data: self)
@@ -71,11 +75,14 @@ extension Data {
         } catch {
             return self
         }
+ */
+        return self
         
     }
     
     func pixelCrypt(isEncrypted: Bool) -> Data {
-        return isEncrypted ? self.decryptIt() : self.encryptIt()
+        //return isEncrypted ? self.decryptIt() : self.encryptIt()
+        return self
     }
     
 }

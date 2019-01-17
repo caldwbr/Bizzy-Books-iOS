@@ -59,14 +59,14 @@ struct EntityItem: MultiversalItem {
     func toAnyObject() -> Any { //Turns an EntityItem into a dictionary for storage in Firebase
         return [
             "type": type,
-            "name": name.encryptIt(),
-            "phoneNumber": phoneNumber.encryptIt(),
-            "email": email.encryptIt(),
-            "street": street.encryptIt(),
-            "city": city.encryptIt(),
-            "state": state.encryptIt(),
-            "ssn": ssn.encryptIt(),
-            "ein": ein.encryptIt(),
+            "name": name,
+            "phoneNumber": phoneNumber,
+            "email": email,
+            "street": street,
+            "city": city,
+            "state": state,
+            "ssn": ssn,
+            "ein": ein,
             "timeStamp": timeStamp
         ]
     }

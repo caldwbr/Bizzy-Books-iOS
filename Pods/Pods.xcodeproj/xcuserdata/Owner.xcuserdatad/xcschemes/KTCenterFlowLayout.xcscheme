@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '5B8521E1C93F41AB556C5F55A214ABB6'
-               BlueprintName = 'KTCenterFlowLayout'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'KTCenterFlowLayout.framework'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4E01C096DDC5FA7512B15638B8778EF9"
+               BlueprintName = "KTCenterFlowLayout"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "KTCenterFlowLayout.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
