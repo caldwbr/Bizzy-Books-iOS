@@ -174,7 +174,7 @@ final class MIProcessor {
     }
     
     func appendTheGoodies() {
-        let goodies: [String] = ["Items", "Projects", "Entities", "Accounts", "Vehicles", "Overhead", "Business", "Personal", "Mixed", "Fuel", "Transfer", "Project media", "Current job leads", "Current bids", "Jobs under contract", "Paid jobs", "Lost job opportunities", "Other project status", "Jobs via unknown means", "Jobs via referral", "Jobs via website", "Jobs via YP", "Jobs via social media", "Jobs via soliciting", "Jobs via AdWords", "Jobs via company shirts", "Jobs via sign", "Jobs via vehicle wrap", "Jobs via billboard", "Jobs via TV", "Jobs via radio", "Jobs via other method", "Customers", "Vendors", "Subs", "Employees", "Stores", "Government", "Other entities", "You entity type", "Food", "Fun", "Pet", "Utilities", "Phone", "Office", "Giving", "Insurance", "House", "Yard", "Medical", "Travel", "Clothes", "Other personal category", "Income", "Supplies", "Labor", "Meals", "Office", "Vehicle", "Advertising", "Pro help", "Machine rental", "Property rental", "Tax+license", "Insurance(WC+GL)", "Business travel", "Employee benefit", "Depreciation", "Depletion", "Business utilities", "Commissions", "Business wages", "Business mortgage interest", "Other business interest", "Business pension", "Business repairs", "Unknown advertising expenses", "Referral expenses", "Website expenses", "YP expenses", "Social media expenses", "Soliciting expenses", "AdWords expenses", "Company shirt expenses", "Sign expenses", "Vehicle wrap expenses", "Billboard expenses", "TV ad expenses", "Radio ad expenses", "Other ad expenses", "Sub has WC", "Incurred WC", "WC N/A", "Bank accounts", "Credit accounts", "Cash accounts", "Store refund accounts"]
+        let goodies: [String] = ["Items", "Projects", "Entities", "Accounts", "Vehicles", "Overhead", "Business", "Personal", "Mixed", "Fuel", "Transfer", "Project media", businessInfo.subcat1, businessInfo.subcat2, businessInfo.subcat3, businessInfo.subcat4, businessInfo.subcat5, businessInfo.subcat6, "Jobs via unknown means", "Jobs via referral", "Jobs via website", "Jobs via YP", "Jobs via social media", "Jobs via soliciting", "Jobs via AdWords", "Jobs via company shirts", "Jobs via sign", "Jobs via vehicle wrap", "Jobs via billboard", "Jobs via TV", "Jobs via radio", "Jobs via other method", "Customers", "Vendors", "Subs", "Employees", "Stores", "Government", "Other entities", "You entity type", "Food", "Fun", "Pet", "Utilities", "Phone", "Office", "Giving", "Insurance", "House", "Yard", "Medical", "Travel", "Clothes", "Other personal category", "Income", "Supplies", "Labor", "Meals", "Office", "Vehicle", "Advertising", "Pro help", "Machine rental", "Property rental", "Tax+license", "Insurance(WC+GL)", "Business travel", "Employee benefit", "Depreciation", "Depletion", "Business utilities", "Commissions", "Business wages", "Business mortgage interest", "Other business interest", "Business pension", "Business repairs", "Unknown advertising expenses", "Referral expenses", "Website expenses", "YP expenses", "Social media expenses", "Soliciting expenses", "AdWords expenses", "Company shirt expenses", "Sign expenses", "Vehicle wrap expenses", "Billboard expenses", "TV ad expenses", "Radio ad expenses", "Other ad expenses", "Sub has WC", "Incurred WC", "WC N/A", "Bank accounts", "Credit accounts", "Cash accounts", "Store refund accounts"]
         for i in 0..<goodies.count {
             let searchItem = SearchItem(i: -i, name: goodies[i])
             masterSearchArray.append(searchItem)
@@ -321,37 +321,37 @@ final class MIProcessor {
                         sIP.append(thisUniv)
                     }
                 }
-            case -12: // Current job leads
+            case -12: // Current job leads//NOPE NOW IT'S subcat1
                 for thisProj in mIPProjects {
                     if thisProj.projectStatusId == 0 {
                         sIP.append(thisProj)
                     }
                 }
-            case -13: // Current bids
+            case -13: // Current bids//NOPE NOW IT'S subcat2
                 for thisProj in mIPProjects {
                     if thisProj.projectStatusId == 1 {
                         sIP.append(thisProj)
                     }
                 }
-            case -14: // Jobs under contract
+            case -14: // Jobs under contract//NOPE NOW IT'S subcat3
                 for thisProj in mIPProjects {
                     if thisProj.projectStatusId == 2 {
                         sIP.append(thisProj)
                     }
                 }
-            case -15: // Paid jobs
+            case -15: // Paid jobs//NOPE NOW IT'S subcat4
                 for thisProj in mIPProjects {
                     if thisProj.projectStatusId == 3 {
                         sIP.append(thisProj)
                     }
                 }
-            case -16: // Lost job opportunities
+            case -16: // Lost job opportunities//NOPE NOW IT'S subcat5
                 for thisProj in mIPProjects {
                     if thisProj.projectStatusId == 4 {
                         sIP.append(thisProj)
                     }
                 }
-            case -17: // Other project status
+            case -17: // Other project status//NOPE NOW IT'S subcat6
                 for thisProj in mIPProjects {
                     if thisProj.projectStatusId == 5 {
                         sIP.append(thisProj)
