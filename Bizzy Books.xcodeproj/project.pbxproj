@@ -47,6 +47,7 @@
 		EB851E3F1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EB851E3D1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld */; };
 		EB851E4C1D957932002D19F4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB851E4B1D957932002D19F4 /* GoogleService-Info.plist */; };
 		EB952E3B1FFBFCFC006AA124 /* ProSubscriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB952E3A1FFBFCFC006AA124 /* ProSubscriptionViewController.swift */; };
+		EB9E231221F569760091995D /* BusinessInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E231121F569760091995D /* BusinessInfo.swift */; };
 		EBB407E31FE7101000E307C2 /* StringifyAnInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB407E21FE7101000E307C2 /* StringifyAnInt.swift */; };
 		EBB407E51FE8120500E307C2 /* ObtainBalanceAfter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB407E41FE8120500E307C2 /* ObtainBalanceAfter.swift */; };
 		EBB407E71FE8A33F00E307C2 /* TheAmtSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB407E61FE8A33F00E307C2 /* TheAmtSingleton.swift */; };
@@ -120,6 +121,7 @@
 		EB851E451D9578B2002D19F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB851E4B1D957932002D19F4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EB952E3A1FFBFCFC006AA124 /* ProSubscriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProSubscriptionViewController.swift; sourceTree = "<group>"; };
+		EB9E231121F569760091995D /* BusinessInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessInfo.swift; sourceTree = "<group>"; };
 		EBB407E21FE7101000E307C2 /* StringifyAnInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringifyAnInt.swift; sourceTree = "<group>"; };
 		EBB407E41FE8120500E307C2 /* ObtainBalanceAfter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObtainBalanceAfter.swift; sourceTree = "<group>"; };
 		EBB407E61FE8A33F00E307C2 /* TheAmtSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheAmtSingleton.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 				EBC54EB41FFA187600A03906 /* SearchItem.swift */,
 				EBD42D5D1FFB3E540004F896 /* CustomImageView.swift */,
 				EB4EA8CA20111C56005D7552 /* Extensions.swift */,
+				EB9E231121F569760091995D /* BusinessInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -427,6 +430,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Bizzy Books/Pods-Bizzy Books-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Freddy/Freddy.framework",
@@ -451,6 +455,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Freddy.framework",
@@ -592,6 +597,7 @@
 				FA7B731D1EFC5785007A1AEA /* DropdownFlowCollectionViewCell.swift in Sources */,
 				EBB407E91FEA10A400E307C2 /* MIProcessor.swift in Sources */,
 				EBB407ED1FEB62B400E307C2 /* UniversalTransferCardViewCollectionViewCell.swift in Sources */,
+				EB9E231221F569760091995D /* BusinessInfo.swift in Sources */,
 				EB5856AE1FB63612006C6212 /* ProjectItem.swift in Sources */,
 				EBB407F91FEC478E00E307C2 /* CardViewLabelFlowCollectionViewDataSourceTwo.swift in Sources */,
 				EB190FC51F074EC700C80E07 /* CleanValue.swift in Sources */,

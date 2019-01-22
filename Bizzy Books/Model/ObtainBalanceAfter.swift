@@ -10,7 +10,7 @@ import Foundation
 import Firebase
 
 class ObtainBalanceAfter {
-    //var tHeMiP = MIProcessor.sharedMIP
+    //var tHeMiP = MIProcessor.sharedMIP //THIS IS THE FILE THAT TAKES 17seconds AND NEEDS PLACED IN BACKGROUND!! And try to rewrite to be faster!!
     var mip = [MultiversalItem]()
     var mipA = [AccountItem]()
     var mipU = [UniversalItem]()
@@ -80,6 +80,32 @@ class ObtainBalanceAfter {
             }
         }
         completion()
+    }
+    
+    func prepareBalsAfterForSingleUniversal(universal: UniversalItem) -> [Any] {
+        self.accountOneKey = universal.accountOneKey
+        self.accountTwoKey = universal.accountTwoKey
+        self.particularUniversalTimeStamp = universal.timeStamp as! Double
+        var passBackArray: [Any] = [Any]()
+        switch universal.universalItemType {
+        case 4: // This is the transfer case - the only case to use a secondary account
+            assumingAccountOne {
+                passBackArray.append(self.runningBalanceOne)
+                passBackArray.append(self.stringifyAnInt.stringify(theInt: self.runningBalanceOne))
+            }
+            assumingAccountTwo {
+                passBackArray.append(self.runningBalanceTwo)
+                passBackArray.append(self.stringifyAnInt.stringify(theInt: self.runningBalanceTwo))
+            }
+        default:
+            assumingAccountOne {
+                passBackArray.append(self.runningBalanceOne)
+                passBackArray.append(self.stringifyAnInt.stringify(theInt: self.runningBalanceOne))
+                passBackArray.append(self.runningBalanceTwo)
+                passBackArray.append(self.stringifyAnInt.stringify(theInt: self.runningBalanceTwo))
+            }
+        }
+        return passBackArray
     }
 
     func balsAfter() {

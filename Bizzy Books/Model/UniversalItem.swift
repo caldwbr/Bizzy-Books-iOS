@@ -62,9 +62,13 @@ struct UniversalItem: MultiversalItem {
     let feeAmount: Int // For future use
     let ref: DatabaseReference?
     
-    init(universalItemType: Int, projectItemName: String, projectItemKey: String, odometerReading: Int, whoName: String, whoKey: String, what: Int, whomName: String, whomKey: String, taxReasonName: String, taxReasonId: Int, vehicleName: String, vehicleKey: String, workersCompName: String, workersCompId: Int, advertisingMeansName: String, advertisingMeansId: Int, personalReasonName: String, personalReasonId: Int, percentBusiness: Int, accountOneName: String, accountOneKey: String, accountOneType: Int, accountTwoName: String, accountTwoKey: String, accountTwoType: Int, howMany: Int, fuelTypeName: String, fuelTypeId: Int, useTax: Bool, notes: String, picUrl: String, picAspectRatio: Int, picNumber: Int, projectPicTypeName: String, projectPicTypeId: Int, timeStamp: Any, latitude: Double, longitude: Double, atmFee: Bool, feeAmount: Int, key: String = "") {
+    init(universalItemType: Int, balOneAfter: Int, balOneAfterString: String, balTwoAfter: Int, balTwoAfterString: String, projectItemName: String, projectItemKey: String, odometerReading: Int, whoName: String, whoKey: String, what: Int, whomName: String, whomKey: String, taxReasonName: String, taxReasonId: Int, vehicleName: String, vehicleKey: String, workersCompName: String, workersCompId: Int, advertisingMeansName: String, advertisingMeansId: Int, personalReasonName: String, personalReasonId: Int, percentBusiness: Int, accountOneName: String, accountOneKey: String, accountOneType: Int, accountTwoName: String, accountTwoKey: String, accountTwoType: Int, howMany: Int, fuelTypeName: String, fuelTypeId: Int, useTax: Bool, notes: String, picUrl: String, picAspectRatio: Int, picNumber: Int, projectPicTypeName: String, projectPicTypeId: Int, timeStamp: Any, latitude: Double, longitude: Double, atmFee: Bool, feeAmount: Int, key: String = "") {
         self.key = key
         self.universalItemType = universalItemType
+        self.balOneAfter = balOneAfter
+        self.balOneAfterString = balOneAfterString
+        self.balTwoAfter = balTwoAfter
+        self.balTwoAfterString = balTwoAfterString
         self.projectItemName = projectItemName
         self.projectItemKey = projectItemKey
         self.odometerReading = odometerReading
@@ -112,6 +116,10 @@ struct UniversalItem: MultiversalItem {
         key = snapshot.key
         let snapshotValue = snapshot.value as! [String: AnyObject]
         universalItemType = snapshotValue["universalItemType"] as? Int ?? 0
+        balOneAfter = snapshotValue["balOneAfter"] as? Int ?? 0
+        balOneAfterString = snapshotValue["balOneAfterString"] as? String ?? ""
+        balTwoAfter = snapshotValue["balTwoAfter"] as? Int ?? 0
+        balTwoAfterString = snapshotValue["balTwoAfterString"] as? String ?? ""
         projectItemName = (snapshotValue["projectItemName"] as? String)?.decryptIt() ?? ""
         projectItemKey = snapshotValue["projectItemKey"] as? String ?? ""
         odometerReading = snapshotValue["odometerReading"] as? Int ?? 0
@@ -158,6 +166,10 @@ struct UniversalItem: MultiversalItem {
     func toAnyObject() -> Any {
         return [
             "universalItemType": universalItemType,
+            "balOneAfter": balOneAfter,
+            "balOneAfterString": balOneAfterString,
+            "balTwoAfter": balTwoAfter,
+            "balTwoAfterString": balTwoAfterString,
             "projectItemName": projectItemName,
             "projectItemKey": projectItemKey,
             "odometerReading": odometerReading,

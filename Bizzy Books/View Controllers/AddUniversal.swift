@@ -18,6 +18,8 @@ import Photos
 
 class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CLLocationManagerDelegate {
     
+    //var obtainBalanceAfter: ObtainBalanceAfter
+    
     // Contacts Stuff
     var recommendedContacts = [CNContact]()
     var selectedContact: CNContact?
@@ -115,7 +117,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var taxVehiclePlaceholderKeyString = ""
     var projectMediaTypePlaceholder = "Type of picture ▾ ?"
     var projectMediaTypePlaceholderId = -1
-    var projectStatusPlaceholder = "Project status ▾ ?"
+    var projectStatusPlaceholder = "Subcategory ▾ ?"
     var projectStatusPlaceholderId = -1
     var atmFee = false
     var feeAmount = 0
@@ -292,7 +294,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             addProjectKeyString = addProjectKeyReference.key
             if projectStatusPlaceholderId == -1 {
                 projectStatusPlaceholderId = 0
-                projectStatusPlaceholder = "Job lead"
+                projectStatusPlaceholder = MIProcessor.sharedMIP.businessInfo.subcat1
             }
             let timeStampDictionaryForFirebase = [".sv": "timestamp"]
             let thisProjectItem = ProjectItem(name: addProjectNameTextField.text!, customerName: addProjectSearchCustomerTextField.text!, customerKey: tempKeyHolder, howDidTheyHearOfYouString: howDidTheyHearOfYouPlaceholder, howDidTheyHearOfYouId: chosenHowDidTheyHearOfYou, projectTags: addProjectTagsTextField.text!, projectAddressStreet: addProjectStreetTextField.text!, projectAddressCity: addProjectCityTextField.text!, projectAddressState: addProjectStateTextField.text!, projectNotes: addProjectNotesTextField.text!, projectStatusName: projectStatusPlaceholder, projectStatusId: projectStatusPlaceholderId, timeStamp: timeStampDictionaryForFirebase)
@@ -1076,13 +1078,16 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var imageView: UIImageView!
     
     @IBAction func cameraPressed(_ sender: UIBarButtonItem) {
+        launchPhotos()
+        /*
         if hasUserSpecialAccess == true {
             launchPhotos()
         } else {
             prePhotosNoSpecialPassSubscriptionCheck()
-        }
+        }*/
     }
     
+    /*
     func prePhotosNoSpecialPassSubscriptionCheck() {
         switch MIProcessor.sharedMIP.isUserCurrentlySubscribed {
         case true:
@@ -1134,6 +1139,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             })
         }
     }
+ */
     
     func launchPhotos() {
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary){
@@ -1235,7 +1241,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         fuelTypePickerData = ["87 Gas", "89 Gas", "91 Gas", "Diesel"]
         entityPickerData = ["Customer", "Vendor", "Sub", "Employee", "Store", "Government", "Other"] // You is at position 7 but not available to user
         projectMediaTypePickerData = ["Before", "During", "After", "Drawing", "Calculations", "Material List", "Estimate", "Contract", "Labor Warranty", "Material Warranty", "Safety", "Other"]
-        projectStatusPickerData = ["Job Lead", "Bid", "Contract", "Paid", "Lost", "Other"]
+        projectStatusPickerData = [MIProcessor.sharedMIP.businessInfo.subcat1, MIProcessor.sharedMIP.businessInfo.subcat2, MIProcessor.sharedMIP.businessInfo.subcat3, MIProcessor.sharedMIP.businessInfo.subcat4, MIProcessor.sharedMIP.businessInfo.subcat5, MIProcessor.sharedMIP.businessInfo.subcat6]
         addAccountAccountTypePickerData = ["Bank Account", "Credit Account", "Cash Account", "Store Refund Account"]
         
         //Clip corners of all popups for better aesthetics
@@ -2306,7 +2312,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                     if mip.key == projectPlaceholderKeyString {
                         if projectStatusPlaceholderId != mip.projectStatusId {
                             DispatchQueue.main.async {
-                                self.projectsRef.child(mip.key).updateChildValues(["projectStatusId": self.projectStatusPlaceholderId, "projectStatusName": self.projectStatusPlaceholder.encryptIt()])
+                                self.projectsRef.child(mip.key).updateChildValues(["projectStatusId": self.projectStatusPlaceholderId, "projectStatusName": self.projectStatusPlaceholder])
                             }
                         }
                     }
@@ -2332,7 +2338,13 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 let thisAccountRef = Database.database().reference().child("users").child(userUID).child("accounts")
                 thisAccountRef.child(yourAccountPlaceholderKeyString).updateChildValues(["startingBal": correctedStartingBalance.toString().encryptIt()])
             default:
-                let thisUniversalItem = UniversalItem(universalItemType: selectedType, projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: TheAmtSingleton.shared.theOdo, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: TheAmtSingleton.shared.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountOneType: accountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: TheAmtSingleton.shared.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, picAspectRatio: intifiedAspectRatio, picNumber: picNumber, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
+                var thisUniversalItem = UniversalItem(universalItemType: selectedType, balOneAfter: 0, balOneAfterString: "$0.00", balTwoAfter: 0, balTwoAfterString: "$0.00", projectItemName: projectPlaceholder, projectItemKey: projectPlaceholderKeyString, odometerReading: TheAmtSingleton.shared.theOdo, whoName: whoPlaceholder, whoKey: whoPlaceholderKeyString, what: TheAmtSingleton.shared.theAmt, whomName: whomPlaceholder, whomKey: whomPlaceholderKeyString, taxReasonName: whatTaxReasonPlaceholder, taxReasonId: whatTaxReasonPlaceholderId, vehicleName: vehiclePlaceholder, vehicleKey: vehiclePlaceholderKeyString, workersCompName: workersCompPlaceholder, workersCompId: workersCompPlaceholderId, advertisingMeansName: advertisingMeansPlaceholder, advertisingMeansId: advertisingMeansPlaceholderId, personalReasonName: whatPersonalReasonPlaceholder, personalReasonId: whatPersonalReasonPlaceholderId, percentBusiness: thePercent, accountOneName: yourAccountPlaceholder, accountOneKey: yourAccountPlaceholderKeyString, accountOneType: accountTypePlaceholderId, accountTwoName: yourSecondaryAccountPlaceholder, accountTwoKey: yourSecondaryAccountPlaceholderKeyString, accountTwoType: secondaryAccountTypePlaceholderId, howMany: TheAmtSingleton.shared.howMany, fuelTypeName: fuelTypePlaceholder, fuelTypeId: fuelTypePlaceholderId, useTax: thereIsUseTax, notes: notes, picUrl: urlString, picAspectRatio: intifiedAspectRatio, picNumber: picNumber, projectPicTypeName: projectMediaTypePlaceholder, projectPicTypeId: projectMediaTypePlaceholderId, timeStamp: timeStampDictionaryForFirebase, latitude: latitude, longitude: longitude, atmFee: atmFee, feeAmount: feeAmount, key: addUniversalKeyString)
+                var obtainBalanceAfter = ObtainBalanceAfter()
+                let singleUniversalBalsAfterArray: [Any] = obtainBalanceAfter.prepareBalsAfterForSingleUniversal(universal: thisUniversalItem)
+                thisUniversalItem.balOneAfter = singleUniversalBalsAfterArray[0] as? Int ?? 0
+                thisUniversalItem.balOneAfterString = singleUniversalBalsAfterArray[1] as? String ?? "$0.00"
+                thisUniversalItem.balTwoAfter = singleUniversalBalsAfterArray[2] as? Int ?? 0
+                thisUniversalItem.balTwoAfterString = singleUniversalBalsAfterArray[3] as? String ?? "$0.00"
                 DispatchQueue.main.async {
                     self.universalsRef.child(self.addUniversalKeyString).setValue(thisUniversalItem.toAnyObject())
                     TheAmtSingleton.shared.theAmt = 0

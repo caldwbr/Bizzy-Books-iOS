@@ -17,9 +17,30 @@ extension Int {
     }
 }
 
+extension Int {
+    func sCur() -> String { //Stringify via currency output using int number of pennies
+        let formatter = NumberFormatter()
+        formatter.usesGroupingSeparator = true
+        formatter.numberStyle = .currency
+        formatter.locale = Locale.current
+        let amount = Double(self/100) + Double(self%100)/100
+        return formatter.string(from: NSNumber(value: amount))!
+        
+    }
+}
+
 extension Double {
     func toString() -> String {
         return String(format: "%.15f", self)
+    }
+}
+
+extension Double {
+    func sPor() -> String { //Stringify via percent output using double percent expressed first as say 0.34
+        let formatter = NumberFormatter()
+        formatter.usesGroupingSeparator = true
+        formatter.numberStyle = .percent
+        return formatter.string(from: NSNumber(value: self))!
     }
 }
 
@@ -94,4 +115,16 @@ extension UIImage {
         return data!
     }
     
+}
+
+extension UIView {
+    
+    // Using a function since `var image` might conflict with an existing variable
+    // (like on `UIImageView`)
+    func asImage() -> UIImage {
+        let renderer = UIGraphicsImageRenderer(bounds: bounds)
+        return renderer.image { rendererContext in
+            layer.render(in: rendererContext.cgContext)
+        }
+    }
 }

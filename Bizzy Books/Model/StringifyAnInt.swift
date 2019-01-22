@@ -52,4 +52,16 @@ class StringifyAnInt {
         }
     }
     
+    func stringify(theDoubPorciento: Double) -> String { //I.e., Profit Margin
+        formatter.usesGroupingSeparator = true
+        formatter.numberStyle = .percent
+        return formatter.string(from: NSNumber(value: theDoubPorciento))!
+    }
+    
+    func stringify(theDoubFactor: Double) -> String { //I.e., Profit Margin
+        formatter.usesGroupingSeparator = true
+        formatter.numberStyle = .decimal
+        return formatter.string(from: NSNumber(value: theDoubFactor))!
+    }
+    
 }

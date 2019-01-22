@@ -32,13 +32,16 @@ class CustomImageView: UIImageView {
             
             DispatchQueue.main.async {
                 
-                var imageToCache = UIImage(data: (data?.pixelCrypt(isEncrypted: true))!)
+                let imageToCache = UIImage(data: (data?.pixelCrypt(isEncrypted: true))!)
                 
-                if self.imageUrlString == urlString {
-                    self.image = imageToCache
+                if imageToCache == nil {
+                    return
+                } else {
+                    if self.imageUrlString == urlString {
+                        self.image = imageToCache
+                    }
+                    imageCache.setObject(imageToCache!, forKey: urlString as AnyObject)
                 }
-                imageCache.setObject(imageToCache!, forKey: urlString as AnyObject)
-                
             }
             
         }.resume()

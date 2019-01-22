@@ -109,6 +109,9 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     var thingToBeSearchedName = ""
     var widthConstraintConstant: CGFloat = 0
     var refreshControl = UIRefreshControl()
+    var businessInfoRef: DatabaseReference!
+    var busKey: String = ""
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         editProjectTableView.isHidden = true
@@ -124,21 +127,26 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         self.editProjectAddEntityTableView.keyboardDismissMode = .interactive
         self.editEntityTableView.keyboardDismissMode = .interactive
         self.searchTableView.keyboardDismissMode = .interactive
+        self.activitySpinner.hidesWhenStopped = true
+        self.activitySpinner.stopAnimating()
         //reportsBooksButton.isEnabled = false
         //reportsBooksButton.tintColor = UIColor.clear
         
+        /*
         // Add Refresh Control to Table View
         if #available(iOS 10.0, *) {
             cardViewCollectionView.refreshControl = refreshControl
         } else {
             cardViewCollectionView.addSubview(refreshControl)
         }
+
         
         
         // Initialize the refresh control.
         refreshControl.backgroundColor = #colorLiteral(red: 0.1538379192, green: 0.3075230122, blue: 1, alpha: 1)
         refreshControl.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         refreshControl.addTarget(self, action: #selector(refreshTheMIP), for: .valueChanged)
+  */
         
         let screenWidth = UIScreen.main.bounds.size.width
         if screenWidth > 374.0 {
@@ -188,7 +196,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         editVehicleFuelTypePickerView.dataSource = self
         editAccountTypePickerView.delegate = self
         editAccountTypePickerView.dataSource = self
-        projectStatusPickerData = ["Job Lead", "Bid", "Contract", "Paid", "Lost", "Other"]
+        
         howDidTheyHearOfYouPickerData = ["(Unknown)", "(Referral)", "(Website)", "(YP)", "(Social Media)", "(Soliciting)", "(Google Adwords)", "(Company Shirts)", "(Sign)", "(Vehicle Wrap)", "(Billboard)", "(TV)", "(Radio)", "(Other)"]
         relationPickerData = ["Customer", "Vendor", "Sub", "Employee", "Store", "Government", "Other"]
         fuelTypePickerData = ["87 Gas", "89 Gas", "91 Gas", "Diesel"]
@@ -205,34 +213,117 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        activitySpinner.startAnimating()
         checkLoggedIn()
     }
-
+    
+    @IBOutlet weak var businessName: UITextField!
+    @IBOutlet weak var businessStreetAddress1: UITextField!
+    @IBOutlet weak var businessStreetAddress2: UITextField!
+    @IBOutlet weak var mainWork: UITextField!
+    @IBOutlet weak var subcategory1: UITextField!
+    @IBOutlet weak var subcategory2: UITextField!
+    @IBOutlet weak var subcategory3: UITextField!
+    @IBOutlet weak var subcategory4: UITextField!
+    @IBOutlet weak var subcategory5: UITextField!
+    @IBOutlet weak var subcategory6: UITextField!
+    
     @IBOutlet var welcomeView: UIView!
     @IBAction func welcomeViewGotItPressed(_ sender: UIButton) {
-        popUpAnimateOut(popUpView: welcomeView)
-        if self.shouldEnterLoop {
-            self.shouldEnterLoop = false
-            loadTheMIP()
+        if let theBusName = businessName.text, !theBusName.isEmpty {
+            if let busAdd1 = businessStreetAddress1.text, !busAdd1.isEmpty {
+                if let busAdd2 = businessStreetAddress2.text, !busAdd2.isEmpty {
+                    let userMainWork = mainWork.text ?? "Contracting"
+                    let subcat1 = subcategory1.text ?? "Subcat 1"
+                    let subcat2 = subcategory2.text ?? "Subcat 2"
+                    let subcat3 = subcategory3.text ?? "Subcat 3"
+                    let subcat4 = subcategory4.text ?? "Subcat 4"
+                    let subcat5 = subcategory5.text ?? "Subcat 5"
+                    let subcat6 = subcategory6.text ?? "Subcat 6"
+                    if busKey == "" {
+                        let busKeyRef = businessInfoRef.childByAutoId()
+                        busKey = busKeyRef.key
+                    }
+                    let busiInfo = BusinessInfo(businessName: theBusName, businessAddress1: busAdd1, businessAddress2: busAdd2, mainWork: userMainWork, subcat1: subcat1, subcat2: subcat2, subcat3: subcat3, subcat4: subcat4, subcat5: subcat5, subcat6: subcat6, key: busKey)
+                    DispatchQueue.main.async {
+                        self.businessInfoRef.child(self.busKey).setValue(busiInfo.toAnyObject())
+                    }
+                    popUpAnimateOut(popUpView: welcomeView)
+                    if self.shouldEnterLoop {
+                        self.shouldEnterLoop = false
+                        loadTheMIP()
+                    }
+                }
+            }
         }
     }
+    
+    @IBAction func editBusinessInfoPressed(_ sender: Any) {
+        popUpAnimateIn(popUpView: welcomeView)
+        businessName.text = MIProcessor.sharedMIP.businessInfo.businessName
+        businessStreetAddress1.text = MIProcessor.sharedMIP.businessInfo.businessAddress1
+        businessStreetAddress2.text = MIProcessor.sharedMIP.businessInfo.businessAddress2
+        mainWork.text = MIProcessor.sharedMIP.businessInfo.mainWork
+        subcategory1.text = MIProcessor.sharedMIP.businessInfo.subcat1
+        subcategory2.text = MIProcessor.sharedMIP.businessInfo.subcat2
+        subcategory3.text = MIProcessor.sharedMIP.businessInfo.subcat3
+        subcategory4.text = MIProcessor.sharedMIP.businessInfo.subcat4
+        subcategory5.text = MIProcessor.sharedMIP.businessInfo.subcat5
+        subcategory6.text = MIProcessor.sharedMIP.businessInfo.subcat6
+        busKey = businessInfoRef.key ?? ""
+    }
+    
     @IBOutlet weak var profilePic: UIImageView!
     
     @objc func refreshTheMIP() {
         if MIProcessor.sharedMIP.mipORsip == 1 {
-            self.refreshControl.endRefreshing()
+            //self.refreshControl.endRefreshing()
         } else {
             DispatchQueue.main.async {
                 MIProcessor.sharedMIP.loadTheMip {
-                    MIProcessor.sharedMIP.obtainTheBalancesAfter()
                     MIProcessor.sharedMIP.loadTheStatuses()
                     MIProcessor.sharedMIP.updateTheMIP()
                     /*if MIProcessor.sharedMIP.mipORsip == 1 {
                         MIProcessor.sharedMIP.updateTheSIP(i: self.thingToBeSearchedInt, name: self.thingToBeSearchedName)
                     }*/
                     self.cardViewCollectionView.reloadData()//Critical line - this makes or breaks the app :/
-                    self.refreshControl.endRefreshing()
+                    //self.refreshControl.endRefreshing()
                 }
+            }
+        }
+    }
+    @IBOutlet weak var activitySpinner: UIActivityIndicatorView!
+    
+    @IBAction func refreshBankBalancesPressed(_ sender: Any) {
+        activitySpinner.startAnimating()
+        refreshTheBankBalances()
+    }
+    
+    func refreshTheBankBalances() {
+        DispatchQueue.global(qos: .background).async {
+            // do your job here
+            MIProcessor.sharedMIP.obtainTheBalancesAfter()
+            DispatchQueue.main.async {
+                // update ui here
+                var addUniversalKeyString2 = ""
+                var universalsRef2: DatabaseReference!
+                universalsRef2 = Database.database().reference().child("users").child(userUID).child("universals")
+                for i in 0..<MIProcessor.sharedMIP.mIPUniversals.count {
+                    addUniversalKeyString2 = MIProcessor.sharedMIP.mIPUniversals[i].key
+                    universalsRef2.child(addUniversalKeyString2).setValue(MIProcessor.sharedMIP.mIPUniversals[i].toAnyObject())
+                }
+                if MIProcessor.sharedMIP.mipORsip == 0 {
+                    MIProcessor.sharedMIP.updateTheMIP()
+                    self.cardViewCollectionView.reloadData()
+                    self.activitySpinner.stopAnimating()
+                }
+                else {
+                    MIProcessor.sharedMIP.updateTheSIP(i: self.thingToBeSearchedInt, name: self.thingToBeSearchedName)
+                    self.cardViewCollectionView.reloadData()
+                    self.activitySpinner.stopAnimating()
+                }
+                
+                
             }
         }
     }
@@ -260,6 +351,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                 self.vehiclesRef = Database.database().reference().child("users").child(userUID).child("vehicles")
                 self.youEntityRef = Database.database().reference().child("users").child(userUID).child("youEntity")
                 self.firstTimeRef = Database.database().reference().child("users").child(userUID).child("firstTime")
+                self.businessInfoRef = Database.database().reference().child("users").child(userUID).child("businessInfo")
                 self.masterRef.observe(.value, with: { (snapshot) in
                     print("Do NOTTTT ANY thingggggg")
                 })
@@ -285,7 +377,6 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                         } else {
                             DispatchQueue.main.async {
                                 MIProcessor.sharedMIP.loadTheMip {
-                                    MIProcessor.sharedMIP.obtainTheBalancesAfter()
                                     MIProcessor.sharedMIP.loadTheStatuses()
                                     MIProcessor.sharedMIP.updateTheMIP()
                                     MIProcessor.sharedMIP.updateTheSIP(i: self.thingToBeSearchedInt, name: self.thingToBeSearchedName)
@@ -294,7 +385,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                             }
                         }
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5), execute: {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
                             self.shouldEnterLoop = true
                         })
                     }
@@ -305,7 +396,10 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                         self.shouldEnterLoop = false
                         print("FIVE!")
                         self.loadTheMIP()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5), execute: {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
+                            print("SIXY")
+                            print(MIProcessor.sharedMIP.businessInfo.businessName)
+                            self.projectStatusPickerData = [MIProcessor.sharedMIP.businessInfo.subcat1, MIProcessor.sharedMIP.businessInfo.subcat2, MIProcessor.sharedMIP.businessInfo.subcat3, MIProcessor.sharedMIP.businessInfo.subcat4, MIProcessor.sharedMIP.businessInfo.subcat5, MIProcessor.sharedMIP.businessInfo.subcat6]
                             self.shouldEnterLoop = true
                         })
                     }
@@ -471,7 +565,6 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         //Starting with entities for testing
         DispatchQueue.main.async {
             MIProcessor.sharedMIP.loadTheMip {
-                MIProcessor.sharedMIP.obtainTheBalancesAfter()
                 MIProcessor.sharedMIP.loadTheStatuses()
                 MIProcessor.sharedMIP.updateTheMIP()
                 self.cardViewCollectionView.reloadData()//Critical line - this makes or breaks the app :/

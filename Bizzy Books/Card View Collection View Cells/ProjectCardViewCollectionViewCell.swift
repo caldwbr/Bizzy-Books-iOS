@@ -60,6 +60,7 @@ class ProjectCardViewCollectionViewCell: UICollectionViewCell, UICollectionViewD
         }
         projectCardViewCollectionView.collectionViewLayout = KTCenterFlowLayout()
         projectCardViewCollectionViewTwo.collectionViewLayout = KTCenterFlowLayout()
+        print("Awoke from Nib - Project Card view")
         
         projectCardViewCollectionView.register(UINib.init(nibName: "CardViewSentenceCell", bundle: nil), forCellWithReuseIdentifier: "CardViewSentenceCell")
         if let universalCardViewFlowLayout = projectCardViewCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {

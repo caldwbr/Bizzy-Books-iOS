@@ -35,4 +35,6 @@ target 'Bizzy Books' do
 
     pod 'SimplePDF'
 
+    pod 'Charts'
+
 end

@@ -23,6 +23,8 @@ final class MIProcessor {
     public var mIPEntities: [EntityItem] = [EntityItem]()
     public var mIPAccounts: [AccountItem] = [AccountItem]()
     public var mIPVehicles: [VehicleItem] = [VehicleItem]()
+    public var mIPBusinessInfos: [BusinessInfo] = [BusinessInfo]()
+    public var businessInfo: BusinessInfo = BusinessInfo(businessName: "", businessAddress1: "", businessAddress2: "", mainWork: "", subcat1: "", subcat2: "", subcat3: "", subcat4: "", subcat5: "", subcat6: "")
     public var trueYou: String = String()
     public var isUserCurrentlySubscribed: Bool = Bool()
     private var tHeKeY: Data!
@@ -32,6 +34,7 @@ final class MIProcessor {
     var projectsRef: DatabaseReference!
     var vehiclesRef: DatabaseReference!
     var accountsRef: DatabaseReference!
+    var businessInfoRef: DatabaseReference!
     var keyRef: DatabaseReference!
     var obtainBalanceAfter = ObtainBalanceAfter()
     var obtainProjectStatus = ObtainProjectStatus()
@@ -51,6 +54,7 @@ final class MIProcessor {
             self.entitiesRef = Database.database().reference().child("users").child(userUID).child("entities")
             self.accountsRef = Database.database().reference().child("users").child(userUID).child("accounts")
             self.vehiclesRef = Database.database().reference().child("users").child(userUID).child("vehicles")
+            self.businessInfoRef = Database.database().reference().child("users").child(userUID).child("businessInfo")
             self.mIPUniversals.removeAll()
             self.mIPProjects.removeAll()
             self.mIPEntities.removeAll()
@@ -80,15 +84,22 @@ final class MIProcessor {
                                 youRef.observeSingleEvent(of: .value, with: { (snapshot) in
                                     if let youKey = snapshot.value as? String {
                                         self.trueYou = youKey
-                                        print("WEEEEEEEEERRRRRRREEEEEE DOOOOONNNNNNEEEEE HEEEEERRRRRREEEE!")
-                                        print("WEEEEEEEEERRRRRRREEEEEE DOOOOONNNNNNEEEEE HEEEEERRRRRREEEE!")
-                                        print("WEEEEEEEEERRRRRRREEEEEE DOOOOONNNNNNEEEEE HEEEEERRRRRREEEE!")
-                                        print("WEEEEEEEEERRRRRRREEEEEE DOOOOONNNNNNEEEEE HEEEEERRRRRREEEE!")
-                                        print("WEEEEEEEEERRRRRRREEEEEE DOOOOONNNNNNEEEEE HEEEEERRRRRREEEE!")
-                                        print("WEEEEEEEEERRRRRRREEEEEE DOOOOONNNNNNEEEEE HEEEEERRRRRREEEE!")
-                                        print("WEEEEEEEEERRRRRRREEEEEE DOOOOONNNNNNEEEEE HEEEEERRRRRREEEE!")
-                                        print("WEEEEEEEEERRRRRRREEEEEE DOOOOONNNNNNEEEEE HEEEEERRRRRREEEE!")
-                                        completion()
+                                        self.businessInfoRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                                            for item in snapshot.children {
+                                                self.mIPBusinessInfos.append(BusinessInfo(snapshot: item as! DataSnapshot))
+                                                self.businessInfo.businessName = self.mIPBusinessInfos[0].businessName ?? ""
+                                                self.businessInfo.businessAddress1 = self.mIPBusinessInfos[0].businessAddress1 ?? ""
+                                                self.businessInfo.businessAddress2 = self.mIPBusinessInfos[0].businessAddress2 ?? ""
+                                                self.businessInfo.mainWork = self.mIPBusinessInfos[0].mainWork ?? ""
+                                                self.businessInfo.subcat1 = self.mIPBusinessInfos[0].subcat1 ?? ""
+                                                self.businessInfo.subcat2 = self.mIPBusinessInfos[0].subcat2 ?? ""
+                                                self.businessInfo.subcat3 = self.mIPBusinessInfos[0].subcat3 ?? ""
+                                                self.businessInfo.subcat4 = self.mIPBusinessInfos[0].subcat4 ?? ""
+                                                self.businessInfo.subcat5 = self.mIPBusinessInfos[0].subcat5 ?? ""
+                                                self.businessInfo.subcat6 = self.mIPBusinessInfos[0].subcat6 ?? ""
+                                                completion()
+                                            }
+                                        })
                                     }
                                 })
                             })
