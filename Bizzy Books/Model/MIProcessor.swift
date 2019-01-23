@@ -1006,7 +1006,7 @@ final class MIProcessor {
             }
         }
     }
-    
+    /*
     func askForTheKey() -> Data {
         return self.tHeKeY
     }
@@ -1096,6 +1096,6 @@ final class MIProcessor {
             })
         }
     }
-
+*/
     
 }

@@ -1337,6 +1337,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                     // Handle error
                     return
                 }
+                /*
                 let url = URL(string: "https://bizzy-books.appspot.com/key")!
                 var request = URLRequest(url: url)
                 print("idToken!! " + (idToken)!)
@@ -1385,9 +1386,10 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                         print("TO ERR IS HUMAN")
                     }
                     print("responseString = \(responseString)")
+
                 }
                 task.resume()
-                
+                 */
             }
         }
         

@@ -119,6 +119,8 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         reportViewActivitySpinner.stopAnimating()
     }
 
+    let documentInteractionController = UIDocumentInteractionController()
+
     let yearTimes = [1514786400000, 1546322400000, 1577858400000, 1609480800000, 1641016800000, 1672552800000, 1704088800000, 1735711200000, 1767247200000, 1798783200000, 1830319200000, 1861941600000, 1893477600000, 1925013600000, 1956549600000, 1988172000000, 2019708000000, 2051244000000, 2082780000000, 2114402400000, 2145938400000, 2177474400000, 2209010400000, 2240632800000]
     // Values above taken from http : //www . unixtimestampconverter . com/
     var givenYearBeginning = 1514786400000 //Jan 1 2018
@@ -205,8 +207,16 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     var hdthoy13RunningGross = 0
     var hdthoy14RunningGross = 0
     
+    var vehicleKeysUsedInPertYear: [String] = [String]()
+    var vehicleInfoArray: [[String]] = [[String]]()
+    var vehicleInfoArrayOrdered: [[String]] = [[String]]()
+    
+    var pdfData = Data()
+    var documentsFileName: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        documentInteractionController.delegate = self
         reportViewYearPickerData = ["2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033", "2034", "2035", "2036", "2037", "2038", "2039", "2040"]
         reportViewYearPicker.dataSource = self
         reportViewYearPicker.delegate = self
@@ -227,6 +237,8 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         subsAndEmpsProHelp.removeAll()
         subsAndEmpsTotals.removeAll()
         infoFor1099sDataArray.removeAll()
+        vehicleKeysUsedInPertYear.removeAll()
+        vehicleInfoArray.removeAll()
         income = 0
         supplies = 0
         labor = 0
@@ -290,9 +302,43 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         hdthoy14RunningGross = 0
     }
     
+    func convertTimestamp(serverTimestamp: Double) -> String {
+        let x = serverTimestamp / 1000
+        let date = NSDate(timeIntervalSince1970: x)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM dd, yyyy h:mma"
+        return formatter.string(from: date as Date)
+    }
+    var vehKeyString = ""
+    var vehNameString = ""
+    var timeStampAsString = ""
+    var odoAsString = ""
+    var amtFuelPurchased = ""
+    var numGallonsFuel = ""
+    
     func calculateReports() {
         clearTheFields()
         for i in 0..<MIProcessor.sharedMIP.mIPUniversals.count where (MIProcessor.sharedMIP.mIPUniversals[i].timeStamp as! Int) < givenYearEnd && (MIProcessor.sharedMIP.mIPUniversals[i].timeStamp as! Int) > givenYearBeginning {
+            if MIProcessor.sharedMIP.mIPUniversals[i].universalItemType == 3 { //I.e. FUEL case //HERE WE are grabbing up all the fuel info for that array/pdfTable
+                if !vehicleKeysUsedInPertYear.contains(MIProcessor.sharedMIP.mIPUniversals[i].vehicleKey) {
+                    vehicleKeysUsedInPertYear.append(MIProcessor.sharedMIP.mIPUniversals[i].vehicleKey)
+                }
+                if let timeStampAsDouble: Double = MIProcessor.sharedMIP.mIPUniversals[i].timeStamp as? Double {
+                    timeStampAsString = convertTimestamp(serverTimestamp: timeStampAsDouble)
+                }
+                vehKeyString = MIProcessor.sharedMIP.mIPUniversals[i].vehicleKey
+                vehNameString = MIProcessor.sharedMIP.mIPUniversals[i].vehicleName
+                odoAsString = String(MIProcessor.sharedMIP.mIPUniversals[i].odometerReading)
+                amtFuelPurchased = MIProcessor.sharedMIP.mIPUniversals[i].what.sCur()
+                let theFormattUR = NumberFormatter()
+                theFormattUR.usesGroupingSeparator = true
+                theFormattUR.numberStyle = .decimal
+                theFormattUR.locale = Locale.current
+                let inTEEger = MIProcessor.sharedMIP.mIPUniversals[i].howMany
+                let amOUnt = Double(inTEEger/1000) + Double(inTEEger%1000)/1000
+                numGallonsFuel = theFormattUR.string(from: NSNumber(value: amOUnt))!
+                vehicleInfoArray.append([vehKeyString, vehNameString, timeStampAsString, odoAsString, amtFuelPurchased, numGallonsFuel])
+            }
             if (MIProcessor.sharedMIP.mIPUniversals[i].universalItemType == 0 || MIProcessor.sharedMIP.mIPUniversals[i].universalItemType == 2) && MIProcessor.sharedMIP.mIPUniversals[i].taxReasonId == 6 {
                 switch MIProcessor.sharedMIP.mIPUniversals[i].advertisingMeansId { //HERE we are grabbing up all the spending info that falls into advertising categories for later use down in the advertising array/pdfTable.
                 case 0: // I.e., HDTHOY is "Unknown"
@@ -1448,7 +1494,9 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         netSaving = netProfit - allPersonalSpending
         
         var projectInfoArray: [[Any]] = [[Any]]()
+        var projectInfoTidyArray: [[String]] = [[String]]()
         var projectSubcatInfoArray: [[Any]] = [[Any]]()
+        var projectSubcatInfoTidyArray: [[String]] = [[String]]()
         var projectHDTHOYInfoArray: [[String]] = [[String]]() // "HDTHOY" stands for "How Did They Hear Of You"
         var amountsSpentOnEachTypeOfAdv: [Int] = [Int]()
         for l in 0..<MIProcessor.sharedMIP.mIPProjects.count {
@@ -1552,8 +1600,24 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
             if runningGross == 0 && runningExpensesTotal == 0 {
                 // (Don't append projects which saw zero revenue or expense in pertinent year)
             } else {
-                projectInfoArray.append([projectItem.name, projectItem.howDidTheyHearOfYouId, projectItem.projectStatusId, projectItem.projectStatusName, runningGross, gross, runningExpensesTotal, expenses, runningExpensesMaterial, material, runningExpensesLaborAndProHelpTotal, laborAndProHelp, runningExpensesLaborTotal, labor, runningExpensesLaborHasWC, laborSubHasWC, runningExpensesLaborIncursWC, laborIncursWC, runningExpensesLaborWCNA, laborWCNA, runningExpensesProHelp, proHelpTotal, netProfit, net]) //Remember that "project status id and name" now refer to project subcategory as of Jan 2019.
+                projectInfoArray.append([projectItem.name, projectItem.howDidTheyHearOfYouId, projectItem.projectStatusId, projectItem.projectStatusName, runningGross, gross, runningExpensesTotal, expenses, runningExpensesMaterial, material, runningExpensesLaborAndProHelpTotal, laborAndProHelp, runningExpensesLaborTotal, labor, runningExpensesLaborHasWC, laborSubHasWC, runningExpensesLaborIncursWC, laborIncursWC, runningExpensesLaborWCNA, laborWCNA, runningExpensesProHelp, proHelpTotal, netProfit, net, projectItem.howDidTheyHearOfYouString]) //Remember that "project status id and name" now refer to project subcategory as of Jan 2019.
             }
+        }
+        
+        projectInfoTidyArray.append(["Project Name", "Subcategory", "Adv Means", "Gross", "Expenses", "Mtrl", "Labor", "Has WC", "Incurs WC", "Pro Help", "Net"]) // 11 Columns
+        for o in 0..<projectInfoArray.count {
+            var element1 = projectInfoArray[o][0] as? String ?? ""
+            var element2 = projectInfoArray[o][3] as? String ?? ""
+            var element3 = projectInfoArray[o][24] as? String ?? ""
+            var element4 = projectInfoArray[o][5] as? String ?? ""
+            var element5 = projectInfoArray[o][7] as? String ?? ""
+            var element6 = projectInfoArray[o][9] as? String ?? ""
+            var element7 = projectInfoArray[o][13] as? String ?? ""
+            var element8 = projectInfoArray[o][15] as? String ?? ""
+            var element9 = projectInfoArray[o][17] as? String ?? ""
+            var element10 = projectInfoArray[o][21] as? String ?? ""
+            var element11 = projectInfoArray[o][23] as? String ?? ""
+            projectInfoTidyArray.append([element1, element2, element3, element4, element5, element6, element7, element8, element9, element10, element11])
         }
         
         var subcat1Id = 0
@@ -1810,6 +1874,7 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         }
         
         let totallyGross = subcat1Gross + subcat2Gross + subcat3Gross + subcat4Gross + subcat5Gross + subcat6Gross
+        let totallyNet = subcat1Net + subcat2Net + subcat3Net + subcat4Net + subcat5Net + subcat6Net
         
         let hdthoy1GrossPercent = Double(hdthoy1gross)/Double(totallyGross)
         let hdthoy2GrossPercent = Double(hdthoy2gross)/Double(totallyGross)
@@ -1826,20 +1891,20 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         let hdthoy13GrossPercent = Double(hdthoy13gross)/Double(totallyGross)
         let hdthoy14GrossPercent = Double(hdthoy14gross)/Double(totallyGross)
         
-        let hdthoy1NetPercent = Double(hdthoy1net)/Double(totallyGross)
-        let hdthoy2NetPercent = Double(hdthoy2net)/Double(totallyGross)
-        let hdthoy3NetPercent = Double(hdthoy3net)/Double(totallyGross)
-        let hdthoy4NetPercent = Double(hdthoy4net)/Double(totallyGross)
-        let hdthoy5NetPercent = Double(hdthoy5net)/Double(totallyGross)
-        let hdthoy6NetPercent = Double(hdthoy6net)/Double(totallyGross)
-        let hdthoy7NetPercent = Double(hdthoy7net)/Double(totallyGross)
-        let hdthoy8NetPercent = Double(hdthoy8net)/Double(totallyGross)
-        let hdthoy9NetPercent = Double(hdthoy9net)/Double(totallyGross)
-        let hdthoy10NetPercent = Double(hdthoy10net)/Double(totallyGross)
-        let hdthoy11NetPercent = Double(hdthoy11net)/Double(totallyGross)
-        let hdthoy12NetPercent = Double(hdthoy12net)/Double(totallyGross)
-        let hdthoy13NetPercent = Double(hdthoy13net)/Double(totallyGross)
-        let hdthoy14NetPercent = Double(hdthoy14net)/Double(totallyGross)
+        let hdthoy1NetPercent = Double(hdthoy1net)/Double(totallyNet)
+        let hdthoy2NetPercent = Double(hdthoy2net)/Double(totallyNet)
+        let hdthoy3NetPercent = Double(hdthoy3net)/Double(totallyNet)
+        let hdthoy4NetPercent = Double(hdthoy4net)/Double(totallyNet)
+        let hdthoy5NetPercent = Double(hdthoy5net)/Double(totallyNet)
+        let hdthoy6NetPercent = Double(hdthoy6net)/Double(totallyNet)
+        let hdthoy7NetPercent = Double(hdthoy7net)/Double(totallyNet)
+        let hdthoy8NetPercent = Double(hdthoy8net)/Double(totallyNet)
+        let hdthoy9NetPercent = Double(hdthoy9net)/Double(totallyNet)
+        let hdthoy10NetPercent = Double(hdthoy10net)/Double(totallyNet)
+        let hdthoy11NetPercent = Double(hdthoy11net)/Double(totallyNet)
+        let hdthoy12NetPercent = Double(hdthoy12net)/Double(totallyNet)
+        let hdthoy13NetPercent = Double(hdthoy13net)/Double(totallyNet)
+        let hdthoy14NetPercent = Double(hdthoy14net)/Double(totallyNet)
         
         let hdthoy1GrossROI = Double(hdthoy1gross)/Double(hdthoy1RunningGross)
         let hdthoy1GrossROIString = String(hdthoy1GrossROI) + " : 1"
@@ -1905,6 +1970,27 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         projectSubcatInfoArray.append([subcat4Name, subcat4Gross, subcat4Expenses, subcat4Mtrl, subcat4LaborAndProHelp, subcat4Labor, subcat4IncursWC, subcat4HasWC, subcat4WCNA, subcat4ProHelp, subcat4Net])
         projectSubcatInfoArray.append([subcat5Name, subcat5Gross, subcat5Expenses, subcat5Mtrl, subcat5LaborAndProHelp, subcat5Labor, subcat5IncursWC, subcat5HasWC, subcat5WCNA, subcat5ProHelp, subcat5Net])
         projectSubcatInfoArray.append([subcat6Name, subcat6Gross, subcat6Expenses, subcat6Mtrl, subcat6LaborAndProHelp, subcat6Labor, subcat6IncursWC, subcat6HasWC, subcat6WCNA, subcat6ProHelp, subcat6Net])
+        
+        var subcatPercentGrossArray: [String] = [String]()
+        subcatPercentGrossArray.append(String(Int(Double(subcat1Gross)/Double(totallyGross)*100)) + "%")
+        subcatPercentGrossArray.append(String(Int(Double(subcat2Gross)/Double(totallyGross)*100)) + "%")
+        subcatPercentGrossArray.append(String(Int(Double(subcat3Gross)/Double(totallyGross)*100)) + "%")
+        subcatPercentGrossArray.append(String(Int(Double(subcat4Gross)/Double(totallyGross)*100)) + "%")
+        subcatPercentGrossArray.append(String(Int(Double(subcat5Gross)/Double(totallyGross)*100)) + "%")
+        subcatPercentGrossArray.append(String(Int(Double(subcat6Gross)/Double(totallyGross)*100)) + "%")
+        
+        var subcatPercentNetArray: [String] = [String]()
+        subcatPercentNetArray.append(String(Int(Double(subcat1Net)/Double(totallyNet)*100)) + "%")
+        subcatPercentNetArray.append(String(Int(Double(subcat2Net)/Double(totallyNet)*100)) + "%")
+        subcatPercentNetArray.append(String(Int(Double(subcat3Net)/Double(totallyNet)*100)) + "%")
+        subcatPercentNetArray.append(String(Int(Double(subcat4Net)/Double(totallyNet)*100)) + "%")
+        subcatPercentNetArray.append(String(Int(Double(subcat5Net)/Double(totallyNet)*100)) + "%")
+        subcatPercentNetArray.append(String(Int(Double(subcat6Net)/Double(totallyNet)*100)) + "%")
+        
+        projectSubcatInfoTidyArray.append(["Subcategory", "Gross", "Expenses", "Material", "Labor & Pro Help", "Net", "Gross", "Net"])
+        for n in 0..<projectSubcatInfoArray.count {
+            projectSubcatInfoTidyArray.append([projectSubcatInfoArray[n][0] as? String ?? "Subcat 1", (projectSubcatInfoArray[n][1] as? Int ?? 0).sCur(), (projectSubcatInfoArray[n][2] as? Int ?? 0).sCur(), (projectSubcatInfoArray[n][3] as? Int ?? 0).sCur(), (projectSubcatInfoArray[n][4] as? Int ?? 0).sCur(), (projectSubcatInfoArray[n][10] as? Int ?? 0).sCur(), subcatPercentGrossArray[n], subcatPercentNetArray[n]])
+        }
         
         projectHDTHOYInfoArray.append(["Advertising Means", "Grossed", "%", "Netted", "%", "Spent", "Gross ROI", "Net ROI"])
         projectHDTHOYInfoArray.append([hdthoy1name, hdthoy1gross.sCur(), hdthoy1GrossPercent.sPor(), hdthoy1net.sCur(), hdthoy1NetPercent.sPor(), hdthoy1RunningGross.sCur(), hdthoy1GrossROIString, hdthoy1NetROIString])
@@ -1997,6 +2083,39 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         let tableDefAdvertisingSummary = TableDefinition(alignments: [.left, .left, .left, .left, .left, .left, .left, .left], columnWidths: [130, 80, 40, 80, 40, 60, 60, 60], fonts: [UIFont.systemFont(ofSize: 11), UIFont.systemFont(ofSize: 11), UIFont.systemFont(ofSize: 11), UIFont.systemFont(ofSize: 11), UIFont.systemFont(ofSize: 11), UIFont.systemFont(ofSize: 11), UIFont.systemFont(ofSize: 11), UIFont.systemFont(ofSize: 11)], textColors: [UIColor.gray, UIColor.black, UIColor.black, UIColor.black, UIColor.black, UIColor.black, UIColor.black, UIColor.black])
         pdf.addTable(projectHDTHOYInfoArray.count, columnCount: 8, rowHeight: 20.0, tableLineWidth: 1.0, tableDefinition: tableDefAdvertisingSummary, dataArray: projectHDTHOYInfoArray)
         
+        pdf.beginNewPage()
+        pdf.addImage(UIImage(named: "bizzybooksbee")!)
+        let titleSubcatInfo = String(selectedYear) + " Subcategories"
+        let attributedTitleSubcatInfo = NSAttributedString(string: titleSubcatInfo, attributes: titleAttributes)
+        pdf.addAttributedText(attributedTitleSubcatInfo)
+        pdf.addText("Created with Bizzy Books " + DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .short))
+        pdf.addLineSeparator()
+        pdf.addVerticalSpace(24)
+        let tableDefSubcatInfo = TableDefinition(alignments: [.left, .left, .left, .left, .left, .left, .left, .left], columnWidths: [80, 70, 70, 70, 100, 70, 40, 40], fonts: [UIFont.systemFont(ofSize: 11), UIFont.systemFont(ofSize: 11), UIFont.systemFont(ofSize: 11), UIFont.systemFont(ofSize: 11), UIFont.systemFont(ofSize: 11), UIFont.systemFont(ofSize: 11), UIFont.systemFont(ofSize: 11), UIFont.systemFont(ofSize: 11)], textColors: [UIColor.gray, UIColor.black, UIColor.black, UIColor.black, UIColor.black, UIColor.black, UIColor.black, UIColor.black])
+        pdf.addTable(projectSubcatInfoTidyArray.count, columnCount: 8, rowHeight: 20.0, tableLineWidth: 1.0, tableDefinition: tableDefSubcatInfo, dataArray: projectSubcatInfoTidyArray)
+        
+        for t in 0..<vehicleKeysUsedInPertYear.count {
+            vehicleInfoArrayOrdered.removeAll()
+            vehicleInfoArrayOrdered.append(["Date", "Odometer", "Spend", "Gallons"])
+            var thisVehName = ""
+            for u in 0..<vehicleInfoArray.count {
+                if vehicleInfoArray[u][0]==vehicleKeysUsedInPertYear[t] {
+                    thisVehName = vehicleInfoArray[u][1]
+                    vehicleInfoArrayOrdered.append([vehicleInfoArray[u][2], vehicleInfoArray[u][3], vehicleInfoArray[u][4], vehicleInfoArray[u][5]])
+                }
+            }
+            pdf.beginNewPage()
+            pdf.addImage(UIImage(named: "bizzybooksbee")!)
+            let titleVehicle = String(selectedYear) + " \(thisVehName) Info"
+            let attributedTitleVehicle = NSAttributedString(string: titleVehicle, attributes: titleAttributes)
+            pdf.addAttributedText(attributedTitleVehicle)
+            pdf.addText("Created with Bizzy Books " + DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .short))
+            pdf.addLineSeparator()
+            pdf.addVerticalSpace(24)
+            let tableDefVehicle = TableDefinition(alignments: [.left, .left, .left, .left], columnWidths: [200, 100, 125, 125], fonts: [UIFont.systemFont(ofSize: 10), UIFont.systemFont(ofSize: 10), UIFont.systemFont(ofSize: 10), UIFont.systemFont(ofSize: 10)], textColors: [UIColor.black, UIColor.black, UIColor.black, UIColor.black])
+            pdf.addTable(vehicleInfoArrayOrdered.count, columnCount: 4, rowHeight: 16.0, tableLineWidth: 1.0, tableDefinition: tableDefVehicle, dataArray: vehicleInfoArrayOrdered)
+        }
+        
         let subcat1GrossTidy = Double(subcat1Gross/100)
         let subcat2GrossTidy = Double(subcat2Gross/100)
         let subcat3GrossTidy = Double(subcat3Gross/100)
@@ -2058,13 +2177,39 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         pdf.addVerticalSpace(24)
         pdf.addImage(trialPieView2.asImage())
         
+        for m in 0..<((projectInfoTidyArray.count + 33)/34) {
+            var thirtyFourAtATimeProjectInfoTidyArray: [[String]] = [[String]]()
+            var insideLoopCount = 0
+            if projectInfoTidyArray.count <= 34 {
+                insideLoopCount = projectInfoTidyArray.count
+            } else if (projectInfoTidyArray.count - (m*34)) >= 34 {
+                insideLoopCount = 34
+            } else {
+                insideLoopCount = projectInfoTidyArray.count % 34
+            }
+            for p in 0..<insideLoopCount {
+                let q = (m*34) + p
+                thirtyFourAtATimeProjectInfoTidyArray.append([projectInfoTidyArray[q][0], projectInfoTidyArray[q][1], projectInfoTidyArray[q][2], projectInfoTidyArray[q][3], projectInfoTidyArray[q][4], projectInfoTidyArray[q][5], projectInfoTidyArray[q][6], projectInfoTidyArray[q][7], projectInfoTidyArray[q][8], projectInfoTidyArray[q][9], projectInfoTidyArray[q][10]])
+            }
+            pdf.beginNewPage()
+            pdf.addImage(UIImage(named: "bizzybooksbee")!)
+            let titleProjectInfo = String(selectedYear) + " Project Info"
+            let attributedTitleProjectInfo = NSAttributedString(string: titleProjectInfo, attributes: titleAttributes)
+            pdf.addAttributedText(attributedTitleProjectInfo)
+            pdf.addText("Created with Bizzy Books " + DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .short))
+            pdf.addLineSeparator()
+            pdf.addVerticalSpace(24)
+            let tableDefProjectInfo = TableDefinition(alignments: [.left, .left, .left, .left, .left, .left, .left, .left, .left, .left, .left], columnWidths: [112, 55, 55, 41, 41, 41, 41, 41, 41, 41, 41], fonts: [UIFont.systemFont(ofSize: 5), UIFont.systemFont(ofSize: 7), UIFont.systemFont(ofSize: 7), UIFont.systemFont(ofSize: 7), UIFont.systemFont(ofSize: 7), UIFont.systemFont(ofSize: 7), UIFont.systemFont(ofSize: 7), UIFont.systemFont(ofSize: 7), UIFont.systemFont(ofSize: 7), UIFont.systemFont(ofSize: 7), UIFont.systemFont(ofSize: 7)], textColors: [UIColor.black, UIColor.gray, UIColor.gray, UIColor.black, UIColor.red, UIColor.BizzyColor.Green.What, UIColor.BizzyColor.Blue.Who, UIColor.BizzyColor.Orange.WC, UIColor.BizzyColor.Orange.WC, UIColor.BizzyColor.Magenta.TaxReason, UIColor.black])
+            pdf.addTable(thirtyFourAtATimeProjectInfoTidyArray.count, columnCount: 11, rowHeight: 16.0, tableLineWidth: 1.0, tableDefinition: tableDefProjectInfo, dataArray: thirtyFourAtATimeProjectInfoTidyArray)
+        }
+        
         // Generate PDF data and save to a local file.
         if let documentDirectories = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
             
             let fileName = "report.pdf"
-            let documentsFileName = documentDirectories + "/" + fileName
+            documentsFileName = documentDirectories + "/" + fileName
             
-            let pdfData = pdf.generatePDFdata()
+            pdfData = pdf.generatePDFdata()
             do{
                 try pdfData.write(to: URL(fileURLWithPath: documentsFileName), options: .atomic)
                 print("\nThe generated pdf can be found at:")
@@ -2077,6 +2222,15 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         }
     
     }
+    
+    @IBAction func shareReportPressed(_ sender: Any) {
+        share(url: URL(fileURLWithPath: documentsFileName))
+        //let request2 = URLRequest(url: URL(fileURLWithPath: documentsFileName))
+        //let vc = UIActivityViewController(activityItems: [request2!], applicationActivities: [])
+        //present(vc, animated: true)
+    }
+    
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -2094,4 +2248,52 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     }
     */
 
+}
+
+extension ReportsViewController {
+    /// This function will set all the required properties, and then provide a preview for the document
+    func share(url: URL) {
+        documentInteractionController.url = url
+        documentInteractionController.uti = "com.adobe.pdf"
+        documentInteractionController.name = url.localizedName ?? url.lastPathComponent
+        documentInteractionController.presentPreview(animated: true)
+    }
+    /// This function will store your document to some temporary URL and then provide sharing, copying, printing, saving options to the user
+    func storeAndShare(withURLString: String) {
+        guard let url = URL(string: withURLString) else { return }
+        /// START YOUR ACTIVITY INDICATOR HERE
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else { return }
+            let tmpURL = FileManager.default.temporaryDirectory
+                .appendingPathComponent(response?.suggestedFilename ?? "fileName.png")
+            do {
+                try data.write(to: tmpURL)
+            } catch {
+                print(error)
+            }
+            DispatchQueue.main.async {
+                /// STOP YOUR ACTIVITY INDICATOR HERE
+                self.share(url: tmpURL)
+            }
+            }.resume()
+    }
+}
+
+extension ReportsViewController: UIDocumentInteractionControllerDelegate {
+    /// If presenting atop a navigation stack, provide the navigation controller in order to animate in a manner consistent with the rest of the platform
+    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
+        guard let navVC = self.navigationController else {
+            return self
+        }
+        return navVC
+    }
+}
+
+extension URL {
+    var typeIdentifier: String? {
+        return (try? resourceValues(forKeys: [.typeIdentifierKey]))?.typeIdentifier
+    }
+    var localizedName: String? {
+        return (try? resourceValues(forKeys: [.localizedNameKey]))?.localizedName
+    }
 }

@@ -3571,6 +3571,15 @@ If you can't think of a project with which to associate a business expense, use 
                             <constraint firstItem="mlF-NI-zug" firstAttribute="top" secondItem="8cK-Qs-Mr6" secondAttribute="bottom" constant="-1" id="zK3-Nu-nfT"/>
                         </constraints>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="BjV-KX-6o2"/>
+                        <barButtonItem systemItem="action" id="TAf-91-TeL">
+                            <connections>
+                                <action selector="shareReportPressed:" destination="RRM-0d-BEc" id="c10-0h-MJR"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="reportViewActivitySpinner" destination="WO5-K6-YFQ" id="ygt-SU-MVq"/>
                         <outlet property="reportViewWebView" destination="848-aK-Qok" id="4Id-bz-9a2"/>
