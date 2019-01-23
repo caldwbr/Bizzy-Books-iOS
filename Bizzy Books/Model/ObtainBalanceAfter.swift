@@ -82,10 +82,21 @@ class ObtainBalanceAfter {
         completion()
     }
     
+    func getCurrentTimeStampWOMiliseconds(dateToConvert: NSDate) -> String {
+        let objDateformat: DateFormatter = DateFormatter()
+        objDateformat.dateFormat = "yyyy-MM-dd"
+        let strTime: String = objDateformat.string(from: dateToConvert as Date)
+        let objUTCDate: NSDate = objDateformat.date(from: strTime)! as NSDate
+        let milliseconds: Int64 = Int64(objUTCDate.timeIntervalSince1970)
+        let strTimeStamp: String = "\(milliseconds)"
+        return strTimeStamp
+    }
+    
     func prepareBalsAfterForSingleUniversal(universal: UniversalItem) -> [Any] {
         self.accountOneKey = universal.accountOneKey
         self.accountTwoKey = universal.accountTwoKey
-        self.particularUniversalTimeStamp = universal.timeStamp as! Double
+        let now = Double(Date().timeIntervalSince1970 * 1000)
+        self.particularUniversalTimeStamp = now //?? Double(1548322400000)
         var passBackArray: [Any] = [Any]()
         switch universal.universalItemType {
         case 4: // This is the transfer case - the only case to use a secondary account

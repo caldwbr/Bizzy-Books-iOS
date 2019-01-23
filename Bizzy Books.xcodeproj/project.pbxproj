@@ -772,6 +772,7 @@
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = "Bizzy Books/Bizzy Books.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = ALC53N96R3;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "Bizzy Books/Info.plist";
