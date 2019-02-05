@@ -23,9 +23,7 @@ class CardViewLabelFlowCollectionViewDataSource : NSObject, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let item = items[indexPath.item]
-        var cell : CardViewSentenceCell
-        
-        cell = collectionView.dequeueReusableCell(withReuseIdentifier: item.cellIdentifier, for: indexPath) as! CardViewSentenceCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: item.cellIdentifier, for: indexPath)
 
         if let c = cell as? FlowItemConfigurable {
             c.configure(item: item)
@@ -38,6 +36,14 @@ class CardViewLabelFlowCollectionViewDataSource : NSObject, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return items[indexPath.item].displaySize
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 4.0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 2.0
     }
     
 }

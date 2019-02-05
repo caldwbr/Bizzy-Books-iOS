@@ -317,6 +317,9 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     var numGallonsFuel = ""
     
     func calculateReports() {
+        
+        let selectedYear = self.selectedYear
+        
         clearTheFields()
         for i in 0..<MIProcessor.sharedMIP.mIPUniversals.count where (MIProcessor.sharedMIP.mIPUniversals[i].timeStamp as! Int) < givenYearEnd && (MIProcessor.sharedMIP.mIPUniversals[i].timeStamp as! Int) > givenYearBeginning {
             if MIProcessor.sharedMIP.mIPUniversals[i].universalItemType == 3 { //I.e. FUEL case //HERE WE are grabbing up all the fuel info for that array/pdfTable
@@ -1907,62 +1910,62 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         let hdthoy14NetPercent = Double(hdthoy14net)/Double(totallyNet)
         
         let hdthoy1GrossROI = Double(hdthoy1gross)/Double(hdthoy1RunningGross)
-        let hdthoy1GrossROIString = String(hdthoy1GrossROI) + " : 1"
+        let hdthoy1GrossROIString = String(hdthoy1GrossROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy2GrossROI = Double(hdthoy2gross)/Double(hdthoy2RunningGross)
-        let hdthoy2GrossROIString = String(hdthoy2GrossROI) + " : 1"
+        let hdthoy2GrossROIString = String(hdthoy2GrossROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy3GrossROI = Double(hdthoy3gross)/Double(hdthoy3RunningGross)
-        let hdthoy3GrossROIString = String(hdthoy3GrossROI) + " : 1"
+        let hdthoy3GrossROIString = String(hdthoy3GrossROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy4GrossROI = Double(hdthoy4gross)/Double(hdthoy4RunningGross)
-        let hdthoy4GrossROIString = String(hdthoy4GrossROI) + " : 1"
+        let hdthoy4GrossROIString = String(hdthoy4GrossROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy5GrossROI = Double(hdthoy5gross)/Double(hdthoy5RunningGross)
-        let hdthoy5GrossROIString = String(hdthoy5GrossROI) + " : 1"
+        let hdthoy5GrossROIString = String(hdthoy5GrossROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy6GrossROI = Double(hdthoy6gross)/Double(hdthoy6RunningGross)
-        let hdthoy6GrossROIString = String(hdthoy6GrossROI) + " : 1"
+        let hdthoy6GrossROIString = String(hdthoy6GrossROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy7GrossROI = Double(hdthoy7gross)/Double(hdthoy7RunningGross)
-        let hdthoy7GrossROIString = String(hdthoy7GrossROI) + " : 1"
+        let hdthoy7GrossROIString = String(hdthoy7GrossROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy8GrossROI = Double(hdthoy8gross)/Double(hdthoy8RunningGross)
-        let hdthoy8GrossROIString = String(hdthoy8GrossROI) + " : 1"
+        let hdthoy8GrossROIString = String(hdthoy8GrossROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy9GrossROI = Double(hdthoy9gross)/Double(hdthoy9RunningGross)
-        let hdthoy9GrossROIString = String(hdthoy9GrossROI) + " : 1"
+        let hdthoy9GrossROIString = String(hdthoy9GrossROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy10GrossROI = Double(hdthoy10gross)/Double(hdthoy10RunningGross)
-        let hdthoy10GrossROIString = String(hdthoy10GrossROI) + " : 1"
+        let hdthoy10GrossROIString = String(hdthoy10GrossROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy11GrossROI = Double(hdthoy11gross)/Double(hdthoy11RunningGross)
-        let hdthoy11GrossROIString = String(hdthoy11GrossROI) + " : 1"
+        let hdthoy11GrossROIString = String(hdthoy11GrossROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy12GrossROI = Double(hdthoy12gross)/Double(hdthoy12RunningGross)
-        let hdthoy12GrossROIString = String(hdthoy12GrossROI) + " : 1"
+        let hdthoy12GrossROIString = String(hdthoy12GrossROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy13GrossROI = Double(hdthoy13gross)/Double(hdthoy13RunningGross)
-        let hdthoy13GrossROIString = String(hdthoy13GrossROI) + " : 1"
+        let hdthoy13GrossROIString = String(hdthoy13GrossROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy14GrossROI = Double(hdthoy14gross)/Double(hdthoy14RunningGross)
-        let hdthoy14GrossROIString = String(hdthoy14GrossROI) + " : 1"
+        let hdthoy14GrossROIString = String(hdthoy14GrossROI.rounded(toPlaces: 1)) + " : 1"
         
         let hdthoy1NetROI = Double(hdthoy1net)/Double(hdthoy1RunningGross)
-        let hdthoy1NetROIString = String(hdthoy1NetROI) + " : 1"
+        let hdthoy1NetROIString = String(hdthoy1NetROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy2NetROI = Double(hdthoy2net)/Double(hdthoy2RunningGross)
-        let hdthoy2NetROIString = String(hdthoy2NetROI) + " : 1"
+        let hdthoy2NetROIString = String(hdthoy2NetROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy3NetROI = Double(hdthoy3net)/Double(hdthoy3RunningGross)
-        let hdthoy3NetROIString = String(hdthoy3NetROI) + " : 1"
+        let hdthoy3NetROIString = String(hdthoy3NetROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy4NetROI = Double(hdthoy4net)/Double(hdthoy4RunningGross)
-        let hdthoy4NetROIString = String(hdthoy4NetROI) + " : 1"
+        let hdthoy4NetROIString = String(hdthoy4NetROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy5NetROI = Double(hdthoy5net)/Double(hdthoy5RunningGross)
-        let hdthoy5NetROIString = String(hdthoy5NetROI) + " : 1"
+        let hdthoy5NetROIString = String(hdthoy5NetROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy6NetROI = Double(hdthoy6net)/Double(hdthoy6RunningGross)
-        let hdthoy6NetROIString = String(hdthoy6NetROI) + " : 1"
+        let hdthoy6NetROIString = String(hdthoy6NetROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy7NetROI = Double(hdthoy7net)/Double(hdthoy7RunningGross)
-        let hdthoy7NetROIString = String(hdthoy7NetROI) + " : 1"
+        let hdthoy7NetROIString = String(hdthoy7NetROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy8NetROI = Double(hdthoy8net)/Double(hdthoy8RunningGross)
-        let hdthoy8NetROIString = String(hdthoy8NetROI) + " : 1"
+        let hdthoy8NetROIString = String(hdthoy8NetROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy9NetROI = Double(hdthoy9net)/Double(hdthoy9RunningGross)
-        let hdthoy9NetROIString = String(hdthoy9NetROI) + " : 1"
+        let hdthoy9NetROIString = String(hdthoy9NetROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy10NetROI = Double(hdthoy10net)/Double(hdthoy10RunningGross)
-        let hdthoy10NetROIString = String(hdthoy10NetROI) + " : 1"
+        let hdthoy10NetROIString = String(hdthoy10NetROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy11NetROI = Double(hdthoy11net)/Double(hdthoy11RunningGross)
-        let hdthoy11NetROIString = String(hdthoy11NetROI) + " : 1"
+        let hdthoy11NetROIString = String(hdthoy11NetROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy12NetROI = Double(hdthoy12net)/Double(hdthoy12RunningGross)
-        let hdthoy12NetROIString = String(hdthoy12NetROI) + " : 1"
+        let hdthoy12NetROIString = String(hdthoy12NetROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy13NetROI = Double(hdthoy13net)/Double(hdthoy13RunningGross)
-        let hdthoy13NetROIString = String(hdthoy13NetROI) + " : 1"
+        let hdthoy13NetROIString = String(hdthoy13NetROI.rounded(toPlaces: 1)) + " : 1"
         let hdthoy14NetROI = Double(hdthoy14net)/Double(hdthoy14RunningGross)
-        let hdthoy14NetROIString = String(hdthoy14NetROI) + " : 1"
+        let hdthoy14NetROIString = String(hdthoy14NetROI.rounded(toPlaces: 1)) + " : 1"
         
         projectSubcatInfoArray.append([subcat1Name, subcat1Gross, subcat1Expenses, subcat1Mtrl, subcat1LaborAndProHelp, subcat1Labor, subcat1IncursWC, subcat1HasWC, subcat1WCNA, subcat1ProHelp, subcat1Net])
         projectSubcatInfoArray.append([subcat2Name, subcat2Gross, subcat2Expenses, subcat2Mtrl, subcat2LaborAndProHelp, subcat2Labor, subcat2IncursWC, subcat2HasWC, subcat2WCNA, subcat2ProHelp, subcat2Net])

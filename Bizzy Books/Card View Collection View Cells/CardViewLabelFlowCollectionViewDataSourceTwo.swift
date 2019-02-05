@@ -23,9 +23,7 @@ class CardViewLabelFlowCollectionViewDataSourceTwo : NSObject, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let item = items[indexPath.item]
-        var cell : CardViewSentenceCell
-        
-        cell = collectionView.dequeueReusableCell(withReuseIdentifier: item.cellIdentifier, for: indexPath) as! CardViewSentenceCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: item.cellIdentifier, for: indexPath)
         
         if let c = cell as? FlowItemConfigurable {
             c.configure(item: item)

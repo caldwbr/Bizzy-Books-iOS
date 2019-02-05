@@ -213,7 +213,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        activitySpinner.startAnimating()
+        
         checkLoggedIn()
     }
     
@@ -300,10 +300,13 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     }
     
     func refreshTheBankBalances() {
+        print("refreshTheBankBalances - Start")
         DispatchQueue.global(qos: .background).async {
             // do your job here
             MIProcessor.sharedMIP.obtainTheBalancesAfter()
             DispatchQueue.main.async {
+                print("refreshTheBankBalances - Stop")
+                
                 // update ui here
                 var addUniversalKeyString2 = ""
                 var universalsRef2: DatabaseReference!
@@ -1525,6 +1528,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 extension ViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
         let i = indexPath.item
         var baseHeight: CGFloat = 150
         var sentenceOneHeight: CGFloat = 0

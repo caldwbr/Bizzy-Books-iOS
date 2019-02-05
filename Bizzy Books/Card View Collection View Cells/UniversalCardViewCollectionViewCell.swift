@@ -10,19 +10,7 @@ import UIKit
 import KTCenterFlowLayout
 import Firebase
 
-class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataSource.items.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = universalCardViewCollectionView.dequeueReusableCell(withReuseIdentifier: "CardViewSentenceCell", for: indexPath) as! CardViewSentenceCell
-        if let theFlowItem = dataSource.items[indexPath.row] as? LabelFlowItem {
-            cell.configure(labelFlowItem: theFlowItem)
-        }
-        return cell
-    }
+class UniversalCardViewCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageView: UIImageView!
@@ -50,10 +38,8 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell, UICollectionVie
         }
         universalCardViewCollectionView.collectionViewLayout = KTCenterFlowLayout()
         universalCardViewCollectionView.register(UINib.init(nibName: "CardViewSentenceCell", bundle: nil), forCellWithReuseIdentifier: "CardViewSentenceCell")
-        if let universalCardViewFlowLayout = universalCardViewCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            universalCardViewFlowLayout.estimatedItemSize = CGSize(width: 80, height: 30)
-        }
-        universalCardViewCollectionView.dataSource = self
+        universalCardViewCollectionView.dataSource = dataSource
+        universalCardViewCollectionView.delegate = dataSource
     }
     
     func register(_ nib: UINib?, forCellWithReuseIdentifier identifier: String) {}

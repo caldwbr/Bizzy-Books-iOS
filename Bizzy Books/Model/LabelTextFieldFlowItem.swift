@@ -53,14 +53,14 @@ struct LabelFlowItem : FlowItem {
             ], context: nil).size
         
         // Add the padding
-        let padding : CGFloat = 24.0
+        let padding : CGFloat = 4.0
         size.width = size.width + padding
-        size.height = 36.0
+        size.height = 26.0
         return size
     }
     
     var cellIdentifier : String {
-        return "LabelCollectionViewCell"
+        return "CardViewSentenceCell"
     }
 }
 

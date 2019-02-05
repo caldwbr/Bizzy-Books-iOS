@@ -129,4 +129,16 @@ extension UIView {
     }
 }
 
-
+extension Double {
+    /// Rounds the double to decimal places value
+    func rounded(toPlaces places:Int) -> Double {
+        if self.isNaN {
+            return self
+        } else if self.isInfinite {
+            return self
+        } else {
+            let divisor = pow(10.0, Double(places))
+            return (self * divisor).rounded() / divisor
+        }
+    }
+}

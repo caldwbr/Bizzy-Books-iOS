@@ -10,27 +10,7 @@ import UIKit
 import KTCenterFlowLayout
 import Firebase
 
-class ProjectCardViewCollectionViewCell: UICollectionViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == projectCardViewCollectionView {
-            return dataSource.items.count
-        } else {
-            return dataSourceTwo.items.count
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == projectCardViewCollectionView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CardViewSentenceCell", for: indexPath) as! CardViewSentenceCell
-            cell.configure(labelFlowItem: dataSource.items[indexPath.row] as! LabelFlowItem)
-            return cell
-        } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CardViewSentenceCell", for: indexPath) as! CardViewSentenceCell
-            cell.configure(labelFlowItem: dataSourceTwo.items[indexPath.row] as! LabelFlowItem)
-            return cell
-        }
-    }
-
+class ProjectCardViewCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var topCollectionViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var projectNotesLabel: UILabel!
@@ -42,9 +22,7 @@ class ProjectCardViewCollectionViewCell: UICollectionViewCell, UICollectionViewD
     @IBOutlet weak var projectCardViewDateLabel: UILabel!
     @IBOutlet weak var projectCardViewJobNameLabel: UILabel!
     @IBOutlet weak var projectCardViewStatusLabel: UILabel!
-    
-    private var dataOne = [LabelFlowItem]()
-    private var dataTwo = [LabelFlowItem]()
+
     private var dataSource = CardViewLabelFlowCollectionViewDataSource()
     private var dataSourceTwo = CardViewLabelFlowCollectionViewDataSourceTwo()
     let stringifyAnInt: StringifyAnInt = StringifyAnInt()
@@ -60,6 +38,7 @@ class ProjectCardViewCollectionViewCell: UICollectionViewCell, UICollectionViewD
         }
         projectCardViewCollectionView.collectionViewLayout = KTCenterFlowLayout()
         projectCardViewCollectionViewTwo.collectionViewLayout = KTCenterFlowLayout()
+        
         print("Awoke from Nib - Project Card view")
         
         projectCardViewCollectionView.register(UINib.init(nibName: "CardViewSentenceCell", bundle: nil), forCellWithReuseIdentifier: "CardViewSentenceCell")
@@ -70,8 +49,12 @@ class ProjectCardViewCollectionViewCell: UICollectionViewCell, UICollectionViewD
         if let universalCardViewFlowLayoutTwo = projectCardViewCollectionViewTwo.collectionViewLayout as? UICollectionViewFlowLayout {
             universalCardViewFlowLayoutTwo.estimatedItemSize = CGSize(width: 80, height: 30)
         }
-        projectCardViewCollectionView.dataSource = self
-        projectCardViewCollectionViewTwo.dataSource = self
+        projectCardViewCollectionView.dataSource = dataSource
+        projectCardViewCollectionViewTwo.dataSource = dataSourceTwo
+        
+        
+        projectCardViewCollectionView.delegate = dataSource
+        projectCardViewCollectionViewTwo.delegate = dataSourceTwo
     }
     
     func configure(i: Int) {
@@ -100,13 +83,6 @@ class ProjectCardViewCollectionViewCell: UICollectionViewCell, UICollectionViewD
             forThisJob = "for this job at"
             preparedAddress = projectItem.projectAddressStreet + " (" + projectItem.projectAddressCity + ", " + projectItem.projectAddressState + ")"
         }
-        /*
-        dataOne.append(LabelFlowItem(text: projectItem.customerName, color: UIColor.BizzyColor.Blue.Who, action: nil))
-        dataOne.append(LabelFlowItem(text: "heard of you", color: .gray, action: nil))
-        dataOne.append(LabelFlowItem(text: projectItem.howDidTheyHearOfYouString, color: UIColor.BizzyColor.Green.What, action: nil))
-        dataOne.append(LabelFlowItem(text: forThisJob, color: .gray, action: nil))
-        dataOne.append(LabelFlowItem(text: preparedAddress, color: UIColor.BizzyColor.Magenta.PersonalReason, action: nil))
-        dataOne.append(LabelFlowItem(text: "\n\n", color: .gray, action: nil))*/
         
         dataSource.items = [
             LabelFlowItem(text: projectItem.customerName, color: UIColor.BizzyColor.Blue.Who, action: nil),
@@ -216,13 +192,21 @@ class ProjectCardViewCollectionViewCell: UICollectionViewCell, UICollectionViewD
             (LabelFlowItem(text: (margin + "%"), color: UIColor.BizzyColor.Magenta.PersonalReason, action: nil)),
             (LabelFlowItem(text: "margin", color: .gray, action: nil))
         ]
-        projectCardViewCollectionView.reloadData()
-        projectCardViewCollectionView.layoutIfNeeded()
-        topCollectionViewHeightConstraint.constant = projectCardViewCollectionView.collectionViewLayout.collectionViewContentSize.height
+        
+        //projectCardViewCollectionView.reloadData() //This line was breaking code sheesh
+        //projectCardViewCollectionView.collectionViewLayout.invalidateLayout()
+        //projectCardViewCollectionView.layoutIfNeeded()
+        
         projectCardViewCollectionViewTwo.reloadData()
-        projectCardViewCollectionViewTwo.layoutIfNeeded()
+        projectCardViewCollectionViewTwo.collectionViewLayout.invalidateLayout()
+        //projectCardViewCollectionViewTwo.layoutIfNeeded()
         bottomCollectionViewHeightConstraint.constant = projectCardViewCollectionViewTwo.collectionViewLayout.collectionViewContentSize.height
+        //projectCardViewCollectionView.reloadData() // *****Was CRASHING here or on next line, possibly due to too much time on logic*****
+        //projectCardViewCollectionView.collectionViewLayout.invalidateLayout()
+        //projectCardViewCollectionView.layoutIfNeeded()
+        topCollectionViewHeightConstraint.constant = projectCardViewCollectionView.collectionViewLayout.collectionViewContentSize.height  // =190 also makes big, but words trunc
     }
+    
 
     func convertTimestamp(serverTimestamp: Double) -> String {
         let x = serverTimestamp / 1000
@@ -231,5 +215,4 @@ class ProjectCardViewCollectionViewCell: UICollectionViewCell, UICollectionViewD
         formatter.dateFormat = "MMM dd, yyyy\nh:mma"
         return formatter.string(from: date as Date)
     }
-    
 }

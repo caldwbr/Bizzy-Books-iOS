@@ -21,13 +21,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="m5E-pi-r7U">
-                                <rect key="frame" x="177" y="390" width="20" height="20"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="20" id="WuY-Gu-54V"/>
-                                    <constraint firstAttribute="height" constant="20" id="tyI-i7-0pU"/>
-                                </constraints>
-                            </activityIndicatorView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="never" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="I5h-vO-tie">
                                 <rect key="frame" x="0.0" y="74" width="375" height="682"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -127,9 +120,17 @@
                                 </view>
                                 <blurEffect style="light"/>
                             </visualEffectView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="m5E-pi-r7U">
+                                <rect key="frame" x="177.5" y="390" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="WuY-Gu-54V"/>
+                                    <constraint firstAttribute="height" constant="20" id="tyI-i7-0pU"/>
+                                </constraints>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="m5E-pi-r7U" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="2e7-14-YgM"/>
                             <constraint firstItem="jM3-Pa-zeE" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="3l8-dV-w6F"/>
                             <constraint firstAttribute="trailing" secondItem="jM3-Pa-zeE" secondAttribute="trailing" id="58p-ca-L3H"/>
                             <constraint firstItem="jM3-Pa-zeE" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="RZB-HV-FEE"/>
@@ -141,6 +142,7 @@
                             <constraint firstItem="I5h-vO-tie" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="10" id="iuG-2Q-d6M"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="I5h-vO-tie" secondAttribute="bottom" id="lUu-xY-NV0"/>
                             <constraint firstAttribute="trailing" secondItem="I5h-vO-tie" secondAttribute="trailing" id="qv8-HP-pee"/>
+                            <constraint firstItem="m5E-pi-r7U" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="wxG-LI-09u"/>
                         </constraints>
                     </view>
                     <toolbarItems>
@@ -1415,7 +1417,7 @@
                                                     <inset key="sectionInset" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
                                                 </collectionViewFlowLayout>
                                                 <cells>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="LabelCollectionViewCell" id="mzn-hI-cyK" customClass="LabelCollectionViewCell" customModule="Bizzy_Books" customModuleProvider="target">
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CardViewSentenceCell" id="mzn-hI-cyK" customClass="LabelCollectionViewCell" customModule="Bizzy_Books" customModuleProvider="target">
                                                         <rect key="frame" x="10" y="0.5" width="96" height="49"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -1423,7 +1425,7 @@
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ys5-4Z-FDS">
-                                                                    <rect key="frame" x="8" y="28" width="80" height="13"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="96" height="49"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -1431,10 +1433,10 @@
                                                             </subviews>
                                                         </view>
                                                         <constraints>
-                                                            <constraint firstAttribute="trailingMargin" secondItem="Ys5-4Z-FDS" secondAttribute="trailing" id="0dh-pQ-hdo"/>
-                                                            <constraint firstAttribute="bottomMargin" secondItem="Ys5-4Z-FDS" secondAttribute="bottom" id="9e9-2m-rrk"/>
-                                                            <constraint firstItem="Ys5-4Z-FDS" firstAttribute="leading" secondItem="mzn-hI-cyK" secondAttribute="leadingMargin" id="WoT-K6-8w5"/>
-                                                            <constraint firstItem="Ys5-4Z-FDS" firstAttribute="top" secondItem="mzn-hI-cyK" secondAttribute="topMargin" id="fVn-x2-jy8"/>
+                                                            <constraint firstItem="Ys5-4Z-FDS" firstAttribute="top" secondItem="mzn-hI-cyK" secondAttribute="top" id="3kS-dK-mEf"/>
+                                                            <constraint firstItem="Ys5-4Z-FDS" firstAttribute="leading" secondItem="mzn-hI-cyK" secondAttribute="leading" id="cfp-VW-XlL"/>
+                                                            <constraint firstAttribute="trailing" secondItem="Ys5-4Z-FDS" secondAttribute="trailing" id="lrm-fk-NQ9"/>
+                                                            <constraint firstAttribute="bottom" secondItem="Ys5-4Z-FDS" secondAttribute="bottom" id="tYd-8H-2zb"/>
                                                         </constraints>
                                                         <size key="customSize" width="96" height="49"/>
                                                         <connections>
@@ -3536,14 +3538,14 @@ If you can't think of a project with which to associate a business expense, use 
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xJU-LE-iMI" customClass="PieChartView" customModule="Charts">
-                                <rect key="frame" x="0.0" y="764" width="375" height="375"/>
+                                <rect key="frame" x="0.0" y="864" width="375" height="375"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="375" id="W3V-Hn-G4B"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xQx-M3-c6R" customClass="PieChartView" customModule="Charts">
-                                <rect key="frame" x="0.0" y="989" width="375" height="375"/>
+                                <rect key="frame" x="0.0" y="1089" width="375" height="375"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="375" id="ewV-la-KOb"/>
@@ -3567,7 +3569,7 @@ If you can't think of a project with which to associate a business expense, use 
                             <constraint firstAttribute="trailing" secondItem="xJU-LE-iMI" secondAttribute="trailing" id="klu-ek-Z9m"/>
                             <constraint firstItem="xJU-LE-iMI" firstAttribute="top" secondItem="xQx-M3-c6R" secondAttribute="bottom" constant="-600" id="ow5-dF-vid"/>
                             <constraint firstAttribute="trailing" secondItem="mlF-NI-zug" secondAttribute="trailing" id="qMn-Wc-gKc"/>
-                            <constraint firstItem="xJU-LE-iMI" firstAttribute="top" secondItem="RBV-ni-Ymh" secondAttribute="bottom" constant="700" id="tPf-fe-X0q"/>
+                            <constraint firstItem="xJU-LE-iMI" firstAttribute="top" secondItem="RBV-ni-Ymh" secondAttribute="bottom" constant="800" id="tPf-fe-X0q"/>
                             <constraint firstItem="mlF-NI-zug" firstAttribute="top" secondItem="8cK-Qs-Mr6" secondAttribute="bottom" constant="-1" id="zK3-Nu-nfT"/>
                         </constraints>
                     </view>

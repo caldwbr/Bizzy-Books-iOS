@@ -8,13 +8,19 @@
 
 import UIKit
 
-class CardViewSentenceCell: UICollectionViewCell {
+class CardViewSentenceCell: UICollectionViewCell, FlowItemConfigurable {
     
     @IBOutlet weak var label: UILabel!
     
     func configure(labelFlowItem: LabelFlowItem) {
         label.text = labelFlowItem.text
         label.textColor = labelFlowItem.color
+    }
+    
+    func configure(item: FlowItem) {
+        if let labelFlowItem = item as? LabelFlowItem {
+            configure(labelFlowItem: labelFlowItem)
+        }
     }
     
 }
