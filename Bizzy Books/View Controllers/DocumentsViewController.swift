@@ -103,7 +103,7 @@ class DocumentsViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        documentInteractionController.delegate = self as! UIDocumentInteractionControllerDelegate
+        documentInteractionController.delegate = self as? UIDocumentInteractionControllerDelegate
         documentPickerData = ["Estimate", "Contract", "Invoice", "Warranty"]
         documentPickerView.dataSource = self
         documentPickerView.delegate = self

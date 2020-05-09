@@ -27,6 +27,7 @@ class ProjectCardViewCollectionViewCell: UICollectionViewCell {
     private var dataSourceTwo = CardViewLabelFlowCollectionViewDataSourceTwo()
     let stringifyAnInt: StringifyAnInt = StringifyAnInt()
     
+    //STACK OVERFLOW: Both UICollectionViewCell and UITableViewCell are reused. As one scrolls off the top of the screen, it is reinserted below the visible cells as the next cell that will appear on screen. The cells retain any data that they have during this dequeuing/requeuing process. prepareForReuse exists to give you a point to reset the view to default values and to clear any data from the last time it was displayed. This is especially important when working with asynchronous processes, such as network calls, as they can outlive the amount of time that a cell is displayed. Additionally, you're doing a lot of non-setup work in awakeFromNib. This method is not called every time a cell is displayed, it is only called the FIRST time a cell is displayed. If that cell goes off screen and is reused, awakeFromNib is not called. This is likely a big reason that your collection views have the wrong data, they're never making their network request when they appear on screen.
     override func awakeFromNib() {
         super.awakeFromNib()
         self.contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -49,7 +50,7 @@ class ProjectCardViewCollectionViewCell: UICollectionViewCell {
         
         print("Awoke from Nib - Project Card view")
         
-        /*
+        /* //This code was causing searching projects to crash.
         if let universalCardViewFlowLayout = projectCardViewCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             universalCardViewFlowLayout.estimatedItemSize = CGSize(width: 80, height: 30)
         }
@@ -58,6 +59,13 @@ class ProjectCardViewCollectionViewCell: UICollectionViewCell {
             universalCardViewFlowLayoutTwo.estimatedItemSize = CGSize(width: 80, height: 30)
         }
         */
+        
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        projectCardViewCollectionView.reloadData()
+        projectCardViewCollectionViewTwo.reloadData()
         
     }
     
@@ -196,7 +204,12 @@ class ProjectCardViewCollectionViewCell: UICollectionViewCell {
             (LabelFlowItem(text: (margin + "%"), color: UIColor.BizzyColor.Magenta.PersonalReason, action: nil)),
             (LabelFlowItem(text: "margin", color: .gray, action: nil))
         ]
-        
+        projectCardViewCollectionViewTwo.collectionViewLayout.invalidateLayout()
+        bottomCollectionViewHeightConstraint.constant = projectCardViewCollectionViewTwo.collectionViewLayout.collectionViewContentSize.height
+        topCollectionViewHeightConstraint.constant = projectCardViewCollectionView.collectionViewLayout.collectionViewContentSize.height
+        // =190 also makes big, but words trunc
+        projectCardViewCollectionViewTwo.layoutIfNeeded()
+        /*
         //projectCardViewCollectionView.reloadData() //This line was breaking code sheesh
         //projectCardViewCollectionView.collectionViewLayout.invalidateLayout()
         //projectCardViewCollectionView.layoutIfNeeded()
@@ -209,6 +222,7 @@ class ProjectCardViewCollectionViewCell: UICollectionViewCell {
         //projectCardViewCollectionView.collectionViewLayout.invalidateLayout()
         //projectCardViewCollectionView.layoutIfNeeded()
         topCollectionViewHeightConstraint.constant = projectCardViewCollectionView.collectionViewLayout.collectionViewContentSize.height  // =190 also makes big, but words trunc
+ */
     }
     
 
