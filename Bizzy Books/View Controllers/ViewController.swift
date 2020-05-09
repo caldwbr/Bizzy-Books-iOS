@@ -497,6 +497,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         performSegue(withIdentifier: "showReports", sender: self)
     }
     
+    /*
     func updateFirebaseWithNonEncryptedMIP() {
         var addUniversalKeyString = ""
         var addAccountKeyString = ""
@@ -542,11 +543,30 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
         print("DONE DONE DONE DONE DONE DONE DONE DONE DONE")
         print("DONE DONE DONE DONE DONE DONE DONE DONE DONE")
         print("DONE DONE DONE DONE DONE DONE DONE DONE DONE")
-    }
+    } */
     
     @IBAction func addUniversalClicked(_: UIBarButtonItem) {
+        searchTextField.text = ""
+        searchTableView.reloadData()
+        searchTableView.isHidden = true
+        supplementalSearchView.isHidden = true
+        cardViewCollectionViewTopConstraint.constant = 10
+        MIProcessor.sharedMIP.mipORsip = 0 // BACK TO THE MIP!!
+        cardViewCollectionView.reloadData()
         TheAmtSingleton.shared.theMIPNumber = -1
         performSegue(withIdentifier: "createUniversal", sender: self)
+    }
+    
+    @IBAction func composeDocumentClicked(_ sender: UIBarButtonItem) {
+        searchTextField.text = ""
+        searchTableView.reloadData()
+        searchTableView.isHidden = true
+        supplementalSearchView.isHidden = true
+        cardViewCollectionViewTopConstraint.constant = 10
+        MIProcessor.sharedMIP.mipORsip = 0 // BACK TO THE MIP!!
+        cardViewCollectionView.reloadData()
+        TheAmtSingleton.shared.theMIPNumber = -1
+        performSegue(withIdentifier: "composeDocument", sender: self)
     }
     
     func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {

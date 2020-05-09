@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="hbX-gv-lOf">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="hbX-gv-lOf">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -22,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="never" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="I5h-vO-tie">
-                                <rect key="frame" x="0.0" y="74" width="375" height="682"/>
+                                <rect key="frame" x="0.0" y="54" width="375" height="697"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="NOr-hV-Hd2">
                                     <size key="itemSize" width="50" height="50"/>
@@ -32,14 +30,13 @@
                                 </collectionViewFlowLayout>
                             </collectionView>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UIa-zH-14Z">
-                                <rect key="frame" x="0.0" y="64" width="375" height="46"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="46"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter search text" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="C1E-7W-mrL">
                                         <rect key="frame" x="16" y="8" width="297" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" priority="750" constant="300" id="9f0-cI-ILg"/>
                                         </constraints>
-                                        <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
@@ -80,11 +77,11 @@
                                         <rect key="frame" x="0.0" y="28" width="343" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="K4o-mR-wmg" id="zZV-JB-hEr">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gTy-ek-cpU">
-                                                    <rect key="frame" x="15" y="0.0" width="313" height="43.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="313" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -169,7 +166,13 @@
                                 <action selector="reportsBooksPressed:" destination="BYZ-38-t0r" id="chb-5K-ZTG"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="ef8-uc-mdt"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="c1N-S9-4Bn"/>
+                        <barButtonItem systemItem="compose" id="mVO-tL-XgD">
+                            <connections>
+                                <action selector="composeDocumentClicked:" destination="BYZ-38-t0r" id="j3w-an-NLO"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="fcO-yU-AOt"/>
                         <barButtonItem systemItem="add" id="bL8-33-se2">
                             <connections>
                                 <action selector="addUniversalClicked:" destination="BYZ-38-t0r" id="3dS-oF-Wj4"/>
@@ -306,6 +309,7 @@
                         <outlet property="welcomeView" destination="igV-p2-VKO" id="aE0-Lf-sjA"/>
                         <segue destination="XGO-PW-Ssy" kind="show" identifier="createUniversal" id="W4H-c8-Kns"/>
                         <segue destination="RRM-0d-BEc" kind="show" identifier="showReports" id="9Ki-Dp-ZAS"/>
+                        <segue destination="Tkg-qJ-d2c" kind="show" identifier="composeDocument" id="gPE-mO-alu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -328,7 +332,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="XDm-5R-lAR"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -337,7 +340,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="M8g-L1-5nd"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -346,7 +348,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="NPX-HW-DvT"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -355,7 +356,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="HSi-zo-J6s"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -364,7 +364,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="9D9-bA-87A"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -373,7 +372,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="S4B-3U-6Xc"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -382,7 +380,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="51w-bL-YVM"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -391,7 +388,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="pbZ-bk-wk2"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -400,7 +396,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="Tpn-Hm-Wej"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -409,7 +404,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="wPp-VK-QfV"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -488,7 +482,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="eMk-nc-W5s"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -500,8 +493,7 @@
                             </constraints>
                         </imageView>
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iE7-Ri-gtH">
-                            <rect key="frame" x="54" y="106" width="184" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="54" y="102" width="184" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
@@ -553,7 +545,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="xeN-pL-jTh"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -562,7 +553,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="lWE-Kp-zLF"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -571,7 +561,6 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="yJZ-bs-Nji"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -581,7 +570,6 @@
                                 <constraint firstAttribute="width" constant="150" id="AsV-pX-DKt"/>
                                 <constraint firstAttribute="height" constant="30" id="Nbt-3X-AU5"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -591,7 +579,6 @@
                                 <constraint firstAttribute="height" constant="30" id="ajk-lw-dN0"/>
                                 <constraint firstAttribute="width" relation="lessThanOrEqual" priority="250" constant="150" id="voe-g3-Bdz"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -622,7 +609,7 @@
                             <color key="backgroundColor" white="1" alpha="0.9766160103" colorSpace="calibratedWhite"/>
                             <prototypes>
                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EditProjectCell" textLabel="JBs-aN-EI9" style="IBUITableViewCellStyleDefault" id="WOb-ga-zMC">
-                                    <rect key="frame" x="0.0" y="28" width="255" height="44"/>
+                                    <rect key="frame" x="0.0" y="28" width="255" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WOb-ga-zMC" id="o1l-KN-ayK">
                                         <rect key="frame" x="0.0" y="0.0" width="255" height="43.5"/>
@@ -706,8 +693,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AuK-U0-vQQ">
-                            <rect key="frame" x="16" y="58" width="293" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="58" width="293" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
@@ -716,7 +702,7 @@
                             </connections>
                         </textField>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Relation:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="47U-Vw-KI2">
-                            <rect key="frame" x="16" y="104" width="110" height="60"/>
+                            <rect key="frame" x="16" y="108" width="110" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="110" id="TSO-Ur-bnO"/>
                                 <constraint firstAttribute="height" constant="60" id="lBy-OR-fPf"/>
@@ -726,53 +712,46 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W4J-LC-UPj">
-                            <rect key="frame" x="142" y="104" width="167" height="60"/>
+                            <rect key="frame" x="142" y="108" width="167" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="60" id="NsS-Ol-djC"/>
                             </constraints>
                         </pickerView>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="14O-cA-f6r">
-                            <rect key="frame" x="16" y="180" width="293" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="184" width="293" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lNK-7m-yDt">
-                            <rect key="frame" x="16" y="218" width="293" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="226" width="293" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Street" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yom-Eo-hsD">
-                            <rect key="frame" x="16" y="256" width="293" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="268" width="293" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="City" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hPR-2M-6XV">
-                            <rect key="frame" x="16" y="294" width="150" height="30"/>
+                            <rect key="frame" x="16" y="310" width="150" height="34"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="150" id="tEP-I9-PUe"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="State" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PJp-hQ-aec">
-                            <rect key="frame" x="182" y="294" width="127" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="182" y="310" width="127" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="SSN" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ix2-cm-hhu">
-                            <rect key="frame" x="16" y="332" width="293" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="352" width="293" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="EIN" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kNr-fW-mfi">
-                            <rect key="frame" x="16" y="370" width="293" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="394" width="293" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -809,11 +788,11 @@
                             </connections>
                         </button>
                         <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ugQ-Q2-jfG">
-                            <rect key="frame" x="16" y="88" width="293" height="418"/>
+                            <rect key="frame" x="16" y="92" width="293" height="414"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <prototypes>
                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EditEntityCell" textLabel="VVv-Ly-O5C" style="IBUITableViewCellStyleDefault" id="Vom-TA-NCM">
-                                    <rect key="frame" x="0.0" y="28" width="293" height="44"/>
+                                    <rect key="frame" x="0.0" y="28" width="293" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Vom-TA-NCM" id="aGW-ws-PTr">
                                         <rect key="frame" x="0.0" y="0.0" width="293" height="43.5"/>
@@ -891,14 +870,12 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gea-V3-Pe6">
-                            <rect key="frame" x="16" y="58" width="293" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="58" width="293" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Starting (current) balance" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9q8-Hl-dsy" customClass="AllowedCharsTextField" customModule="Bizzy_Books" customModuleProvider="target">
-                            <rect key="frame" x="16" y="96" width="293" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="100" width="293" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                             <userDefinedRuntimeAttributes>
@@ -906,40 +883,35 @@
                             </userDefinedRuntimeAttributes>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0yQ-5o-791">
-                            <rect key="frame" x="16" y="134" width="293" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="142" width="293" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OY5-oF-lOh">
-                            <rect key="frame" x="16" y="172" width="293" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="184" width="293" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Street" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SR9-cU-Squ">
-                            <rect key="frame" x="16" y="210" width="293" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="226" width="293" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="City" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nQI-16-nBC">
-                            <rect key="frame" x="16" y="248" width="150" height="30"/>
+                            <rect key="frame" x="16" y="268" width="150" height="34"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="150" id="2I1-Yf-QMI"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="State" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1ed-WF-kR8">
-                            <rect key="frame" x="182" y="248" width="127" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="182" y="268" width="127" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0gR-di-tqs">
-                            <rect key="frame" x="16" y="286" width="293" height="150"/>
+                            <rect key="frame" x="16" y="310" width="293" height="150"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="150" id="zT1-gj-Mth"/>
                             </constraints>
@@ -1003,37 +975,33 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="44e-PV-Pu2">
-                            <rect key="frame" x="16" y="58" width="150" height="30"/>
+                            <rect key="frame" x="16" y="58" width="150" height="34"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="150" id="6TD-Gc-tlk"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TR1-8n-JmZ">
-                            <rect key="frame" x="182" y="58" width="127" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="182" y="58" width="127" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tjL-Zz-GDP">
-                            <rect key="frame" x="16" y="96" width="150" height="30"/>
+                            <rect key="frame" x="16" y="100" width="150" height="34"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="150" id="amH-GG-LdN"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7PB-eN-SJj">
-                            <rect key="frame" x="182" y="96" width="127" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="182" y="100" width="127" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Typical Fuel:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZbJ-7O-bvD">
-                            <rect key="frame" x="16" y="142" width="110" height="60"/>
+                            <rect key="frame" x="16" y="150" width="110" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="110" id="CE6-AQ-n0v"/>
                                 <constraint firstAttribute="height" constant="60" id="eEM-lr-aIP"/>
@@ -1043,32 +1011,29 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NBE-xu-kcE">
-                            <rect key="frame" x="142" y="142" width="167" height="60"/>
+                            <rect key="frame" x="142" y="150" width="167" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="60" id="lH8-E7-KwG"/>
                             </constraints>
                         </pickerView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Optional:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z0v-ls-IwZ">
-                            <rect key="frame" x="16" y="252" width="69" height="21"/>
+                            <rect key="frame" x="16" y="260" width="69" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="License plate number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="545-pv-5vK">
-                            <rect key="frame" x="16" y="281" width="293" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="289" width="293" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Vehicle identification number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OAb-MA-7yu">
-                            <rect key="frame" x="16" y="319" width="293" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="331" width="293" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Placed in commission date" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qk1-QH-WRy">
-                            <rect key="frame" x="16" y="357" width="293" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="373" width="293" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -1134,8 +1099,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pJU-0V-VR9">
-                            <rect key="frame" x="16" y="58" width="293" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="58" width="293" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
@@ -1144,7 +1108,7 @@
                             </connections>
                         </textField>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Relation:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iNI-kz-6bK">
-                            <rect key="frame" x="16" y="104" width="110" height="60"/>
+                            <rect key="frame" x="16" y="108" width="110" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="110" id="Ffa-Ym-IM6"/>
                                 <constraint firstAttribute="height" constant="60" id="iUb-Ms-AKf"/>
@@ -1154,53 +1118,46 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kcR-fJ-C3M">
-                            <rect key="frame" x="142" y="104" width="167" height="60"/>
+                            <rect key="frame" x="142" y="108" width="167" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="60" id="AGF-hR-18r"/>
                             </constraints>
                         </pickerView>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xHB-lb-8KM">
-                            <rect key="frame" x="16" y="180" width="293" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="184" width="293" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5NF-cj-6MI">
-                            <rect key="frame" x="16" y="218" width="293" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="226" width="293" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Street" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6an-lz-SKt">
-                            <rect key="frame" x="16" y="256" width="293" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="268" width="293" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="City" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="O6h-H1-pWd">
-                            <rect key="frame" x="16" y="294" width="150" height="30"/>
+                            <rect key="frame" x="16" y="310" width="150" height="34"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="150" id="gck-FQ-vyJ"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="State" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GTF-Kt-cc6">
-                            <rect key="frame" x="182" y="294" width="127" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="182" y="310" width="127" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="SSN" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UIW-KG-hd8">
-                            <rect key="frame" x="16" y="332" width="293" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="352" width="293" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="EIN" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zES-v0-pyV">
-                            <rect key="frame" x="16" y="370" width="293" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="394" width="293" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -1226,11 +1183,11 @@
                             </connections>
                         </button>
                         <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Syd-1d-EDb">
-                            <rect key="frame" x="16" y="88" width="293" height="418"/>
+                            <rect key="frame" x="16" y="92" width="293" height="414"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <prototypes>
                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EditProjectAddEntityCell" textLabel="iTA-SY-BrK" style="IBUITableViewCellStyleDefault" id="xE0-aZ-EVv">
-                                    <rect key="frame" x="0.0" y="28" width="293" height="44"/>
+                                    <rect key="frame" x="0.0" y="28" width="293" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xE0-aZ-EVv" id="fhj-ad-lre">
                                         <rect key="frame" x="0.0" y="0.0" width="293" height="43.5"/>
@@ -1324,7 +1281,7 @@
                                 </items>
                             </navigationBar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vae-KG-5ou">
-                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="574"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jTt-wu-oG1" userLabel="Content View">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="826"/>
@@ -1361,8 +1318,7 @@
                                                         <rect key="frame" x="157.5" y="0.0" width="157.5" height="50"/>
                                                         <subviews>
                                                             <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Odometer" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fa1-eb-xLQ" customClass="AllowedCharsTextField" customModule="Bizzy_Books" customModuleProvider="target">
-                                                                <rect key="frame" x="82" y="10" width="86" height="30"/>
-                                                                <nil key="textColor"/>
+                                                                <rect key="frame" x="75" y="8" width="93" height="34"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                                                                 <userDefinedRuntimeAttributes>
@@ -1400,7 +1356,6 @@
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="4Vj-1j-yC1"/>
                                                     <constraint firstAttribute="height" constant="30" id="Oh7-e8-7Tz"/>
                                                 </constraints>
-                                                <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
@@ -1452,7 +1407,6 @@
                                                             <subviews>
                                                                 <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0jJ-vP-bDT" customClass="AllowedCharsTextField" customModule="Bizzy_Books" customModuleProvider="target">
                                                                     <rect key="frame" x="8" y="0.0" width="104" height="50"/>
-                                                                    <nil key="textColor"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                                     <userDefinedRuntimeAttributes>
@@ -1794,7 +1748,6 @@
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Project Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n4a-Sa-ODn">
                                     <rect key="frame" x="38" y="10" width="246" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
@@ -1811,7 +1764,7 @@
                                             <rect key="frame" x="0.0" y="28" width="263" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6rT-3P-6BR" id="iDB-lC-cKb">
-                                                <rect key="frame" x="0.0" y="0.0" width="263" height="43.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="263" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </tableViewCellContentView>
                                         </tableViewCell>
@@ -1893,7 +1846,6 @@
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Who" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XZx-H3-c8b">
                                     <rect key="frame" x="38" y="10" width="173" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
@@ -1943,11 +1895,11 @@
                                     <rect key="frame" x="0.0" y="28" width="269" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="AZl-Sh-chr" id="ZLu-EC-JLk">
-                                        <rect key="frame" x="0.0" y="0.0" width="269" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="269" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MAV-nC-Nku">
-                                                <rect key="frame" x="15" y="0.0" width="239" height="43.5"/>
+                                                <rect key="frame" x="15" y="0.0" width="239" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -2079,8 +2031,7 @@ If you can't think of a project with which to associate a business expense, use 
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sas-TX-qgY">
-                            <rect key="frame" x="16" y="58" width="326" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="58" width="326" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
@@ -2095,7 +2046,7 @@ If you can't think of a project with which to associate a business expense, use 
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Relation:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nRS-46-te7">
-                            <rect key="frame" x="16" y="104" width="125" height="60"/>
+                            <rect key="frame" x="16" y="108" width="125" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="60" id="Rcp-YR-ZU4"/>
                                 <constraint firstAttribute="width" constant="125" id="dll-E7-R47"/>
@@ -2106,7 +2057,7 @@ If you can't think of a project with which to associate a business expense, use 
                             <nil key="highlightedColor"/>
                         </label>
                         <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pXU-En-3wR">
-                            <rect key="frame" x="157" y="104" width="185" height="60"/>
+                            <rect key="frame" x="157" y="108" width="185" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="60" id="XMo-yF-Jl7"/>
                             </constraints>
@@ -2133,41 +2084,35 @@ If you can't think of a project with which to associate a business expense, use 
                             </connections>
                         </button>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bXe-Ui-ZNQ">
-                            <rect key="frame" x="16" y="180" width="326" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="184" width="326" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="R61-Rc-583">
-                            <rect key="frame" x="16" y="218" width="326" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="226" width="326" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Street" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="W9n-Zb-Laq">
-                            <rect key="frame" x="16" y="256" width="326" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="268" width="326" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="City" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fzn-dK-Jfh">
-                            <rect key="frame" x="16" y="294" width="166" height="30"/>
+                            <rect key="frame" x="16" y="310" width="166" height="34"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="166" id="aHU-5o-htp"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="State" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="W8l-QY-59W">
-                            <rect key="frame" x="198" y="294" width="144" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="198" y="310" width="144" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="EIN" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xD0-6Z-bpt">
-                            <rect key="frame" x="16" y="370" width="326" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="394" width="326" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -2179,24 +2124,23 @@ If you can't think of a project with which to associate a business expense, use 
                             </connections>
                         </button>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="SSN" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RQg-Gz-fQh">
-                            <rect key="frame" x="16" y="332" width="326" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="352" width="326" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="a1a-y7-axC">
-                            <rect key="frame" x="16" y="88" width="326" height="419"/>
+                            <rect key="frame" x="16" y="92" width="326" height="415"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <prototypes>
                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactCell" textLabel="JYk-aq-RVn" rowHeight="68" style="IBUITableViewCellStyleDefault" id="kuC-xE-ZXe">
                                     <rect key="frame" x="0.0" y="28" width="326" height="68"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kuC-xE-ZXe" id="FaD-tc-RWu">
-                                        <rect key="frame" x="0.0" y="0.0" width="326" height="67.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="326" height="68"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JYk-aq-RVn">
-                                                <rect key="frame" x="15" y="0.0" width="296" height="67.5"/>
+                                                <rect key="frame" x="15" y="0.0" width="296" height="68"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -2412,62 +2356,55 @@ If you can't think of a project with which to associate a business expense, use 
                             <nil key="highlightedColor"/>
                         </label>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Color" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Exx-uy-aaL">
-                            <rect key="frame" x="16" y="58" width="150" height="30"/>
+                            <rect key="frame" x="16" y="58" width="150" height="34"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="150" id="QEM-GZ-RAk"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Year" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UAZ-5e-ZFe">
-                            <rect key="frame" x="182" y="58" width="143" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="182" y="58" width="143" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Make" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fjf-cn-onm">
-                            <rect key="frame" x="16" y="96" width="150" height="30"/>
+                            <rect key="frame" x="16" y="100" width="150" height="34"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="150" id="QNP-8L-6Y8"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Model" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xNZ-7K-aJ0">
-                            <rect key="frame" x="182" y="96" width="143" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="182" y="100" width="143" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tR7-3r-axN">
-                            <rect key="frame" x="142" y="142" width="183" height="60"/>
+                            <rect key="frame" x="142" y="150" width="183" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="60" id="SrG-np-C8c"/>
                             </constraints>
                         </pickerView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Optional:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bZ2-ZI-CSP">
-                            <rect key="frame" x="18" y="252" width="69" height="21"/>
+                            <rect key="frame" x="18" y="260" width="69" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="License plate number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FdY-e3-Igk">
-                            <rect key="frame" x="16" y="289" width="309" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="297" width="309" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Vehicle identification number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bIX-Tk-hLp">
-                            <rect key="frame" x="16" y="327" width="309" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="339" width="309" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Placed in commission date" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eQ7-4e-FnZ">
-                            <rect key="frame" x="16" y="365" width="309" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="16" y="381" width="309" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -2486,7 +2423,7 @@ If you can't think of a project with which to associate a business expense, use 
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Typical Fuel:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T6V-Jb-git">
-                            <rect key="frame" x="16" y="142" width="110" height="60"/>
+                            <rect key="frame" x="16" y="150" width="110" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="60" id="5pM-Ga-3Ld"/>
                                 <constraint firstAttribute="width" constant="110" id="jAd-Fu-0hk"/>
@@ -2550,13 +2487,11 @@ If you can't think of a project with which to associate a business expense, use 
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="xSH-GK-pxH"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Customer" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7bC-Uv-M5y">
-                            <rect key="frame" x="54" y="103" width="195" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="54" y="99" width="195" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
@@ -2583,7 +2518,6 @@ If you can't think of a project with which to associate a business expense, use 
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="NR5-SR-SwJ"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -2592,7 +2526,6 @@ If you can't think of a project with which to associate a business expense, use 
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="e2Z-Ip-Zz6"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -2601,7 +2534,6 @@ If you can't think of a project with which to associate a business expense, use 
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="fI1-Vr-DSf"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -2611,7 +2543,6 @@ If you can't think of a project with which to associate a business expense, use 
                                 <constraint firstAttribute="width" constant="150" id="5vh-YL-lXs"/>
                                 <constraint firstAttribute="height" constant="30" id="HNk-E4-c50"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -2621,7 +2552,6 @@ If you can't think of a project with which to associate a business expense, use 
                                 <constraint firstAttribute="height" constant="30" id="YTu-qE-Oq3"/>
                                 <constraint firstAttribute="width" relation="lessThanOrEqual" priority="250" constant="150" id="dcx-HO-klf"/>
                             </constraints>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -2682,7 +2612,7 @@ If you can't think of a project with which to associate a business expense, use 
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <prototypes>
                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddProjectSelectCustomerCell" textLabel="IMp-fV-LQb" style="IBUITableViewCellStyleDefault" id="6Hg-hz-HXq">
-                                    <rect key="frame" x="0.0" y="28" width="266" height="44"/>
+                                    <rect key="frame" x="0.0" y="28" width="266" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6Hg-hz-HXq" id="a8x-yl-aLL">
                                         <rect key="frame" x="0.0" y="0.0" width="266" height="43.5"/>
@@ -2760,8 +2690,7 @@ If you can't think of a project with which to associate a business expense, use 
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tSV-fb-heB">
-                            <rect key="frame" x="10" y="58" width="338" height="30"/>
-                            <nil key="textColor"/>
+                            <rect key="frame" x="10" y="58" width="338" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
@@ -2779,10 +2708,10 @@ If you can't think of a project with which to associate a business expense, use 
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VqT-fY-elt">
-                            <rect key="frame" x="10" y="96" width="338" height="445"/>
+                            <rect key="frame" x="10" y="100" width="338" height="441"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jnX-BB-KwG">
-                                    <rect key="frame" x="284" y="382" width="46" height="24"/>
+                                    <rect key="frame" x="284" y="378" width="46" height="24"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="46" id="uOL-wu-LZX"/>
                                     </constraints>
@@ -2792,7 +2721,7 @@ If you can't think of a project with which to associate a business expense, use 
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gae-We-gJO">
-                                    <rect key="frame" x="8" y="379" width="60" height="30"/>
+                                    <rect key="frame" x="8" y="375" width="60" height="30"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="60" id="LzH-cT-mZx"/>
                                         <constraint firstAttribute="height" constant="30" id="QpG-g1-Lqq"/>
@@ -2803,42 +2732,36 @@ If you can't think of a project with which to associate a business expense, use 
                                     </connections>
                                 </button>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aMQ-bj-6ii">
-                                    <rect key="frame" x="0.0" y="38" width="338" height="30"/>
-                                    <nil key="textColor"/>
+                                    <rect key="frame" x="0.0" y="38" width="338" height="34"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="u6j-cl-gl8">
-                                    <rect key="frame" x="0.0" y="76" width="338" height="30"/>
-                                    <nil key="textColor"/>
+                                    <rect key="frame" x="0.0" y="80" width="338" height="34"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Street" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Fp-Rv-51N">
-                                    <rect key="frame" x="0.0" y="114" width="338" height="30"/>
-                                    <nil key="textColor"/>
+                                    <rect key="frame" x="0.0" y="110" width="338" height="34"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="City" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z3g-1O-I7C">
-                                    <rect key="frame" x="0.0" y="152" width="166" height="30"/>
+                                    <rect key="frame" x="0.0" y="152" width="166" height="34"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="166" id="kO0-xN-oFT"/>
                                     </constraints>
-                                    <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="State" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0hz-y8-tFh">
-                                    <rect key="frame" x="182" y="152" width="156" height="30"/>
-                                    <nil key="textColor"/>
+                                    <rect key="frame" x="182" y="152" width="156" height="34"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                                 <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Starting (current) balance" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pDy-If-IdH" customClass="AllowedCharsTextField" customModule="Bizzy_Books" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="338" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                                     <userDefinedRuntimeAttributes>
@@ -2846,7 +2769,7 @@ If you can't think of a project with which to associate a business expense, use 
                                     </userDefinedRuntimeAttributes>
                                 </textField>
                                 <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="83M-yH-nb4">
-                                    <rect key="frame" x="0.0" y="190" width="338" height="162"/>
+                                    <rect key="frame" x="0.0" y="194" width="338" height="162"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="162" id="eul-7w-Ugc"/>
                                     </constraints>
@@ -2879,18 +2802,18 @@ If you can't think of a project with which to associate a business expense, use 
                             </constraints>
                         </view>
                         <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x0n-5Q-y53">
-                            <rect key="frame" x="10" y="96" width="338" height="419"/>
+                            <rect key="frame" x="10" y="100" width="338" height="415"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <prototypes>
                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AccountContactCell" textLabel="bAY-GW-Y0I" rowHeight="68" style="IBUITableViewCellStyleDefault" id="GCJ-OR-5CM">
                                     <rect key="frame" x="0.0" y="28" width="338" height="68"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GCJ-OR-5CM" id="49Y-y0-Hn9">
-                                        <rect key="frame" x="0.0" y="0.0" width="338" height="67.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="338" height="68"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bAY-GW-Y0I">
-                                                <rect key="frame" x="15" y="0.0" width="308" height="67.5"/>
+                                                <rect key="frame" x="15" y="0.0" width="308" height="68"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -2942,7 +2865,6 @@ If you can't think of a project with which to associate a business expense, use 
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Whom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="c4q-GY-gzm">
                                     <rect key="frame" x="38" y="10" width="173" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
@@ -2988,7 +2910,7 @@ If you can't think of a project with which to associate a business expense, use 
                                     <rect key="frame" x="0.0" y="28" width="263" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Y2g-3k-6pa" id="s3V-Ms-fWC">
-                                        <rect key="frame" x="0.0" y="0.0" width="263" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="263" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </tableViewCellContentView>
                                 </tableViewCell>
@@ -3033,7 +2955,6 @@ If you can't think of a project with which to associate a business expense, use 
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Vehicle" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YPe-4G-CxR">
                                     <rect key="frame" x="38" y="10" width="173" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
@@ -3076,7 +2997,7 @@ If you can't think of a project with which to associate a business expense, use 
                                     <rect key="frame" x="0.0" y="28" width="264" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3Hs-ar-zOM" id="f1N-cg-AW2">
-                                        <rect key="frame" x="0.0" y="0.0" width="264" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="264" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </tableViewCellContentView>
                                 </tableViewCell>
@@ -3119,7 +3040,6 @@ If you can't think of a project with which to associate a business expense, use 
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Account" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="COT-Cm-ZE5">
                                     <rect key="frame" x="38" y="10" width="173" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
@@ -3165,7 +3085,7 @@ If you can't think of a project with which to associate a business expense, use 
                                     <rect key="frame" x="0.0" y="28" width="264" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wZq-KH-gDW" id="tK5-Xa-2eI">
-                                        <rect key="frame" x="0.0" y="0.0" width="264" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </tableViewCellContentView>
                                 </tableViewCell>
@@ -3210,7 +3130,6 @@ If you can't think of a project with which to associate a business expense, use 
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Secondary Account" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4Z7-dV-XAt">
                                     <rect key="frame" x="38" y="10" width="173" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
@@ -3256,7 +3175,7 @@ If you can't think of a project with which to associate a business expense, use 
                                     <rect key="frame" x="0.0" y="28" width="263" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XaH-Kw-6t0" id="oHU-Mr-i9z">
-                                        <rect key="frame" x="0.0" y="0.0" width="263" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="263" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </tableViewCellContentView>
                                 </tableViewCell>
@@ -3327,7 +3246,7 @@ If you can't think of a project with which to associate a business expense, use 
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7lY-6n-Pv9">
-                                <rect key="frame" x="0.0" y="64" width="375" height="692"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="707"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gBR-UQ-a2G">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="800"/>
@@ -3502,6 +3421,131 @@ If you can't think of a project with which to associate a business expense, use 
             </objects>
             <point key="canvasLocation" x="2576.8000000000002" y="158.32083958020991"/>
         </scene>
+        <!--Documents View Controller-->
+        <scene sceneID="VqS-Vt-fzm">
+            <objects>
+                <viewController id="Tkg-qJ-d2c" customClass="DocumentsViewController" customModule="Bizzy_Books" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="mdZ-cc-D7H"/>
+                        <viewControllerLayoutGuide type="bottom" id="3X9-dQ-L0t"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="oqx-Cu-Jm5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HBT-b9-xId">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="5j1-sC-MXM">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="154"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RYw-fF-RwZ">
+                                            <rect key="frame" x="0.0" y="48" width="375" height="100"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="100" id="kMi-dc-bC6"/>
+                                            </constraints>
+                                        </pickerView>
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Project ▾" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="c6i-Mr-QvH">
+                                            <rect key="frame" x="16" y="8" width="343" height="32"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="32" id="Xad-LS-pTR"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                            <connections>
+                                                <action selector="projectTextFieldAction:" destination="Tkg-qJ-d2c" eventType="editingDidEnd" id="GdL-Zy-l8h"/>
+                                            </connections>
+                                        </textField>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <constraints>
+                                        <constraint firstItem="c6i-Mr-QvH" firstAttribute="leading" secondItem="5j1-sC-MXM" secondAttribute="leading" constant="16" id="0uy-Zs-yRn"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="c6i-Mr-QvH" secondAttribute="trailing" constant="8" id="4hh-M1-c0l"/>
+                                        <constraint firstItem="RYw-fF-RwZ" firstAttribute="leading" secondItem="5j1-sC-MXM" secondAttribute="leading" id="5E7-oS-41r"/>
+                                        <constraint firstAttribute="trailing" secondItem="RYw-fF-RwZ" secondAttribute="trailing" id="8Le-Je-291"/>
+                                        <constraint firstItem="c6i-Mr-QvH" firstAttribute="leading" secondItem="5j1-sC-MXM" secondAttribute="leadingMargin" constant="8" id="8VH-cs-uxS"/>
+                                        <constraint firstItem="RYw-fF-RwZ" firstAttribute="top" secondItem="c6i-Mr-QvH" secondAttribute="bottom" constant="8" id="ebv-DI-cDk"/>
+                                        <constraint firstAttribute="trailing" secondItem="RYw-fF-RwZ" secondAttribute="trailing" id="fNt-H7-hV5"/>
+                                        <constraint firstItem="RYw-fF-RwZ" firstAttribute="leading" secondItem="5j1-sC-MXM" secondAttribute="leading" id="t4U-Ae-YQZ"/>
+                                        <constraint firstItem="c6i-Mr-QvH" firstAttribute="top" secondItem="5j1-sC-MXM" secondAttribute="top" constant="8" id="y6l-Ys-1LZ"/>
+                                        <constraint firstAttribute="trailing" secondItem="c6i-Mr-QvH" secondAttribute="trailing" constant="16" id="yM2-Yr-AYO"/>
+                                    </constraints>
+                                </view>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="0WR-VR-9Ju">
+                                    <rect key="frame" x="0.0" y="253.5" width="375" height="550"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ybj-j0-KCM">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="550"/>
+                                            <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <wkWebViewConfiguration key="configuration">
+                                                <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                                <wkPreferences key="preferences"/>
+                                            </wkWebViewConfiguration>
+                                        </wkWebView>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="F1P-gT-e7i">
+                                            <rect key="frame" x="177.5" y="265" width="20" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="20" id="hhq-Zg-NvO"/>
+                                                <constraint firstAttribute="height" constant="20" id="nQM-VA-PcE"/>
+                                            </constraints>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="Ybj-j0-KCM" secondAttribute="trailing" id="Fv1-CB-nBO"/>
+                                        <constraint firstItem="F1P-gT-e7i" firstAttribute="centerY" secondItem="0WR-VR-9Ju" secondAttribute="centerY" id="Ozl-bS-cEX"/>
+                                        <constraint firstItem="F1P-gT-e7i" firstAttribute="centerX" secondItem="0WR-VR-9Ju" secondAttribute="centerX" id="YC0-gf-FG4"/>
+                                        <constraint firstItem="Ybj-j0-KCM" firstAttribute="top" secondItem="0WR-VR-9Ju" secondAttribute="top" id="o7u-bB-q47"/>
+                                        <constraint firstItem="Ybj-j0-KCM" firstAttribute="leading" secondItem="0WR-VR-9Ju" secondAttribute="leading" id="tPZ-wb-SLS"/>
+                                        <constraint firstAttribute="bottom" secondItem="Ybj-j0-KCM" secondAttribute="bottom" id="yr5-Aa-MJs"/>
+                                    </constraints>
+                                </view>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="FaT-tv-xRq">
+                                        <rect key="frame" x="0.0" y="182" width="375" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="FaT-tv-xRq" id="xvd-3l-lDX">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Tkg-qJ-d2c" id="wl8-Vs-tpE"/>
+                                    <outlet property="delegate" destination="Tkg-qJ-d2c" id="qLM-xe-xf5"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="HBT-b9-xId" secondAttribute="trailing" id="2gk-aR-Ah0"/>
+                            <constraint firstItem="3X9-dQ-L0t" firstAttribute="top" secondItem="HBT-b9-xId" secondAttribute="bottom" id="Gpp-t2-EQC"/>
+                            <constraint firstItem="HBT-b9-xId" firstAttribute="top" secondItem="oqx-Cu-Jm5" secondAttribute="top" id="TAh-yr-P2W"/>
+                            <constraint firstItem="HBT-b9-xId" firstAttribute="leading" secondItem="oqx-Cu-Jm5" secondAttribute="leading" id="YHg-jV-Tf0"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="BjV-KX-6o2"/>
+                        <barButtonItem systemItem="action" id="sfX-Oh-XGc">
+                            <connections>
+                                <action selector="shareDocumentPressed:" destination="Tkg-qJ-d2c" id="05n-R0-v1b"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="documentPickerView" destination="RYw-fF-RwZ" id="0g2-EC-skC"/>
+                        <outlet property="documentViewActivitySpinner" destination="F1P-gT-e7i" id="tSa-oB-vfr"/>
+                        <outlet property="tableView" destination="HBT-b9-xId" id="reJ-Pi-scm"/>
+                        <outlet property="webView" destination="Ybj-j0-KCM" id="x7D-2D-Rhn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xGC-Gp-Mz6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1056.8" y="1002.5487256371815"/>
+        </scene>
         <!--Reports View Controller-->
         <scene sceneID="gxL-Vf-hjM">
             <objects>
@@ -3515,7 +3559,7 @@ If you can't think of a project with which to associate a business expense, use 
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Financial Reports" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8cK-Qs-Mr6">
-                                <rect key="frame" x="16" y="72" width="343" height="30"/>
+                                <rect key="frame" x="16" y="52" width="343" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Ujl-Vb-5Qv"/>
                                 </constraints>
@@ -3524,13 +3568,13 @@ If you can't think of a project with which to associate a business expense, use 
                                 <nil key="highlightedColor"/>
                             </label>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mlF-NI-zug">
-                                <rect key="frame" x="0.0" y="101" width="375" height="100"/>
+                                <rect key="frame" x="0.0" y="81" width="375" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="cNZ-my-ai7"/>
                                 </constraints>
                             </pickerView>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="848-aK-Qok">
-                                <rect key="frame" x="16" y="209" width="343" height="406"/>
+                                <rect key="frame" x="16" y="189" width="343" height="421"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </webView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="WO5-K6-YFQ">
@@ -3538,14 +3582,14 @@ If you can't think of a project with which to associate a business expense, use 
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xJU-LE-iMI" customClass="PieChartView" customModule="Charts">
-                                <rect key="frame" x="0.0" y="864" width="375" height="375"/>
+                                <rect key="frame" x="0.0" y="844" width="375" height="375"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="375" id="W3V-Hn-G4B"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xQx-M3-c6R" customClass="PieChartView" customModule="Charts">
-                                <rect key="frame" x="0.0" y="1089" width="375" height="375"/>
+                                <rect key="frame" x="0.0" y="1069" width="375" height="375"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="375" id="ewV-la-KOb"/>
@@ -3574,7 +3618,7 @@ If you can't think of a project with which to associate a business expense, use 
                         </constraints>
                     </view>
                     <toolbarItems>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="BjV-KX-6o2"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="uWc-IN-g3F"/>
                         <barButtonItem systemItem="action" id="TAf-91-TeL">
                             <connections>
                                 <action selector="shareReportPressed:" destination="RRM-0d-BEc" id="c10-0h-MJR"/>
@@ -3600,7 +3644,7 @@ If you can't think of a project with which to associate a business expense, use 
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="hbX-gv-lOf" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="A5p-f1-kSg">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

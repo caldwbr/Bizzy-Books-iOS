@@ -36,25 +36,29 @@ class ProjectCardViewCollectionViewCell: UICollectionViewCell {
         } else {
             widthConstraint.constant = screenWidth - (2 * 12)
         }
+        
         projectCardViewCollectionView.collectionViewLayout = KTCenterFlowLayout()
+        projectCardViewCollectionView.register(UINib.init(nibName: "CardViewSentenceCell", bundle: nil), forCellWithReuseIdentifier: "CardViewSentenceCell")
+        projectCardViewCollectionView.dataSource = dataSource
+        projectCardViewCollectionView.delegate = dataSource
+        
         projectCardViewCollectionViewTwo.collectionViewLayout = KTCenterFlowLayout()
+        projectCardViewCollectionViewTwo.register(UINib.init(nibName: "CardViewSentenceCell", bundle: nil), forCellWithReuseIdentifier: "CardViewSentenceCell")
+        projectCardViewCollectionViewTwo.dataSource = dataSourceTwo
+        projectCardViewCollectionViewTwo.delegate = dataSourceTwo
         
         print("Awoke from Nib - Project Card view")
         
-        projectCardViewCollectionView.register(UINib.init(nibName: "CardViewSentenceCell", bundle: nil), forCellWithReuseIdentifier: "CardViewSentenceCell")
+        /*
         if let universalCardViewFlowLayout = projectCardViewCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             universalCardViewFlowLayout.estimatedItemSize = CGSize(width: 80, height: 30)
         }
-        projectCardViewCollectionViewTwo.register(UINib.init(nibName: "CardViewSentenceCell", bundle: nil), forCellWithReuseIdentifier: "CardViewSentenceCell")
+        
         if let universalCardViewFlowLayoutTwo = projectCardViewCollectionViewTwo.collectionViewLayout as? UICollectionViewFlowLayout {
             universalCardViewFlowLayoutTwo.estimatedItemSize = CGSize(width: 80, height: 30)
         }
-        projectCardViewCollectionView.dataSource = dataSource
-        projectCardViewCollectionViewTwo.dataSource = dataSourceTwo
+        */
         
-        
-        projectCardViewCollectionView.delegate = dataSource
-        projectCardViewCollectionViewTwo.delegate = dataSourceTwo
     }
     
     func configure(i: Int) {

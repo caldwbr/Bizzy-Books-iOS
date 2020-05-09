@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="pMJ-6G-49l" customClass="AddEstimateItemCell" customModule="Bizzy_Books" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VsU-wC-3UM">
+                    <rect key="frame" x="8" y="8" width="28" height="28"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="VsU-wC-3UM" secondAttribute="height" multiplier="1:1" id="ycM-pL-m4U"/>
+                    </constraints>
+                    <state key="normal" image="plus.circle" catalog="system"/>
+                    <connections>
+                        <action selector="addEstimateItemPressed:" destination="pMJ-6G-49l" eventType="touchUpInside" id="86c-JO-I8O"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add estimate item" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nS1-l4-ehs">
+                    <rect key="frame" x="44" y="11.5" width="362" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="Qyy-ZX-0IY"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstItem="nS1-l4-ehs" firstAttribute="centerY" secondItem="pMJ-6G-49l" secondAttribute="centerY" id="0dE-Ti-WeG"/>
+                <constraint firstAttribute="trailing" secondItem="nS1-l4-ehs" secondAttribute="trailing" constant="8" id="BY6-hC-oCp"/>
+                <constraint firstItem="nS1-l4-ehs" firstAttribute="leading" secondItem="VsU-wC-3UM" secondAttribute="trailing" constant="8" id="GXp-Y3-shv"/>
+                <constraint firstItem="VsU-wC-3UM" firstAttribute="top" secondItem="pMJ-6G-49l" secondAttribute="top" constant="8" id="VTP-MR-mVk"/>
+                <constraint firstAttribute="bottom" secondItem="VsU-wC-3UM" secondAttribute="bottom" constant="8" id="jRY-Qf-yzo"/>
+                <constraint firstItem="VsU-wC-3UM" firstAttribute="leading" secondItem="pMJ-6G-49l" secondAttribute="leading" constant="8" id="kTA-zb-84u"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="183" y="-170"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="plus.circle" catalog="system" width="64" height="60"/>
+    </resources>
+</document>

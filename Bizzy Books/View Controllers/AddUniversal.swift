@@ -580,19 +580,19 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBAction func accountAcceptTapped(_ sender: UIButton) {
         if !tempKeyHolder.isEmpty && !selectAccountTextField.text!.isEmpty{
             switch self.selectedType {
-            case 0, 1, 2, 3:
+            case 0, 1, 2, 3: //Bus, Per, Mixed, Fuel
                 yourAccountPlaceholderKeyString = tempKeyHolder
                 yourAccountPlaceholder = selectAccountTextField.text!
                 accountTypePlaceholderId = tempTypeHolderId
                 self.accountLabel.text = yourAccountPlaceholder
                 selectAccountClearing()
-            case 4:
+            case 4: //Transfer
                 yourPrimaryAccountPlaceholderKeyString = tempKeyHolder
                 yourPrimaryAccountPlaceholder = selectAccountTextField.text!
                 accountTypePlaceholderId = tempTypeHolderId
                 self.reloadSentence(selectedType: self.selectedType)
                 selectAccountClearing()
-            case 5:
+            case 5: // Adjust
                 yourAccountPlaceholderKeyString = tempKeyHolder
                 yourAccountPlaceholder = selectAccountTextField.text!
                 accountsRef.observe(.value) { (snapshot) in
@@ -2241,10 +2241,10 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             guard yourAccountPlaceholderKeyString != "" else { return }
         case 3:
             guard odometerTextField.text != "" else { return }
-            //guard TheAmtSingleton.shared.theOdo != 0 else { return } // Odometer would never be zero
+            guard TheAmtSingleton.shared.theOdo != 0 else { return } // Odometer would never be zero
             //guard whoPlaceholderKeyString != "" else { return }
-            //guard TheAmtSingleton.shared.theAmt != 0 else { return } // Fix bug at John's house - user can't pay nothing for fuel
-            //guard TheAmtSingleton.shared.howMany != 0 else { return } // Can't be 0 gallons of fuel
+            guard TheAmtSingleton.shared.theAmt != 0 else { return } // Fix bug at John's house - user can't pay nothing for fuel
+            guard TheAmtSingleton.shared.howMany != 0 else { return } // Can't be 0 gallons of fuel
             guard whomPlaceholderKeyString != "" else { return }
             guard whomPlaceholderKeyString != trueYouKeyString else { return } //Checks that user doesn't try to pay themselves for their fuel!
             guard fuelTypePlaceholderId != -1 else { return }

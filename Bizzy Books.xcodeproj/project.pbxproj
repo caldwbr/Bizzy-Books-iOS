@@ -41,6 +41,12 @@
 		EB5856AC1FB635E8006C6212 /* VehicleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5856AB1FB635E8006C6212 /* VehicleItem.swift */; };
 		EB5856AE1FB63612006C6212 /* ProjectItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5856AD1FB63612006C6212 /* ProjectItem.swift */; };
 		EB761D6E1F12F3300022DC7C /* Just.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB761D6D1F12F3300022DC7C /* Just.swift */; };
+		EB79E56823E48C56005482E3 /* EstimateItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB79E56723E48C56005482E3 /* EstimateItem.swift */; };
+		EB7C4DC923D75EBB00FA1D6B /* DocumentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7C4DC823D75EBB00FA1D6B /* DocumentsViewController.swift */; };
+		EB7C4DCB23D7739100FA1D6B /* EstimateItemViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB7C4DCA23D7739100FA1D6B /* EstimateItemViewCell.xib */; };
+		EB7C4DCD23D7746C00FA1D6B /* EstimateItemViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7C4DCC23D7746C00FA1D6B /* EstimateItemViewCell.swift */; };
+		EB7C4DD023D78CB000FA1D6B /* AddEstimateItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7C4DCF23D78CB000FA1D6B /* AddEstimateItemCell.swift */; };
+		EB7C4DD223D78CBB00FA1D6B /* AddEstimateItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB7C4DD123D78CBB00FA1D6B /* AddEstimateItemCell.xib */; };
 		EB851E371D9578B2002D19F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB851E361D9578B2002D19F4 /* AppDelegate.swift */; };
 		EB851E391D9578B2002D19F4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB851E381D9578B2002D19F4 /* ViewController.swift */; };
 		EB851E3C1D9578B2002D19F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB851E3A1D9578B2002D19F4 /* Main.storyboard */; };
@@ -69,6 +75,7 @@
 		EBD42D5E1FFB3E540004F896 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD42D5D1FFB3E540004F896 /* CustomImageView.swift */; };
 		EBD42D601FFB4E6E0004F896 /* ReportsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD42D5F1FFB4E6E0004F896 /* ReportsViewController.swift */; };
 		EBEF9A4422090EE6005A60F3 /* LabelCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EBEF9A4322090EE6005A60F3 /* LabelCollectionViewCell.xib */; };
+		EBFCB08C22F3AAD80020C041 /* EstimateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFCB08B22F3AAD80020C041 /* EstimateViewController.swift */; };
 		FA7B73181EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7B73171EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		FA7B731D1EFC5785007A1AEA /* DropdownFlowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7B731C1EFC5785007A1AEA /* DropdownFlowCollectionViewCell.swift */; };
 		FA7B731F1EFC5976007A1AEA /* DropdownReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7B731E1EFC5976007A1AEA /* DropdownReusableView.xib */; };
@@ -113,6 +120,12 @@
 		EB5856AB1FB635E8006C6212 /* VehicleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleItem.swift; sourceTree = "<group>"; };
 		EB5856AD1FB63612006C6212 /* ProjectItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectItem.swift; sourceTree = "<group>"; };
 		EB761D6D1F12F3300022DC7C /* Just.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Just.swift; sourceTree = "<group>"; };
+		EB79E56723E48C56005482E3 /* EstimateItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstimateItem.swift; sourceTree = "<group>"; };
+		EB7C4DC823D75EBB00FA1D6B /* DocumentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsViewController.swift; sourceTree = "<group>"; };
+		EB7C4DCA23D7739100FA1D6B /* EstimateItemViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EstimateItemViewCell.xib; sourceTree = "<group>"; };
+		EB7C4DCC23D7746C00FA1D6B /* EstimateItemViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstimateItemViewCell.swift; sourceTree = "<group>"; };
+		EB7C4DCF23D78CB000FA1D6B /* AddEstimateItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEstimateItemCell.swift; sourceTree = "<group>"; };
+		EB7C4DD123D78CBB00FA1D6B /* AddEstimateItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddEstimateItemCell.xib; sourceTree = "<group>"; };
 		EB7D51D71D95863F0016E63D /* Bizzy Books.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Bizzy Books.entitlements"; sourceTree = "<group>"; };
 		EB851E331D9578B2002D19F4 /* Bizzy Books.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bizzy Books.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB851E361D9578B2002D19F4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -144,6 +157,7 @@
 		EBD42D5D1FFB3E540004F896 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		EBD42D5F1FFB4E6E0004F896 /* ReportsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsViewController.swift; sourceTree = "<group>"; };
 		EBEF9A4322090EE6005A60F3 /* LabelCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LabelCollectionViewCell.xib; sourceTree = "<group>"; };
+		EBFCB08B22F3AAD80020C041 /* EstimateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstimateViewController.swift; sourceTree = "<group>"; };
 		FA7B73171EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		FA7B731C1EFC5785007A1AEA /* DropdownFlowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownFlowCollectionViewCell.swift; sourceTree = "<group>"; };
 		FA7B731E1EFC5976007A1AEA /* DropdownReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DropdownReusableView.xib; sourceTree = "<group>"; };
@@ -220,6 +234,17 @@
 			name = Sources;
 			sourceTree = "<group>";
 		};
+		EB7C4DCE23D775F000FA1D6B /* Estimate Item Cells */ = {
+			isa = PBXGroup;
+			children = (
+				EB7C4DCC23D7746C00FA1D6B /* EstimateItemViewCell.swift */,
+				EB7C4DCA23D7739100FA1D6B /* EstimateItemViewCell.xib */,
+				EB7C4DCF23D78CB000FA1D6B /* AddEstimateItemCell.swift */,
+				EB7C4DD123D78CBB00FA1D6B /* AddEstimateItemCell.xib */,
+			);
+			path = "Estimate Item Cells";
+			sourceTree = "<group>";
+		};
 		EB851E2A1D9578B2002D19F4 = {
 			isa = PBXGroup;
 			children = (
@@ -246,6 +271,7 @@
 				FA7B731A1EFC5759007A1AEA /* Model */,
 				EBE448081FBD455D00DFD0AD /* Table View Cells */,
 				EB2441AC1FE20BB4004EDC56 /* Card View Collection View Cells */,
+				EB7C4DCE23D775F000FA1D6B /* Estimate Item Cells */,
 				FA7B731B1EFC5769007A1AEA /* Sentence Collection View Cells */,
 				FA7B73191EFC5745007A1AEA /* View Controllers */,
 				EB851E3A1D9578B2002D19F4 /* Main.storyboard */,
@@ -274,6 +300,8 @@
 				EB3F93B91DDD41900049C343 /* AddUniversal.swift */,
 				EBD42D5F1FFB4E6E0004F896 /* ReportsViewController.swift */,
 				EB952E3A1FFBFCFC006AA124 /* ProSubscriptionViewController.swift */,
+				EBFCB08B22F3AAD80020C041 /* EstimateViewController.swift */,
+				EB7C4DC823D75EBB00FA1D6B /* DocumentsViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -304,6 +332,7 @@
 				EBD42D5D1FFB3E540004F896 /* CustomImageView.swift */,
 				EB4EA8CA20111C56005D7552 /* Extensions.swift */,
 				EB9E231121F569760091995D /* BusinessInfo.swift */,
+				EB79E56723E48C56005482E3 /* EstimateItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -386,6 +415,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -406,6 +436,7 @@
 			files = (
 				EB2441CB1FE62D88004EDC56 /* CardViewSentenceCell.xib in Resources */,
 				EB2441B01FE20C44004EDC56 /* EntityCardViewCollectionViewCell.xib in Resources */,
+				EB7C4DD223D78CBB00FA1D6B /* AddEstimateItemCell.xib in Resources */,
 				EBB407F71FEC403900E307C2 /* CardViewSentenceTwoCell.xib in Resources */,
 				EB2441C11FE614B5004EDC56 /* ProjectCardViewCollectionViewCell.xib in Resources */,
 				EBEF9A4422090EE6005A60F3 /* LabelCollectionViewCell.xib in Resources */,
@@ -419,6 +450,7 @@
 				EB2441C91FE6152E004EDC56 /* VehicleCardViewCollectionViewCell.xib in Resources */,
 				EBB407EF1FEB62D000E307C2 /* UniversalTransferCardViewCollectionViewCell.xib in Resources */,
 				EB851E3C1D9578B2002D19F4 /* Main.storyboard in Resources */,
+				EB7C4DCB23D7739100FA1D6B /* EstimateItemViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,6 +620,7 @@
 				EBB77BD81EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift in Sources */,
 				FAAE73321F01C6E600BF1156 /* DropdownFlowView.swift in Sources */,
 				EB851E391D9578B2002D19F4 /* ViewController.swift in Sources */,
+				EB7C4DC923D75EBB00FA1D6B /* DocumentsViewController.swift in Sources */,
 				EB761D6E1F12F3300022DC7C /* Just.swift in Sources */,
 				EBB77BDC1EFE2ABC0084D014 /* UIColorCustom.swift in Sources */,
 				EB3F93BA1DDD41900049C343 /* AddUniversal.swift in Sources */,
@@ -597,6 +630,7 @@
 				EBB407F11FEB62FB00E307C2 /* UniversalProjectMediaCardViewCollectionViewCell.swift in Sources */,
 				EBB77BDA1EFC37170084D014 /* LabelTextFieldFlowCells.swift in Sources */,
 				EB2441B41FE2E5E3004EDC56 /* MultiversalItem.swift in Sources */,
+				EB7C4DD023D78CB000FA1D6B /* AddEstimateItemCell.swift in Sources */,
 				EBB407EB1FEB1B7700E307C2 /* ObtainProjectStatus.swift in Sources */,
 				FA7B731D1EFC5785007A1AEA /* DropdownFlowCollectionViewCell.swift in Sources */,
 				EBB407E91FEA10A400E307C2 /* MIProcessor.swift in Sources */,
@@ -611,6 +645,7 @@
 				EB5856AC1FB635E8006C6212 /* VehicleItem.swift in Sources */,
 				EB2441CD1FE63054004EDC56 /* CardViewSentenceCell.swift in Sources */,
 				EB2441C71FE61510004EDC56 /* VehicleCardViewCollectionViewCell.swift in Sources */,
+				EBFCB08C22F3AAD80020C041 /* EstimateViewController.swift in Sources */,
 				EBC54EB51FFA187600A03906 /* SearchItem.swift in Sources */,
 				EB2441CF1FE6345F004EDC56 /* CardViewLabelFlowCollectionViewDataSource.swift in Sources */,
 				EB2441BF1FE6148D004EDC56 /* ProjectCardViewCollectionViewCell.swift in Sources */,
@@ -624,6 +659,7 @@
 				EB5856A81FB6352D006C6212 /* AccountItem.swift in Sources */,
 				EB2441C31FE614CC004EDC56 /* AccountCardViewCollectionViewCell.swift in Sources */,
 				EB952E3B1FFBFCFC006AA124 /* ProSubscriptionViewController.swift in Sources */,
+				EB79E56823E48C56005482E3 /* EstimateItem.swift in Sources */,
 				EB5856A61FB6311C006C6212 /* EntityItem.swift in Sources */,
 				EBB407E51FE8120500E307C2 /* ObtainBalanceAfter.swift in Sources */,
 				EBB407E71FE8A33F00E307C2 /* TheAmtSingleton.swift in Sources */,
@@ -634,6 +670,7 @@
 				EB2441BB1FE613CF004EDC56 /* UniversalCardViewCollectionViewCell.swift in Sources */,
 				EB2441AE1FE20BF6004EDC56 /* CardView.swift in Sources */,
 				FA7B73181EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
+				EB7C4DCD23D7746C00FA1D6B /* EstimateItemViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,6 +17,7 @@ class ObtainBalanceAfter {
     var firebaseUniversals: [UniversalItem] = [UniversalItem]()
     var firebaseUniversalsFilteredByTimeRange: [UniversalItem] = [UniversalItem]()
     var firebaseUniversalsFilteredAlsoByAccountKey: [UniversalItem] = [UniversalItem]()
+    var passedUniversals: [UniversalItem] = [UniversalItem]()
     var trueYou: String = String()
     var runningBalanceOne: Int = 0
     var runningBalanceTwo: Int = 0
@@ -95,6 +96,7 @@ class ObtainBalanceAfter {
     func prepareBalsAfterForSingleUniversal(universal: UniversalItem) -> [Any] {
         self.accountOneKey = universal.accountOneKey
         self.accountTwoKey = universal.accountTwoKey
+        self.passedUniversals.append(universal)
         let now = Double(Date().timeIntervalSince1970 * 1000)
         self.particularUniversalTimeStamp = now //?? Double(1548322400000)
         var passBackArray: [Any] = [Any]()
@@ -148,6 +150,7 @@ class ObtainBalanceAfter {
     func assumingAccountOne(completion: @escaping () -> ()) {
         for i in 0..<MIProcessor.sharedMIP.mIPAccounts.count {
             if MIProcessor.sharedMIP.mIPAccounts[i].key == self.accountOneKey {
+                print("hI")
                 let startingBalanceOne = MIProcessor.sharedMIP.mIPAccounts[i].startingBal
                 self.runningBalanceOne = startingBalanceOne
                 self.trueYou = MIProcessor.sharedMIP.trueYou
@@ -169,6 +172,9 @@ class ObtainBalanceAfter {
                         return false
                     }
                 })
+                if passedUniversals.count > 0 {
+                    firebaseUniversalsFilteredAlsoByAccountKey.append(passedUniversals[0])
+                }
                 for filteredUniversalItem in firebaseUniversalsFilteredAlsoByAccountKey {
                     switch filteredUniversalItem.universalItemType {
                     case 0, 1, 2:
@@ -203,6 +209,7 @@ class ObtainBalanceAfter {
     func assumingAccountTwo(completion: @escaping () -> ()) {
         for i in 0..<MIProcessor.sharedMIP.mIPAccounts.count {
             if MIProcessor.sharedMIP.mIPAccounts[i].key == self.accountTwoKey {
+                print("HeLLO")
                 let startingBalanceTwo = MIProcessor.sharedMIP.mIPAccounts[i].startingBal
                 self.runningBalanceTwo = startingBalanceTwo
                 self.trueYou = MIProcessor.sharedMIP.trueYou
@@ -224,6 +231,9 @@ class ObtainBalanceAfter {
                         return false
                     }
                 })
+                if passedUniversals.count > 0 {
+                    firebaseUniversalsFilteredAlsoByAccountKey.append(passedUniversals[0])
+                }
                 for filteredUniversalItem in firebaseUniversalsFilteredAlsoByAccountKey {
                     switch filteredUniversalItem.universalItemType {
                     case 0, 1, 2:
