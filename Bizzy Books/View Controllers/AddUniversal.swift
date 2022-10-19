@@ -291,7 +291,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBAction func addProjectSavePressed(_ sender: UIButton) {
         if !tempKeyHolder.isEmpty  && !addProjectNameTextField.text!.isEmpty && !addProjectSearchCustomerTextField.text!.isEmpty {
             let addProjectKeyReference = projectsRef.childByAutoId()
-            addProjectKeyString = addProjectKeyReference.key
+            addProjectKeyString = addProjectKeyReference.key!
             if projectStatusPlaceholderId == -1 {
                 projectStatusPlaceholderId = 0
                 projectStatusPlaceholder = MIProcessor.sharedMIP.businessInfo.subcat1
@@ -338,7 +338,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBAction func addVehicleSavePressed(_ sender: UIButton) {
         if !addVehicleColorTextField.text!.isEmpty && !addVehicleYearTextField.text!.isEmpty && !addVehicleMakeTextField.text!.isEmpty && !addVehicleModelTextField.text!.isEmpty {
             let addVehicleKeyReference = vehiclesRef.childByAutoId()
-            addVehicleKeyString = addVehicleKeyReference.key
+            addVehicleKeyString = addVehicleKeyReference.key!
             let timeStampDictionaryForFirebase = [".sv": "timestamp"]
             let thisVehicleItem = VehicleItem(year: addVehicleYearTextField.text!, make: addVehicleMakeTextField.text!, model: addVehicleModelTextField.text!, color: addVehicleColorTextField.text!, fuelId: addVehicleFuelPickerView.selectedRow(inComponent: 0), fuelString: fuelTypePickerData[addVehicleFuelPickerView.selectedRow(inComponent: 0)], placedInCommissionDate: addVehiclePlacedInCommissionTextField.text!, licensePlateNumber: addVehicleLicensePlateNumberTextField.text!, vehicleIdentificationNumber: addVehicleVehicleIdentificationNumberTextField.text!, timeStamp: timeStampDictionaryForFirebase)
             DispatchQueue.main.async {
@@ -482,7 +482,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBAction func addAccountSavePressed(_ sender: UIButton) {
         if !((addAccountNameTextField.text?.isEmpty)!), !((addAccountStartingBalanceTextField.text?.isEmpty)!) {
             let addAccountKeyReference = accountsRef.childByAutoId()
-            addAccountKeyString = addAccountKeyReference.key
+            addAccountKeyString = addAccountKeyReference.key!
             let timeStampDictionaryForFirebase = [".sv": "timestamp"]
             if let _ = addAccountNameTextField.text {
                 addAccountNamePlaceholder = addAccountNameTextField.text!
@@ -1026,7 +1026,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             return
         }
         let addEntityKeyReference = entitiesRef.childByAutoId()
-        addEntityKeyString = addEntityKeyReference.key
+        addEntityKeyString = addEntityKeyReference.key!
         let timeStampDictionaryForFirebase = [".sv": "timestamp"]
         let thisEntityItem = EntityItem(type: entityPickerView.selectedRow(inComponent: 0), name: addEntityNameTextField.text as String!, phoneNumber: addEntityPhoneNumberTextField.text as String!, email: addEntityEmailTextField.text as String!, street: addEntityStreetTextField.text as String!, city: addEntityCityTextField.text as String!, state: addEntityStateTextField.text as String!, ssn: addEntitySSNTextField.text as String!, ein: addEntityEINTextField.text as String!, timeStamp: timeStampDictionaryForFirebase)
         DispatchQueue.main.async {
@@ -1535,6 +1535,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 })
             case .restricted: print("User do not have access to photo album.")
             case .denied: print("User has denied the permission.")
+            case .limited: print("User has limited the permission.")
         }
     }
     
@@ -1597,7 +1598,8 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 return
             }
             print(String(describing: metadata))
-            self.downloadURL = metadata?.downloadURL()
+            //self.downloadURL = imagesRef.
+            //self.downloadURL = metadata?.downloadURL()
         })
         uploadTask.observe(.progress) { snapshot in
             // Upload reported progress
@@ -2330,7 +2332,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         switch TheAmtSingleton.shared.theMIPNumber {
         case -1: //The AddUniversal case
             let addUniversalKeyReference = universalsRef.childByAutoId()
-            self.addUniversalKeyString = addUniversalKeyReference.key
+            self.addUniversalKeyString = addUniversalKeyReference.key!
             switch self.selectedType {
             case 5: //Adjust
                 let difference = theBalanceAfter - TheAmtSingleton.shared.theAmt

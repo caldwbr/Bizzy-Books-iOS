@@ -208,7 +208,7 @@ class ProjectCardViewCollectionViewCell: UICollectionViewCell {
         bottomCollectionViewHeightConstraint.constant = projectCardViewCollectionViewTwo.collectionViewLayout.collectionViewContentSize.height
         topCollectionViewHeightConstraint.constant = projectCardViewCollectionView.collectionViewLayout.collectionViewContentSize.height
         // =190 also makes big, but words trunc
-        projectCardViewCollectionViewTwo.layoutIfNeeded()
+        //projectCardViewCollectionViewTwo.layoutIfNeeded()
         /*
         //projectCardViewCollectionView.reloadData() //This line was breaking code sheesh
         //projectCardViewCollectionView.collectionViewLayout.invalidateLayout()

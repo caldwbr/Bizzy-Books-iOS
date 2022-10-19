@@ -2133,7 +2133,7 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         let subcat6GrossEntry = PieChartDataEntry(value: subcat6GrossTidy, label: subcat6Name)
         let subcatGrossNums = [subcat1GrossEntry, subcat2GrossEntry, subcat3GrossEntry, subcat4GrossEntry, subcat5GrossEntry, subcat6GrossEntry]
         //let subcatGrossPieChart = PieChartView()
-        let subcatGrossDataSet = PieChartDataSet(values: subcatGrossNums, label: nil)
+        let subcatGrossDataSet = PieChartDataSet(entries: subcatGrossNums, label: nil)
         let subcatGrossData = PieChartData(dataSet: subcatGrossDataSet)
         let colors = [UIColor.BizzyColor.Blue.Project, UIColor.BizzyColor.Green.Account, UIColor.BizzyColor.Purple.Whom, UIColor.BizzyColor.Magenta.TaxReason, UIColor.BizzyColor.Orange.WC, UIColor.BizzyColor.Yellow.TheFabButton]
         subcatGrossDataSet.colors = colors as! [NSUIColor]
@@ -2163,7 +2163,7 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         let subcat5NetEntry = PieChartDataEntry(value: subcat5NetTidy, label: subcat5Name)
         let subcat6NetEntry = PieChartDataEntry(value: subcat6NetTidy, label: subcat6Name)
         let subcatNetNums = [subcat1NetEntry, subcat2NetEntry, subcat3NetEntry, subcat4NetEntry, subcat5NetEntry, subcat6NetEntry]
-        let subcatNetDataSet = PieChartDataSet(values: subcatNetNums, label: nil)
+        let subcatNetDataSet = PieChartDataSet(entries: subcatNetNums, label: nil)
         let subcatNetData = PieChartData(dataSet: subcatNetDataSet)
         let colors2 = [UIColor.BizzyColor.Blue.Project, UIColor.BizzyColor.Green.Account, UIColor.BizzyColor.Purple.Whom, UIColor.BizzyColor.Magenta.TaxReason, UIColor.BizzyColor.Orange.WC, UIColor.BizzyColor.Yellow.TheFabButton]
         subcatNetDataSet.colors = colors2 as! [NSUIColor]

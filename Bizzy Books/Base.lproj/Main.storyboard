@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="hbX-gv-lOf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="hbX-gv-lOf">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -74,14 +75,14 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchCell" textLabel="gTy-ek-cpU" style="IBUITableViewCellStyleDefault" id="K4o-mR-wmg">
-                                        <rect key="frame" x="0.0" y="28" width="343" height="44"/>
+                                        <rect key="frame" x="0.0" y="50" width="343" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="K4o-mR-wmg" id="zZV-JB-hEr">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gTy-ek-cpU">
-                                                    <rect key="frame" x="15" y="0.0" width="313" height="44"/>
+                                                    <rect key="frame" x="16" y="0.0" width="311" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -105,7 +106,7 @@
                                         <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O9O-fu-IOV">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="800"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" id="kmg-sF-dZy">
+                                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="kmg-sF-dZy">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="800"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             </view>
@@ -407,7 +408,7 @@
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9hN-IF-JfF">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9hN-IF-JfF">
                             <rect key="frame" x="144" y="471" width="60" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="60" id="NVX-gg-8CF"/>
@@ -493,7 +494,7 @@
                             </constraints>
                         </imageView>
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iE7-Ri-gtH">
-                            <rect key="frame" x="54" y="102" width="184" height="34"/>
+                            <rect key="frame" x="54" y="102" width="185" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
@@ -501,8 +502,8 @@
                                 <action selector="editProjectCustomerNameTouchedDown:" destination="BYZ-38-t0r" eventType="touchDown" id="LGt-Rr-r28"/>
                             </connections>
                         </textField>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PrV-Ey-VfI">
-                            <rect key="frame" x="246" y="106" width="63" height="30"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PrV-Ey-VfI">
+                            <rect key="frame" x="247" y="106" width="62" height="30"/>
                             <state key="normal" title="Add New"/>
                             <connections>
                                 <action selector="editProjectAddCustomerPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="O9E-aK-PqW"/>
@@ -582,7 +583,7 @@
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rCP-p8-aS1">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rCP-p8-aS1">
                             <rect key="frame" x="16" y="476" width="60" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="60" id="0J1-ss-xDC"/>
@@ -593,7 +594,7 @@
                                 <action selector="editProjectCancelPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fkz-6j-hbr"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="baT-9V-Phm">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="baT-9V-Phm">
                             <rect key="frame" x="249" y="476" width="60" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="XFU-VV-ObU"/>
@@ -609,14 +610,14 @@
                             <color key="backgroundColor" white="1" alpha="0.9766160103" colorSpace="calibratedWhite"/>
                             <prototypes>
                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EditProjectCell" textLabel="JBs-aN-EI9" style="IBUITableViewCellStyleDefault" id="WOb-ga-zMC">
-                                    <rect key="frame" x="0.0" y="28" width="255" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="50" width="255" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WOb-ga-zMC" id="o1l-KN-ayK">
                                         <rect key="frame" x="0.0" y="0.0" width="255" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JBs-aN-EI9">
-                                                <rect key="frame" x="15" y="0.0" width="225" height="43.5"/>
+                                                <rect key="frame" x="16" y="0.0" width="223" height="43.5"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -755,7 +756,7 @@
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kbl-Pb-G3L">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kbl-Pb-G3L">
                             <rect key="frame" x="16" y="476" width="60" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="60" id="JVD-Qp-U9v"/>
@@ -766,7 +767,7 @@
                                 <action selector="editEntityCancelPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rLK-Mo-YV5"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SnW-w8-wCC">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SnW-w8-wCC">
                             <rect key="frame" x="249" y="476" width="60" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="60" id="1mf-fv-wNC"/>
@@ -777,7 +778,7 @@
                                 <action selector="editEntityUpdatePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FZy-TE-07R"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1KY-ef-f2f">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1KY-ef-f2f">
                             <rect key="frame" x="122" y="476" width="81" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="cOK-5R-pXb"/>
@@ -792,14 +793,14 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <prototypes>
                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EditEntityCell" textLabel="VVv-Ly-O5C" style="IBUITableViewCellStyleDefault" id="Vom-TA-NCM">
-                                    <rect key="frame" x="0.0" y="28" width="293" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="50" width="293" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Vom-TA-NCM" id="aGW-ws-PTr">
                                         <rect key="frame" x="0.0" y="0.0" width="293" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VVv-Ly-O5C">
-                                                <rect key="frame" x="15" y="0.0" width="263" height="43.5"/>
+                                                <rect key="frame" x="16" y="0.0" width="261" height="43.5"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -916,14 +917,14 @@
                                 <constraint firstAttribute="height" constant="150" id="zT1-gj-Mth"/>
                             </constraints>
                         </pickerView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FGr-EA-RLt">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FGr-EA-RLt">
                             <rect key="frame" x="16" y="473" width="48" height="30"/>
                             <state key="normal" title="Cancel"/>
                             <connections>
                                 <action selector="editAccountCancelPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="g2l-4s-YVp"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Obr-hU-g8W">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Obr-hU-g8W">
                             <rect key="frame" x="258" y="473" width="51" height="30"/>
                             <state key="normal" title="Update"/>
                             <connections>
@@ -1037,14 +1038,14 @@
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hk1-DX-eaP">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hk1-DX-eaP">
                             <rect key="frame" x="16" y="476" width="48" height="30"/>
                             <state key="normal" title="Cancel"/>
                             <connections>
                                 <action selector="editVehicleCancelPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MSk-qO-Vcd"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bSg-gg-ghb">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bSg-gg-ghb">
                             <rect key="frame" x="258" y="476" width="51" height="30"/>
                             <state key="normal" title="Update"/>
                             <connections>
@@ -1093,7 +1094,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Entity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UCR-17-PSs">
-                            <rect key="frame" x="107" y="20" width="111.5" height="30"/>
+                            <rect key="frame" x="107" y="20" width="111" height="30"/>
                             <fontDescription key="fontDescription" type="system" pointSize="25"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -1161,21 +1162,21 @@
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hbz-Ql-Ur7">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hbz-Ql-Ur7">
                             <rect key="frame" x="16" y="476" width="48" height="30"/>
                             <state key="normal" title="Cancel"/>
                             <connections>
                                 <action selector="editProjectAddEntityCancelPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cpI-sa-fF2"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VXa-nS-6tx">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VXa-nS-6tx">
                             <rect key="frame" x="275" y="476" width="34" height="30"/>
                             <state key="normal" title="Save"/>
                             <connections>
                                 <action selector="editProjectAddEntitySavePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6Yg-33-Wut"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hpo-SQ-fMA">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hpo-SQ-fMA">
                             <rect key="frame" x="122" y="476" width="81" height="30"/>
                             <state key="normal" title="Clear Fields"/>
                             <connections>
@@ -1187,14 +1188,14 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <prototypes>
                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EditProjectAddEntityCell" textLabel="iTA-SY-BrK" style="IBUITableViewCellStyleDefault" id="xE0-aZ-EVv">
-                                    <rect key="frame" x="0.0" y="28" width="293" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="50" width="293" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xE0-aZ-EVv" id="fhj-ad-lre">
                                         <rect key="frame" x="0.0" y="0.0" width="293" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iTA-SY-BrK">
-                                                <rect key="frame" x="15" y="0.0" width="263" height="43.5"/>
+                                                <rect key="frame" x="16" y="0.0" width="261" height="43.5"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -1466,13 +1467,13 @@
                                                         <rect key="frame" x="20" y="0.0" width="335" height="134.5"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PHu-xI-fnj">
-                                                                <rect key="frame" x="295.5" y="0.0" width="34.5" height="20.5"/>
+                                                                <rect key="frame" x="294" y="0.0" width="36" height="20.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Percent business" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iys-Jr-NEF">
-                                                                <rect key="frame" x="5" y="0.0" width="270.5" height="20.5"/>
+                                                                <rect key="frame" x="5" y="0.0" width="269" height="20.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -1515,7 +1516,7 @@
                                                         </constraints>
                                                     </view>
                                                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your account ▾" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ySD-4I-ETl">
-                                                        <rect key="frame" x="131" y="134.5" width="113" height="20.5"/>
+                                                        <rect key="frame" x="131.5" y="134.5" width="112.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="0.10588235294117647" green="0.36862745098039218" blue="0.12549019607843137" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -1536,7 +1537,7 @@
                                             <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j1D-Zw-q0Z">
                                                 <rect key="frame" x="0.0" y="-104" width="375" height="1601"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" id="6Zk-De-vOi">
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="6Zk-De-vOi">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="1601"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </view>
@@ -1707,7 +1708,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="XZn-ei-fOJ">
-                            <rect key="frame" x="16" y="62" width="164" height="30"/>
+                            <rect key="frame" x="16" y="62" width="163.5" height="30"/>
                             <subviews>
                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="15C-65-OWW">
                                     <rect key="frame" x="0.0" y="0.0" width="51" height="30"/>
@@ -1716,13 +1717,13 @@
                                     </connections>
                                 </switch>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Overhead" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RuF-xK-cIi">
-                                    <rect key="frame" x="59" y="0.0" width="75" height="30"/>
+                                    <rect key="frame" x="59" y="0.0" width="74.5" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <imageView contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="questionmark" translatesAutoresizingMaskIntoConstraints="NO" id="19Q-zw-8HO">
-                                    <rect key="frame" x="144" y="0.0" width="20" height="30"/>
+                                    <rect key="frame" x="143.5" y="0.0" width="20" height="30"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="20" id="MAW-Ji-dKG"/>
                                     </constraints>
@@ -1761,10 +1762,10 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <prototypes>
                                         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SelectProjectCell" id="6rT-3P-6BR">
-                                            <rect key="frame" x="0.0" y="28" width="263" height="44"/>
+                                            <rect key="frame" x="0.0" y="50" width="263" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6rT-3P-6BR" id="iDB-lC-cKb">
-                                                <rect key="frame" x="0.0" y="0.0" width="263" height="44"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="263" height="43.5"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </tableViewCellContentView>
                                         </tableViewCell>
@@ -1777,7 +1778,7 @@
                             </subviews>
                             <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VHA-Ns-YWW">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VHA-Ns-YWW">
                             <rect key="frame" x="226" y="62" width="82" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="Add New"/>
@@ -1785,7 +1786,7 @@
                                 <action selector="projectAddButtonTapped:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="B8j-3v-r0S"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5T8-Td-NY8">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5T8-Td-NY8">
                             <rect key="frame" x="258" y="320" width="60" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="Q7c-Pu-CFd"/>
@@ -1796,7 +1797,7 @@
                                 <action selector="projectAcceptTapped:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="U5t-Vh-Afp"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bm9-6d-C9E">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bm9-6d-C9E">
                             <rect key="frame" x="16" y="320" width="60" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="60" id="U59-2p-oKw"/>
@@ -1853,7 +1854,7 @@
                                         <action selector="selectWhoTextFieldTouchedDown:" destination="XGO-PW-Ssy" eventType="touchDown" id="KxP-Qf-KUv"/>
                                     </connections>
                                 </textField>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wkE-sm-RUW">
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wkE-sm-RUW">
                                     <rect key="frame" x="219" y="9" width="82" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" title="Add New"/>
@@ -1864,7 +1865,7 @@
                             </subviews>
                             <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hlG-Sz-eqO">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hlG-Sz-eqO">
                             <rect key="frame" x="258" y="320" width="60" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="60" id="bId-7q-Xyk"/>
@@ -1875,7 +1876,7 @@
                                 <action selector="whoAcceptTapped:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="oc1-IL-Fdy"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MeT-jz-cRB">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MeT-jz-cRB">
                             <rect key="frame" x="16" y="320" width="60" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="NOV-Ee-pYx"/>
@@ -1892,14 +1893,14 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <prototypes>
                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SelectWhoCell" textLabel="MAV-nC-Nku" style="IBUITableViewCellStyleDefault" id="AZl-Sh-chr">
-                                    <rect key="frame" x="0.0" y="28" width="269" height="44"/>
+                                    <rect key="frame" x="0.0" y="50" width="269" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="AZl-Sh-chr" id="ZLu-EC-JLk">
-                                        <rect key="frame" x="0.0" y="0.0" width="269" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="269" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MAV-nC-Nku">
-                                                <rect key="frame" x="15" y="0.0" width="239" height="44"/>
+                                                <rect key="frame" x="16" y="0.0" width="237" height="43.5"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -1934,7 +1935,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Permanently delete this selected item?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gme-5b-Mmp">
-                            <rect key="frame" x="18.5" y="60" width="296" height="60"/>
+                            <rect key="frame" x="19.5" y="60" width="294.5" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="60" id="E7d-Io-goO"/>
                             </constraints>
@@ -1942,7 +1943,7 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Jd-dP-p2i">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Jd-dP-p2i">
                             <rect key="frame" x="16" y="140" width="48" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="ZNQ-Sr-sSM"/>
@@ -1952,7 +1953,7 @@
                                 <action selector="deleteViewCancelPressed:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="5JG-gE-BgA"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5cz-jk-Ulx">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5cz-jk-Ulx">
                             <rect key="frame" x="272" y="140" width="45" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="f8s-Xt-PEe"/>
@@ -2001,7 +2002,7 @@ If you can't think of a project with which to associate a business expense, use 
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BiN-pl-BAx">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BiN-pl-BAx">
                             <rect key="frame" x="152" y="316" width="30" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="Xgx-wo-GDg"/>
@@ -2040,7 +2041,7 @@ If you can't think of a project with which to associate a business expense, use 
                             </connections>
                         </textField>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Entity" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kHX-iP-h5Z">
-                            <rect key="frame" x="123.5" y="20" width="111.5" height="30"/>
+                            <rect key="frame" x="123.5" y="20" width="111" height="30"/>
                             <fontDescription key="fontDescription" type="system" pointSize="25"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -2062,7 +2063,7 @@ If you can't think of a project with which to associate a business expense, use 
                                 <constraint firstAttribute="height" constant="60" id="XMo-yF-Jl7"/>
                             </constraints>
                         </pickerView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dWp-3G-FSp">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dWp-3G-FSp">
                             <rect key="frame" x="296" y="473" width="46" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="46" id="CDx-aZ-T5L"/>
@@ -2072,7 +2073,7 @@ If you can't think of a project with which to associate a business expense, use 
                                 <action selector="saveEntityPressed:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="ZHZ-4f-ila"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ET7-LK-6dM">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ET7-LK-6dM">
                             <rect key="frame" x="16" y="473" width="60" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="1DJ-JG-c81"/>
@@ -2116,7 +2117,7 @@ If you can't think of a project with which to associate a business expense, use 
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LET-bU-yiM">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LET-bU-yiM">
                             <rect key="frame" x="138.5" y="473" width="81" height="30"/>
                             <state key="normal" title="Clear Fields"/>
                             <connections>
@@ -2133,14 +2134,14 @@ If you can't think of a project with which to associate a business expense, use 
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <prototypes>
                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactCell" textLabel="JYk-aq-RVn" rowHeight="68" style="IBUITableViewCellStyleDefault" id="kuC-xE-ZXe">
-                                    <rect key="frame" x="0.0" y="28" width="326" height="68"/>
+                                    <rect key="frame" x="0.0" y="50" width="326" height="68"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kuC-xE-ZXe" id="FaD-tc-RWu">
                                         <rect key="frame" x="0.0" y="0.0" width="326" height="68"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JYk-aq-RVn">
-                                                <rect key="frame" x="15" y="0.0" width="296" height="68"/>
+                                                <rect key="frame" x="16" y="0.0" width="294" height="68"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -2204,7 +2205,7 @@ If you can't think of a project with which to associate a business expense, use 
                     <rect key="frame" x="0.0" y="0.0" width="334" height="385"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pwL-x1-tLt">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pwL-x1-tLt">
                             <rect key="frame" x="152" y="335" width="30" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="30" id="8eC-WA-KlP"/>
@@ -2268,7 +2269,7 @@ If you can't think of a project with which to associate a business expense, use 
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ROA-b7-KaX">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="characterWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ROA-b7-KaX">
                             <rect key="frame" x="16" y="385" width="93" height="63"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="63" id="1DC-K9-jhv"/>
@@ -2288,7 +2289,7 @@ If you can't think of a project with which to associate a business expense, use 
                                 <action selector="subscriptionNotNowPressed:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="DhU-uB-J6J"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="snS-HS-6f7">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="characterWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="snS-HS-6f7">
                             <rect key="frame" x="154" y="385" width="93" height="63"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="63" id="GnB-i5-lKO"/>
@@ -2308,7 +2309,7 @@ If you can't think of a project with which to associate a business expense, use 
                                 <action selector="subscriptionBuyPressed:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="zQJ-1e-tvu"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Um-Fh-uqb">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Um-Fh-uqb">
                             <rect key="frame" x="101.5" y="347" width="60" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="lzh-Sv-bWF"/>
@@ -2408,14 +2409,14 @@ If you can't think of a project with which to associate a business expense, use 
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dFm-fD-kvl">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dFm-fD-kvl">
                             <rect key="frame" x="16" y="472" width="48" height="30"/>
                             <state key="normal" title="Cancel"/>
                             <connections>
                                 <action selector="addVehicleCancelPressed:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="E7c-y3-K5U"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U2r-5Q-wZh">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U2r-5Q-wZh">
                             <rect key="frame" x="291" y="472" width="34" height="30"/>
                             <state key="normal" title="Save"/>
                             <connections>
@@ -2491,7 +2492,7 @@ If you can't think of a project with which to associate a business expense, use 
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Customer" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7bC-Uv-M5y">
-                            <rect key="frame" x="54" y="99" width="195" height="34"/>
+                            <rect key="frame" x="54" y="99" width="196" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
@@ -2506,8 +2507,8 @@ If you can't think of a project with which to associate a business expense, use 
                                 <constraint firstAttribute="width" constant="30" id="Vhz-s0-JEK"/>
                             </constraints>
                         </imageView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RE3-dU-iA1">
-                            <rect key="frame" x="257" y="103" width="63" height="30"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RE3-dU-iA1">
+                            <rect key="frame" x="258" y="103" width="62" height="30"/>
                             <state key="normal" title="Add New"/>
                             <connections>
                                 <action selector="addProjectAddCustomerPressed:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="Iys-UG-Kd9"/>
@@ -2555,7 +2556,7 @@ If you can't think of a project with which to associate a business expense, use 
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="95h-6D-ycQ">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="95h-6D-ycQ">
                             <rect key="frame" x="16" y="473" width="48" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="Kh0-2R-1Fg"/>
@@ -2565,7 +2566,7 @@ If you can't think of a project with which to associate a business expense, use 
                                 <action selector="addProjectCancelPressed:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="3dA-9h-qal"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yqx-aJ-eWI">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yqx-aJ-eWI">
                             <rect key="frame" x="286" y="473" width="34" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="sYz-EC-oEy"/>
@@ -2612,14 +2613,14 @@ If you can't think of a project with which to associate a business expense, use 
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <prototypes>
                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddProjectSelectCustomerCell" textLabel="IMp-fV-LQb" style="IBUITableViewCellStyleDefault" id="6Hg-hz-HXq">
-                                    <rect key="frame" x="0.0" y="28" width="266" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="50" width="266" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6Hg-hz-HXq" id="a8x-yl-aLL">
                                         <rect key="frame" x="0.0" y="0.0" width="266" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IMp-fV-LQb">
-                                                <rect key="frame" x="15" y="0.0" width="236" height="43.5"/>
+                                                <rect key="frame" x="16" y="0.0" width="234" height="43.5"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -2710,7 +2711,7 @@ If you can't think of a project with which to associate a business expense, use 
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VqT-fY-elt">
                             <rect key="frame" x="10" y="100" width="338" height="441"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jnX-BB-KwG">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jnX-BB-KwG">
                                     <rect key="frame" x="284" y="378" width="46" height="24"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="46" id="uOL-wu-LZX"/>
@@ -2720,7 +2721,7 @@ If you can't think of a project with which to associate a business expense, use 
                                         <action selector="addAccountSavePressed:" destination="XGO-PW-Ssy" eventType="touchUpInside" id="zbN-wj-j3d"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gae-We-gJO">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gae-We-gJO">
                                     <rect key="frame" x="8" y="375" width="60" height="30"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="60" id="LzH-cT-mZx"/>
@@ -2806,14 +2807,14 @@ If you can't think of a project with which to associate a business expense, use 
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <prototypes>
                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AccountContactCell" textLabel="bAY-GW-Y0I" rowHeight="68" style="IBUITableViewCellStyleDefault" id="GCJ-OR-5CM">
-                                    <rect key="frame" x="0.0" y="28" width="338" height="68"/>
+                                    <rect key="frame" x="0.0" y="50" width="338" height="68"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GCJ-OR-5CM" id="49Y-y0-Hn9">
                                         <rect key="frame" x="0.0" y="0.0" width="338" height="68"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bAY-GW-Y0I">
-                                                <rect key="frame" x="15" y="0.0" width="308" height="68"/>
+                                                <rect key="frame" x="16" y="0.0" width="306" height="68"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -2872,7 +2873,7 @@ If you can't think of a project with which to associate a business expense, use 
                                         <action selector="selectWhomTextFieldTouchedDown:" destination="XGO-PW-Ssy" eventType="touchDown" id="l5s-dg-4wL"/>
                                     </connections>
                                 </textField>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="34c-hE-xvK">
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="34c-hE-xvK">
                                     <rect key="frame" x="219" y="9" width="82" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" title="Add New"/>
@@ -2883,7 +2884,7 @@ If you can't think of a project with which to associate a business expense, use 
                             </subviews>
                             <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t8N-hV-nmX">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t8N-hV-nmX">
                             <rect key="frame" x="258" y="320" width="60" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="SoL-cF-scG"/>
@@ -2907,10 +2908,10 @@ If you can't think of a project with which to associate a business expense, use 
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <prototypes>
                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SelectWhomCell" id="Y2g-3k-6pa">
-                                    <rect key="frame" x="0.0" y="28" width="263" height="44"/>
+                                    <rect key="frame" x="0.0" y="50" width="263" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Y2g-3k-6pa" id="s3V-Ms-fWC">
-                                        <rect key="frame" x="0.0" y="0.0" width="263" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="263" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </tableViewCellContentView>
                                 </tableViewCell>
@@ -2920,7 +2921,7 @@ If you can't think of a project with which to associate a business expense, use 
                                 <outlet property="delegate" destination="XGO-PW-Ssy" id="wkh-AR-0qm"/>
                             </connections>
                         </tableView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R9x-Kk-JoY">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R9x-Kk-JoY">
                             <rect key="frame" x="16" y="320" width="60" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="60" id="7fg-JS-8Z8"/>
@@ -2962,7 +2963,7 @@ If you can't think of a project with which to associate a business expense, use 
                                         <action selector="selectVehicleTextFieldTouchedDown:" destination="XGO-PW-Ssy" eventType="touchDown" id="mAW-Nq-6iN"/>
                                     </connections>
                                 </textField>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y8O-GI-3a5">
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y8O-GI-3a5">
                                     <rect key="frame" x="219" y="9" width="82" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" title="Add New"/>
@@ -2973,7 +2974,7 @@ If you can't think of a project with which to associate a business expense, use 
                             </subviews>
                             <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N4N-CE-Rcf">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N4N-CE-Rcf">
                             <rect key="frame" x="263" y="268" width="53" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <state key="normal" title="Accept"/>
@@ -2994,10 +2995,10 @@ If you can't think of a project with which to associate a business expense, use 
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <prototypes>
                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SelectVehicleCell" id="3Hs-ar-zOM">
-                                    <rect key="frame" x="0.0" y="28" width="264" height="44"/>
+                                    <rect key="frame" x="0.0" y="50" width="264" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3Hs-ar-zOM" id="f1N-cg-AW2">
-                                        <rect key="frame" x="0.0" y="0.0" width="264" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="264" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </tableViewCellContentView>
                                 </tableViewCell>
@@ -3007,7 +3008,7 @@ If you can't think of a project with which to associate a business expense, use 
                                 <outlet property="delegate" destination="XGO-PW-Ssy" id="EEZ-XX-XWi"/>
                             </connections>
                         </tableView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XI1-TN-Uez">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XI1-TN-Uez">
                             <rect key="frame" x="16" y="268" width="59" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="8tC-L0-Uia"/>
@@ -3047,7 +3048,7 @@ If you can't think of a project with which to associate a business expense, use 
                                         <action selector="selectAccountTextFieldTouchedDown:" destination="XGO-PW-Ssy" eventType="touchDown" id="ugZ-vB-9gQ"/>
                                     </connections>
                                 </textField>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fRO-Wp-8YE">
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fRO-Wp-8YE">
                                     <rect key="frame" x="219" y="9" width="82" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" title="Add New"/>
@@ -3058,7 +3059,7 @@ If you can't think of a project with which to associate a business expense, use 
                             </subviews>
                             <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bCV-0l-xwv">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bCV-0l-xwv">
                             <rect key="frame" x="258" y="320" width="60" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="zCP-MZ-3wS"/>
@@ -3082,10 +3083,10 @@ If you can't think of a project with which to associate a business expense, use 
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <prototypes>
                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SelectAccountCell" id="wZq-KH-gDW">
-                                    <rect key="frame" x="0.0" y="28" width="264" height="44"/>
+                                    <rect key="frame" x="0.0" y="50" width="264" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wZq-KH-gDW" id="tK5-Xa-2eI">
-                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="264" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </tableViewCellContentView>
                                 </tableViewCell>
@@ -3095,7 +3096,7 @@ If you can't think of a project with which to associate a business expense, use 
                                 <outlet property="delegate" destination="XGO-PW-Ssy" id="fZM-d6-v1D"/>
                             </connections>
                         </tableView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j83-AB-hcA">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j83-AB-hcA">
                             <rect key="frame" x="16" y="320" width="60" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="Hi9-Cs-e5g"/>
@@ -3137,7 +3138,7 @@ If you can't think of a project with which to associate a business expense, use 
                                         <action selector="selectSecondaryAccountTextFieldTouchedDown:" destination="XGO-PW-Ssy" eventType="touchDown" id="A3r-sb-A4Y"/>
                                     </connections>
                                 </textField>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v6i-tF-hGo">
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v6i-tF-hGo">
                                     <rect key="frame" x="219" y="9" width="82" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" title="Add New"/>
@@ -3148,7 +3149,7 @@ If you can't think of a project with which to associate a business expense, use 
                             </subviews>
                             <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L7g-Wz-1J2">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L7g-Wz-1J2">
                             <rect key="frame" x="258" y="320" width="60" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="60" id="E5F-pt-f3V"/>
@@ -3172,10 +3173,10 @@ If you can't think of a project with which to associate a business expense, use 
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <prototypes>
                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SelectSecondaryAccountCell" id="XaH-Kw-6t0">
-                                    <rect key="frame" x="0.0" y="28" width="263" height="44"/>
+                                    <rect key="frame" x="0.0" y="50" width="263" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XaH-Kw-6t0" id="oHU-Mr-i9z">
-                                        <rect key="frame" x="0.0" y="0.0" width="263" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="263" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </tableViewCellContentView>
                                 </tableViewCell>
@@ -3185,7 +3186,7 @@ If you can't think of a project with which to associate a business expense, use 
                                 <outlet property="delegate" destination="XGO-PW-Ssy" id="8Mc-wb-aVJ"/>
                             </connections>
                         </tableView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8on-GK-pNs">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8on-GK-pNs">
                             <rect key="frame" x="16" y="320" width="60" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="7y1-84-MF1"/>
@@ -3252,7 +3253,7 @@ If you can't think of a project with which to associate a business expense, use 
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="800"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" text="Bizzy Books Pro" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jt8-YI-TRz">
-                                                <rect key="frame" x="102" y="20" width="171.5" height="30"/>
+                                                <rect key="frame" x="102" y="20" width="171" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -3274,7 +3275,7 @@ If you can't think of a project with which to associate a business expense, use 
                                             <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v2e-QJ-efz">
                                                 <rect key="frame" x="0.0" y="-68" width="375" height="1060"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" id="BYk-yb-uS5">
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="BYk-yb-uS5">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="1060"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </view>
@@ -3345,7 +3346,7 @@ If you can't think of a project with which to associate a business expense, use 
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Failed to Restore" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kyU-gb-quj">
-                            <rect key="frame" x="70.5" y="20" width="178.5" height="30"/>
+                            <rect key="frame" x="70.5" y="20" width="178" height="30"/>
                             <fontDescription key="fontDescription" type="system" pointSize="25"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -3359,7 +3360,7 @@ If you can't think of a project with which to associate a business expense, use 
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="THn-pc-0OK">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="THn-pc-0OK">
                             <rect key="frame" x="144.5" y="150" width="30" height="48"/>
                             <state key="normal" title="Ok"/>
                             <connections>
@@ -3398,7 +3399,7 @@ If you can't think of a project with which to associate a business expense, use 
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cvA-ns-NQz">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cvA-ns-NQz">
                             <rect key="frame" x="144.5" y="150" width="30" height="47"/>
                             <state key="normal" title="Ok"/>
                             <connections>
@@ -3435,7 +3436,7 @@ If you can't think of a project with which to associate a business expense, use 
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HBT-b9-xId">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="5j1-sC-MXM">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="154"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -3458,7 +3459,7 @@ If you can't think of a project with which to associate a business expense, use 
                                             </connections>
                                         </textField>
                                     </subviews>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="c6i-Mr-QvH" firstAttribute="leading" secondItem="5j1-sC-MXM" secondAttribute="leading" constant="16" id="0uy-Zs-yRn"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="c6i-Mr-QvH" secondAttribute="trailing" constant="8" id="4hh-M1-c0l"/>
@@ -3473,7 +3474,7 @@ If you can't think of a project with which to associate a business expense, use 
                                     </constraints>
                                 </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="0WR-VR-9Ju">
-                                    <rect key="frame" x="0.0" y="253.5" width="375" height="550"/>
+                                    <rect key="frame" x="0.0" y="275.5" width="375" height="550"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ybj-j0-KCM">
@@ -3492,7 +3493,7 @@ If you can't think of a project with which to associate a business expense, use 
                                             </constraints>
                                         </activityIndicatorView>
                                     </subviews>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="Ybj-j0-KCM" secondAttribute="trailing" id="Fv1-CB-nBO"/>
                                         <constraint firstItem="F1P-gT-e7i" firstAttribute="centerY" secondItem="0WR-VR-9Ju" secondAttribute="centerY" id="Ozl-bS-cEX"/>
@@ -3504,7 +3505,7 @@ If you can't think of a project with which to associate a business expense, use 
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="FaT-tv-xRq">
-                                        <rect key="frame" x="0.0" y="182" width="375" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="204" width="375" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="FaT-tv-xRq" id="xvd-3l-lDX">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -3518,7 +3519,7 @@ If you can't think of a project with which to associate a business expense, use 
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="HBT-b9-xId" secondAttribute="trailing" id="2gk-aR-Ah0"/>
                             <constraint firstItem="3X9-dQ-L0t" firstAttribute="top" secondItem="HBT-b9-xId" secondAttribute="bottom" id="Gpp-t2-EQC"/>
@@ -3667,5 +3668,8 @@ If you can't think of a project with which to associate a business expense, use 
         <image name="questionmark" width="24" height="24"/>
         <image name="search" width="24" height="24"/>
         <image name="xsign" width="2000" height="2000"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

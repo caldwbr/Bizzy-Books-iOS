@@ -140,8 +140,11 @@ class UniversalCardViewCollectionViewCell: UICollectionViewCell {
             }
             universalCardViewProjectNameLabel.text = ""
             universalCardViewNotesLabel.text = universalItem.notes
-            var ppG = Int((Double(universalItem.what)/Double(universalItem.howMany)) * 1000) //Can crash!
-            //var ppG = 0
+            var ppG = 0
+            if universalItem.what == 0 || universalItem.howMany == 0 { ppG = 0 } else {
+                ppG = Int((Double(universalItem.what)/Double(universalItem.howMany)) * 1000) //Can crash!
+                //var ppG = 0
+            }
             dataSource.items = [
                 LabelFlowItem(text: "At", color: .gray, action: nil),
                 LabelFlowItem(text: String(universalItem.odometerReading), color: UIColor.BizzyColor.Blue.Who, action: nil),

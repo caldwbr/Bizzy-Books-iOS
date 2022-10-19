@@ -8,10 +8,9 @@
 
 import UIKit
 import Firebase
-import FirebaseAuthUI
-import FirebaseDatabaseUI
-import FirebaseGoogleAuthUI
-import FirebaseFacebookAuthUI
+import FirebaseUI
+//import FirebaseGoogleAuthUI
+//import FirebaseFacebookAuthUI
 import FBSDKCoreKit
 import FBSDKLoginKit
 import Contacts
@@ -242,7 +241,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
                     let subcat6 = subcategory6.text ?? "Subcat 6"
                     if busKey == "" {
                         let busKeyRef = businessInfoRef.childByAutoId()
-                        busKey = busKeyRef.key
+                        busKey = busKeyRef.key!
                     }
                     let busiInfo = BusinessInfo(businessName: theBusName, businessAddress1: busAdd1, businessAddress2: busAdd2, mainWork: userMainWork, subcat1: subcat1, subcat2: subcat2, subcat3: subcat3, subcat4: subcat4, subcat5: subcat5, subcat6: subcat6, key: busKey)
                     DispatchQueue.main.async {
@@ -416,7 +415,13 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     
     func login() {
         let authUI = FUIAuth.defaultAuthUI()
-        let providers: [FUIAuthProvider] = [FUIGoogleAuth(), FUIFacebookAuth()]
+        
+        
+        let providers: [FUIAuthProvider] = [
+          FUIEmailAuth(),
+          FUIGoogleAuth(),
+          FUIFacebookAuth()
+        ]
         authUI?.providers = providers
         authUI?.delegate = self as FUIAuthDelegate
         
@@ -1063,7 +1068,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     @IBAction func editProjectAddEntitySavePressed(_ sender: UIButton) {
         guard editProjectAddEntityNameTextField.text != "" else { return }
         let thisEntityKeyRef = entitiesRef.childByAutoId()
-        entityNamePlaceholderKeyString = thisEntityKeyRef.key
+        entityNamePlaceholderKeyString = thisEntityKeyRef.key!
         if let ePAEName = editProjectAddEntityNameTextField.text {
             entityNamePlaceholder = ePAEName
         }

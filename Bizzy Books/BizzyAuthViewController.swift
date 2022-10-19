@@ -7,7 +7,7 @@
     //
 
     import UIKit
-    import FirebaseAuthUI
+    import FirebaseUI
 
     class BizzyAuthViewController: FUIAuthPickerViewController {
         

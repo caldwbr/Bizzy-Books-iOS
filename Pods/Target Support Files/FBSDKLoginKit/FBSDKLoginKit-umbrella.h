@@ -10,11 +10,15 @@
 #endif
 #endif
 
+#import "FBSDKDeviceLoginCodeInfo 2.h"
 #import "FBSDKDeviceLoginCodeInfo.h"
 #import "FBSDKDeviceLoginManager.h"
+#import "FBSDKDeviceLoginManagerResult 2.h"
 #import "FBSDKDeviceLoginManagerResult.h"
 #import "FBSDKLoginButton.h"
 #import "FBSDKLoginConstants.h"
+#import "FBSDKLoginKit 2.h"
+#import "FBSDKLoginKit 3.h"
 #import "FBSDKLoginKit.h"
 #import "FBSDKLoginManager.h"
 #import "FBSDKLoginManagerLoginResult.h"
