@@ -8,11 +8,13 @@
 
 import UIKit
 import CoreData
-import Firebase
-import FirebaseUI
+import FirebaseDatabase
+import FirebaseDatabaseUI
 import GoogleSignIn
 import FBSDKLoginKit
 import Contacts
+import FirebaseFirestore
+import FirebaseCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,12 +22,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var contactStore = CNContactStore()
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         //FirebaseApp.configure()
+        ApplicationDelegate.shared.application(
+                    application,
+                    didFinishLaunchingWithOptions: launchOptions
+                )
         
         return true
     }
+    
+    //904286153315-d97o6olpv02e2njudnmj7fallnd4453l.apps.googleusercontent.com
+    //904286153315-d97o6olpv02e2njudnmj7fallnd4453l.apps.googleusercontent.com
+    //API Key: AIzaSyA8ZKfyBmK08QMvIZnDWbcn92OGzjdcjZ0
     
     //Getting contacts stuff
     
@@ -35,8 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     //YES!!! This AMAZING bit of code stops "Word Flow" "Swipe" "SwiftKey" or any other usually good keyboard from popping up and forcing some generic entry where you want specifically numeric entry, etc.!!!
-    func application(_ application: UIApplication, shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplicationExtensionPointIdentifier) -> Bool {
-        if extensionPointIdentifier == UIApplicationExtensionPointIdentifier.keyboard {
+    func application(_ application: UIApplication, shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplication.ExtensionPointIdentifier) -> Bool {
+        if extensionPointIdentifier == UIApplication.ExtensionPointIdentifier.keyboard {
             return false
         }
         return true
@@ -44,9 +54,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
  
     
     func showMessage(message: String) {
-        let alertController = UIAlertController(title: "Contacts", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let alertController = UIAlertController(title: "Contacts", message: message, preferredStyle: UIAlertController.Style.alert)
         
-        let dismissAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) { (action) -> Void in
+        let dismissAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) { (action) -> Void in
         }
         
         alertController.addAction(dismissAction)
@@ -81,11 +91,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.saveContext()
     }
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        let handled = ApplicationDelegate.shared.application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+        let facebookLoginHandled = ApplicationDelegate.shared.application(
+            app,
+            open: url,
+            sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+            annotation: options[UIApplication.OpenURLOptionsKey.annotation]
+        )
         
-        return handled || GIDSignIn.sharedInstance().handle(url)
+        return facebookLoginHandled || GIDSignIn.sharedInstance.handle(url)
     }
 
     // MARK: - Core Data stack
@@ -143,7 +158,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             FirebaseApp.configure()
         }
         Database.database().isPersistenceEnabled = true
-        IAPProcessor.shared.startListening()
+        // IAPProcessor.shared.startListening()
     }
 }
 

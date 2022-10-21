@@ -2,14 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
-	<string>ca-app-pub-3940256099942544/2934735716</string>
-	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
-	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
 	<string>904286153315-6qq4gmeos07gpgmgt54ospv3fvpg0724.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.904286153315-6qq4gmeos07gpgmgt54ospv3fvpg0724</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>904286153315-k672m6vmu8h20k22poh348truj0u9snb.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyA7_6qgyLB68T47xBkrPz0H0y4y_5YTnV0</string>
 	<key>GCM_SENDER_ID</key>
@@ -17,17 +15,17 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.bizzybooks.Bizzy-Books</string>
+	<string>com.bizzybooks.BizzyBooks</string>
 	<key>PROJECT_ID</key>
 	<string>bizzy-books</string>
 	<key>STORAGE_BUCKET</key>
 	<string>bizzy-books.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<true/>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
 	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false/>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
 	<true/>
 	<key>IS_SIGNIN_ENABLED</key>

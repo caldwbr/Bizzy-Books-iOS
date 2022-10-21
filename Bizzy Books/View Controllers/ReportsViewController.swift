@@ -9,6 +9,8 @@
 import UIKit
 import SimplePDF
 import Charts
+import CoreGraphics
+import Foundation
 
 class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIWebViewDelegate {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -105,7 +107,7 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         calculateReports()
     }
     
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
         reportViewActivitySpinner.startAnimating()
         return true
     }
@@ -2019,7 +2021,7 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         let font = UIFont.systemFont(ofSize: 36)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
-        let titleAttributes: [NSAttributedStringKey: Any] = [
+        let titleAttributes: [NSAttributedString.Key: Any] = [
             .font: font,
             .paragraphStyle: paragraphStyle
         ]
@@ -2133,10 +2135,10 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         let subcat6GrossEntry = PieChartDataEntry(value: subcat6GrossTidy, label: subcat6Name)
         let subcatGrossNums = [subcat1GrossEntry, subcat2GrossEntry, subcat3GrossEntry, subcat4GrossEntry, subcat5GrossEntry, subcat6GrossEntry]
         //let subcatGrossPieChart = PieChartView()
-        let subcatGrossDataSet = PieChartDataSet(entries: subcatGrossNums, label: nil)
+        let subcatGrossDataSet = PieChartDataSet(entries: subcatGrossNums, label: "")
         let subcatGrossData = PieChartData(dataSet: subcatGrossDataSet)
         let colors = [UIColor.BizzyColor.Blue.Project, UIColor.BizzyColor.Green.Account, UIColor.BizzyColor.Purple.Whom, UIColor.BizzyColor.Magenta.TaxReason, UIColor.BizzyColor.Orange.WC, UIColor.BizzyColor.Yellow.TheFabButton]
-        subcatGrossDataSet.colors = colors as! [NSUIColor]
+        subcatGrossDataSet.colors = colors
         //subcatGrossPieChart.data = subcatGrossData
         trialPieView.data = subcatGrossData
         
@@ -2163,10 +2165,10 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         let subcat5NetEntry = PieChartDataEntry(value: subcat5NetTidy, label: subcat5Name)
         let subcat6NetEntry = PieChartDataEntry(value: subcat6NetTidy, label: subcat6Name)
         let subcatNetNums = [subcat1NetEntry, subcat2NetEntry, subcat3NetEntry, subcat4NetEntry, subcat5NetEntry, subcat6NetEntry]
-        let subcatNetDataSet = PieChartDataSet(entries: subcatNetNums, label: nil)
+        let subcatNetDataSet = PieChartDataSet(entries: subcatNetNums, label: "")
         let subcatNetData = PieChartData(dataSet: subcatNetDataSet)
         let colors2 = [UIColor.BizzyColor.Blue.Project, UIColor.BizzyColor.Green.Account, UIColor.BizzyColor.Purple.Whom, UIColor.BizzyColor.Magenta.TaxReason, UIColor.BizzyColor.Orange.WC, UIColor.BizzyColor.Yellow.TheFabButton]
-        subcatNetDataSet.colors = colors2 as! [NSUIColor]
+        subcatNetDataSet.colors = colors2
         //subcatGrossPieChart.data = subcatGrossData
         trialPieView2.data = subcatNetData
         

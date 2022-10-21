@@ -7,14 +7,15 @@
 //
 
 import UIKit
-import Firebase
-import FirebaseUI
-//import FirebaseGoogleAuthUI
-//import FirebaseFacebookAuthUI
+import FirebaseAuthUI
+import FirebaseGoogleAuthUI
+import FirebaseFacebookAuthUI
+import FirebaseEmailAuthUI
 import FBSDKCoreKit
 import FBSDKLoginKit
+import FirebaseDatabase
+import FirebaseDatabaseUI
 import Contacts
-import RNCryptor
 
 var userUID = ""
 var userTokens = ""
@@ -414,18 +415,18 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     }
     
     func login() {
-        let authUI = FUIAuth.defaultAuthUI()
+        guard let authUI = FUIAuth.defaultAuthUI() else { return }
         
         
         let providers: [FUIAuthProvider] = [
           FUIEmailAuth(),
-          FUIGoogleAuth(),
-          FUIFacebookAuth()
+          FUIGoogleAuth(authUI: authUI),
+          FUIFacebookAuth(authUI: authUI, permissions: ["public_profile", "email"])
         ]
-        authUI?.providers = providers
-        authUI?.delegate = self as FUIAuthDelegate
+        authUI.providers = providers
+        authUI.delegate = self as FUIAuthDelegate
         
-        let authViewController = BizzyAuthViewController(authUI: authUI!)
+        let authViewController = BizzyAuthViewController(authUI: authUI)
         let navc = UINavigationController(rootViewController: authViewController)
         self.present(navc, animated: true, completion: nil)
     }
@@ -585,7 +586,7 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     }
     
     func application(app: UIApplication, openURL url: NSURL, options: [String: AnyObject]) -> Bool {
-        let sourceApplication = options[UIApplicationOpenURLOptionUniversalLinksOnly] as! String
+        let sourceApplication = options[UIApplication.OpenExternalURLOptionsKey.universalLinksOnly.rawValue] as! String
         return FUIAuth.defaultAuthUI()!.handleOpen(url as URL, sourceApplication: sourceApplication )
     }
     
@@ -1430,15 +1431,18 @@ class ViewController: UIViewController, FUIAuthDelegate, UIGestureRecognizerDele
     }
  
     @IBAction func settingsPressed(_ sender: UIBarButtonItem) {
-        if let appSettings = NSURL(string: UIApplicationOpenSettingsURLString) {
-            let string: String = ""
-            let any: Any = ""
-            UIApplication.shared.open(appSettings as URL, options: [string: any], completionHandler: { (success) in
-                if success {
-                    print("Good")
+
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                        return
+                    }
+            if UIApplication.shared.canOpenURL(settingsUrl) {
+                UIApplication.shared.open(settingsUrl) { (success) in
+                    if success {
+                        print("Good")
+                    }
                 }
-            })
-        }
+            }
+        
     }
 }
 

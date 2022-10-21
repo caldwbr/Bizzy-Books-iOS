@@ -7,7 +7,8 @@
 //
 
 import Foundation
-import Firebase
+import FirebaseDatabase
+import FirebaseDatabaseUI
 
 struct BusinessInfo {
     var businessName: String

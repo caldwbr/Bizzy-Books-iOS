@@ -49,7 +49,7 @@ struct LabelFlowItem : FlowItem {
         size.height = 44.0
         size = (text as NSString).boundingRect(with: size, options: .usesLineFragmentOrigin,
                                                attributes: [
-                                                NSAttributedStringKey.font : UIFont.systemFont(ofSize: 17.0)
+                                                NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17.0)
             ], context: nil).size
         
         // Add the padding

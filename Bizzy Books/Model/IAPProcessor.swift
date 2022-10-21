@@ -5,12 +5,13 @@
 //  Created by Brad Caldwell on 12/6/17.
 //  Copyright © 2017 Caldwell Contracting LLC. All rights reserved.
 //
-
+/*
 import UIKit
 import StoreKit
-import Freddy
-import Firebase
+import FirebaseDatabase
+import FirebaseDatabaseUI
 
+//IAP means "In-app purchases" i.e. subscriptions! Which I'm not doing in 2022. If anything, just let people pay once for app.
 class IAPProcessor: NSObject {
     static let shared = IAPProcessor()
     
@@ -207,7 +208,7 @@ extension IAPProcessor {
         let receiptData : Data = try Data(contentsOf:receiptURL)
         let payload = ["receipt-data": receiptData.base64EncodedString().toJSON(),
                        "password" : sharedSecret.toJSON()]
-        let serializedPayload = try JSON.dictionary(payload).serialize()
+        let serializedPayload = try JSONSerialization.data(withJSONObject: payload)
         
         var request = URLRequest(url: requestURL)
         request.httpMethod = "POST"
@@ -221,19 +222,27 @@ extension IAPProcessor {
         var statusCode : Int = -1
         
         do {
-            let jsonData = try JSON(data: data)
-            statusCode = try jsonData.getInt(at: "status")
-            
-            let receiptInfo = try jsonData.getArray(at: "latest_receipt_info")
-            if let lastReceipt = receiptInfo.last {
-                let formatter = DateFormatter()
-                formatter.dateFormat = "yyyy-MM-dd HH:mm:ss VV"
-                date = formatter.date(from: try lastReceipt.getString(at: "expires_date"))
-                print("Hey numbskull! " + String(describing: date))
+            guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let jsonStatusCode = json["status"] as? Int,
+                  let receiptInfo = json["latest_receipt_info"] as? [[String: Any]],
+                  let lastReceipt = receiptInfo.last,
+                  let expiresDate = lastReceipt["expires_date"] as? String
+            else {
+                throw IAPProcessorError.invalidPayloadFormat
             }
+            statusCode = jsonStatusCode
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss VV"
+            date = formatter.date(from: expiresDate)
+            print("Hey numbskull! " + String(describing: date))
         } catch {
         }
         
         return (statusCode, date)
     }
 }
+
+enum IAPProcessorError: Error {
+    case invalidPayloadFormat
+}
+*/

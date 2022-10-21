@@ -7,7 +7,8 @@
 //
 
 import Foundation
-import Firebase
+import FirebaseDatabase
+import FirebaseDatabaseUI
 
 class ObtainBalanceAfter {
     //var tHeMiP = MIProcessor.sharedMIP //THIS IS THE FILE THAT TAKES 17seconds AND NEEDS PLACED IN BACKGROUND!! And try to rewrite to be faster!!

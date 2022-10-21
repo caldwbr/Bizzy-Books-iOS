@@ -7,7 +7,9 @@
     //
 
     import UIKit
-    import FirebaseUI
+    import FirebaseDatabase
+    import FirebaseDatabaseUI
+    import FirebaseAuthUI
 
     class BizzyAuthViewController: FUIAuthPickerViewController {
         
@@ -32,7 +34,7 @@
             imageViewBackground.image = UIImage(named: "beesBackground")
             
             // you can change the content mode:
-            imageViewBackground.contentMode = UIViewContentMode.scaleAspectFill
+            imageViewBackground.contentMode = UIView.ContentMode.scaleAspectFill
             
             view.insertSubview(imageViewBackground, at: 0)
      

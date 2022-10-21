@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseDatabase
+import FirebaseDatabaseUI
 
 class UniversalProjectMediaCardViewCollectionViewCell: UICollectionViewCell {
     

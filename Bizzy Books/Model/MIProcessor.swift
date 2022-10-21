@@ -7,7 +7,10 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseDatabase
+import FirebaseDatabaseUI
+import FirebaseAuthUI
+import FirebaseStorage
 
 final class MIProcessor {
     
@@ -87,16 +90,16 @@ final class MIProcessor {
                                         self.businessInfoRef.observeSingleEvent(of: .value, with: { (snapshot) in
                                             for item in snapshot.children {
                                                 self.mIPBusinessInfos.append(BusinessInfo(snapshot: item as! DataSnapshot))
-                                                self.businessInfo.businessName = self.mIPBusinessInfos[0].businessName ?? ""
-                                                self.businessInfo.businessAddress1 = self.mIPBusinessInfos[0].businessAddress1 ?? ""
-                                                self.businessInfo.businessAddress2 = self.mIPBusinessInfos[0].businessAddress2 ?? ""
-                                                self.businessInfo.mainWork = self.mIPBusinessInfos[0].mainWork ?? ""
-                                                self.businessInfo.subcat1 = self.mIPBusinessInfos[0].subcat1 ?? ""
-                                                self.businessInfo.subcat2 = self.mIPBusinessInfos[0].subcat2 ?? ""
-                                                self.businessInfo.subcat3 = self.mIPBusinessInfos[0].subcat3 ?? ""
-                                                self.businessInfo.subcat4 = self.mIPBusinessInfos[0].subcat4 ?? ""
-                                                self.businessInfo.subcat5 = self.mIPBusinessInfos[0].subcat5 ?? ""
-                                                self.businessInfo.subcat6 = self.mIPBusinessInfos[0].subcat6 ?? ""
+                                                self.businessInfo.businessName = self.mIPBusinessInfos[0].businessName
+                                                self.businessInfo.businessAddress1 = self.mIPBusinessInfos[0].businessAddress1
+                                                self.businessInfo.businessAddress2 = self.mIPBusinessInfos[0].businessAddress2
+                                                self.businessInfo.mainWork = self.mIPBusinessInfos[0].mainWork
+                                                self.businessInfo.subcat1 = self.mIPBusinessInfos[0].subcat1
+                                                self.businessInfo.subcat2 = self.mIPBusinessInfos[0].subcat2
+                                                self.businessInfo.subcat3 = self.mIPBusinessInfos[0].subcat3
+                                                self.businessInfo.subcat4 = self.mIPBusinessInfos[0].subcat4
+                                                self.businessInfo.subcat5 = self.mIPBusinessInfos[0].subcat5
+                                                self.businessInfo.subcat6 = self.mIPBusinessInfos[0].subcat6
                                                 completion()
                                             }
                                         })

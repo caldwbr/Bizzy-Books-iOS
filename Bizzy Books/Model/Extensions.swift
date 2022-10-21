@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import RNCryptor
+//import RNCryptor
 
 private let hmacKey = "1John419aa84526882gw2yN7bK33jVma".data(using: .utf8)
 
@@ -111,7 +111,7 @@ extension Data {
 extension UIImage {
     
     func oneTenthIt() -> Data {
-        let data = UIImageJPEGRepresentation(self, 0.1)
+        let data = jpegData(compressionQuality: 0.1)
         return data!
     }
     

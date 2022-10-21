@@ -608,9 +608,6 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.24):
     - BoringSSL-GRPC/Interface (= 0.0.24)
   - BoringSSL-GRPC/Interface (0.0.24)
-  - Charts (3.6.0):
-    - Charts/Core (= 3.6.0)
-  - Charts/Core (3.6.0)
   - Fabric (1.10.2)
   - FacebookSDK (11.2.1):
     - FacebookSDK/AEMKit (= 11.2.1)
@@ -734,7 +731,6 @@ PODS:
     - FirebasePhoneAuthUI (~> 12.0)
   - FirebaseUI/Storage (12.3.0):
     - FirebaseStorageUI (~> 12.0)
-  - Freddy (3.0.3)
   - GoogleSignIn (6.2.4):
     - AppAuth (~> 1.5)
     - GTMAppAuth (~> 1.3)
@@ -833,7 +829,6 @@ PODS:
   - SimplePDF (3.0.0)
 
 DEPENDENCIES:
-  - Charts
   - Fabric
   - FacebookSDK
   - FirebaseAuth (= 10.0)
@@ -846,19 +841,17 @@ DEPENDENCIES:
   - FirebaseUI/Email
   - FirebaseUI/Facebook
   - FirebaseUI/Google
-  - Freddy
   - GoogleSignIn
   - KTCenterFlowLayout
   - MKDropdownMenu
   - RNCryptor (~> 5.0)
-  - SimplePDF
+  - SimplePDF (= 3.0)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - abseil
     - AppAuth
     - BoringSSL-GRPC
-    - Charts
     - Fabric
     - FacebookSDK
     - FBAEMKit
@@ -885,7 +878,6 @@ SPEC REPOS:
     - FirebaseStorage
     - FirebaseStorageUI
     - FirebaseUI
-    - Freddy
     - GoogleSignIn
     - GoogleUtilities
     - "gRPC-C++"
@@ -906,7 +898,6 @@ SPEC CHECKSUMS:
   abseil: ebe5b5529fb05d93a8bdb7951607be08b7fa71bc
   AppAuth: 8fca6b5563a5baef2c04bee27538025e4ceb2add
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
-  Charts: b1e3a1f5a1c9ba5394438ca3b91bd8c9076310af
   Fabric: ea977e3cd9c20425516d3dafd3bf8c941c51223f
   FacebookSDK: b9c123df2ed622faadd8b546632ae8048d1f9b28
   FBAEMKit: a899515e45476027f73aef377b5cffadcd56ca3a
@@ -933,7 +924,6 @@ SPEC CHECKSUMS:
   FirebaseStorage: 8b0b0630e11b9f3e4a479a26cfccb70ec790ec50
   FirebaseStorageUI: e395358d689cd64b967b2402939ee0f503de63b5
   FirebaseUI: e9a2dd42f5b593cd8b6e64c11d30ded38f30e48c
-  Freddy: d799734b6bf66747ea400d4f47dc51ae8e31685c
   GoogleSignIn: 5651ce3a61e56ca864160e79b484cd9ed3f49b7a
   GoogleUtilities: 1d20a6ad97ef46f67bbdec158ce00563a671ebb7
   "gRPC-C++": 9675f953ace2b3de7c506039d77be1f2e77a8db2
@@ -950,6 +940,6 @@ SPEC CHECKSUMS:
   SDWebImage: e5cc87bf736e60f49592f307bdf9e157189298a3
   SimplePDF: 903143ede36965886997a5c1bc6b8940b082ba20
 
-PODFILE CHECKSUM: f117bd8b9a05e9d517ce2be3a1d2d3c27f4df126
+PODFILE CHECKSUM: acb3754b6dadaf9c125ed2a3f500064897ac3948
 
 COCOAPODS: 1.11.3

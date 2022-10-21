@@ -25,7 +25,7 @@ class TextFieldCollectionViewCell : UICollectionViewCell, FlowItemConfigurable {
     func configure(item: FlowItem) {
         if let item = item as? TextFieldFlowItem {
             textField.text = item.text
-            textField.attributedPlaceholder = NSAttributedString(string: item.placeholder, attributes: [NSAttributedStringKey.foregroundColor: UIColor.BizzyColor.Green.What])
+            textField.attributedPlaceholder = NSAttributedString(string: item.placeholder, attributes: [NSAttributedString.Key.foregroundColor: UIColor.BizzyColor.Green.What])
             textField.textColor = item.color
             textField.keyboardType = item.keyboardType
             textField.allowedChars = item.allowedCharsString

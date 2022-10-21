@@ -30,10 +30,12 @@ class LabelTextFieldFlowCollectionViewDataSource : NSObject, UICollectionViewDat
         cell = collectionView.dequeueReusableCell(withReuseIdentifier: item.cellIdentifier, for: indexPath)
         if item.cellIdentifier == "TextFieldCollectionViewCell" {
             let theCell = cell as? TextFieldCollectionViewCell
-            if indexPath.item == 6 {
-                theSecondaryTextFieldYes = (theCell?.textField as AllowedCharsTextField!)
-            } else {
-                theTextFieldYes = (theCell?.textField as AllowedCharsTextField!)
+            if let field = theCell?.textField as? AllowedCharsTextField {
+                if indexPath.item == 6 {
+                    theSecondaryTextFieldYes = field
+                } else {
+                    theTextFieldYes = field
+                }
             }
             
         }

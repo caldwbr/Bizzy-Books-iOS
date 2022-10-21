@@ -9,12 +9,13 @@
 import Foundation
 import UIKit
 import KTCenterFlowLayout
-import Firebase
+import FirebaseDatabase
+import FirebaseDatabaseUI
 import Contacts
 import StoreKit
-import Freddy
 import CoreLocation
 import Photos
+import FirebaseStorage
 
 class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CLLocationManagerDelegate {
     
@@ -30,7 +31,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     var digits = "0123456789"
     var negPossibleDigits = "0123456789-"
     let theFormatter = NumberFormatter()
-    var bradsStore = IAPProcessor.shared
+    // var bradsStore = IAPProcessor.shared
 
     var youRef: DatabaseReference!
     var universalsRef: DatabaseReference!
@@ -1028,7 +1029,16 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         let addEntityKeyReference = entitiesRef.childByAutoId()
         addEntityKeyString = addEntityKeyReference.key!
         let timeStampDictionaryForFirebase = [".sv": "timestamp"]
-        let thisEntityItem = EntityItem(type: entityPickerView.selectedRow(inComponent: 0), name: addEntityNameTextField.text as String!, phoneNumber: addEntityPhoneNumberTextField.text as String!, email: addEntityEmailTextField.text as String!, street: addEntityStreetTextField.text as String!, city: addEntityCityTextField.text as String!, state: addEntityStateTextField.text as String!, ssn: addEntitySSNTextField.text as String!, ein: addEntityEINTextField.text as String!, timeStamp: timeStampDictionaryForFirebase)
+        let thisEntityItem = EntityItem(type: entityPickerView.selectedRow(inComponent: 0),
+                                        name: addEntityNameTextField.text ?? "",
+                                        phoneNumber: addEntityPhoneNumberTextField.text ?? "",
+                                        email: addEntityEmailTextField.text ?? "",
+                                        street: addEntityStreetTextField.text ?? "",
+                                        city: addEntityCityTextField.text ?? "",
+                                        state: addEntityStateTextField.text ?? "",
+                                        ssn: addEntitySSNTextField.text ?? "",
+                                        ein: addEntityEINTextField.text ?? "",
+                                        timeStamp: timeStampDictionaryForFirebase)
         DispatchQueue.main.async {
             self.entitiesRef.child(self.addEntityKeyString).setValue(thisEntityItem.toAnyObject())
             self.clearAddEntityFields()
@@ -1142,7 +1152,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
  */
     
     func launchPhotos() {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary){
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary){
             imagePicker.delegate = self
             imagePicker.sourceType = .savedPhotosAlbum;
             imagePicker.allowsEditing = false
@@ -1552,7 +1562,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var imageViewHeightConstraint: NSLayoutConstraint!
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+        if let image = info[UIImagePickerController.InfoKey.originalImage.rawValue] as? UIImage {
             aspectRatio = image.size.height / image.size.width
             
             var widthConstraintConstant: CGFloat = 0
@@ -1601,11 +1611,12 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             //self.downloadURL = imagesRef.
             //self.downloadURL = metadata?.downloadURL()
         })
-        uploadTask.observe(.progress) { snapshot in
-            // Upload reported progress
-            let percentComplete = 100.0 * Double(snapshot.progress!.completedUnitCount)
-                / Double(snapshot.progress!.totalUnitCount)
-        }
+        
+//        uploadTask.observe(.progress) { snapshot in
+//            // Upload reported progress
+//            let percentComplete = 100.0 * Double(snapshot.progress!.completedUnitCount)
+//                / Double(snapshot.progress!.totalUnitCount)
+//        }
         
         uploadTask.observe(.success) { snapshot in
             // Upload completed successfully
@@ -1717,22 +1728,22 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             }
             
             // We need to refresh the subscription state from AppStore
-            self.bradsStore.restorePurchases { (isTrue, theString, err) in
-                if err != nil {
-                    print(" H e y l o " + String(describing: err))
-                }
-                if isTrue {
-                    // Subscription is valid
-                    MIProcessor.sharedMIP.isUserCurrentlySubscribed = true
-                    self.currentlySubscribedRef.setValue(true)
-                    print(" H E Y L O 2 ")
-                } else {
-                    // Subscription is invalid
-                    MIProcessor.sharedMIP.isUserCurrentlySubscribed = false
-                    self.currentlySubscribedRef.setValue(false)
-                    print(" H E Y L O 3 ")
-                }
-            }
+//            self.bradsStore.restorePurchases { (isTrue, theString, err) in
+//                if err != nil {
+//                    print(" H e y l o " + String(describing: err))
+//                }
+//                if isTrue {
+//                    // Subscription is valid
+//                    MIProcessor.sharedMIP.isUserCurrentlySubscribed = true
+//                    self.currentlySubscribedRef.setValue(true)
+//                    print(" H E Y L O 2 ")
+//                } else {
+//                    // Subscription is invalid
+//                    MIProcessor.sharedMIP.isUserCurrentlySubscribed = false
+//                    self.currentlySubscribedRef.setValue(false)
+//                    print(" H E Y L O 3 ")
+//                }
+//            }
         })
         userCurrentImageIdCountRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let count = snapshot.value as? String {
@@ -1964,7 +1975,7 @@ class AddUniversal: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         reloadCollectionView()
         useTaxSwitchContainer.isHidden = false
         let theTextFieldYes = dataSource.theTextFieldYes
-        theTextFieldYes.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControlEvents.allEditingEvents)
+        theTextFieldYes.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControl.Event.allEditingEvents)
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {

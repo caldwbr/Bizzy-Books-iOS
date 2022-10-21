@@ -8,7 +8,8 @@
 
 import UIKit
 import KTCenterFlowLayout
-import Firebase
+import FirebaseDatabase
+import FirebaseDatabaseUI
 
 class UniversalCardViewCollectionViewCell: UICollectionViewCell {
 
