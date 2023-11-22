@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C5CD6B4BF6B885500BD3131D /* Pods_Bizzy_Books.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29BBEC5A6511AC644823AA81 /* Pods_Bizzy_Books.framework */; };
+		3A7F6CF82E56D8D68F0EE3E5 /* Pods_Bizzy_Books.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55A76A85C1796F10EC1FF945 /* Pods_Bizzy_Books.framework */; };
+		67FB9DD72B0D4FCC00456E26 /* ReportsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FB9DD62B0D4FCC00456E26 /* ReportsViewController.swift */; };
 		EB05238E1FD0BAAF00C13E8C /* AllowedCharsTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB05238D1FD0BAAF00C13E8C /* AllowedCharsTextField.swift */; };
 		EB0B96671FD8744700E8829C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB0B96661FD8744700E8829C /* LaunchScreen.storyboard */; };
 		EB0B966B1FDCA61100E8829C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB0B966A1FDCA61100E8829C /* MapKit.framework */; };
@@ -43,7 +44,6 @@
 		EB761D6E1F12F3300022DC7C /* Just.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB761D6D1F12F3300022DC7C /* Just.swift */; };
 		EB7862E0290304A000B11AF1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB7862DF290304A000B11AF1 /* GoogleService-Info.plist */; };
 		EB79E56823E48C56005482E3 /* EstimateItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB79E56723E48C56005482E3 /* EstimateItem.swift */; };
-		EB7C4DC923D75EBB00FA1D6B /* DocumentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7C4DC823D75EBB00FA1D6B /* DocumentsViewController.swift */; };
 		EB7C4DCB23D7739100FA1D6B /* EstimateItemViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB7C4DCA23D7739100FA1D6B /* EstimateItemViewCell.xib */; };
 		EB7C4DCD23D7746C00FA1D6B /* EstimateItemViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7C4DCC23D7746C00FA1D6B /* EstimateItemViewCell.swift */; };
 		EB7C4DD023D78CB000FA1D6B /* AddEstimateItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7C4DCF23D78CB000FA1D6B /* AddEstimateItemCell.swift */; };
@@ -52,7 +52,6 @@
 		EB851E391D9578B2002D19F4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB851E381D9578B2002D19F4 /* ViewController.swift */; };
 		EB851E3C1D9578B2002D19F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB851E3A1D9578B2002D19F4 /* Main.storyboard */; };
 		EB851E3F1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EB851E3D1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld */; };
-		EB93CA932901A7DD00D3BFB8 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = EB93CA922901A7DD00D3BFB8 /* Charts */; };
 		EB952E3B1FFBFCFC006AA124 /* ProSubscriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB952E3A1FFBFCFC006AA124 /* ProSubscriptionViewController.swift */; };
 		EB9E231221F569760091995D /* BusinessInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E231121F569760091995D /* BusinessInfo.swift */; };
 		EBB407E31FE7101000E307C2 /* StringifyAnInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB407E21FE7101000E307C2 /* StringifyAnInt.swift */; };
@@ -74,7 +73,6 @@
 		EBB77BDE1EFE2D4D0084D014 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB77BDD1EFE2D4D0084D014 /* UIColor+Hex.swift */; };
 		EBC54EB51FFA187600A03906 /* SearchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC54EB41FFA187600A03906 /* SearchItem.swift */; };
 		EBD42D5E1FFB3E540004F896 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD42D5D1FFB3E540004F896 /* CustomImageView.swift */; };
-		EBD42D601FFB4E6E0004F896 /* ReportsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD42D5F1FFB4E6E0004F896 /* ReportsViewController.swift */; };
 		EBEF9A4422090EE6005A60F3 /* LabelCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EBEF9A4322090EE6005A60F3 /* LabelCollectionViewCell.xib */; };
 		EBFCB08C22F3AAD80020C041 /* EstimateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFCB08B22F3AAD80020C041 /* EstimateViewController.swift */; };
 		FA7B73181EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7B73171EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift */; };
@@ -85,9 +83,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		29BBEC5A6511AC644823AA81 /* Pods_Bizzy_Books.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bizzy_Books.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8E5406731B09133D1E32A02E /* Pods-Bizzy Books.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bizzy Books.release.xcconfig"; path = "Target Support Files/Pods-Bizzy Books/Pods-Bizzy Books.release.xcconfig"; sourceTree = "<group>"; };
-		BE7E69F511A95E09F23DF976 /* Pods-Bizzy Books.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bizzy Books.debug.xcconfig"; path = "Target Support Files/Pods-Bizzy Books/Pods-Bizzy Books.debug.xcconfig"; sourceTree = "<group>"; };
+		55A76A85C1796F10EC1FF945 /* Pods_Bizzy_Books.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bizzy_Books.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		67FB9DD62B0D4FCC00456E26 /* ReportsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsViewController.swift; sourceTree = "<group>"; };
+		808C780A9837EEEF92B59CFF /* Pods-Bizzy Books.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bizzy Books.debug.xcconfig"; path = "Target Support Files/Pods-Bizzy Books/Pods-Bizzy Books.debug.xcconfig"; sourceTree = "<group>"; };
+		8A5ECD6A4E636829B304F247 /* Pods-Bizzy Books.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bizzy Books.release.xcconfig"; path = "Target Support Files/Pods-Bizzy Books/Pods-Bizzy Books.release.xcconfig"; sourceTree = "<group>"; };
 		EB05238D1FD0BAAF00C13E8C /* AllowedCharsTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllowedCharsTextField.swift; sourceTree = "<group>"; };
 		EB0B96661FD8744700E8829C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EB0B966A1FDCA61100E8829C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -123,7 +122,6 @@
 		EB761D6D1F12F3300022DC7C /* Just.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Just.swift; sourceTree = "<group>"; };
 		EB7862DF290304A000B11AF1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EB79E56723E48C56005482E3 /* EstimateItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstimateItem.swift; sourceTree = "<group>"; };
-		EB7C4DC823D75EBB00FA1D6B /* DocumentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsViewController.swift; sourceTree = "<group>"; };
 		EB7C4DCA23D7739100FA1D6B /* EstimateItemViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EstimateItemViewCell.xib; sourceTree = "<group>"; };
 		EB7C4DCC23D7746C00FA1D6B /* EstimateItemViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstimateItemViewCell.swift; sourceTree = "<group>"; };
 		EB7C4DCF23D78CB000FA1D6B /* AddEstimateItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEstimateItemCell.swift; sourceTree = "<group>"; };
@@ -156,7 +154,6 @@
 		EBB77BDD1EFE2D4D0084D014 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		EBC54EB41FFA187600A03906 /* SearchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchItem.swift; sourceTree = "<group>"; };
 		EBD42D5D1FFB3E540004F896 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
-		EBD42D5F1FFB4E6E0004F896 /* ReportsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsViewController.swift; sourceTree = "<group>"; };
 		EBEF9A4322090EE6005A60F3 /* LabelCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LabelCollectionViewCell.xib; sourceTree = "<group>"; };
 		EBFCB08B22F3AAD80020C041 /* EstimateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstimateViewController.swift; sourceTree = "<group>"; };
 		FA7B73171EFC572D007A1AEA /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
@@ -173,8 +170,7 @@
 			files = (
 				EB0B966B1FDCA61100E8829C /* MapKit.framework in Frameworks */,
 				EB1915C61FD768DD0078AA64 /* StoreKit.framework in Frameworks */,
-				C5CD6B4BF6B885500BD3131D /* Pods_Bizzy_Books.framework in Frameworks */,
-				EB93CA932901A7DD00D3BFB8 /* Charts in Frameworks */,
+				3A7F6CF82E56D8D68F0EE3E5 /* Pods_Bizzy_Books.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,7 +182,7 @@
 			children = (
 				EB0B966A1FDCA61100E8829C /* MapKit.framework */,
 				EB1915C51FD768DD0078AA64 /* StoreKit.framework */,
-				29BBEC5A6511AC644823AA81 /* Pods_Bizzy_Books.framework */,
+				55A76A85C1796F10EC1FF945 /* Pods_Bizzy_Books.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -289,8 +285,8 @@
 		F8CD25BA35447A3F96D87F61 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				BE7E69F511A95E09F23DF976 /* Pods-Bizzy Books.debug.xcconfig */,
-				8E5406731B09133D1E32A02E /* Pods-Bizzy Books.release.xcconfig */,
+				808C780A9837EEEF92B59CFF /* Pods-Bizzy Books.debug.xcconfig */,
+				8A5ECD6A4E636829B304F247 /* Pods-Bizzy Books.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -300,10 +296,9 @@
 			children = (
 				EB851E381D9578B2002D19F4 /* ViewController.swift */,
 				EB3F93B91DDD41900049C343 /* AddUniversal.swift */,
-				EBD42D5F1FFB4E6E0004F896 /* ReportsViewController.swift */,
 				EB952E3A1FFBFCFC006AA124 /* ProSubscriptionViewController.swift */,
 				EBFCB08B22F3AAD80020C041 /* EstimateViewController.swift */,
-				EB7C4DC823D75EBB00FA1D6B /* DocumentsViewController.swift */,
+				67FB9DD62B0D4FCC00456E26 /* ReportsViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -361,11 +356,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EB851E481D9578B2002D19F4 /* Build configuration list for PBXNativeTarget "Bizzy Books" */;
 			buildPhases = (
-				C1B40DC50080ACC23ED8A692 /* [CP] Check Pods Manifest.lock */,
+				DA32EC267FF0B381D70E9FA6 /* [CP] Check Pods Manifest.lock */,
 				EB851E2F1D9578B2002D19F4 /* Sources */,
 				EB851E301D9578B2002D19F4 /* Frameworks */,
 				EB851E311D9578B2002D19F4 /* Resources */,
-				EA0D71F8F8E4E39EBDAF792A /* [CP] Embed Pods Frameworks */,
+				4D0255F90A66F84B954B3861 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -373,7 +368,6 @@
 			);
 			name = "Bizzy Books";
 			packageProductDependencies = (
-				EB93CA922901A7DD00D3BFB8 /* Charts */,
 			);
 			productName = "Bizzy Books";
 			productReference = EB851E331D9578B2002D19F4 /* Bizzy Books.app */;
@@ -422,7 +416,7 @@
 			);
 			mainGroup = EB851E2A1D9578B2002D19F4;
 			packageReferences = (
-				EB93CA912901A7DC00D3BFB8 /* XCRemoteSwiftPackageReference "Charts" */,
+				67E467912B0DA2B40049482C /* XCRemoteSwiftPackageReference "Charts" */,
 			);
 			productRefGroup = EB851E341D9578B2002D19F4 /* Products */;
 			projectDirPath = "";
@@ -461,29 +455,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		C1B40DC50080ACC23ED8A692 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Bizzy Books-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EA0D71F8F8E4E39EBDAF792A /* [CP] Embed Pods Frameworks */ = {
+		4D0255F90A66F84B954B3861 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -492,6 +464,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-Bizzy Books/Pods-Bizzy Books-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AppAuth/AppAuth.framework",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/DGCharts/DGCharts.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseAnonymousAuthUI/FirebaseAnonymousAuthUI.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseAppCheckInterop/FirebaseAppCheckInterop.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseAuth/FirebaseAuth.framework",
@@ -536,6 +509,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AppAuth.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DGCharts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseAnonymousAuthUI.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseAppCheckInterop.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseAuth.framework",
@@ -581,6 +555,28 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Bizzy Books/Pods-Bizzy Books-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		DA32EC267FF0B381D70E9FA6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Bizzy Books-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -591,7 +587,6 @@
 				EBB77BD81EFC36240084D014 /* LabelTextFieldFlowCollectionViewDataSource.swift in Sources */,
 				FAAE73321F01C6E600BF1156 /* DropdownFlowView.swift in Sources */,
 				EB851E391D9578B2002D19F4 /* ViewController.swift in Sources */,
-				EB7C4DC923D75EBB00FA1D6B /* DocumentsViewController.swift in Sources */,
 				EB761D6E1F12F3300022DC7C /* Just.swift in Sources */,
 				EBB77BDC1EFE2ABC0084D014 /* UIColorCustom.swift in Sources */,
 				EB3F93BA1DDD41900049C343 /* AddUniversal.swift in Sources */,
@@ -620,7 +615,6 @@
 				EBC54EB51FFA187600A03906 /* SearchItem.swift in Sources */,
 				EB2441CF1FE6345F004EDC56 /* CardViewLabelFlowCollectionViewDataSource.swift in Sources */,
 				EB2441BF1FE6148D004EDC56 /* ProjectCardViewCollectionViewCell.swift in Sources */,
-				EBD42D601FFB4E6E0004F896 /* ReportsViewController.swift in Sources */,
 				EB2441B21FE20C81004EDC56 /* EntityCardViewCollectionViewCell.swift in Sources */,
 				FA7B73211EFC5983007A1AEA /* DropdownReusableView.swift in Sources */,
 				EBB77BDE1EFE2D4D0084D014 /* UIColor+Hex.swift in Sources */,
@@ -634,6 +628,7 @@
 				EB5856A61FB6311C006C6212 /* EntityItem.swift in Sources */,
 				EBB407E51FE8120500E307C2 /* ObtainBalanceAfter.swift in Sources */,
 				EBB407E71FE8A33F00E307C2 /* TheAmtSingleton.swift in Sources */,
+				67FB9DD72B0D4FCC00456E26 /* ReportsViewController.swift in Sources */,
 				EBB407E31FE7101000E307C2 /* StringifyAnInt.swift in Sources */,
 				EB1915C81FD85B370078AA64 /* IAPProcessor.swift in Sources */,
 				EB4EA8CB20111C56005D7552 /* Extensions.swift in Sources */,
@@ -701,7 +696,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -747,7 +742,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -759,7 +754,7 @@
 		};
 		EB851E491D9578B2002D19F4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BE7E69F511A95E09F23DF976 /* Pods-Bizzy Books.debug.xcconfig */;
+			baseConfigurationReference = 808C780A9837EEEF92B59CFF /* Pods-Bizzy Books.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -770,7 +765,7 @@
 				DEVELOPMENT_TEAM = ALC53N96R3;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "Bizzy Books/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -788,7 +783,7 @@
 		};
 		EB851E4A1D9578B2002D19F4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8E5406731B09133D1E32A02E /* Pods-Bizzy Books.release.xcconfig */;
+			baseConfigurationReference = 8A5ECD6A4E636829B304F247 /* Pods-Bizzy Books.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -800,7 +795,7 @@
 				DEVELOPMENT_TEAM = ALC53N96R3;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "Bizzy Books/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -840,23 +835,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		EB93CA912901A7DC00D3BFB8 /* XCRemoteSwiftPackageReference "Charts" */ = {
+		67E467912B0DA2B40049482C /* XCRemoteSwiftPackageReference "Charts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/danielgindi/Charts";
 			requirement = {
-				kind = exactVersion;
-				version = 4.1.0;
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		EB93CA922901A7DD00D3BFB8 /* Charts */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EB93CA912901A7DC00D3BFB8 /* XCRemoteSwiftPackageReference "Charts" */;
-			productName = Charts;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		EB851E3D1D9578B2002D19F4 /* Bizzy_Books.xcdatamodeld */ = {

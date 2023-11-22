@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import SwiftUI
 import SimplePDF
-import Charts
+import DGCharts
 import CoreGraphics
 import Foundation
 
@@ -2127,20 +2128,20 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         let subcat4GrossTidy = Double(subcat4Gross/100)
         let subcat5GrossTidy = Double(subcat5Gross/100)
         let subcat6GrossTidy = Double(subcat6Gross/100)
-        let subcat1GrossEntry = PieChartDataEntry(value: subcat1GrossTidy, label: subcat1Name)
-        let subcat2GrossEntry = PieChartDataEntry(value: subcat2GrossTidy, label: subcat2Name)
-        let subcat3GrossEntry = PieChartDataEntry(value: subcat3GrossTidy, label: subcat3Name)
-        let subcat4GrossEntry = PieChartDataEntry(value: subcat4GrossTidy, label: subcat4Name)
-        let subcat5GrossEntry = PieChartDataEntry(value: subcat5GrossTidy, label: subcat5Name)
-        let subcat6GrossEntry = PieChartDataEntry(value: subcat6GrossTidy, label: subcat6Name)
+        let subcat1GrossEntry = DGCharts.PieChartDataEntry(value: subcat1GrossTidy, label: subcat1Name)
+        let subcat2GrossEntry = DGCharts.PieChartDataEntry(value: subcat2GrossTidy, label: subcat2Name)
+        let subcat3GrossEntry = DGCharts.PieChartDataEntry(value: subcat3GrossTidy, label: subcat3Name)
+        let subcat4GrossEntry = DGCharts.PieChartDataEntry(value: subcat4GrossTidy, label: subcat4Name)
+        let subcat5GrossEntry = DGCharts.PieChartDataEntry(value: subcat5GrossTidy, label: subcat5Name)
+        let subcat6GrossEntry = DGCharts.PieChartDataEntry(value: subcat6GrossTidy, label: subcat6Name)
         let subcatGrossNums = [subcat1GrossEntry, subcat2GrossEntry, subcat3GrossEntry, subcat4GrossEntry, subcat5GrossEntry, subcat6GrossEntry]
         //let subcatGrossPieChart = PieChartView()
-        let subcatGrossDataSet = PieChartDataSet(entries: subcatGrossNums, label: "")
-        let subcatGrossData = PieChartData(dataSet: subcatGrossDataSet)
+        let subcatGrossDataSet = DGCharts.PieChartDataSet(entries: subcatGrossNums, label: "")
+        let subcatGrossData = DGCharts.PieChartData(dataSet: subcatGrossDataSet)
         let colors = [UIColor.BizzyColor.Blue.Project, UIColor.BizzyColor.Green.Account, UIColor.BizzyColor.Purple.Whom, UIColor.BizzyColor.Magenta.TaxReason, UIColor.BizzyColor.Orange.WC, UIColor.BizzyColor.Yellow.TheFabButton]
         subcatGrossDataSet.colors = colors
         //subcatGrossPieChart.data = subcatGrossData
-        trialPieView.data = subcatGrossData
+        //trialPieView.data = subcatGrossData
         
         pdf.beginNewPage()
         pdf.addImage(UIImage(named: "bizzybooksbee")!)
@@ -2158,19 +2159,19 @@ class ReportsViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         let subcat4NetTidy = Double(subcat4Net/100)
         let subcat5NetTidy = Double(subcat5Net/100)
         let subcat6NetTidy = Double(subcat6Net/100)
-        let subcat1NetEntry = PieChartDataEntry(value: subcat1NetTidy, label: subcat1Name)
-        let subcat2NetEntry = PieChartDataEntry(value: subcat2NetTidy, label: subcat2Name)
-        let subcat3NetEntry = PieChartDataEntry(value: subcat3NetTidy, label: subcat3Name)
-        let subcat4NetEntry = PieChartDataEntry(value: subcat4NetTidy, label: subcat4Name)
-        let subcat5NetEntry = PieChartDataEntry(value: subcat5NetTidy, label: subcat5Name)
-        let subcat6NetEntry = PieChartDataEntry(value: subcat6NetTidy, label: subcat6Name)
+        let subcat1NetEntry = DGCharts.PieChartDataEntry(value: subcat1NetTidy, label: subcat1Name)
+        let subcat2NetEntry = DGCharts.PieChartDataEntry(value: subcat2NetTidy, label: subcat2Name)
+        let subcat3NetEntry = DGCharts.PieChartDataEntry(value: subcat3NetTidy, label: subcat3Name)
+        let subcat4NetEntry = DGCharts.PieChartDataEntry(value: subcat4NetTidy, label: subcat4Name)
+        let subcat5NetEntry = DGCharts.PieChartDataEntry(value: subcat5NetTidy, label: subcat5Name)
+        let subcat6NetEntry = DGCharts.PieChartDataEntry(value: subcat6NetTidy, label: subcat6Name)
         let subcatNetNums = [subcat1NetEntry, subcat2NetEntry, subcat3NetEntry, subcat4NetEntry, subcat5NetEntry, subcat6NetEntry]
-        let subcatNetDataSet = PieChartDataSet(entries: subcatNetNums, label: "")
-        let subcatNetData = PieChartData(dataSet: subcatNetDataSet)
+        let subcatNetDataSet = DGCharts.PieChartDataSet(entries: subcatNetNums, label: "")
+        let subcatNetData = DGCharts.PieChartData(dataSet: subcatNetDataSet)
         let colors2 = [UIColor.BizzyColor.Blue.Project, UIColor.BizzyColor.Green.Account, UIColor.BizzyColor.Purple.Whom, UIColor.BizzyColor.Magenta.TaxReason, UIColor.BizzyColor.Orange.WC, UIColor.BizzyColor.Yellow.TheFabButton]
         subcatNetDataSet.colors = colors2
         //subcatGrossPieChart.data = subcatGrossData
-        trialPieView2.data = subcatNetData
+        //trialPieView2.data = subcatNetData
         
         pdf.beginNewPage()
         pdf.addImage(UIImage(named: "bizzybooksbee")!)

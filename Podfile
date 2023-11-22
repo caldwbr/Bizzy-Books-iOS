@@ -2,7 +2,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 
 # Uncomment this line to define a global platform for your project
- platform :ios, '12.0'
+ platform :ios, '13.0'
 
 target 'Bizzy Books' do
   # Comment this line if you're not using Swift and don't want to use dynamic frameworks
@@ -39,7 +39,8 @@ target 'Bizzy Books' do
 
     pod 'SimplePDF', '3.0'
 
-#    pod 'Charts', '4.1.0'
+    pod 'DGCharts', :git => 'https://github.com/caldwbr/BradDGCharts.git'
+
 
 end
 
